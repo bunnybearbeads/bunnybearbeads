@@ -1,0 +1,11 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContactsView from '../../components/ContactsView.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations('ru');
+---
+
+<Layout lang="ru" title={`${t('nav.contacts')} — BunnyBearBeads`}>
+  <ContactsView lang="ru" />
+</Layout>

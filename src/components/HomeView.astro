@@ -1,0 +1,112 @@
+---
+import Accent from './Accent/Accent.astro';
+import { type SupportedLanguage } from '../i18n/ui';
+import { useTranslations, useTranslatedPath } from '../i18n/utils';
+
+interface Props {
+  lang: SupportedLanguage;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+---
+
+<!-- Hero & Welcome Section -->
+<section class="hero-section" id="welcome">
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Welcome Text Content -->
+      <div class="hero-content">
+        <div class="welcome-badge" id="welcome-badge">
+          <span>📿</span> {t('hero.badge')}
+        </div>
+
+        <h1 class="hero-title" id="main-heading">
+          {t('hero.title_prefix')}<Accent>{t('hero.title_accent')}</Accent>
+        </h1>
+
+        <div class="welcome-card" id="author-welcome-card">
+          <div class="welcome-text">
+            <p>
+              <strong>{t('hero.author_greeting')}</strong>, {t('hero.author_tagline')}
+            </p>
+            <p>
+              {t('hero.author_p1')}
+            </p>
+            <p>
+              {t('hero.author_p2')}
+            </p>
+          </div>
+
+          <div class="author-signature">
+            <div class="author-avatar">
+              <img src="/logo_icon.png" alt="BunnyBearBeads Master Emblem" width="52" height="52" />
+            </div>
+            <div class="author-info">
+              <h4>{t('hero.author_name')}</h4>
+              <p>{t('hero.author_role')}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-buttons">
+          <a href="#features" class="btn btn-primary" id="btn-explore-collection">
+            <span>✨</span> {t('hero.btn_explore')}
+          </a>
+          <a href={translatePath('/contacts')} class="btn btn-secondary" id="btn-custom-order">
+            <span>💌</span> {t('hero.btn_order')}
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero Image Showcase -->
+      <div class="hero-image-wrapper">
+        <div class="image-frame" id="hero-image-container">
+          <img
+            src="/beadwork_hero.png"
+            alt="Handcrafted beadwork jewelry art by BunnyBearBeads"
+            width="600"
+            height="600"
+            loading="eager"
+          />
+        </div>
+        <div class="floating-badge" id="floating-experience-badge">
+          <span class="floating-badge-icon">💎</span>
+          <div class="floating-badge-text">
+            <h5>{t('hero.badge_crafted')}</h5>
+            <p>{t('hero.badge_unique')}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section" id="features">
+  <div class="container">
+    <h2 class="section-title" id="features-heading">{t('features.title')}</h2>
+    <p class="section-subtitle">{t('features.subtitle')}</p>
+
+    <div class="features-grid">
+      <div class="feature-card" id="feature-card-1">
+        <div class="feature-icon">💎</div>
+        <h3>{t('feature1.title')}</h3>
+        <p>{t('feature1.desc')}</p>
+      </div>
+
+      <div class="feature-card" id="feature-card-2">
+        <div class="feature-icon">🎨</div>
+        <h3>{t('feature2.title')}</h3>
+        <p>{t('feature2.desc')}</p>
+      </div>
+
+      <div class="feature-card" id="feature-card-3">
+        <div class="feature-icon">🎁</div>
+        <h3>{t('feature3.title')}</h3>
+        <p>{t('feature3.desc')}</p>
+      </div>
+    </div>
+  </div>
+</section>

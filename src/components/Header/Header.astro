@@ -1,0 +1,168 @@
+---
+import './Header.css';
+import Accent from '../Accent/Accent.astro';
+import { languages, type SupportedLanguage } from '../../i18n/ui';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
+
+interface Props {
+  currentLang?: SupportedLanguage;
+}
+
+const url = Astro.url;
+const currentLang = Astro.props.currentLang || getLangFromUrl(url);
+const t = useTranslations(currentLang);
+const translatePath = useTranslatedPath(currentLang);
+
+// Extract clean pathname without current locale
+const pathname = url.pathname;
+let currentCleanPath = pathname;
+if (currentCleanPath.startsWith('/ru/') || currentCleanPath === '/ru') {
+  currentCleanPath = currentCleanPath.replace(/^\/ru/, '') || '/';
+} else if (currentCleanPath.startsWith('/vi/') || currentCleanPath === '/vi') {
+  currentCleanPath = currentCleanPath.replace(/^\/vi/, '') || '/';
+}
+if (!currentCleanPath.startsWith('/')) {
+  currentCleanPath = `/${currentCleanPath}`;
+}
+
+const navItems = [
+  { href: translatePath('/'), label: t('nav.home'), isActive: currentCleanPath === '/' },
+  { href: translatePath('/about'), label: t('nav.about'), isActive: currentCleanPath.startsWith('/about') },
+  { href: translatePath('/contacts'), label: t('nav.contacts'), isActive: currentCleanPath.startsWith('/contacts') },
+];
+---
+
+<header class="header-wrapper">
+  <div class="header">
+    <!-- Brand / Logo -->
+    <a class="header__logo" href={translatePath('/')} aria-label="BunnyBearBeads Home">
+      <img
+        class="header__medallion"
+        src="/emblem-squared.png"
+        alt="BunnyBearBeads Logo Medallion"
+        width="58"
+        height="58"
+      />
+      <div class="header__brand">
+        BunnyBear<Accent>Beads</Accent>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation Menu -->
+    <nav class="header__nav" aria-label="Main Navigation">
+      <ul class="nav-links">
+        {navItems.map((item) => (
+          <li>
+            <a href={item.href} class={item.isActive ? 'active' : ''}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Header Actions: Language Switcher & Cart Icon -->
+    <div class="header__actions">
+      <!-- Language Switcher -->
+      <nav class="lang-switcher" aria-label="Select Language">
+        {(Object.keys(languages) as (keyof typeof languages)[]).map((langKey) => {
+          const lang = languages[langKey];
+          const isCurrent = currentLang === langKey;
+          const targetUrl = translatePath(currentCleanPath, langKey);
+          return (
+            <a
+              href={targetUrl}
+              class:list={['lang-btn', { active: isCurrent }]}
+              aria-current={isCurrent ? 'page' : undefined}
+              title={lang.name}
+            >
+              <span class="lang-flag">{lang.flag}</span>
+              <span class="lang-code">{lang.label}</span>
+            </a>
+          );
+        })}
+      </nav>
+
+      <!-- Cart / Collections Placeholder -->
+      <a
+        href={translatePath('/#collection')}
+        class="nav-cart-icon"
+        aria-label="View Collections / Bag"
+        title="Bag / Collections"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+      </a>
+
+      <!-- Mobile Hamburger Button -->
+      <button
+        type="button"
+        class="mobile-toggle"
+        id="mobile-nav-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-nav-menu"
+        aria-label="Toggle navigation menu"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-menu" id="mobile-nav-menu">
+    <ul class="nav-links">
+      {navItems.map((item) => (
+        <li>
+          <a href={item.href} class={item.isActive ? 'active' : ''}>
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="lang-switcher">
+      {(Object.keys(languages) as (keyof typeof languages)[]).map((langKey) => {
+        const lang = languages[langKey];
+        const isCurrent = currentLang === langKey;
+        const targetUrl = translatePath(currentCleanPath, langKey);
+        return (
+          <a
+            href={targetUrl}
+            class:list={['lang-btn', { active: isCurrent }]}
+            aria-current={isCurrent ? 'page' : undefined}
+          >
+            <span class="lang-flag">{lang.flag}</span>
+            <span class="lang-code">{lang.label}</span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggleBtn = document.getElementById('mobile-nav-toggle');
+  const mobileMenu = document.getElementById('mobile-nav-menu');
+
+  if (toggleBtn && mobileMenu) {
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      toggleBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
+</script>

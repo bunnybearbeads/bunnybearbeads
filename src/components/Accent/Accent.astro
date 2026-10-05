@@ -1,0 +1,10 @@
+---
+import './Accent.css';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+<span class:list={['accent', className]}><slot /></span>

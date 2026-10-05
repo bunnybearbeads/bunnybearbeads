@@ -1,0 +1,9 @@
+.accent {
+  background: linear-gradient(135deg, #D4A359 0%, #B5843C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #D4A359; /* Fallback for browsers that don't support text-fill-color */
+  font-weight: inherit;
+  display: inline;
+}

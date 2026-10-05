@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header/Header.astro';
+import { type SupportedLanguage } from '../i18n/ui';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: SupportedLanguage;
+}
+
+const url = Astro.url;
+const currentLang = Astro.props.lang || getLangFromUrl(url);
+const t = useTranslations(currentLang);
+
+const title = Astro.props.title || t('site.title');
+const description = Astro.props.description || t('site.description');
+---
+
+<!doctype html>
+<html lang={currentLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/png" href="/logo_icon.png" />
+  </head>
+  <body>
+    <Header currentLang={currentLang} />
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>{t('footer.copyright')}</p>
+      </div>
+    </footer>
+  </body>
+</html>
