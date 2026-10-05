@@ -1,0 +1,94 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Accent from '../../../components/Accent/Accent.astro';
+import { getCollection } from 'astro:content';
+import { SUPPORTED_LANGUAGES, resolveLang, localize, getLocalizedUrl } from '../../../utils/i18n';
+import { useTranslations } from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return SUPPORTED_LANGUAGES.flatMap((lang) =>
+    products.map((product) => ({
+      params: {
+        lang: lang === 'en' ? undefined : lang,
+        id: product.id,
+      },
+      props: { productRaw: product },
+    }))
+  );
+}
+
+const { lang: langParam } = Astro.params;
+const currentLang = resolveLang(langParam);
+const t = useTranslations(currentLang);
+
+const { productRaw } = Astro.props;
+const product = localize(productRaw.data, currentLang);
+---
+
+<Layout
+  lang={currentLang}
+  title={`${product.title} — BunnyBearBeads`}
+  description={product.description}
+>
+  <div class="container" style="padding-top: 30px; padding-bottom: 80px;">
+    <div style="margin-bottom: 24px;">
+      <a href={getLocalizedUrl('/catalog', currentLang)} style="color: var(--color-nav-link); text-decoration: none; font-weight: 600;">
+        ← {t('catalog.back_to_catalog')}
+      </a>
+    </div>
+
+    <div class="product-detail-grid">
+      <!-- Gallery / Image -->
+      <div class="product-gallery">
+        {product.images && product.images.length > 0 ? (
+          <img
+            src={product.images[0]}
+            alt={product.title}
+            width="600"
+            height="600"
+          />
+        ) : (
+          <div style="height: 480px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(212, 163, 89, 0.16) 0%, rgba(42, 123, 136, 0.14) 100%);">
+            <span style="font-size: 80px; margin-bottom: 12px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));">📿</span>
+            <span style="font-family: var(--font-serif); font-size: 20px; color: var(--color-brand-dark); font-style: italic;">BunnyBearBeads Masterpiece</span>
+          </div>
+        )}
+      </div>
+
+      <!-- Info Panel -->
+      <div class="product-info-panel">
+        <span class="product-category">{product.category}</span>
+        <h1>{product.title}</h1>
+        <div class="product-price-large">${product.price} {product.currency}</div>
+
+        <p style="font-size: 16px; color: var(--text-dark); line-height: 1.8; margin-bottom: 24px;">
+          {product.description}
+        </p>
+
+        {product.materials && product.materials.length > 0 && (
+          <div>
+            <strong style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);">
+              {t('catalog.materials_label')}
+            </strong>
+            <div class="materials-tags">
+              {product.materials.map((mat: string) => (
+                <span class="material-tag">{mat}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div class="cta-buttons" style="margin-top: 32px;">
+          <a
+            href={getLocalizedUrl('/contacts', currentLang)}
+            class="btn btn-primary"
+            style="padding: 16px 36px; font-size: 16px;"
+          >
+            <span>💌</span> {t('catalog.order_piece')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

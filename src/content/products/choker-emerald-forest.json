@@ -1,0 +1,33 @@
+{
+  "title": {
+    "en": "Emerald Forest Beaded Choker",
+    "ru": "Чокер «Изумрудный лес»",
+    "vi": "Vòng cổ choker Rừng Ngọc Lục Bảo"
+  },
+  "description": {
+    "en": "Intricately handwoven choker featuring deep emerald green Miyuki Delica beads, accented with vintage bronze seed beads and sparkling Swarovski crystals.",
+    "ru": "Изящный авторский чокер из глубокого изумрудного японского бисера Miyuki Delica, бронзовых акцентов и мерцающих кристаллов Swarovski.",
+    "vi": "Vòng cổ choker đan thủ công tinh xảo với hạt cườm Miyuki Delica màu xanh ngọc lục bảo sâu thẳm, điểm xuyết ánh đồng cổ điển và pha lê Swarovski lấp lánh."
+  },
+  "price": 85,
+  "currency": "USD",
+  "category": {
+    "en": "Chokers",
+    "ru": "Чокеры",
+    "vi": "Choker"
+  },
+  "images": [
+    "/beadwork_hero.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0",
+    "Swarovski Crystal",
+    "Gold-plated Clasp"
+  ],
+  "badge": {
+    "en": "Bestseller",
+    "ru": "Хит продаж",
+    "vi": "Bán chạy nhất"
+  }
+}

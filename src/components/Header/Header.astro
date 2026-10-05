@@ -27,6 +27,8 @@ if (!currentCleanPath.startsWith('/')) {
 
 const navItems = [
   { href: translatePath('/'), label: t('nav.home'), isActive: currentCleanPath === '/' },
+  { href: translatePath('/catalog'), label: t('nav.catalog'), isActive: currentCleanPath.startsWith('/catalog') },
+  { href: translatePath('/blog'), label: t('nav.blog'), isActive: currentCleanPath.startsWith('/blog') },
   { href: translatePath('/about'), label: t('nav.about'), isActive: currentCleanPath.startsWith('/about') },
   { href: translatePath('/contacts'), label: t('nav.contacts'), isActive: currentCleanPath.startsWith('/contacts') },
 ];
@@ -40,8 +42,8 @@ const navItems = [
         class="header__medallion"
         src="/emblem-squared.png"
         alt="BunnyBearBeads Logo Medallion"
-        width="58"
-        height="58"
+        width="96"
+        height="96"
       />
       <div class="header__brand">
         BunnyBear<Accent>Beads</Accent>
@@ -83,12 +85,12 @@ const navItems = [
         })}
       </nav>
 
-      <!-- Cart / Collections Placeholder -->
+      <!-- Cart / Collections Link -->
       <a
-        href={translatePath('/#collection')}
+        href={translatePath('/catalog')}
         class="nav-cart-icon"
-        aria-label="View Collections / Bag"
-        title="Bag / Collections"
+        aria-label="View Catalog"
+        title={t('nav.catalog')}
       >
         <svg
           width="20"

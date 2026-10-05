@@ -1,0 +1,32 @@
+{
+  "title": {
+    "en": "Midnight Moth Beaded Brooch",
+    "ru": "Брошь «Полуночный мотылек»",
+    "vi": "Cài áo Bướm Đêm Huyền Bí"
+  },
+  "description": {
+    "en": "A dramatic sculpted brooch shaped like a night moth, embroidered with hematite beads, matte black beads, and smoky quartz.",
+    "ru": "Выразительная объемная брошь в виде ночного мотылька, вышитая гематитовым бисером, матовым черным стеклом и дымчатым кварцем.",
+    "vi": "Chiếc cài áo cánh bướm đêm sống động được thêu tỉ mỉ từ hạt cườm hematite, thủy tinh đen mờ và thạch anh khói."
+  },
+  "price": 95,
+  "currency": "USD",
+  "category": {
+    "en": "Brooches",
+    "ru": "Броши",
+    "vi": "Cài áo"
+  },
+  "images": [],
+  "inStock": true,
+  "materials": [
+    "Hematite Beads",
+    "Miyuki Matte Black",
+    "Smoky Quartz",
+    "Italian Leather Backing"
+  ],
+  "badge": {
+    "en": "Sculptural",
+    "ru": "Объемная вышивка",
+    "vi": "Thêu nổi"
+  }
+}

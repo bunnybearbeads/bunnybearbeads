@@ -1,0 +1,93 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Accent from '../../components/Accent/Accent.astro';
+import { getStaticLangPaths, resolveLang, localize } from '../../utils/i18n';
+import contactsDataRaw from '../../data/pages/contacts.json';
+
+export function getStaticPaths() {
+  return getStaticLangPaths();
+}
+
+const { lang: langParam } = Astro.params;
+const currentLang = resolveLang(langParam);
+const contacts = localize(contactsDataRaw, currentLang);
+---
+
+<Layout lang={currentLang} title={contacts.seo.title} description={contacts.seo.description}>
+  <div class="container">
+    <header class="page-header">
+      <div class="welcome-badge">
+        <span>💌</span> {contacts.badge}
+      </div>
+      <h1 class="page-title">{contacts.title}</h1>
+      <p class="page-subtitle">{contacts.subtitle}</p>
+    </header>
+
+    <div class="contacts-grid">
+      <!-- Contact Info & Channels -->
+      <div class="contact-channels">
+        <div class="content-card" style="margin-bottom: 24px;">
+          <h2>{contacts.introHeading}</h2>
+          <p>{contacts.introText}</p>
+        </div>
+
+        <div class="contact-channel-item">
+          <span class="channel-icon">📍</span>
+          <div class="channel-meta">
+            <strong>{contacts.channels.location.label}</strong>
+            <span>{contacts.channels.location.value}</span>
+          </div>
+        </div>
+
+        <a href={`mailto:${contacts.channels.email.value}`} class="contact-channel-item">
+          <span class="channel-icon">✉️</span>
+          <div class="channel-meta">
+            <strong>{contacts.channels.email.label}</strong>
+            <span>{contacts.channels.email.value}</span>
+          </div>
+        </a>
+
+        <a href={contacts.channels.telegram.url} target="_blank" rel="noopener noreferrer" class="contact-channel-item">
+          <span class="channel-icon">✈️</span>
+          <div class="channel-meta">
+            <strong>{contacts.channels.telegram.label}</strong>
+            <span>{contacts.channels.telegram.value}</span>
+          </div>
+        </a>
+
+        <a href={contacts.channels.instagram.url} target="_blank" rel="noopener noreferrer" class="contact-channel-item">
+          <span class="channel-icon">📸</span>
+          <div class="channel-meta">
+            <strong>{contacts.channels.instagram.label}</strong>
+            <span>{contacts.channels.instagram.value}</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Inquiry / Order Form -->
+      <div class="content-card" style="margin-bottom: 0;">
+        <h2>{contacts.form.heading} <Accent>✨</Accent></h2>
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent! Thank you.');">
+          <div class="form-group">
+            <label for="contact-name">{contacts.form.nameLabel}</label>
+            <input type="text" id="contact-name" class="form-input" placeholder="Jane Doe" required />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-email">{contacts.form.contactLabel}</label>
+            <input type="text" id="contact-email" class="form-input" placeholder="jane@example.com or @telegram_handle" required />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message">{contacts.form.messageLabel}</label>
+            <textarea id="contact-message" class="form-textarea" rows="5" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
+            <span>✨</span> {contacts.form.submitBtn}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</Layout>

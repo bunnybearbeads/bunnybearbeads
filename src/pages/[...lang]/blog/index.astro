@@ -1,0 +1,75 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { getStaticLangPaths, resolveLang, localize, getLocalizedUrl } from '../../../utils/i18n';
+import { useTranslations } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+  return getStaticLangPaths();
+}
+
+const { lang: langParam } = Astro.params;
+const currentLang = resolveLang(langParam);
+const t = useTranslations(currentLang);
+
+const rawPosts = await getCollection('blog');
+const posts = rawPosts.map((post) => ({
+  id: post.id,
+  data: localize(post.data, currentLang),
+}));
+---
+
+<Layout
+  lang={currentLang}
+  title={`${t('blog.title')} — BunnyBearBeads`}
+  description={t('blog.subtitle')}
+>
+  <div class="container" style="padding-bottom: 80px;">
+    <header class="page-header">
+      <div class="welcome-badge">
+        <span>📖</span> {t('nav.blog')}
+      </div>
+      <h1 class="page-title">{t('blog.title')}</h1>
+      <p class="page-subtitle">{t('blog.subtitle')}</p>
+    </header>
+
+    <div class="blog-grid">
+      {posts.map((post) => (
+        <article class="blog-card">
+          {post.data.coverImage ? (
+            <img
+              class="blog-image"
+              src={post.data.coverImage}
+              alt={post.data.title}
+              loading="lazy"
+            />
+          ) : (
+            <div class="blog-placeholder-banner">
+              <span style="font-size: 48px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">📖</span>
+            </div>
+          )}
+          <div class="blog-details">
+            <div class="blog-meta">
+              <span>{post.data.date}</span> • <span>{post.data.author}</span>
+            </div>
+            <h2 class="blog-title">
+              <a href={getLocalizedUrl(`/blog/${post.id}`, currentLang)}>
+                {post.data.title}
+              </a>
+            </h2>
+            <p class="blog-excerpt">{post.data.excerpt}</p>
+            <div style="margin-top: auto;">
+              <a
+                href={getLocalizedUrl(`/blog/${post.id}`, currentLang)}
+                class="btn btn-secondary"
+                style="padding: 10px 20px; font-size: 13px;"
+              >
+                {t('blog.read_more')} →
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>

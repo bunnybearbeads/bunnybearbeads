@@ -1,0 +1,83 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { getStaticLangPaths, resolveLang, localize, getLocalizedUrl } from '../../../utils/i18n';
+import { useTranslations } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+  return getStaticLangPaths();
+}
+
+const { lang: langParam } = Astro.params;
+const currentLang = resolveLang(langParam);
+const t = useTranslations(currentLang);
+
+const rawProducts = await getCollection('products');
+const products = rawProducts.map((p) => ({
+  id: p.id,
+  data: localize(p.data, currentLang),
+}));
+---
+
+<Layout
+  lang={currentLang}
+  title={`${t('catalog.title')} — BunnyBearBeads`}
+  description={t('catalog.subtitle')}
+>
+  <div class="container" style="padding-bottom: 80px;">
+    <header class="page-header">
+      <div class="welcome-badge">
+        <span>💎</span> {t('nav.catalog')}
+      </div>
+      <h1 class="page-title">{t('catalog.title')}</h1>
+      <p class="page-subtitle">{t('catalog.subtitle')}</p>
+    </header>
+
+    <div class="products-grid">
+      {products.map((product) => (
+        <article class="product-card">
+          {product.data.images && product.data.images.length > 0 ? (
+            <div class="product-image-box">
+              <img
+                src={product.data.images[0]}
+                alt={product.data.title}
+                loading="lazy"
+              />
+              {product.data.badge && (
+                <span class="product-badge">{product.data.badge}</span>
+              )}
+            </div>
+          ) : (
+            <div class="product-image-box product-placeholder-box">
+              <span class="placeholder-icon">📿</span>
+              {product.data.badge && (
+                <span class="product-badge">{product.data.badge}</span>
+              )}
+            </div>
+          )}
+
+          <div class="product-details">
+            <span class="product-category">{product.data.category}</span>
+            <h2 class="product-title">
+              <a href={getLocalizedUrl(`/catalog/${product.id}`, currentLang)}>
+                {product.data.title}
+              </a>
+            </h2>
+            <p class="product-desc">{product.data.description}</p>
+
+            <div class="product-bottom">
+              <span class="product-price">${product.data.price}</span>
+              <a
+                href={getLocalizedUrl(`/catalog/${product.id}`, currentLang)}
+                class="btn btn-primary"
+                style="padding: 10px 20px; font-size: 13px;"
+              >
+                {t('catalog.view_details')} →
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>

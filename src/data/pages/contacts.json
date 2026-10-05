@@ -1,0 +1,102 @@
+{
+  "seo": {
+    "title": {
+      "en": "Contacts & Custom Orders — BunnyBearBeads",
+      "ru": "Контакты & Индивидуальный заказ — BunnyBearBeads",
+      "vi": "Liên Hệ & Đặt Làm Theo Yêu Cầu — BunnyBearBeads"
+    },
+    "description": {
+      "en": "Commission a bespoke handmade bead piece, inquire about shipping, or message Anna directly.",
+      "ru": "Заказ авторского украшения из бисера, вопросы доставки и прямая связь с мастером BunnyBearBeads.",
+      "vi": "Đặt làm trang sức theo yêu cầu riêng, tư vấn kích cỡ hoặc trò chuyện cùng nghệ nhân."
+    }
+  },
+  "badge": {
+    "en": "Contacts",
+    "ru": "Контакты",
+    "vi": "Liên hệ"
+  },
+  "title": {
+    "en": "Let's Create Something Magical",
+    "ru": "Связаться с мастерской",
+    "vi": "Liên hệ với chúng mình"
+  },
+  "subtitle": {
+    "en": "Commission a personalized piece, ask questions, or discuss ideas for a custom gift",
+    "ru": "Заказ индивидуального украшения, вопросы по уходу и доставка по всему миру",
+    "vi": "Đặt làm trang sức theo yêu cầu riêng, tư vấn kích cỡ hoặc trò chuyện cùng nghệ nhân"
+  },
+  "introHeading": {
+    "en": "We'd love to hear from you",
+    "ru": "Буду рада воплотить вашу идею",
+    "vi": "Chúng mình rất vui được lắng nghe bạn"
+  },
+  "introText": {
+    "en": "Whether you want a bespoke bridal choker, a protective amulet bracelet, or a thoughtful surprise for a loved one, drop a message through your favorite channel below.",
+    "ru": "Напишите мне в удобном мессенджере или оставьте заявку через форму — обсудим цветовую гамму, размер и детали будущего украшения.",
+    "vi": "Dù bạn muốn một phụ kiện ngày cưới đặc biệt hay một món quà ý nghĩa, hãy nhắn tin cho BunnyBearBeads nhé."
+  },
+  "channels": {
+    "location": {
+      "label": {
+        "en": "Studio Location",
+        "ru": "Локация мастерской",
+        "vi": "Xưởng sáng tạo"
+      },
+      "value": "Da Nang / Worldwide Shipping"
+    },
+    "email": {
+      "label": {
+        "en": "Email",
+        "ru": "Электронная почта",
+        "vi": "Email"
+      },
+      "value": "hello@bunnybearbeads.com"
+    },
+    "telegram": {
+      "label": {
+        "en": "Telegram",
+        "ru": "Telegram",
+        "vi": "Telegram"
+      },
+      "value": "@bunnybearbeads",
+      "url": "https://t.me/bunnybearbeads"
+    },
+    "instagram": {
+      "label": {
+        "en": "Instagram",
+        "ru": "Instagram",
+        "vi": "Instagram"
+      },
+      "value": "@bunnybearbeads",
+      "url": "https://instagram.com/bunnybearbeads"
+    }
+  },
+  "form": {
+    "heading": {
+      "en": "Leave a Message",
+      "ru": "Написать сообщение",
+      "vi": "Gửi tin nhắn"
+    },
+    "nameLabel": {
+      "en": "Your Name",
+      "ru": "Ваше имя",
+      "vi": "Họ và tên"
+    },
+    "contactLabel": {
+      "en": "Email or Telegram handle",
+      "ru": "Email или Telegram для связи",
+      "vi": "Email hoặc Telegram/Zalo"
+    },
+    "messageLabel": {
+      "en": "Tell us about your wish...",
+      "ru": "Опишите ваше пожелание...",
+      "vi": "Ý tưởng hoặc yêu cầu của bạn..."
+    },
+    "submitBtn": {
+      "en": "Send Inquiry",
+      "ru": "Отправить заявку",
+      "vi": "Gửi tin nhắn"
+    }
+  }
+}

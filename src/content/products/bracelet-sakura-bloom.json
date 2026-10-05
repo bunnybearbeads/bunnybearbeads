@@ -1,0 +1,33 @@
+{
+  "title": {
+    "en": "Sakura Bloom Delicate Bracelet",
+    "ru": "Браслет «Цветение сакуры»",
+    "vi": "Lắc tay Hoa Anh Đào Dịu Dàng"
+  },
+  "description": {
+    "en": "Soft rose gold and opal pink glass beads woven into a light, airy lace pattern. Perfect for everyday elegance or bridal accessories.",
+    "ru": "Нежное кружево из розово-золотистого и опалового бисера. Идеально для легких весенних образов или свадебного наряда.",
+    "vi": "Hạt cườm hồng vàng ánh opal dịu ngọt đan theo hoa văn ren thanh thoát, thích hợp làm phụ kiện hàng ngày hoặc lễ cưới."
+  },
+  "price": 55,
+  "currency": "USD",
+  "category": {
+    "en": "Bracelets",
+    "ru": "Браслеты",
+    "vi": "Lắc tay"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Toho Round 15/0",
+    "Czech Glass Pearls",
+    "Sterling Silver Clasp"
+  ],
+  "badge": {
+    "en": "New",
+    "ru": "Новинка",
+    "vi": "Mới"
+  }
+}

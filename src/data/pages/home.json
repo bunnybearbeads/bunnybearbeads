@@ -1,0 +1,134 @@
+{
+  "seo": {
+    "title": {
+      "en": "BunnyBearBeads — Handcrafted Beadwork & Artisan Jewelry",
+      "ru": "BunnyBearBeads — Авторские украшения из бисера & Рукоделие",
+      "vi": "BunnyBearBeads — Trang sức cườm thủ công nghệ thuật"
+    },
+    "description": {
+      "en": "Unique handmade beadwork jewelry, necklaces, bracelets, and custom artisan craft by BunnyBearBeads.",
+      "ru": "Уникальные авторские украшения из бисера ручной работы, колье, браслеты и мастер-классы по бисероплетению BunnyBearBeads.",
+      "vi": "Trang sức cườm handmade độc bản, vòng cổ, lắc tay và phụ kiện nghệ thuật tinh xảo từ BunnyBearBeads."
+    }
+  },
+  "hero": {
+    "badge": {
+      "en": "Artisan Beadweaving & Handcrafted",
+      "ru": "Авторское бисероплетение & Ручная работа",
+      "vi": "Nghệ thuật đan cườm & Thủ công tinh xảo"
+    },
+    "titlePrefix": {
+      "en": "Welcome to the world of ",
+      "ru": "Приветствую вас в мире ",
+      "vi": "Chào mừng bạn đến với thế giới "
+    },
+    "titleAccent": {
+      "en": "delicate beadwork!",
+      "ru": "изящного бисера!",
+      "vi": "hạt cườm tinh xảo!"
+    },
+    "authorGreeting": {
+      "en": "Hello! My name is Anna",
+      "ru": "Здравствуйте! Меня зовут Анна",
+      "vi": "Xin chào! Mình là Anna"
+    },
+    "authorTagline": {
+      "en": "I am the creator and master artisan behind BunnyBearBeads.",
+      "ru": "я создатель и главный мастер бренда BunnyBearBeads.",
+      "vi": "người sáng lập và nghệ nhân chính của thương hiệu BunnyBearBeads."
+    },
+    "authorP1": {
+      "en": "Welcome to my cozy creative sanctuary! For me, bead weaving is far more than a craft — it is meditation and the art of shaping grace into tactile objects. Every tiny bead of selected Japanese and Czech glass, every crystal passes thoughtfully through my hands.",
+      "ru": "Добро пожаловать в мое уютное творческое пространство! Для меня бисероплетение — это не просто хобби или ремесло, а настоящая медитация и искусство создания красоты. Каждая крошечная бусинка отборного японского и чешского бисера, каждый хрустальный кристалл проходят через мои руки, чтобы превратиться в изысканное украшение.",
+      "vi": "Chào mừng bạn đến với không gian sáng tạo ấm cúng của mình! Đối với mình, đan hạt cườm không đơn thuần là một sở thích, mà là sự thiền định và nghệ thuật tạo tác vẻ đẹp. Từng hạt cườm Nhật Bản, Tiệp Khắc và từng viên pha lê đều được nâng niu qua đôi tay tỉ mỉ."
+    },
+    "authorP2": {
+      "en": "Each creation holds warmth, patience, and artistic inspiration. Made specifically for people who cherish uniqueness, microscopic detail, and soulful craftsmanship.",
+      "ru": "В каждое изделие я вкладываю частичку тепла, гармонии и вдохновения. Мои работы создаются для тех, кто ценит уникальность, тонкую детализацию и душевный подход к ручному труду.",
+      "vi": "Trong từng sản phẩm, mình gửi gắm sự ấm áp, bình yên và nguồn cảm hứng. Tác phẩm dành riêng cho những ai trân trọng nét độc đáo, chi tiết vi mô và giá trị của lao động thủ công từ trái tim."
+    },
+    "authorName": {
+      "en": "Anna BunnyBear",
+      "ru": "Анна BunnyBear",
+      "vi": "Anna BunnyBear"
+    },
+    "authorRole": {
+      "en": "Master of Fine Bead Art",
+      "ru": "Мастер художественного бисероплетения",
+      "vi": "Nghệ nhân đan cườm nghệ thuật"
+    },
+    "badgeCrafted": {
+      "en": "100% Handcrafted",
+      "ru": "100% Handcrafted",
+      "vi": "100% Thủ công"
+    },
+    "badgeUnique": {
+      "en": "One-of-a-kind Pieces",
+      "ru": "Единственный экземпляр",
+      "vi": "Phiên bản độc bản"
+    },
+    "btnExplore": {
+      "en": "Explore Catalog",
+      "ru": "Смотреть каталог",
+      "vi": "Xem danh mục"
+    },
+    "btnOrder": {
+      "en": "Custom Order",
+      "ru": "Заказать индивидуально",
+      "vi": "Đặt làm theo yêu cầu"
+    }
+  },
+  "features": {
+    "title": {
+      "en": "Dedication to Every Single Stitch",
+      "ru": "Особый подход к каждому стежку",
+      "vi": "Tỉ mỉ trong từng đường kim mũi chỉ"
+    },
+    "subtitle": {
+      "en": "Why BunnyBearBeads jewelry is created with genuine love and mastery",
+      "ru": "Почему изделия из бисера BunnyBearBeads создаются с любовью",
+      "vi": "Lý do trang sức BunnyBearBeads luôn chứa đựng tình yêu và tâm huyết"
+    },
+    "items": [
+      {
+        "icon": "💎",
+        "title": {
+          "en": "Premium Materials",
+          "ru": "Премиум материалы",
+          "vi": "Nguyên liệu cao cấp"
+        },
+        "desc": {
+          "en": "We only use durable Japanese Miyuki & Toho beads, genuine gemstones, and Swarovski crystals.",
+          "ru": "Использую только стойкий японский бисер Miyuki & Toho, натуральные камни и кристаллы Swarovski.",
+          "vi": "Sử dụng độc quyền hạt cườm Miyuki & Toho Nhật Bản cao cấp, đá tự nhiên và pha lê Swarovski."
+        }
+      },
+      {
+        "icon": "🎨",
+        "title": {
+          "en": "Artisanal Design",
+          "ru": "Авторский дизайн",
+          "vi": "Thiết kế thủ công độc bản"
+        },
+        "desc": {
+          "en": "Every pattern and weave is drafted uniquely by hand, free from mass-produced moulds or factory stencils.",
+          "ru": "Каждая схема и узор разрабатываются индивидуально, без массовых шаблонов и штамповок.",
+          "vi": "Mỗi mẫu vẽ và hoạ tiết đều được thiết kế riêng, không sản xuất hàng loạt hay rập khuôn công nghiệp."
+        }
+      },
+      {
+        "icon": "🎁",
+        "title": {
+          "en": "Signature Packaging",
+          "ru": "Подарочная упаковка",
+          "vi": "Hộp quà sang trọng"
+        },
+        "desc": {
+          "en": "Each jewelry treasure arrives in an elegant gift box accompanied by a warm personal touch.",
+          "ru": "Каждое украшение бережно упаковывается в фирменную коробочку с приятным сюрпризом внутри.",
+          "vi": "Từng món trang sức được đóng gói trang nhã trong hộp thương hiệu kèm lời nhắn thân thương."
+        }
+      }
+    ]
+  }
+}

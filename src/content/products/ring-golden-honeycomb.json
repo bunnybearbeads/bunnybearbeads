@@ -1,0 +1,31 @@
+{
+  "title": {
+    "en": "Golden Honeycomb Beaded Ring",
+    "ru": "Кольцо «Золотые соты»",
+    "vi": "Nhẫn cườm Tổ Ong Vàng"
+  },
+  "description": {
+    "en": "A comfortable, flexible handwoven ring inspired by sacred bee geometry. Made with 24k gold-plated Japanese seed beads and champagne accents.",
+    "ru": "Удобное эластичное кольцо ручного плетения по мотивам геометрии пчелиных сот. Сплетено из японского бисера с покрытием золотом 24К и оттенками шампанского.",
+    "vi": "Chiếc nhẫn đan tay mềm mại, thoải mái lấy cảm hứng từ cấu trúc tổ ong thiêng liêng. Chế tác từ hạt cườm Nhật Bản mạ vàng 24k và ánh sâm panh."
+  },
+  "price": 35,
+  "currency": "USD",
+  "category": {
+    "en": "Rings",
+    "ru": "Кольца",
+    "vi": "Nhẫn"
+  },
+  "images": [],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 24k Gold",
+    "Toho Treasure Champagne",
+    "Fireline Thread"
+  ],
+  "badge": {
+    "en": "Minimalist",
+    "ru": "Минимализм",
+    "vi": "Tối giản"
+  }
+}

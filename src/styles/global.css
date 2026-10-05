@@ -502,6 +502,291 @@ h1, h2, h3, h4, .font-serif {
   box-shadow: 0 0 0 3px rgba(42, 123, 136, 0.15);
 }
 
+/* ==========================================================================
+   Catalog & Product Card Styles
+   ========================================================================== */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 32px;
+  margin-top: 20px;
+}
+
+.product-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.product-image-box {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  background: #FFF9F3;
+}
+
+.product-placeholder-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(212, 163, 89, 0.16) 0%, rgba(42, 123, 136, 0.14) 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.placeholder-icon {
+  font-size: 56px;
+  filter: drop-shadow(0 4px 8px rgba(60, 45, 30, 0.12));
+}
+
+.product-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image-box img {
+  transform: scale(1.04);
+}
+
+.product-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(212, 163, 89, 0.4);
+  color: var(--color-brand-dark);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.product-details {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-category {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-teal);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.product-title {
+  font-size: 22px;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.product-title a {
+  text-decoration: none;
+  color: var(--color-brand-dark);
+  transition: color 0.2s ease;
+}
+
+.product-title a:hover {
+  color: var(--accent-teal);
+}
+
+.product-desc {
+  font-size: 14.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.product-price {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-brand-dark);
+}
+
+/* Product Detail Page */
+.product-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: flex-start;
+  margin-bottom: 60px;
+}
+
+@media (max-width: 900px) {
+  .product-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.product-gallery {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-hover);
+  border: 4px solid white;
+}
+
+.product-gallery img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.product-info-panel {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: var(--shadow-soft);
+}
+
+.product-info-panel h1 {
+  font-size: 38px;
+  color: var(--color-brand-dark);
+  margin-bottom: 16px;
+}
+
+.product-price-large {
+  font-family: var(--font-serif);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--accent-gold);
+  margin-bottom: 24px;
+}
+
+.materials-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 24px;
+}
+
+.material-tag {
+  background: rgba(42, 123, 136, 0.1);
+  color: var(--accent-teal);
+  border: 1px solid rgba(42, 123, 136, 0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Blog Styles
+   ========================================================================== */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 32px;
+  margin-bottom: 60px;
+}
+
+.blog-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.blog-image {
+  height: 220px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.blog-placeholder-banner {
+  height: 220px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(212, 163, 89, 0.18) 0%, rgba(217, 130, 132, 0.15) 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.blog-details {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.blog-meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.blog-title {
+  font-size: 24px;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.blog-title a {
+  text-decoration: none;
+  color: var(--color-brand-dark);
+  transition: color 0.2s ease;
+}
+
+.blog-title a:hover {
+  color: var(--accent-teal);
+}
+
+.blog-excerpt {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
 /* Footer */
 footer {
   background: rgba(44, 40, 37, 0.04);

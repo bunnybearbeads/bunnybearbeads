@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Accent from '../../components/Accent/Accent.astro';
+import { getStaticLangPaths, resolveLang, localize, getLocalizedUrl } from '../../utils/i18n';
+import aboutDataRaw from '../../data/pages/about.json';
+
+export function getStaticPaths() {
+  return getStaticLangPaths();
+}
+
+const { lang: langParam } = Astro.params;
+const currentLang = resolveLang(langParam);
+const about = localize(aboutDataRaw, currentLang);
+---
+
+<Layout lang={currentLang} title={about.seo.title} description={about.seo.description}>
+  <div class="container">
+    <header class="page-header">
+      <div class="welcome-badge">
+        <span>✨</span> {about.badge}
+      </div>
+      <h1 class="page-title">{about.title}</h1>
+      <p class="page-subtitle">{about.subtitle}</p>
+    </header>
+
+    <article class="content-card">
+      <h2>{about.storyHeading}</h2>
+      <p>{about.storyText1}</p>
+      <p>{about.storyText2}</p>
+
+      <div style="margin: 32px 0; padding: 24px; border-left: 4px solid var(--accent-gold); background: rgba(212, 163, 89, 0.08); border-radius: 0 12px 12px 0;">
+        <p style="font-family: var(--font-serif); font-size: 20px; font-style: italic; color: var(--color-brand-dark); margin: 0;">
+          “{about.quote}” — <Accent>BunnyBear</Accent>
+        </p>
+      </div>
+
+      <h2>{about.materialsHeading}</h2>
+      <p>{about.materialsText}</p>
+
+      <div class="cta-buttons" style="margin-top: 36px;">
+        <a href={getLocalizedUrl('/catalog', currentLang)} class="btn btn-secondary">
+          ← {currentLang === 'ru' ? 'В каталог' : currentLang === 'vi' ? 'Xem danh mục' : 'To Catalog'}
+        </a>
+        <a href={getLocalizedUrl('/contacts', currentLang)} class="btn btn-primary">
+          {currentLang === 'ru' ? 'Заказать украшение' : currentLang === 'vi' ? 'Đặt làm trang sức' : 'Custom Order'} →
+        </a>
+      </div>
+    </article>
+  </div>
+</Layout>
