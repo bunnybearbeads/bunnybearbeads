@@ -2,19 +2,57 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
+  /* ==========================================================================
+     LEGACY & FALLBACK ALIASED VARIABLES
+     ========================================================================== */
   --bg-gradient: linear-gradient(135deg, #FAF7F2 0%, #F5EFE6 50%, #EAE0D5 100%);
-  --accent-gold: #D4AF37;
+  --accent-gold: #D4A359;
   --accent-rose: #D98284;
   --accent-teal: #2A7B88;
   --text-dark: #2C2825;
   --text-muted: #6B635B;
-  --card-bg: rgba(255, 255, 255, 0.75);
+  --card-bg: rgba(255, 255, 255, 0.8);
+
+  /* ==========================================================================
+     BRAND TYPOGRAPHY CONSTANTS
+     ========================================================================== */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* ==========================================================================
+     BRAND COLOR PALETTE CONSTANTS
+     ========================================================================== */
+  /* Primary Warm Mocha / Dark Coffee Tones */
+  --color-brand-dark: #3D2E24;
+  --color-text-main: #2C2825;
+  --color-text-muted: #6B635B;
+  --color-nav-link: #5C4A3E;
+
+  /* Accent Amber Gold & Bronze Tones */
+  --color-brand-gold: #D4A359;
+  --color-brand-gold-dark: #B5843C;
+  --color-accent-amber: #9E7D58;
+  --color-accent-teal: #2A7B88;
+  --color-accent-rose: #D98284;
+  --gradient-gold: linear-gradient(135deg, var(--color-brand-gold) 0%, var(--color-brand-gold-dark) 100%);
+
+  /* Backgrounds & Surface Tones */
+  --color-bg-base: #FAF7F2;
+  --gradient-bg-main: linear-gradient(135deg, #FAF7F2 0%, #F5EFE6 50%, #EAE0D5 100%);
+  --gradient-header: linear-gradient(180deg, rgba(248, 243, 237, 0.88) 0%, rgba(238, 229, 219, 0.82) 100%);
+  --color-card-bg: rgba(255, 255, 255, 0.8);
+
+  /* Glassmorphism & Shadows */
   --glass-border: rgba(255, 255, 255, 0.9);
   --shadow-soft: 0 20px 40px rgba(44, 40, 37, 0.06);
   --shadow-hover: 0 30px 60px rgba(44, 40, 37, 0.12);
+  --shadow-header: 0 14px 34px rgba(80, 60, 45, 0.2);
+
+  /* Border Radii */
   --radius-lg: 24px;
   --radius-md: 16px;
   --radius-sm: 8px;
+  --radius-pill: 50px;
 }
 
 * {
@@ -24,16 +62,16 @@
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg-gradient);
-  color: var(--text-dark);
+  font-family: var(--font-sans);
+  background: var(--gradient-bg-main);
+  color: var(--color-text-main);
   line-height: 1.7;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
 h1, h2, h3, .font-serif {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-serif);
 }
 
 .container {
@@ -80,7 +118,7 @@ h1, h2, h3, .font-serif {
         }
 
         .header__brand {
-            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-family: var(--font-serif);
             font-size: 38px;
             font-weight: 700;
             letter-spacing: -0.2px;
@@ -88,11 +126,11 @@ h1, h2, h3, .font-serif {
         }
 
         .brand-primary {
-            color: #3D2E24;
+            color: var(--color-brand-dark);
         }
 
         .brand-accent {
-            background: linear-gradient(135deg, #D4A359 0%, #B5843C 100%);
+            background: var(--gradient-gold);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-left: 1px;
@@ -113,9 +151,9 @@ h1, h2, h3, .font-serif {
 }
 
 .nav-links a {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   text-decoration: none;
-  color: #5C4A3E;
+  color: var(--color-nav-link);
   font-weight: 600;
   font-size: 19px;
   transition: all 0.3s ease;
@@ -125,7 +163,7 @@ h1, h2, h3, .font-serif {
 
 .nav-links a:hover,
 .nav-links a.active {
-  color: #3D2E24;
+  color: var(--color-brand-dark);
 }
 
 .nav-links a::after {
@@ -135,7 +173,7 @@ h1, h2, h3, .font-serif {
   left: 0;
   width: 0;
   height: 2px;
-  background: #9E7D58;
+  background: var(--color-accent-amber);
   border-radius: 2px;
   transition: width 0.3s ease;
 }
@@ -149,7 +187,7 @@ h1, h2, h3, .font-serif {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #5C4A3E;
+  color: var(--color-nav-link);
   transition: all 0.3s ease;
   text-decoration: none;
   padding: 6px;
