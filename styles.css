@@ -37,80 +37,128 @@ h1, h2, h3, .font-serif {
 }
 
 .container {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
-/* Header & Nav */
-header {
-  position: sticky;
-  top: 16px;
-  z-index: 100;
-  max-width: 1200px;
-  width: calc(100% - 48px);
-  margin: 16px auto 0;
-  padding: 12px 32px;
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 10px 30px rgba(44, 40, 37, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
-  transition: all 0.3s ease;
+/* Header & Nav - Reference Mockup Styling */
+.header {
+    position: sticky;
+    top: 40px;
+    z-index: 100;
+    width: calc(100% - 48px);
+    max-width: 1200px;
+    height: 74px;
+    margin: 0 auto;
+    padding: 0 38px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(180deg, rgba(248, 243, 237, 0.88) 0%, rgba(238, 229, 219, 0.82) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 11px;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 14px 34px rgba(80, 60, 45, 20%);
+    transition: all 0.3s ease;
 }
-
-header .container {
-  padding: 0;
-  max-width: 100%;
-}
-
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  margin: -28px 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: var(--text-dark);
-}
-    .logo__emblem {
-      width: auto;
-      height: 100px;
-      box-shadow: 0 4px 12px rgba(42, 123, 136, 0.15);
-      border-radius: 50%;
+    .header__logo {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        text-decoration: none;
     }
+        .header__medallion {
+            vertical-align: top;
+            height: 96px;
+            border: 0.5px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            margin: -12px 0
+        }
 
-    .logo__text {
-      width: 300px;
-      height: 50px;
-      text-indent: 200%;
-      white-space: nowrap;
-      overflow: hidden;
-      background-image: url("emblem-text.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center center;
-    }
+        .header__brand {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 38px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            line-height: 1;
+        }
+
+        .brand-primary {
+            color: #3D2E24;
+        }
+
+        .brand-accent {
+            background: linear-gradient(135deg, #D4A359 0%, #B5843C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-left: 1px;
+        }
+
+/* Nav links styling matching reference mockup */
+.nav-right-group {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
 
 .nav-links {
   display: flex;
-  gap: 32px;
+  align-items: center;
+  gap: 28px;
   list-style: none;
 }
 
 .nav-links a {
+  font-family: 'Cormorant Garamond', Georgia, serif;
   text-decoration: none;
-  color: var(--text-muted);
-  font-weight: 500;
-  font-size: 15px;
+  color: #5C4A3E;
+  font-weight: 600;
+  font-size: 19px;
   transition: all 0.3s ease;
   position: relative;
+  padding: 4px 0;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #3D2E24;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #9E7D58;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+.nav-cart-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5C4A3E;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  padding: 6px;
+  border-radius: 50%;
+}
+
+.nav-cart-icon:hover {
+  color: #3D2E24;
+  background: rgba(92, 74, 62, 0.08);
 }
 
 .nav-links a:hover {

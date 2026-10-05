@@ -13,16 +13,39 @@
   <header>
     <div class="container">
       <nav>
-        <a href="#welcome" class="logo" id="nav-logo">
-          <img src="logo.png" alt="BunnyBearBeads Logo" class="logo-img">
+        <a href="#welcome" class="logo-medallion-brand" id="nav-logo">
+          <div class="logo-medallion">
+            <svg viewBox="0 0 120 120" class="logo-arc-svg">
+              <path id="arcPathVN" d="M 16 60 A 44 44 0 0 1 104 60" fill="none" />
+              <text font-family="'Cormorant Garamond', serif" font-size="12" font-weight="700" fill="#6B5340" letter-spacing="1">
+                <textPath href="#arcPathVN" startOffset="50%" text-anchor="middle">BunnyBearBeads</textPath>
+              </text>
+            </svg>
+            <div class="logo-emblem-inner">
+              <img src="logo_icon.png" alt="BunnyBearBeads Emblem">
+            </div>
+          </div>
+          <div class="logo-brand-text">
+            <span class="brand-primary">BunnyBear</span><span class="brand-accent">Beads</span>
+          </div>
         </a>
-        <ul class="nav-links">
-          <li><a href="#about" id="link-about">Giới thiệu</a></li>
-          <li><a href="#collection" id="link-collection">Bộ sưu tập</a></li>
-          <li><a href="#masterclasses" id="link-masterclasses">Lớp học thủ công</a></li>
-          <li><a href="#contact" id="link-contact">Liên hệ</a></li>
-          <li><a href="index.html" style="font-weight: 700; color: var(--accent-teal);">🇷🇺 Русский</a></li>
-        </ul>
+
+        <div class="nav-right-group">
+          <ul class="nav-links">
+            <li><a href="#welcome" class="active" id="link-home">Trang chủ</a></li>
+            <li><a href="#collection" id="link-collection">Bộ sưu tập</a></li>
+            <li><a href="#about" id="link-about">Giới thiệu</a></li>
+            <li><a href="#contact" id="link-contact">Liên hệ</a></li>
+            <li><a href="index.html" style="font-weight: 700; color: #B5843C;">🇷🇺 RU</a></li>
+          </ul>
+          <a href="#collection" class="nav-cart-icon" aria-label="Giỏ hàng / Bộ sưu tập">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+          </a>
+        </div>
       </nav>
     </div>
   </header>
