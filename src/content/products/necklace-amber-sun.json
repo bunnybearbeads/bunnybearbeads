@@ -11,10 +11,11 @@
   },
   "price": 120,
   "currency": "USD",
+  "categoryId": "jewelry",
   "category": {
-    "en": "Necklaces",
-    "ru": "Колье",
-    "vi": "Dây chuyền"
+    "en": "Finished Jewelry",
+    "ru": "Готовые украшения",
+    "vi": "Trang sức hoàn thiện"
   },
   "images": [
     "/beadwork_hero.png"

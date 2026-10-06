@@ -11,10 +11,11 @@
   },
   "price": 85,
   "currency": "USD",
+  "categoryId": "jewelry",
   "category": {
-    "en": "Chokers",
-    "ru": "Чокеры",
-    "vi": "Choker"
+    "en": "Finished Jewelry",
+    "ru": "Готовые украшения",
+    "vi": "Trang sức hoàn thiện"
   },
   "images": [
     "/beadwork_hero.png"

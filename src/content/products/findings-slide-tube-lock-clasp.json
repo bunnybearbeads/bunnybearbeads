@@ -1,0 +1,32 @@
+{
+  "title": {
+    "en": "Multi-Strand Slide Lock Clasp (18k Gold Plated)",
+    "ru": "Замок-слайдер для многорядных браслетов (позолота 18К)",
+    "vi": "Khóa trượt nhiều hàng đan cườm (Mạ vàng 18k)"
+  },
+  "description": {
+    "en": "Precision magnetic tube slide clasp engineered for beadwoven cuffs and chokers. Seamless click lock with durable 18k gold electroplating. Width 25mm.",
+    "ru": "Прецизионный трубчатый замок-слайдер для широких браслетов и чокеров из бисера. Надежная фиксация со стойким гальваническим покрытием золотом 18К. Ширина 25 мм.",
+    "vi": "Khóa trượt dạng ống từ tính chính xác chuyên dụng cho vòng tay và choker đan cườm bản rộng. Khóa chốt an toàn mạ vàng 18k bền màu. Bản rộng 25mm."
+  },
+  "price": 6.5,
+  "currency": "USD",
+  "categoryId": "findings",
+  "category": {
+    "en": "Findings",
+    "ru": "Фурнитура",
+    "vi": "Phụ kiện"
+  },
+  "images": [],
+  "inStock": true,
+  "materials": [
+    "Brass Base",
+    "18k Gold Electroplating",
+    "Hypoallergenic / Nickel Free"
+  ],
+  "badge": {
+    "en": "Popular",
+    "ru": "Популярное",
+    "vi": "Ưa chuộng"
+  }
+}

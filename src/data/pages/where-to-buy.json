@@ -1,0 +1,118 @@
+{
+  "seo": {
+    "title": {
+      "en": "Where to Buy — BunnyBearBeads Official Stores & Stockists",
+      "ru": "Где купить — BunnyBearBeads Мастерская & Точки продаж",
+      "vi": "Điểm bán — BunnyBearBeads Xưởng thủ công & Điểm trưng bày"
+    },
+    "description": {
+      "en": "Find out where to buy authentic BunnyBearBeads artisan jewelry: studio visits in Da Nang, online ordering, and popup craft fairs.",
+      "ru": "Где приобрести авторские украшения BunnyBearBeads: мастерская в Дананге, онлайн-заказ с доставкой и ремесленные маркеты.",
+      "vi": "Khám phá địa chỉ mua trang sức cườm BunnyBearBeads: ghé thăm xưởng tại Đà Nẵng, đặt hàng online và các hội chợ nghệ thuật thủ công."
+    }
+  },
+  "badge": {
+    "en": "Official Stockists & Studio",
+    "ru": "Точки продаж & Мастерская",
+    "vi": "Điểm bán & Xưởng sáng tạo"
+  },
+  "title": {
+    "en": "Where to Find BunnyBearBeads",
+    "ru": "Где купить украшения BunnyBearBeads",
+    "vi": "Nơi tìm mua trang sức BunnyBearBeads"
+  },
+  "subtitle": {
+    "en": "Visit our workshop in Da Nang by appointment, order online with international shipping, or meet us at seasonal artisan markets",
+    "ru": "Посетите нашу уютную студию в Дананге по предварительной записи, закажите онлайн с доставкой по миру или найдите нас на сезонных арт-маркетах",
+    "vi": "Ghé thăm xưởng sáng tạo ấm cúng tại Đà Nẵng theo lịch hẹn, đặt hàng trực tuyến giao toàn cầu hoặc gặp chúng mình tại các phiên chợ nghệ thuật"
+  },
+  "locations": [
+    {
+      "type": "studio",
+      "icon": "📍",
+      "title": {
+        "en": "Artisan Studio Atelier",
+        "ru": "Творческая студия-мастерская",
+        "vi": "Xưởng sáng tạo thủ công"
+      },
+      "city": {
+        "en": "Da Nang, Vietnam",
+        "ru": "Дананг, Вьетнам",
+        "vi": "Đà Nẵng, Việt Nam"
+      },
+      "address": {
+        "en": "An Thuong Quarter, Ngu Hanh Son",
+        "ru": "Квартал Ан Тхыонг (An Thuong), район Нгу Хань Сон",
+        "vi": "Khu phố An Thượng, Ngũ Hành Sơn"
+      },
+      "schedule": {
+        "en": "Visits by appointment (Mon – Sat, 10:00 – 19:00)",
+        "ru": "По предварительной записи (Пн – Сб, 10:00 – 19:00)",
+        "vi": "Mở cửa theo lịch hẹn (Thứ 2 – Thứ 7, 10:00 – 19:00)"
+      },
+      "desc": {
+        "en": "Come try on finished pieces in person, select gemstone cabochons and Japanese Miyuki bead shades for custom bespoke commissions.",
+        "ru": "Здесь можно примерить готовые украшения вживую, в спокойной обстановке выбрать натуральные камни и оттенки бисера для индивидуального заказа.",
+        "vi": "Nơi bạn có thể ướm thử trang sức trực tiếp, tự tay chọn hạt cườm Miyuki và đá tự nhiên cho mẫu đặt riêng."
+      }
+    },
+    {
+      "type": "online",
+      "icon": "🌐",
+      "title": {
+        "en": "Direct Online Orders",
+        "ru": "Онлайн-заказ из любой точки мира",
+        "vi": "Đặt hàng trực tuyến toàn cầu"
+      },
+      "city": {
+        "en": "Worldwide Delivery",
+        "ru": "Доставка в 50+ стран",
+        "vi": "Giao hàng trên 50 quốc gia"
+      },
+      "address": {
+        "en": "Telegram: @bunnybearbeads / Instagram",
+        "ru": "Telegram: @bunnybearbeads / Instagram",
+        "vi": "Telegram: @bunnybearbeads / Instagram"
+      },
+      "schedule": {
+        "en": "Messages answered within 2–4 hours",
+        "ru": "Отвечаем на сообщения в течение 2–4 часов",
+        "vi": "Phản hồi tin nhắn trong vòng 2–4 giờ"
+      },
+      "desc": {
+        "en": "Fast direct consultation, photo/video preview of items in daylight before shipping, secure international payments.",
+        "ru": "Быстрая консультация мастера, фото и видео украшения при естественном дневном свете перед отправкой и надежная оплата.",
+        "vi": "Tư vấn nhanh chóng cùng nghệ nhân, xem video/ảnh chụp thực tế dưới ánh sáng tự nhiên trước khi gửi hàng."
+      }
+    },
+    {
+      "type": "markets",
+      "icon": "🎪",
+      "title": {
+        "en": "Artisan Popups & Craft Markets",
+        "ru": "Сезонные маркеты & Арт-выставки",
+        "vi": "Hội chợ thủ công & Triển lãm"
+      },
+      "city": {
+        "en": "Da Nang & Hoi An",
+        "ru": "Дананг & Хойан",
+        "vi": "Đà Nẵng & Hội An"
+      },
+      "address": {
+        "en": "Weekend Art Fairs (Announced in Telegram)",
+        "ru": "Выходные дни (анонсы публикуются в Telegram)",
+        "vi": "Các dịp cuối tuần (thông báo tại kênh Telegram)"
+      },
+      "schedule": {
+        "en": "Monthly festival events",
+        "ru": "Ежемесячные фестивали мастеров",
+        "vi": "Sự kiện định kỳ hàng tháng"
+      },
+      "desc": {
+        "en": "Follow our social channels to catch our next pop-up booth, exclusive show specials, and live beadweaving demonstrations.",
+        "ru": "Следите за нашими соцсетями, чтобы узнать даты ближайших маркетов, где можно пообщаться с мастером и увидеть процесс плетения.",
+        "vi": "Theo dõi kênh mạng xã hội để cập nhật lịch các phiên chợ thủ công sắp tới và xem nghệ nhân biểu diễn đan cườm trực tiếp."
+      }
+    }
+  ]
+}

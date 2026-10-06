@@ -11,10 +11,11 @@
   },
   "price": 35,
   "currency": "USD",
+  "categoryId": "jewelry",
   "category": {
-    "en": "Rings",
-    "ru": "Кольца",
-    "vi": "Nhẫn"
+    "en": "Finished Jewelry",
+    "ru": "Готовые украшения",
+    "vi": "Trang sức hoàn thiện"
   },
   "images": [],
   "inStock": true,

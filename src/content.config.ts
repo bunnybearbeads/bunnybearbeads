@@ -14,6 +14,7 @@ const products = defineCollection({
     description: localizedString,
     price: z.number(),
     currency: z.string().default('USD'),
+    categoryId: z.enum(['jewelry', 'beads', 'tools', 'findings']).default('jewelry'),
     category: localizedString,
     images: z.array(z.string()).default([]),
     inStock: z.boolean().default(true),

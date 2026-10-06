@@ -11,10 +11,11 @@
   },
   "price": 95,
   "currency": "USD",
+  "categoryId": "jewelry",
   "category": {
-    "en": "Brooches",
-    "ru": "Броши",
-    "vi": "Cài áo"
+    "en": "Finished Jewelry",
+    "ru": "Готовые украшения",
+    "vi": "Trang sức hoàn thiện"
   },
   "images": [],
   "inStock": true,

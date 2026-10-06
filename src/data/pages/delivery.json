@@ -1,0 +1,70 @@
+{
+  "seo": {
+    "title": {
+      "en": "Shipping, Delivery & Payment — BunnyBearBeads",
+      "ru": "Доставка, оплата и упаковка — BunnyBearBeads",
+      "vi": "Vận chuyển, Thanh toán & Đóng gói — BunnyBearBeads"
+    },
+    "description": {
+      "en": "Information about worldwide shipping, gift packaging, payment methods, and return policy.",
+      "ru": "Информация о доставке по всему миру, фирменной упаковке, способах оплаты и сроках отправки.",
+      "vi": "Thông tin về giao hàng toàn cầu, đóng gói hộp quà, phương thức thanh toán và thời gian vận chuyển."
+    }
+  },
+  "badge": {
+    "en": "Delivery & Care",
+    "ru": "Доставка & Забота",
+    "vi": "Vận chuyển & Tận tâm"
+  },
+  "title": {
+    "en": "Careful Delivery Across the Globe",
+    "ru": "Бережная доставка по всему миру",
+    "vi": "Giao hàng chu đáo trên toàn cầu"
+  },
+  "subtitle": {
+    "en": "Each piece is safely wrapped in our branded presentation box with tracking number provided",
+    "ru": "Каждое украшение и заказ бережно упаковываются в фирменную коробочку с трек-номером для отслеживания",
+    "vi": "Mỗi món trang sức đều được đóng gói tỉ mỉ trong hộp thương hiệu và cung cấp mã vận đơn theo dõi"
+  },
+  "sections": [
+    {
+      "icon": "📦",
+      "heading": {
+        "en": "Packaging & Gift Presentation",
+        "ru": "Фирменная подарочная упаковка",
+        "vi": "Đóng gói quà tặng sang trọng"
+      },
+      "text": {
+        "en": "Every finished piece arrives in an elegant rigid box lined with soft protective velvet, tied with a satin ribbon, and includes a handwritten note.",
+        "ru": "Все готовые изделия отправляются в жесткой премиальной коробочке с мягким бархатным ложементом, атласной лентой и памятной открыткой с теплыми пожеланиями.",
+        "vi": "Từng sản phẩm được đặt trong hộp cứng cao cấp lót nhung êm ái, thắt ruy băng trang nhã kèm thiệp cảm ơn viết tay ấm áp."
+      }
+    },
+    {
+      "icon": "✈️",
+      "heading": {
+        "en": "Worldwide Shipping Methods",
+        "ru": "Способы и география отправки",
+        "vi": "Phương thức vận chuyển quốc tế"
+      },
+      "text": {
+        "en": "We dispatch orders internationally via express airmail with door-to-door tracking. Typical delivery takes 7–14 business days depending on destination.",
+        "ru": "Отправляем заказы международной авиапочтой и экспресс-службами с полным трекингом до вашей двери. Сроки доставки обычно составляют от 7 до 14 рабочих дней.",
+        "vi": "Giao hàng quốc tế qua đường hàng không chuyển phát nhanh có mã tra cứu. Thời gian thông thường từ 7–14 ngày làm việc tùy khu vực."
+      }
+    },
+    {
+      "icon": "💳",
+      "heading": {
+        "en": "Payment Options",
+        "ru": "Способы оплаты",
+        "vi": "Hình thức thanh toán"
+      },
+      "text": {
+        "en": "We accept major international cards, PayPal, bank transfer, and crypto (USDT). For custom orders, a 50% deposit begins the artisanal process.",
+        "ru": "Принимаем банковские карты, онлайн-переводы, PayPal и криптовалюту (USDT). Для индивидуальных заказов работа начинается после предоплаты 50%.",
+        "vi": "Hỗ trợ thanh toán thẻ quốc tế, PayPal, chuyển khoản ngân hàng và tiền mã hóa (USDT). Với đơn làm riêng, bắt đầu chế tác sau khi đặt cọc 50%."
+      }
+    }
+  ]
+}

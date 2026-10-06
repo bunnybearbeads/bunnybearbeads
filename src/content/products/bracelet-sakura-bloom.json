@@ -11,10 +11,11 @@
   },
   "price": 55,
   "currency": "USD",
+  "categoryId": "jewelry",
   "category": {
-    "en": "Bracelets",
-    "ru": "Браслеты",
-    "vi": "Lắc tay"
+    "en": "Finished Jewelry",
+    "ru": "Готовые украшения",
+    "vi": "Trang sức hoàn thiện"
   },
   "images": [
     "/emblem-squared.png"

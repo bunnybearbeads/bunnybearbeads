@@ -15,8 +15,17 @@ const t = useTranslations(currentLang);
 const rawProducts = await getCollection('products');
 const products = rawProducts.map((p) => ({
   id: p.id,
+  categoryId: p.data.categoryId || 'jewelry',
   data: localize(p.data, currentLang),
 }));
+
+const categories = [
+  { id: 'all', label: t('cat.all') },
+  { id: 'jewelry', label: t('cat.jewelry') },
+  { id: 'beads', label: t('cat.beads') },
+  { id: 'findings', label: t('cat.findings') },
+  { id: 'tools', label: t('cat.tools') },
+];
 ---
 
 <Layout
@@ -27,15 +36,32 @@ const products = rawProducts.map((p) => ({
   <div class="container" style="padding-bottom: 80px;">
     <header class="page-header">
       <div class="welcome-badge">
-        <span>💎</span> {t('nav.catalog')}
+        <span>💎</span> {t('catalog.title')}
       </div>
       <h1 class="page-title">{t('catalog.title')}</h1>
       <p class="page-subtitle">{t('catalog.subtitle')}</p>
     </header>
 
-    <div class="products-grid">
+    <!-- Category Filter Tabs -->
+    <div class="catalog-filters" id="catalog-filters">
+      {categories.map((cat) => (
+        <button
+          type="button"
+          class:list={['filter-pill', { active: cat.id === 'all' }]}
+          data-category={cat.id}
+        >
+          {cat.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid" id="products-grid">
       {products.map((product) => (
-        <article class="product-card">
+        <article
+          class="product-card"
+          data-category={product.categoryId}
+        >
           {product.data.images && product.data.images.length > 0 ? (
             <div class="product-image-box">
               <img
@@ -49,7 +75,9 @@ const products = rawProducts.map((p) => ({
             </div>
           ) : (
             <div class="product-image-box product-placeholder-box">
-              <span class="placeholder-icon">📿</span>
+              <span class="placeholder-icon">
+                {product.categoryId === 'tools' ? '🛠️' : product.categoryId === 'beads' ? '✨' : product.categoryId === 'findings' ? '🧷' : '📿'}
+              </span>
               {product.data.badge && (
                 <span class="product-badge">{product.data.badge}</span>
               )}
@@ -81,3 +109,91 @@ const products = rawProducts.map((p) => ({
     </div>
   </div>
 </Layout>
+
+<style>
+  .catalog-filters {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 10px auto 40px;
+  }
+
+  .filter-pill {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-nav-link);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(212, 163, 89, 0.3);
+    padding: 8px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .filter-pill:hover {
+    background: white;
+    border-color: var(--accent-gold);
+    color: var(--color-brand-dark);
+  }
+
+  .filter-pill.active {
+    background: var(--color-brand-dark);
+    color: #FAF7F2;
+    border-color: var(--color-brand-dark);
+    box-shadow: 0 4px 12px rgba(61, 46, 36, 0.2);
+  }
+
+  .product-card.hidden {
+    display: none !important;
+  }
+</style>
+
+<script>
+  // Filter products by category (reads query param or click on filter pills)
+  function setupFilters() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialCategory = urlParams.get('category') || 'all';
+
+    const buttons = document.querySelectorAll<HTMLButtonElement>('#catalog-filters .filter-pill');
+    const cards = document.querySelectorAll<HTMLElement>('#products-grid .product-card');
+
+    function applyFilter(category: string) {
+      buttons.forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.category === category);
+      });
+
+      cards.forEach((card) => {
+        const itemCat = card.dataset.category;
+        if (category === 'all' || itemCat === category) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.category || 'all';
+        applyFilter(cat);
+        const newUrl = new URL(window.location.href);
+        if (cat === 'all') {
+          newUrl.searchParams.delete('category');
+        } else {
+          newUrl.searchParams.set('category', cat);
+        }
+        window.history.pushState({}, '', newUrl.toString());
+      });
+    });
+
+    if (initialCategory && initialCategory !== 'all') {
+      applyFilter(initialCategory);
+    }
+  }
+
+  setupFilters();
+  window.addEventListener('popstate', setupFilters);
+</script>
