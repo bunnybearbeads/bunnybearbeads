@@ -1,0 +1,340 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Accent from '../../components/Accent/Accent.astro';
+import { getStaticLangPaths, resolveLang, localize } from '../../utils/i18n';
+import orderDataRaw from '../../data/pages/order.json';
+
+export function getStaticPaths() {
+  return getStaticLangPaths();
+}
+
+const { lang: langParam } = Astro.params;
+const currentLang = resolveLang(langParam);
+const order = localize(orderDataRaw, currentLang);
+---
+
+<Layout
+  lang={currentLang}
+  title={order.seo.title}
+  description={order.seo.description}
+>
+  <div class="container" style="padding-bottom: 80px;">
+    <!-- Page Header -->
+    <header class="page-header">
+      <div class="welcome-badge">
+        <span>✨</span> {order.badge}
+      </div>
+      <h1 class="page-title">{order.title}</h1>
+      <p class="page-subtitle">{order.subtitle}</p>
+    </header>
+
+    <!-- Main Telegram Callout Banner -->
+    <section class="order-telegram-banner">
+      <div class="telegram-banner-icon">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </div>
+
+      <div class="telegram-banner-content">
+        <h2>{order.telegramCta.heading} <Accent>💬</Accent></h2>
+        <p class="telegram-banner-text">{order.telegramCta.text}</p>
+
+        <div class="telegram-banner-actions">
+          <a
+            href={order.telegramCta.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-telegram"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.37.74-.56 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.37.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24-.01.44z"/>
+            </svg>
+            <span>{order.telegramCta.button}</span>
+          </a>
+
+          <span class="telegram-banner-note">
+            ⚡ {order.telegramCta.note}
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 Steps of Custom Creation -->
+    <section class="order-steps-section">
+      <div class="steps-grid">
+        {order.steps.map((st: any) => (
+          <div class="step-card">
+            <div class="step-card-header">
+              <span class="step-number">{st.step}</span>
+              <span class="step-icon">{st.icon}</span>
+            </div>
+            <h3 class="step-title">{st.title}</h3>
+            <p class="step-desc">{st.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Checklist / Tips Section -->
+    <section class="order-checklist-card">
+      <div class="checklist-header">
+        <span class="checklist-icon">💡</span>
+        <h2>{order.checklistHeading}</h2>
+      </div>
+
+      <ul class="checklist-items">
+        {order.checklist.map((item: string) => (
+          <li class="checklist-item">
+            <span class="check-bullet">✔</span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="checklist-footer">
+        <a
+          href={order.telegramCta.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-primary"
+          style="padding: 14px 32px;"
+        >
+          <span>💌</span> {order.telegramCta.button}
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  /* Telegram Banner */
+  .order-telegram-banner {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 243, 237, 0.95) 100%);
+    border: 1px solid rgba(42, 123, 136, 0.25);
+    border-radius: 20px;
+    padding: 38px 44px;
+    margin: 10px auto 48px;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    box-shadow: 0 16px 36px rgba(60, 45, 30, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .order-telegram-banner::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(42, 123, 136, 0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .telegram-banner-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #2A7B88 0%, #205E68 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 8px 20px rgba(42, 123, 136, 0.35);
+  }
+
+  .telegram-banner-content h2 {
+    font-size: 26px;
+    margin-bottom: 12px;
+    color: var(--color-brand-dark);
+  }
+
+  .telegram-banner-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    max-width: 760px;
+  }
+
+  .telegram-banner-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn-telegram {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #2A7B88 0%, #1f646f 100%);
+    color: #FAF7F2;
+    padding: 14px 28px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 16px rgba(42, 123, 136, 0.3);
+  }
+
+  .btn-telegram:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(42, 123, 136, 0.45);
+    background: linear-gradient(135deg, #328f9e 0%, #257480 100%);
+    color: white;
+  }
+
+  .telegram-banner-note {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  /* Steps Grid */
+  .order-steps-section {
+    margin-bottom: 48px;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .step-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(212, 163, 89, 0.25);
+    border-radius: 16px;
+    padding: 26px 22px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 24px rgba(60, 45, 30, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .step-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(60, 45, 30, 0.1);
+  }
+
+  .step-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .step-number {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-brand-gold-dark, #A87834);
+    opacity: 0.85;
+  }
+
+  .step-icon {
+    font-size: 26px;
+  }
+
+  .step-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+    margin-bottom: 10px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-dark);
+    margin: 0;
+  }
+
+  /* Checklist Card */
+  .order-checklist-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 18px;
+    padding: 36px 40px;
+    box-shadow: 0 12px 30px rgba(60, 45, 30, 0.07);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .checklist-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .checklist-icon {
+    font-size: 28px;
+  }
+
+  .checklist-header h2 {
+    font-size: 22px;
+    color: var(--color-brand-dark);
+    margin: 0;
+  }
+
+  .checklist-items {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--text-dark);
+    line-height: 1.55;
+  }
+
+  .check-bullet {
+    color: var(--accent-teal, #2A7B88);
+    font-weight: 700;
+    font-size: 16px;
+    margin-top: 1px;
+  }
+
+  .checklist-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(212, 163, 89, 0.3);
+  }
+
+  @media (max-width: 960px) {
+    .order-telegram-banner {
+      flex-direction: column;
+      padding: 28px 24px;
+    }
+    .steps-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .steps-grid {
+      grid-template-columns: 1fr;
+    }
+    .order-checklist-card {
+      padding: 24px 20px;
+    }
+  }
+</style>

@@ -79,13 +79,15 @@ const product = localize(productRaw.data, currentLang);
           </div>
         )}
 
-        <div class="cta-buttons" style="margin-top: 32px;">
+        <div class="cta-buttons" style="margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap;">
           <a
-            href={getLocalizedUrl('/contacts', currentLang)}
+            href="https://t.me/bunnybearbeads"
+            target="_blank"
+            rel="noopener noreferrer"
             class="btn btn-primary"
-            style="padding: 16px 36px; font-size: 16px;"
+            style="padding: 16px 36px; font-size: 16px; display: inline-flex; align-items: center; gap: 10px;"
           >
-            <span>💌</span> {t('catalog.order_piece')}
+            <span>✈️</span> {t('catalog.order_piece')} (Telegram)
           </a>
         </div>
       </div>

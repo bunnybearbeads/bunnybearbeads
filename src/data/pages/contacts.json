@@ -1,14 +1,14 @@
 {
   "seo": {
     "title": {
-      "en": "Contacts & Custom Orders — BunnyBearBeads",
-      "ru": "Контакты & Индивидуальный заказ — BunnyBearBeads",
-      "vi": "Liên Hệ & Đặt Làm Theo Yêu Cầu — BunnyBearBeads"
+      "en": "Contacts & Telegram — BunnyBearBeads",
+      "ru": "Контакты & Связь в Telegram — BunnyBearBeads",
+      "vi": "Liên Hệ & Telegram — BunnyBearBeads"
     },
     "description": {
-      "en": "Commission a bespoke handmade bead piece, inquire about shipping, or message Anna directly.",
-      "ru": "Заказ авторского украшения из бисера, вопросы доставки и прямая связь с мастером BunnyBearBeads.",
-      "vi": "Đặt làm trang sức theo yêu cầu riêng, tư vấn kích cỡ hoặc trò chuyện cùng nghệ nhân."
+      "en": "Contact Anna directly via Telegram for orders, custom pieces, and inquiries.",
+      "ru": "Прямая связь с мастером BunnyBearBeads в Telegram. Заказ украшений, вопросы по наличию и доставке.",
+      "vi": "Liên hệ trực tiếp với nghệ nhân qua Telegram để đặt trang sức và tư vấn."
     }
   },
   "badge": {
@@ -17,47 +17,96 @@
     "vi": "Liên hệ"
   },
   "title": {
-    "en": "Let's Create Something Magical",
+    "en": "Get in Touch with Anna",
     "ru": "Связаться с мастерской",
     "vi": "Liên hệ với chúng mình"
   },
   "subtitle": {
-    "en": "Commission a personalized piece, ask questions, or discuss ideas for a custom gift",
-    "ru": "Заказ индивидуального украшения, вопросы по уходу и доставка по всему миру",
-    "vi": "Đặt làm trang sức theo yêu cầu riêng, tư vấn kích cỡ hoặc trò chuyện cùng nghệ nhân"
+    "en": "All orders, questions, and consultations are handled directly via Telegram",
+    "ru": "Все заказы, консультации и оформление доставки проходят напрямую в Telegram",
+    "vi": "Mọi đơn hàng, tư vấn và hỗ trợ đều được xử lý trực tiếp qua Telegram"
   },
   "introHeading": {
-    "en": "We'd love to hear from you",
-    "ru": "Буду рада воплотить вашу идею",
-    "vi": "Chúng mình rất vui được lắng nghe bạn"
+    "en": "Fast & Personal Communication",
+    "ru": "Живое и быстрое общение",
+    "vi": "Trao đổi nhanh chóng & thân thiện"
   },
   "introText": {
-    "en": "Whether you want a bespoke bridal choker, a protective amulet bracelet, or a thoughtful surprise for a loved one, drop a message through your favorite channel below.",
-    "ru": "Напишите мне в удобном мессенджере или оставьте заявку через форму — обсудим цветовую гамму, размер и детали будущего украшения.",
-    "vi": "Dù bạn muốn một phụ kiện ngày cưới đặc biệt hay một món quà ý nghĩa, hãy nhắn tin cho BunnyBearBeads nhé."
+    "en": "We retired slow website email forms in favor of direct conversation. Telegram is our main hub where you can ask questions, order pieces, or discuss ideas in real time.",
+    "ru": "Мы убрали обезличенные формы на сайте в пользу быстрого и удобного общения. В Telegram вы можете напрямую задать любой вопрос, прислать фото или оформить заказ за пару минут.",
+    "vi": "Chúng mình không dùng biểu mẫu email chậm trễ mà ưu tiên trò chuyện trực tiếp. Telegram là nơi thuận tiện nhất để bạn đặt hàng và nhận tư vấn nhanh chóng."
+  },
+  "telegramBox": {
+    "badge": {
+      "en": "Primary Channel",
+      "ru": "Основной канал связи",
+      "vi": "Kênh liên lạc chính"
+    },
+    "heading": {
+      "en": "Message Anna on Telegram",
+      "ru": "Написать мастеру в Telegram",
+      "vi": "Nhắn tin cho nghệ nhân qua Telegram"
+    },
+    "description": {
+      "en": "Click the button below to start a chat. You can send screenshots of items you love or ask about custom sizing.",
+      "ru": "Нажмите на кнопку, чтобы открыть диалог. Можно сразу отправить скриншот понравившегося украшения из каталога или задать вопрос по размеру.",
+      "vi": "Bấm vào nút bên dưới để mở cuộc trò chuyện. Bạn có thể gửi ảnh sản phẩm bạn thích hoặc hỏi về kích thước."
+    },
+    "btnText": {
+      "en": "Open Telegram Chat (@bunnybearbeads)",
+      "ru": "Открыть диалог в Telegram (@bunnybearbeads)",
+      "vi": "Mở trò chuyện Telegram (@bunnybearbeads)"
+    },
+    "url": "https://t.me/bunnybearbeads",
+    "handle": "@bunnybearbeads",
+    "perks": [
+      {
+        "icon": "⚡",
+        "title": {
+          "en": "Quick Personal Replies",
+          "ru": "Быстрый ответ мастера",
+          "vi": "Phản hồi nhanh chóng"
+        },
+        "text": {
+          "en": "No bots — Anna responds personally and helps with choices.",
+          "ru": "Никаких ботов — Анна отвечает лично и помогает с выбором.",
+          "vi": "Không dùng bot — Anna trực tiếp trả lời và tư vấn."
+        }
+      },
+      {
+        "icon": "📸",
+        "title": {
+          "en": "Photos & Video Updates",
+          "ru": "Фото и видео перед отправкой",
+          "vi": "Xem ảnh & video trước khi gửi"
+        },
+        "text": {
+          "en": "See real photos and close-ups of your order before shipping.",
+          "ru": "Покажем изделие со всех ракурсов перед бережной упаковкой.",
+          "vi": "Gửi ảnh cận cảnh sản phẩm trước khi đóng gói gửi đi."
+        }
+      },
+      {
+        "icon": "✨",
+        "title": {
+          "en": "Custom Sizing & Adjustments",
+          "ru": "Подбор идеального размера",
+          "vi": "Tư vấn kích cỡ chuẩn xác"
+        },
+        "text": {
+          "en": "We'll advise on wrist or ring measurements for a perfect fit.",
+          "ru": "Поможем снять мерки запястья или пальца для идеальной посадки.",
+          "vi": "Hướng dẫn đo cổ tay hoặc ngón tay để vừa vặn hoàn hảo."
+        }
+      }
+    ]
   },
   "channels": {
-    "location": {
-      "label": {
-        "en": "Studio Location",
-        "ru": "Локация мастерской",
-        "vi": "Xưởng sáng tạo"
-      },
-      "value": "Da Nang / Worldwide Shipping"
-    },
-    "email": {
-      "label": {
-        "en": "Email",
-        "ru": "Электронная почта",
-        "vi": "Email"
-      },
-      "value": "hello@bunnybearbeads.com"
-    },
     "telegram": {
       "label": {
-        "en": "Telegram",
-        "ru": "Telegram",
-        "vi": "Telegram"
+        "en": "Telegram (Main)",
+        "ru": "Telegram (Основной)",
+        "vi": "Telegram (Kênh chính)"
       },
       "value": "@bunnybearbeads",
       "url": "https://t.me/bunnybearbeads"
@@ -70,33 +119,22 @@
       },
       "value": "@bunnybearbeads",
       "url": "https://instagram.com/bunnybearbeads"
-    }
-  },
-  "form": {
-    "heading": {
-      "en": "Leave a Message",
-      "ru": "Написать сообщение",
-      "vi": "Gửi tin nhắn"
     },
-    "nameLabel": {
-      "en": "Your Name",
-      "ru": "Ваше имя",
-      "vi": "Họ và tên"
+    "email": {
+      "label": {
+        "en": "Email (Inquiries)",
+        "ru": "Электронная почта",
+        "vi": "Email liên hệ"
+      },
+      "value": "hello@bunnybearbeads.com"
     },
-    "contactLabel": {
-      "en": "Email or Telegram handle",
-      "ru": "Email или Telegram для связи",
-      "vi": "Email hoặc Telegram/Zalo"
-    },
-    "messageLabel": {
-      "en": "Tell us about your wish...",
-      "ru": "Опишите ваше пожелание...",
-      "vi": "Ý tưởng hoặc yêu cầu của bạn..."
-    },
-    "submitBtn": {
-      "en": "Send Inquiry",
-      "ru": "Отправить заявку",
-      "vi": "Gửi tin nhắn"
+    "location": {
+      "label": {
+        "en": "Studio Location",
+        "ru": "Локация мастерской",
+        "vi": "Xưởng sáng tạo"
+      },
+      "value": "Da Nang / Worldwide Shipping"
     }
   }
 }

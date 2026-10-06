@@ -28,6 +28,7 @@ export const defaultLang: SupportedLanguage = 'en';
 export const ui = {
   en: {
     // Top Bar Links
+    'nav.order': 'Custom Order',
     'nav.about': 'About Us',
     'nav.contacts': 'Contacts & Socials',
     'nav.where_to_buy': 'Where to Buy',
@@ -75,6 +76,7 @@ export const ui = {
   },
   ru: {
     // Top Bar Links
+    'nav.order': 'Заказать украшение',
     'nav.about': 'О нас',
     'nav.contacts': 'Контакты и соц.сети',
     'nav.where_to_buy': 'Где купить',
@@ -122,6 +124,7 @@ export const ui = {
   },
   vi: {
     // Top Bar Links
+    'nav.order': 'Đặt làm trang sức',
     'nav.about': 'Về chúng mình',
     'nav.contacts': 'Liên hệ & Mạng xã hội',
     'nav.where_to_buy': 'Điểm bán',
