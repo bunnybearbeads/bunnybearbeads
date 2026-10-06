@@ -37,27 +37,32 @@ const topNavItems = [
   { href: translatePath('/delivery'), label: t('nav.delivery'), isActive: currentCleanPath.startsWith('/delivery') },
 ];
 
-// Main 3 Catalog Categories
+// Main Catalog Categories
 const categoryItems = [
   {
-    href: translatePath('/catalog?category=jewelry'),
-    label: t('cat.jewelry'),
-    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'jewelry',
+    href: translatePath('/catalog?category=bracelets'),
+    label: t('cat.bracelets'),
+    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'bracelets',
   },
   {
-    href: translatePath('/catalog?category=beads'),
-    label: t('cat.beads'),
-    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'beads',
+    href: translatePath('/catalog?category=rings'),
+    label: t('cat.rings'),
+    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'rings',
   },
   {
-    href: translatePath('/catalog?category=findings'),
-    label: t('cat.findings'),
-    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'findings',
+    href: translatePath('/catalog?category=phone-charms'),
+    label: t('cat.phone_charms'),
+    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'phone-charms',
   },
   {
-    href: translatePath('/catalog?category=tools'),
-    label: t('cat.tools'),
-    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'tools',
+    href: translatePath('/catalog?category=keychains'),
+    label: t('cat.keychains'),
+    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'keychains',
+  },
+  {
+    href: translatePath('/catalog?category=other'),
+    label: t('cat.other'),
+    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'other',
   },
 ];
 ---

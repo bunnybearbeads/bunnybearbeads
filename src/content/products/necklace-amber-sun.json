@@ -11,11 +11,11 @@
   },
   "price": 120,
   "currency": "USD",
-  "categoryId": "jewelry",
+  "categoryId": "other",
   "category": {
-    "en": "Finished Jewelry",
-    "ru": "Готовые украшения",
-    "vi": "Trang sức hoàn thiện"
+    "en": "Other",
+    "ru": "Разное",
+    "vi": "Khác"
   },
   "images": [
     "/beadwork_hero.png"

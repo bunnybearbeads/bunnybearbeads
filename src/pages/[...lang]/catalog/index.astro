@@ -15,16 +15,17 @@ const t = useTranslations(currentLang);
 const rawProducts = await getCollection('products');
 const products = rawProducts.map((p) => ({
   id: p.id,
-  categoryId: p.data.categoryId || 'jewelry',
+  categoryId: p.data.categoryId || 'bracelets',
   data: localize(p.data, currentLang),
 }));
 
 const categories = [
   { id: 'all', label: t('cat.all') },
-  { id: 'jewelry', label: t('cat.jewelry') },
-  { id: 'beads', label: t('cat.beads') },
-  { id: 'findings', label: t('cat.findings') },
-  { id: 'tools', label: t('cat.tools') },
+  { id: 'bracelets', label: t('cat.bracelets') },
+  { id: 'rings', label: t('cat.rings') },
+  { id: 'phone-charms', label: t('cat.phone_charms') },
+  { id: 'keychains', label: t('cat.keychains') },
+  { id: 'other', label: t('cat.other') },
 ];
 ---
 
@@ -76,7 +77,15 @@ const categories = [
           ) : (
             <div class="product-image-box product-placeholder-box">
               <span class="placeholder-icon">
-                {product.categoryId === 'tools' ? '🛠️' : product.categoryId === 'beads' ? '✨' : product.categoryId === 'findings' ? '🧷' : '📿'}
+                {product.categoryId === 'phone-charms'
+                  ? '📱'
+                  : product.categoryId === 'keychains'
+                  ? '🔑'
+                  : product.categoryId === 'rings'
+                  ? '💍'
+                  : product.categoryId === 'bracelets'
+                  ? '📿'
+                  : '✨'}
               </span>
               {product.data.badge && (
                 <span class="product-badge">{product.data.badge}</span>

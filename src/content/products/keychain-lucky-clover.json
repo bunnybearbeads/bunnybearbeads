@@ -1,0 +1,34 @@
+{
+  "title": {
+    "en": "Lucky Clover Beaded Keychain",
+    "ru": "Брелок «Четырехлистный клевер»",
+    "vi": "Móc khóa Cỏ Bốn Lá May Mắn"
+  },
+  "description": {
+    "en": "Intricately woven four-leaf clover keychain beaded with emerald Delica seed beads on a gold-plated swivel snap hook.",
+    "ru": "Брелок в виде четырехлистника на удачу из изумрудного японского бисера Delica с надежным карабином под золото.",
+    "vi": "Móc khóa cỏ bốn lá may mắn đan tỉ mỉ từ hạt cườm ngọc lục bảo Delica cùng móc khóa mạ vàng tiện lợi."
+  },
+  "price": 32,
+  "currency": "USD",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica Beads",
+    "Gold-plated Carabiner Hook",
+    "Braided Beading Cord"
+  ],
+  "badge": {
+    "en": "Luck",
+    "ru": "На удачу",
+    "vi": "May mắn"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "title": {
+    "en": "BunnyBear Beaded Teddy Keychain",
+    "ru": "Брелок «Мишка BunnyBear»",
+    "vi": "Móc khóa Gấu Nhỏ BunnyBear"
+  },
+  "description": {
+    "en": "Signature 3D sculpted beaded teddy bear figurine charm with movable arms and a sweet golden bow tie.",
+    "ru": "Фирменный объемный брелок-мишка ручного плетения с подвижными лапками и золотым бантиком.",
+    "vi": "Móc khóa hình chú gấu 3D biểu tượng của thương hiệu đan cườm thủ công với tay chân cử động và nơ vàng xinh xắn."
+  },
+  "price": 42,
+  "currency": "USD",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [],
+  "inStock": true,
+  "materials": [
+    "Toho Matte Cream Beads",
+    "Gold Seed Beads",
+    "Stainless Key Ring & Chain"
+  ],
+  "badge": {
+    "en": "Signature",
+    "ru": "Фирменный",
+    "vi": "Đặc trưng"
+  }
+}

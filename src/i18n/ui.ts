@@ -35,22 +35,23 @@ export const ui = {
     'nav.delivery': 'Delivery',
     'nav.language': 'Language',
 
-    // Main Categories (Lower Header)
-    'cat.all': 'All Catalog',
-    'cat.jewelry': 'Finished Jewelry',
-    'cat.beads': 'Beads',
-    'cat.tools': 'Tools',
-    'cat.findings': 'Findings',
+    // Main Categories (Lower Header & Catalog Filters)
+    'cat.all': 'All',
+    'cat.bracelets': 'Bracelets',
+    'cat.rings': 'Rings',
+    'cat.phone_charms': 'Phone Charms',
+    'cat.keychains': 'Keychains',
+    'cat.other': 'Other',
     'search.label': 'Search',
-    'search.placeholder': 'Search jewelry, beads, tools...',
+    'search.placeholder': 'Search jewelry, phone charms, rings...',
 
     // Site meta
     'site.title': 'BunnyBearBeads — Handcrafted Beadwork & Artisan Jewelry',
-    'site.description': 'Unique handmade beadwork jewelry, Japanese Miyuki beads, and precision craft tools.',
+    'site.description': 'Unique handmade beadwork jewelry, custom phone charms, rings, and accessories.',
 
     // Catalog UI
-    'catalog.title': 'Product Catalog',
-    'catalog.subtitle': 'Artisan finished jewelry, premium Japanese seed beads, and precision weaving tools',
+    'catalog.title': 'Finished Jewelry & Charms',
+    'catalog.subtitle': 'Artisan handcrafted beaded jewelry, delicate charms, and bespoke accessories',
     'catalog.in_stock': 'In Stock',
     'catalog.order_piece': 'Order / Inquire',
     'catalog.view_details': 'View Details',
@@ -81,22 +82,23 @@ export const ui = {
     'nav.delivery': 'Доставка',
     'nav.language': 'Язык',
 
-    // Main Categories (Lower Header)
-    'cat.all': 'Весь каталог',
-    'cat.jewelry': 'Готовые украшения',
-    'cat.beads': 'Бисер',
-    'cat.tools': 'Инструменты',
-    'cat.findings': 'Фурнитура',
+    // Main Categories (Lower Header & Catalog Filters)
+    'cat.all': 'Всё',
+    'cat.bracelets': 'Браслеты',
+    'cat.rings': 'Кольца',
+    'cat.phone_charms': 'Фончармы (на телефон)',
+    'cat.keychains': 'Брелоки на ключи',
+    'cat.other': 'Разное',
     'search.label': 'Поиск',
-    'search.placeholder': 'Поиск украшений, бисера, инструментов...',
+    'search.placeholder': 'Поиск украшений, фончармов, колец...',
 
     // Site meta
-    'site.title': 'BunnyBearBeads — Авторские украшения из бисера & Рукоделие',
-    'site.description': 'Уникальные авторские украшения из бисера, японский бисер Miyuki и инструменты для рукоделия.',
+    'site.title': 'BunnyBearBeads — Авторские украшения из бисера & Аксессуары',
+    'site.description': 'Уникальные авторские украшения из бисера, стильные фончармы на телефон, кольца и браслеты.',
 
     // Catalog UI
-    'catalog.title': 'Каталог продукции',
-    'catalog.subtitle': 'Авторские готовые украшения, японский бисер премиум-класса и профессиональные инструменты',
+    'catalog.title': 'Каталог украшений & аксессуаров',
+    'catalog.subtitle': 'Авторские украшения ручной работы из бисера, трендовые фончармы и уникальные изделия',
     'catalog.in_stock': 'В наличии',
     'catalog.order_piece': 'Заказать',
     'catalog.view_details': 'Подробнее',
@@ -127,22 +129,23 @@ export const ui = {
     'nav.delivery': 'Vận chuyển',
     'nav.language': 'Ngôn ngữ',
 
-    // Main Categories (Lower Header)
-    'cat.all': 'Tất cả danh mục',
-    'cat.jewelry': 'Trang sức hoàn thiện',
-    'cat.beads': 'Hạt cườm',
-    'cat.tools': 'Dụng cụ',
-    'cat.findings': 'Phụ kiện',
+    // Main Categories (Lower Header & Catalog Filters)
+    'cat.all': 'Tất cả',
+    'cat.bracelets': 'Vòng tay',
+    'cat.rings': 'Nhẫn',
+    'cat.phone_charms': 'Dây đeo điện thoại (Phone Charms)',
+    'cat.keychains': 'Móc khóa',
+    'cat.other': 'Khác',
     'search.label': 'Tìm kiếm',
-    'search.placeholder': 'Tìm kiếm trang sức, hạt cườm, dụng cụ...',
+    'search.placeholder': 'Tìm kiếm trang sức, dây đeo, nhẫn...',
 
     // Site meta
-    'site.title': 'BunnyBearBeads — Trang sức cườm thủ công & Dụng cụ đan cườm',
-    'site.description': 'Trang sức cườm thủ công độc bản, hạt cườm Miyuki Nhật Bản và dụng cụ đan cườm tinh xảo.',
+    'site.title': 'BunnyBearBeads — Trang sức cườm thủ công & Phụ kiện',
+    'site.description': 'Trang sức cườm thủ công độc bản, dây đeo charm điện thoại, nhẫn và phụ kiện tinh tế.',
 
     // Catalog UI
-    'catalog.title': 'Danh Mục Sản Phẩm',
-    'catalog.subtitle': 'Trang sức cườm thủ công, hạt cườm Nhật Bản cao cấp và dụng cụ chuyên nghiệp',
+    'catalog.title': 'Danh Mục Trang Sức & Phụ Kiện',
+    'catalog.subtitle': 'Trang sức cườm thủ công độc bản, dây đeo điện thoại xinh xắn và phụ kiện tinh tế',
     'catalog.in_stock': 'Còn hàng',
     'catalog.order_piece': 'Đặt mua / Tư vấn',
     'catalog.view_details': 'Xem chi tiết',
