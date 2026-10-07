@@ -1,0 +1,52 @@
+{
+  "order": 30,
+  "createdAt": "2026-10-14",
+  "title": {
+    "en": "Cotton-Ball",
+    "ru": "Cotton-Ball",
+    "vi": "Cotton-Ball"
+  },
+  "description": {
+    "en": "This is not a cloud, it is just a very small sheep for your phone. It has zero thoughts, only fluffy vibes and a soft aesthetic energy. It does a tiny sit right next to your screen to make your tech look 100% more cozy. Very good at hanging out, absolutely professional at being a gentle puff.",
+    "ru": "This is not a cloud, it is just a very small sheep for your phone. It has zero thoughts, only fluffy vibes and a soft aesthetic energy. It does a tiny sit right next to your screen to make your tech look 100% more cozy. Very good at hanging out, absolutely professional at being a gentle puff.",
+    "vi": "This is not a cloud, it is just a very small sheep for your phone. It has zero thoughts, only fluffy vibes and a soft aesthetic energy. It does a tiny sit right next to your screen to make your tech look 100% more cozy. Very good at hanging out, absolutely professional at being a gentle puff."
+  },
+  "price": 100000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 10, 201, 214, 1883, 2114, 2354",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 201, 214, 1883, 2114, 2354</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

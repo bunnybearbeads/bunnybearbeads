@@ -1,0 +1,63 @@
+{
+  "order": 26,
+  "createdAt": "2026-10-10",
+  "title": {
+    "en": "Moon Hunter",
+    "ru": "Moon Hunter",
+    "vi": "Moon Hunter"
+  },
+  "description": {
+    "en": "Soft, silent, and always on the prowl. This misty guardian proves that the internet is best explored after hours. Pick up your phone, dim the lights, and go search the deep corners of the web for something rare and untouched. Happy hunting. 🐺🖤",
+    "ru": "Soft, silent, and always on the prowl. This misty guardian proves that the internet is best explored after hours. Pick up your phone, dim the lights, and go search the deep corners of the web for something rare and untouched. Happy hunting. 🐺🖤",
+    "vi": "Soft, silent, and always on the prowl. This misty guardian proves that the internet is best explored after hours. Pick up your phone, dim the lights, and go search the deep corners of the web for something rare and untouched. Happy hunting. 🐺🖤"
+  },
+  "price": 135000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 10, 200, 2367",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 200, 2367</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 3
+    },
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "Bestseller",
+    "ru": "Хит продаж",
+    "vi": "Bán chạy"
+  }
+}

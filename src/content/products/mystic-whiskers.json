@@ -1,0 +1,46 @@
+{
+  "order": 4,
+  "createdAt": "2026-09-18",
+  "title": {
+    "en": "Mystic Whiskers",
+    "ru": "Mystic Whiskers",
+    "vi": "Mystic Whiskers"
+  },
+  "description": {
+    "en": "Warning: high risk of cute distraction. This little fellow is just hanging around, pretending to be helpful while actually just looking adorable next to your hands all day. Ready to judge your screen time limits, but silently. Affection is the only limit today.",
+    "ru": "Warning: high risk of cute distraction. This little fellow is just hanging around, pretending to be helpful while actually just looking adorable next to your hands all day. Ready to judge your screen time limits, but silently. Affection is the only limit today.",
+    "vi": "Warning: high risk of cute distraction. This little fellow is just hanging around, pretending to be helpful while actually just looking adorable next to your hands all day. Ready to judge your screen time limits, but silently. Affection is the only limit today."
+  },
+  "price": 140000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 10, 38, 200, 214, 1137, 2114, 2367",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 38, 200, 214, 1137, 2114, 2367</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://youtube.com\" target=\"_blank\" rel=\"noopener noreferrer\">Зелёная Птичка</a> (YouTube)",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "order": 31,
+  "createdAt": "2026-10-15",
+  "title": {
+    "en": "Delicate Pawsitivity",
+    "ru": "Delicate Pawsitivity",
+    "vi": "Delicate Pawsitivity"
+  },
+  "description": {
+    "en": "Soft, round, and completely charming, this touch of pure luster is always tagging along with you. It’s for those moments when you just want to squeeze the soft pads of your pet's paws, but they aren't around. Just run your finger over the charm whenever you miss that favorite routine.",
+    "ru": "Soft, round, and completely charming, this touch of pure luster is always tagging along with you. It’s for those moments when you just want to squeeze the soft pads of your pet's paws, but they aren't around. Just run your finger over the charm whenever you miss that favorite routine.",
+    "vi": "Soft, round, and completely charming, this touch of pure luster is always tagging along with you. It’s for those moments when you just want to squeeze the soft pads of your pet's paws, but they aren't around. Just run your finger over the charm whenever you miss that favorite routine."
+  },
+  "price": 125000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 551, 201",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 551, 201</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 2
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "Bestseller",
+    "ru": "Хит продаж",
+    "vi": "Bán chạy"
+  }
+}

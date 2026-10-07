@@ -1,0 +1,58 @@
+{
+  "order": 12,
+  "createdAt": "2026-09-26",
+  "title": {
+    "en": "Zephyr Janus",
+    "ru": "Zephyr Janus",
+    "vi": "Zephyr Janus"
+  },
+  "description": {
+    "en": "Resting in your hands, an enigmatic guardian with a vision unlike any other, offering a steady, calming presence. This serene soul requires no words to show that it understands exactly what you are thinking, acting as a tranquil guide that turns every moment into a deep, mindful connection.",
+    "ru": "Resting in your hands, an enigmatic guardian with a vision unlike any other, offering a steady, calming presence. This serene soul requires no words to show that it understands exactly what you are thinking, acting as a tranquil guide that turns every moment into a deep, mindful connection.",
+    "vi": "Resting in your hands, an enigmatic guardian with a vision unlike any other, offering a steady, calming presence. This serene soul requires no words to show that it understands exactly what you are thinking, acting as a tranquil guide that turns every moment into a deep, mindful connection."
+  },
+  "price": 165000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 2112  •  Aiko colors: 41, 49, 121, 124b, 131",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 2112  •  Aiko colors: 41, 49, 121, 124b, 131</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<span>Бижутерия Лапками</span>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 3
+    },
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

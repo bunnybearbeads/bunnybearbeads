@@ -1,0 +1,58 @@
+{
+  "order": 33,
+  "createdAt": "2026-10-17",
+  "title": {
+    "en": "Lone Wave Rider",
+    "ru": "Lone Wave Rider",
+    "vi": "Lone Wave Rider"
+  },
+  "description": {
+    "en": "No captain, no map, big dream, brave sail. Close your eyes for a moment—imagine the wood, the salt, the wind. This pocket-sized weather capsule anchors those small feelings, a charm that keeps the memory of shorelines and long light.",
+    "ru": "No captain, no map, big dream, brave sail. Close your eyes for a moment—imagine the wood, the salt, the wind. This pocket-sized weather capsule anchors those small feelings, a charm that keeps the memory of shorelines and long light.",
+    "vi": "No captain, no map, big dream, brave sail. Close your eyes for a moment—imagine the wood, the salt, the wind. This pocket-sized weather capsule anchors those small feelings, a charm that keeps the memory of shorelines and long light."
+  },
+  "price": 150000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 200, 551, 2113, 2122",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 200, 551, 2113, 2122</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 3
+    },
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

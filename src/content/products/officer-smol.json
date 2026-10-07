@@ -1,0 +1,51 @@
+{
+  "order": 29,
+  "createdAt": "2026-10-13",
+  "title": {
+    "en": "Officer Smol",
+    "ru": "Officer Smol",
+    "vi": "Officer Smol"
+  },
+  "description": {
+    "en": "Meet your phone’s new best friend. It’s smol, it’s not do a big, and it just do a dangle to bring some purr-fectly balanced aesthetic energy to your daily tech layout. It just want to hang out together and look cute next to your screen every single day.",
+    "ru": "Meet your phone’s new best friend. It’s smol, it’s not do a big, and it just do a dangle to bring some purr-fectly balanced aesthetic energy to your daily tech layout. It just want to hang out together and look cute next to your screen every single day.",
+    "vi": "Meet your phone’s new best friend. It’s smol, it’s not do a big, and it just do a dangle to bring some purr-fectly balanced aesthetic energy to your daily tech layout. It just want to hang out together and look cute next to your screen every single day."
+  },
+  "price": 140000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 10, 200, 731, 2114, 2367",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 200, 731, 2114, 2367</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 2
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "New",
+    "ru": "Новинка",
+    "vi": "Mới ra mắt"
+  }
+}

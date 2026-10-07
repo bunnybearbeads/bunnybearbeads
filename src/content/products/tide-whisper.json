@@ -1,0 +1,52 @@
+{
+  "order": 3,
+  "createdAt": "2026-09-17",
+  "title": {
+    "en": "Tide Whisper",
+    "ru": "Tide Whisper",
+    "vi": "Tide Whisper"
+  },
+  "description": {
+    "en": "A delicate piece inspired by the quiet beauty of the sea, bringing together softness, light, and natural elegance. Its refined shape carries a calm presence, like a small treasure found along the shoreline. Subtle yet distinctive, a coastal gem for your collection.",
+    "ru": "A delicate piece inspired by the quiet beauty of the sea, bringing together softness, light, and natural elegance. Its refined shape carries a calm presence, like a small treasure found along the shoreline. Subtle yet distinctive, a coastal gem for your collection.",
+    "vi": "A delicate piece inspired by the quiet beauty of the sea, bringing together softness, light, and natural elegance. Its refined shape carries a calm presence, like a small treasure found along the shoreline. Subtle yet distinctive, a coastal gem for your collection."
+  },
+  "price": 100000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 201, 658, 659, 726, 2134",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 201, 658, 659, 726, 2134</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://www.etsy.com\" target=\"_blank\" rel=\"noopener noreferrer\">BeadyourEarrings</a> (Etsy)",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 2
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

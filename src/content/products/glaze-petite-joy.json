@@ -1,0 +1,34 @@
+{
+  "order": 42,
+  "createdAt": "2026-10-26",
+  "title": {
+    "en": "Glaze Petite Joy",
+    "ru": "Glaze Petite Joy",
+    "vi": "Glaze Petite Joy"
+  },
+  "description": {
+    "en": "A masterfully frosted piece designed to balance out the cold metal of your keys. It’s just a simple pop of sweetness for your daily setup that stays pristine no matter where you toss it. No melting, no mess — a tiny, flawless treat for your pockets. Pure eye candy. Zero calories.",
+    "ru": "A masterfully frosted piece designed to balance out the cold metal of your keys. It’s just a simple pop of sweetness for your daily setup that stays pristine no matter where you toss it. No melting, no mess — a tiny, flawless treat for your pockets. Pure eye candy. Zero calories.",
+    "vi": "A masterfully frosted piece designed to balance out the cold metal of your keys. It’s just a simple pop of sweetness for your daily setup that stays pristine no matter where you toss it. No melting, no mess — a tiny, flawless treat for your pockets. Pure eye candy. Zero calories."
+  },
+  "price": 155000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": false,
+  "materials": [
+    "Toho Aiko – the world’s best seed beads; manufactured in Japan",
+    "Colors: 46, 46L, 49, 122, 125, 714",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Toho Aiko – the world’s best seed beads; manufactured in Japan</span><br />\n<span class=\"mat-colors\"><strong>Colors: 46, 46L, 49, 122, 125, 714</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": []
+}

@@ -1,0 +1,51 @@
+{
+  "order": 15,
+  "createdAt": "2026-09-29",
+  "title": {
+    "en": "Honey Ginger Bean",
+    "ru": "Honey Ginger Bean",
+    "vi": "Honey Ginger Bean"
+  },
+  "description": {
+    "en": "Painted in the richest strokes of autumn, this kitty is a true work of art, as if the ink itself has kissed them nose-to-nose. Feel the presence of layered silk and shadows, welcoming such an enchanting character into your world! They are more than just a companion; they are a breathtaking creation born to brighten every day.",
+    "ru": "Painted in the richest strokes of autumn, this kitty is a true work of art, as if the ink itself has kissed them nose-to-nose. Feel the presence of layered silk and shadows, welcoming such an enchanting character into your world! They are more than just a companion; they are a breathtaking creation born to brighten every day.",
+    "vi": "Painted in the richest strokes of autumn, this kitty is a true work of art, as if the ink itself has kissed them nose-to-nose. Feel the presence of layered silk and shadows, welcoming such an enchanting character into your world! They are more than just a companion; they are a breathtaking creation born to brighten every day."
+  },
+  "price": 110000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 147, 2106, 2108, 2112  •  Aiko colors: 21, 41, 49",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 147, 2106, 2108, 2112  •  Aiko colors: 21, 41, 49</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<span>Бижутерия Лапками</span>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 2
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "New",
+    "ru": "Новинка",
+    "vi": "Mới ra mắt"
+  }
+}

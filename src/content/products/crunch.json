@@ -1,0 +1,52 @@
+{
+  "order": 24,
+  "createdAt": "2026-10-08",
+  "title": {
+    "en": "Crunch",
+    "ru": "Crunch",
+    "vi": "Crunch"
+  },
+  "description": {
+    "en": "Toasted and full of attitude. Hang this sun-browned accent right on your phone and trust it to absorb the digital noise. Flip your screen over, take a deep breath, and maybe it’s time for a warm, buttery slice of toast. Just one, though—gotta stay low on carbs.",
+    "ru": "Toasted and full of attitude. Hang this sun-browned accent right on your phone and trust it to absorb the digital noise. Flip your screen over, take a deep breath, and maybe it’s time for a warm, buttery slice of toast. Just one, though—gotta stay low on carbs.",
+    "vi": "Toasted and full of attitude. Hang this sun-browned accent right on your phone and trust it to absorb the digital noise. Flip your screen over, take a deep breath, and maybe it’s time for a warm, buttery slice of toast. Just one, though—gotta stay low on carbs."
+  },
+  "price": 185000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 10, 732, 2108, 2114",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 732, 2108, 2114</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 2
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

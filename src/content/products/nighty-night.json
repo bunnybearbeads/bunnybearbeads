@@ -1,0 +1,46 @@
+{
+  "order": 32,
+  "createdAt": "2026-10-16",
+  "title": {
+    "en": "Nighty Night",
+    "ru": "Nighty Night",
+    "vi": "Nighty Night"
+  },
+  "description": {
+    "en": "If only a spring night sky could turn into an animal, this would be it. Just a little dark cloud borrowed from a dream—super low-key, but the absolute cutest bundle of beaded pixels to stare at. The ultimate chill companion for your hands and eyes.",
+    "ru": "If only a spring night sky could turn into an animal, this would be it. Just a little dark cloud borrowed from a dream—super low-key, but the absolute cutest bundle of beaded pixels to stare at. The ultimate chill companion for your hands and eyes.",
+    "vi": "If only a spring night sky could turn into an animal, this would be it. Just a little dark cloud borrowed from a dream—super low-key, but the absolute cutest bundle of beaded pixels to stare at. The ultimate chill companion for your hands and eyes."
+  },
+  "price": 165000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 730, 2114  •  Aiko colors: 49, 121, 2156S",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 730, 2114  •  Aiko colors: 49, 121, 2156S</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

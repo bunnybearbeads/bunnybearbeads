@@ -1,0 +1,34 @@
+{
+  "order": 28,
+  "createdAt": "2026-10-12",
+  "title": {
+    "en": "Shadewing Seer",
+    "ru": "Shadewing Seer",
+    "vi": "Shadewing Seer"
+  },
+  "description": {
+    "en": "Born from the quiet corners of the night, this device companion introduces a layer of mystery to your daily connectivity. Once by your side, it remains a passive observer of your phone's digital stream. Entrust this piece with the task of reminding you; from this moment on, each glance at it will instantly recall what got swept away by the feed.",
+    "ru": "Born from the quiet corners of the night, this device companion introduces a layer of mystery to your daily connectivity. Once by your side, it remains a passive observer of your phone's digital stream. Entrust this piece with the task of reminding you; from this moment on, each glance at it will instantly recall what got swept away by the feed.",
+    "vi": "Born from the quiet corners of the night, this device companion introduces a layer of mystery to your daily connectivity. Once by your side, it remains a passive observer of your phone's digital stream. Entrust this piece with the task of reminding you; from this moment on, each glance at it will instantly recall what got swept away by the feed."
+  },
+  "price": 190000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": false,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 268, 651  •  Aiko colors: 41, 49",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 268, 651  •  Aiko colors: 41, 49</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": []
+}

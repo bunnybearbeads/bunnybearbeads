@@ -1,0 +1,50 @@
+{
+  "order": 36,
+  "createdAt": "2026-10-20",
+  "title": {
+    "en": "Pawsitivity",
+    "ru": "Pawsitivity",
+    "vi": "Pawsitivity"
+  },
+  "description": {
+    "en": "Soft, round, and completely charming, this touch of pure luster is always tagging along with you. It’s for those moments when you just want to squeeze the soft pads of your pet's paws, but they aren't around. Just run your finger over the charm whenever you miss that favorite routine.",
+    "ru": "Soft, round, and completely charming, this touch of pure luster is always tagging along with you. It’s for those moments when you just want to squeeze the soft pads of your pet's paws, but they aren't around. Just run your finger over the charm whenever you miss that favorite routine.",
+    "vi": "Soft, round, and completely charming, this touch of pure luster is always tagging along with you. It’s for those moments when you just want to squeeze the soft pads of your pet's paws, but they aren't around. Just run your finger over the charm whenever you miss that favorite routine."
+  },
+  "price": 130000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica DB-551 & Toho Aiko TA-121– the world’s best seed beads",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica DB-551 & Toho Aiko TA-121– the world’s best seed beads</span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 2
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "Bestseller",
+    "ru": "Хит продаж",
+    "vi": "Bán chạy"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "order": 5,
+  "createdAt": "2026-09-19",
+  "title": {
+    "en": "Electric Hearts",
+    "ru": "Electric Hearts",
+    "vi": "Electric Hearts"
+  },
+  "description": {
+    "en": "Love isn't always just one thing. Sometimes it's a loud, high-voltage spark, and sometimes it's just that quiet, comfortable warmth you keep close. This piece is about having both of those feelings with you all day. Just a little everyday tribute to what matters.",
+    "ru": "Love isn't always just one thing. Sometimes it's a loud, high-voltage spark, and sometimes it's just that quiet, comfortable warmth you keep close. This piece is about having both of those feelings with you all day. Just a little everyday tribute to what matters.",
+    "vi": "Love isn't always just one thing. Sometimes it's a loud, high-voltage spark, and sometimes it's just that quiet, comfortable warmth you keep close. This piece is about having both of those feelings with you all day. Just a little everyday tribute to what matters."
+  },
+  "price": 135000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 201, 602, 2117",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 201, 602, 2117</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://www.etsy.com\" target=\"_blank\" rel=\"noopener noreferrer\">MariVirraPatterns</a> (Etsy)",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 3
+    },
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

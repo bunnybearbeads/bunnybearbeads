@@ -1,0 +1,52 @@
+{
+  "order": 23,
+  "createdAt": "2026-10-07",
+  "title": {
+    "en": "Pure",
+    "ru": "Pure",
+    "vi": "Pure"
+  },
+  "description": {
+    "en": "No sharp edges, just a pleasantly weighted, satin-smooth form that invites a calm moment every time you hold it. Consider it your gentle cue to slow down whenever you pull out your keys—a small, refreshing prompt to blend a cold smoothie and take a well-deserved break.",
+    "ru": "No sharp edges, just a pleasantly weighted, satin-smooth form that invites a calm moment every time you hold it. Consider it your gentle cue to slow down whenever you pull out your keys—a small, refreshing prompt to blend a cold smoothie and take a well-deserved break.",
+    "vi": "No sharp edges, just a pleasantly weighted, satin-smooth form that invites a calm moment every time you hold it. Consider it your gentle cue to slow down whenever you pull out your keys—a small, refreshing prompt to blend a cold smoothie and take a well-deserved break."
+  },
+  "price": 200000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 10, 2102, 2117, 2127, 1134",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 2102, 2117, 2127, 1134</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

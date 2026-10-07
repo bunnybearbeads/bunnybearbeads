@@ -1,0 +1,51 @@
+{
+  "order": 43,
+  "createdAt": "2026-10-27",
+  "title": {
+    "en": "Bright Blink Bubbles",
+    "ru": "Bright Blink Bubbles",
+    "vi": "Bright Blink Bubbles"
+  },
+  "description": {
+    "en": "The ultimate analog screensaver for your device. Isn't it cute? It is! 😍 It’s right there every time you flip your phone over, giving you something to fiddle with just for the pure satisfaction of it. Keep a miniature pocket-sized ocean dangling right next to your screen!",
+    "ru": "The ultimate analog screensaver for your device. Isn't it cute? It is! 😍 It’s right there every time you flip your phone over, giving you something to fiddle with just for the pure satisfaction of it. Keep a miniature pocket-sized ocean dangling right next to your screen!",
+    "vi": "The ultimate analog screensaver for your device. Isn't it cute? It is! 😍 It’s right there every time you flip your phone over, giving you something to fiddle with just for the pure satisfaction of it. Keep a miniature pocket-sized ocean dangling right next to your screen!"
+  },
+  "price": 155000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 2113  •  Aiko colors: 43, 51, 43DF, 41, 129, 714",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 2113  •  Aiko colors: 43, 51, 43DF, 41, 129, 714</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 2
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "New",
+    "ru": "Новинка",
+    "vi": "Mới ra mắt"
+  }
+}

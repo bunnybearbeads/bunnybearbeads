@@ -1,0 +1,40 @@
+{
+  "order": 34,
+  "createdAt": "2026-10-18",
+  "title": {
+    "en": "Pinky Button",
+    "ru": "Pinky Button",
+    "vi": "Pinky Button"
+  },
+  "description": {
+    "en": "You reach into your pocket. The keys are sharp, the day is loud, but then your fingers find her. She is just sitting there in the dark, completely unbothered by the city. Perfectly round. Completely pink. A tiny, smooth button that turns down the volume of the world.",
+    "ru": "You reach into your pocket. The keys are sharp, the day is loud, but then your fingers find her. She is just sitting there in the dark, completely unbothered by the city. Perfectly round. Completely pink. A tiny, smooth button that turns down the volume of the world.",
+    "vi": "You reach into your pocket. The keys are sharp, the day is loud, but then your fingers find her. She is just sitting there in the dark, completely unbothered by the city. Perfectly round. Completely pink. A tiny, smooth button that turns down the volume of the world."
+  },
+  "price": 140000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 10, 38, 2114, 2351",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 38, 2114, 2351</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

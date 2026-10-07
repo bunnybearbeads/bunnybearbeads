@@ -1,0 +1,52 @@
+{
+  "order": 37,
+  "createdAt": "2026-10-21",
+  "title": {
+    "en": "Rosa Nova",
+    "ru": "Rosa Nova",
+    "vi": "Rosa Nova"
+  },
+  "description": {
+    "en": "Bold, glossy, and entirely unapologetic. Rosa Nova isn't just a charm; it's a mood. That one elusive piece everyone’s trying to track down, but it’s already chilling in your hands. Consider it your daily dose of high-end gatekeeping.",
+    "ru": "Bold, glossy, and entirely unapologetic. Rosa Nova isn't just a charm; it's a mood. That one elusive piece everyone’s trying to track down, but it’s already chilling in your hands. Consider it your daily dose of high-end gatekeeping.",
+    "vi": "Bold, glossy, and entirely unapologetic. Rosa Nova isn't just a charm; it's a mood. That one elusive piece everyone’s trying to track down, but it’s already chilling in your hands. Consider it your daily dose of high-end gatekeeping."
+  },
+  "price": 150000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Toho Aiko – the world’s best seed beads; manufactured in Japan",
+    "Colors: 49, 121, 714, 45AF",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Toho Aiko – the world’s best seed beads; manufactured in Japan</span><br />\n<span class=\"mat-colors\"><strong>Colors: 49, 121, 714, 45AF</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

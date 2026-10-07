@@ -1,0 +1,46 @@
+{
+  "order": 39,
+  "createdAt": "2026-10-23",
+  "title": {
+    "en": "Guaco",
+    "ru": "Guaco",
+    "vi": "Guaco"
+  },
+  "description": {
+    "en": "Extra, but without the extra charge. Guaco is living that slow, sun-drenched life directly attached to your phone. Doesn't care about your screen time; he’s just here to bring that flawless, creamy color palette to your daily setup. An absolute 10/10 visual treat for your hands every time you pick up your phone.",
+    "ru": "Extra, but without the extra charge. Guaco is living that slow, sun-drenched life directly attached to your phone. Doesn't care about your screen time; he’s just here to bring that flawless, creamy color palette to your daily setup. An absolute 10/10 visual treat for your hands every time you pick up your phone.",
+    "vi": "Extra, but without the extra charge. Guaco is living that slow, sun-drenched life directly attached to your phone. Doesn't care about your screen time; he’s just here to bring that flawless, creamy color palette to your daily setup. An absolute 10/10 visual treat for your hands every time you pick up your phone."
+  },
+  "price": 110000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Aiko colors: 44, 46L, 47, 47H, 49  •  Delica colors: 2115",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Aiko colors: 44, 46L, 47, 47H, 49  •  Delica colors: 2115</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "order": 7,
+  "createdAt": "2026-09-21",
+  "title": {
+    "en": "Sir Muffin",
+    "ru": "Sir Muffin",
+    "vi": "Sir Muffin"
+  },
+  "description": {
+    "en": "Welcome the tightest curls and the finest manners on the case of your phone. Sir Muffin is officially in charge of your daily vibe now. No barking, no shedding — just a perfectly groomed little gentleman keeping your device looking sharp. Keep it fancy with the most dapper poodle in town!",
+    "ru": "Welcome the tightest curls and the finest manners on the case of your phone. Sir Muffin is officially in charge of your daily vibe now. No barking, no shedding — just a perfectly groomed little gentleman keeping your device looking sharp. Keep it fancy with the most dapper poodle in town!",
+    "vi": "Welcome the tightest curls and the finest manners on the case of your phone. Sir Muffin is officially in charge of your daily vibe now. No barking, no shedding — just a perfectly groomed little gentleman keeping your device looking sharp. Keep it fancy with the most dapper poodle in town!"
+  },
+  "price": 120000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": false,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 10, 2115, 2106, 2108, 2142",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 2115, 2106, 2108, 2142</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://www.etsy.com\" target=\"_blank\" rel=\"noopener noreferrer\">BeadCrumbs</a> (Etsy)",
+  "stockLocations": []
+}

@@ -1,0 +1,52 @@
+{
+  "order": 38,
+  "createdAt": "2026-10-22",
+  "title": {
+    "en": "Splashy",
+    "ru": "Splashy",
+    "vi": "Splashy"
+  },
+  "description": {
+    "en": "Out of office and completely unbothered. This little storm system is just living its best life on your setup, happily pouring down without a single care in the world. It’s an absolute aesthetic cheat code for your keys... Wait. Right—THE UMBRELLA! Consider this a friendly reminder to always grab yours every time you pick up your keys.",
+    "ru": "Out of office and completely unbothered. This little storm system is just living its best life on your setup, happily pouring down without a single care in the world. It’s an absolute aesthetic cheat code for your keys... Wait. Right—THE UMBRELLA! Consider this a friendly reminder to always grab yours every time you pick up your keys.",
+    "vi": "Out of office and completely unbothered. This little storm system is just living its best life on your setup, happily pouring down without a single care in the world. It’s an absolute aesthetic cheat code for your keys... Wait. Right—THE UMBRELLA! Consider this a friendly reminder to always grab yours every time you pick up your keys."
+  },
+  "price": 115000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 38, 2117, 2122  •  Aiko colors: 41, 49",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 38, 2117, 2122  •  Aiko colors: 41, 49</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 2
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

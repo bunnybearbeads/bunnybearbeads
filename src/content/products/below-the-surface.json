@@ -1,0 +1,52 @@
+{
+  "order": 2,
+  "createdAt": "2026-09-16",
+  "title": {
+    "en": "Below the Surface",
+    "ru": "Below the Surface",
+    "vi": "Below the Surface"
+  },
+  "description": {
+    "en": "Inspired by the quiet rhythm of the ocean, this piece gathers motion suspended in calm. Its fluid silhouette reflects balance and grace, evoking the serenity of drifting currents. Subtle yet expressive, it holds a sense of still movement and timeless ease.",
+    "ru": "Inspired by the quiet rhythm of the ocean, this piece gathers motion suspended in calm. Its fluid silhouette reflects balance and grace, evoking the serenity of drifting currents. Subtle yet expressive, it holds a sense of still movement and timeless ease.",
+    "vi": "Inspired by the quiet rhythm of the ocean, this piece gathers motion suspended in calm. Its fluid silhouette reflects balance and grace, evoking the serenity of drifting currents. Subtle yet expressive, it holds a sense of still movement and timeless ease."
+  },
+  "price": 115000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 10, 658, 200, 2133, 2135",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 658, 200, 2133, 2135</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<a href=\"https://www.etsy.com\" target=\"_blank\" rel=\"noopener noreferrer\">BeadyourEarrings</a> (Etsy)",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

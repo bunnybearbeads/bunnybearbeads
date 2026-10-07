@@ -1,0 +1,40 @@
+{
+  "order": 13,
+  "createdAt": "2026-09-27",
+  "title": {
+    "en": "Ash Sprite",
+    "ru": "Ash Sprite",
+    "vi": "Ash Sprite"
+  },
+  "description": {
+    "en": "The smallest, sweetest presence that turns any corner into a cozy hideaway. This little one is a master of quiet naps and gentle greetings, always ready to curl up right beside you. With a steady purr that settles any worry, it brings simple, uncomplicated joy to your home without needing to say a word—isn't it just a delightful little treasure?",
+    "ru": "The smallest, sweetest presence that turns any corner into a cozy hideaway. This little one is a master of quiet naps and gentle greetings, always ready to curl up right beside you. With a steady purr that settles any worry, it brings simple, uncomplicated joy to your home without needing to say a word—isn't it just a delightful little treasure?",
+    "vi": "The smallest, sweetest presence that turns any corner into a cozy hideaway. This little one is a master of quiet naps and gentle greetings, always ready to curl up right beside you. With a steady purr that settles any worry, it brings simple, uncomplicated joy to your home without needing to say a word—isn't it just a delightful little treasure?"
+  },
+  "price": 105000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 10, 147, 200, 1363, 1570  •  Aiko colors: 2156S",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 10, 147, 200, 1363, 1570  •  Aiko colors: 2156S</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<span>Бижутерия Лапками</span>",
+  "stockLocations": [
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

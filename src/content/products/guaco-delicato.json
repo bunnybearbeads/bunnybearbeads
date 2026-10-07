@@ -1,0 +1,58 @@
+{
+  "order": 40,
+  "createdAt": "2026-10-24",
+  "title": {
+    "en": "Guaco Delicato",
+    "ru": "Guaco Delicato",
+    "vi": "Guaco Delicato"
+  },
+  "description": {
+    "en": "Extra, but without the extra charge. Guaco is living that slow, sun-drenched life directly attached to your phone. Doesn't care about your screen time; he’s just here to bring that flawless, creamy color palette to your daily setup. An absolute 10/10 visual treat for your hands every time you pick up your phone.",
+    "ru": "Extra, but without the extra charge. Guaco is living that slow, sun-drenched life directly attached to your phone. Doesn't care about your screen time; he’s just here to bring that flawless, creamy color palette to your daily setup. An absolute 10/10 visual treat for your hands every time you pick up your phone.",
+    "vi": "Extra, but without the extra charge. Guaco is living that slow, sun-drenched life directly attached to your phone. Doesn't care about your screen time; he’s just here to bring that flawless, creamy color palette to your daily setup. An absolute 10/10 visual treat for your hands every time you pick up your phone."
+  },
+  "price": 160000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 10, 656, 2115, 2121, 2126, 2142",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 656, 2115, 2121, 2126, 2142</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 3
+    },
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

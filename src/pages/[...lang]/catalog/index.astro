@@ -13,7 +13,8 @@ const currentLang = resolveLang(langParam);
 const t = useTranslations(currentLang);
 
 const rawProducts = await getCollection('products');
-const products = rawProducts.map((p) => ({
+const sortedProducts = [...rawProducts].sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+const products = sortedProducts.map((p) => ({
   id: p.id,
   categoryId: p.data.categoryId || 'bracelets',
   data: localize(p.data, currentLang),
@@ -100,7 +101,7 @@ const categories = [
             <p class="product-desc">{product.data.description}</p>
 
             <div class="product-bottom">
-              <span class="product-price">${product.data.price}</span>
+              <span class="product-price">{Number(product.data.price).toLocaleString('vi-VN')} {product.data.currency || 'VND'}</span>
               <a
                 href={getLocalizedUrl(`/catalog/${product.id}`, currentLang)}
                 class="btn btn-primary"

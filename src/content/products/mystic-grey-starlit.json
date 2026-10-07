@@ -1,0 +1,52 @@
+{
+  "order": 10,
+  "createdAt": "2026-09-24",
+  "title": {
+    "en": "Mystic Grey Starlit",
+    "ru": "Mystic Grey Starlit",
+    "vi": "Mystic Grey Starlit"
+  },
+  "description": {
+    "en": "Born in the deepest shades of twilight, she is a vision, she is the mystery, she is the grace. Like stardust scattered across a velvet sky, she guards the quiet spaces where moonlight rests. Weave a thread of celestial wonder into your home; she will guide your evenings, turning the nights into a dreamy, ethereal escape.",
+    "ru": "Born in the deepest shades of twilight, she is a vision, she is the mystery, she is the grace. Like stardust scattered across a velvet sky, she guards the quiet spaces where moonlight rests. Weave a thread of celestial wonder into your home; she will guide your evenings, turning the nights into a dreamy, ethereal escape.",
+    "vi": "Born in the deepest shades of twilight, she is a vision, she is the mystery, she is the grace. Like stardust scattered across a velvet sky, she guards the quiet spaces where moonlight rests. Weave a thread of celestial wonder into your home; she will guide your evenings, turning the nights into a dreamy, ethereal escape."
+  },
+  "price": 110000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 205, 268, 2114  •  Aiko colors: 21, 49, 756",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 205, 268, 2114  •  Aiko colors: 21, 49, 756</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<span>Бижутерия Лапками</span>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 2
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "order": 16,
+  "createdAt": "2026-09-30",
+  "title": {
+    "en": "Chaos",
+    "ru": "Chaos",
+    "vi": "Chaos"
+  },
+  "description": {
+    "en": "Meet the jungle’s most majestic disaster! A stunning fusion of wild tiger confidence and the beautifully chaotic absurdity only an orange cat can provide. You are looking at a fierce predator soul trapped in a classic orange goofball. Dare to challenge this whirlwind to a round of play—if you can handle that much unfiltered, unhinged energy.",
+    "ru": "Meet the jungle’s most majestic disaster! A stunning fusion of wild tiger confidence and the beautifully chaotic absurdity only an orange cat can provide. You are looking at a fierce predator soul trapped in a classic orange goofball. Dare to challenge this whirlwind to a round of play—if you can handle that much unfiltered, unhinged energy.",
+    "vi": "Meet the jungle’s most majestic disaster! A stunning fusion of wild tiger confidence and the beautifully chaotic absurdity only an orange cat can provide. You are looking at a fierce predator soul trapped in a classic orange goofball. Dare to challenge this whirlwind to a round of play—if you can handle that much unfiltered, unhinged energy."
+  },
+  "price": 130000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 2104, 2108, 2114  •  Aiko colors: 21, 41, 49, 2156S",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 2104, 2108, 2114  •  Aiko colors: 21, 41, 49, 2156S</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<span>Бижутерия Лапками</span>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "Bestseller",
+    "ru": "Хит продаж",
+    "vi": "Bán chạy"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "order": 8,
+  "createdAt": "2026-09-22",
+  "title": {
+    "en": "Autumn in New York",
+    "ru": "Autumn in New York",
+    "vi": "Autumn in New York"
+  },
+  "description": {
+    "en": "Imprint that crisp, golden-hour energy directly on your phone case. It holds the exact transition when the air turns cool and the city starts to slow down. No fading, no wearing away — just a steady piece of October cozy resting next to your screen. Lock in the ultimate seasonal aesthetic.",
+    "ru": "Imprint that crisp, golden-hour energy directly on your phone case. It holds the exact transition when the air turns cool and the city starts to slow down. No fading, no wearing away — just a steady piece of October cozy resting next to your screen. Lock in the ultimate seasonal aesthetic.",
+    "vi": "Imprint that crisp, golden-hour energy directly on your phone case. It holds the exact transition when the air turns cool and the city starts to slow down. No fading, no wearing away — just a steady piece of October cozy resting next to your screen. Lock in the ultimate seasonal aesthetic."
+  },
+  "price": 115000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 115, 1571, 1910, 2101, 2102, 2288",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 115, 1571, 1910, 2101, 2102, 2288</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<span>Perles & Co</span>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 2
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "New",
+    "ru": "Новинка",
+    "vi": "Mới ra mắt"
+  }
+}

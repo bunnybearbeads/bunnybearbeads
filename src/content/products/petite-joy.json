@@ -1,0 +1,45 @@
+{
+  "order": 41,
+  "createdAt": "2026-10-25",
+  "title": {
+    "en": "Petite Joy",
+    "ru": "Petite Joy",
+    "vi": "Petite Joy"
+  },
+  "description": {
+    "en": "A masterfully frosted piece designed to balance out the cold metal of your keys. It’s just a simple pop of sweetness for your daily setup that stays pristine no matter where you toss it. No melting, no mess — a tiny, flawless treat for your pockets. Pure eye candy. Zero calories.",
+    "ru": "A masterfully frosted piece designed to balance out the cold metal of your keys. It’s just a simple pop of sweetness for your daily setup that stays pristine no matter where you toss it. No melting, no mess — a tiny, flawless treat for your pockets. Pure eye candy. Zero calories.",
+    "vi": "A masterfully frosted piece designed to balance out the cold metal of your keys. It’s just a simple pop of sweetness for your daily setup that stays pristine no matter where you toss it. No melting, no mess — a tiny, flawless treat for your pockets. Pure eye candy. Zero calories."
+  },
+  "price": 115000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Toho Aiko – the world’s best seed beads; manufactured in Japan",
+    "Colors: 41, 46, 46L, 125, 714",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Toho Aiko – the world’s best seed beads; manufactured in Japan</span><br />\n<span class=\"mat-colors\"><strong>Colors: 41, 46, 46L, 125, 714</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "Bestseller",
+    "ru": "Хит продаж",
+    "vi": "Bán chạy"
+  }
+}

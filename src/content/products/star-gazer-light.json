@@ -1,0 +1,46 @@
+{
+  "order": 18,
+  "createdAt": "2026-10-02",
+  "title": {
+    "en": "Star Gazer Light",
+    "ru": "Star Gazer Light",
+    "vi": "Star Gazer Light"
+  },
+  "description": {
+    "en": "Don't let the serene, silver-grey exterior fool you; this little dreamer's mind is always among the stars. Just know that when he sits with the composure of a statue, his spirit is dancing with distant galaxies in a silent, magical observation. Take him on your nightly ventures, and he will transform an ordinary evening into an interstellar journey.",
+    "ru": "Don't let the serene, silver-grey exterior fool you; this little dreamer's mind is always among the stars. Just know that when he sits with the composure of a statue, his spirit is dancing with distant galaxies in a silent, magical observation. Take him on your nightly ventures, and he will transform an ordinary evening into an interstellar journey.",
+    "vi": "Don't let the serene, silver-grey exterior fool you; this little dreamer's mind is always among the stars. Just know that when he sits with the composure of a statue, his spirit is dancing with distant galaxies in a silent, magical observation. Take him on your nightly ventures, and he will transform an ordinary evening into an interstellar journey."
+  },
+  "price": 180000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 2112, 1570  •  Aiko colors: 21, 41, 49, 53, 2156S",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 2112, 1570  •  Aiko colors: 21, 41, 49, 53, 2156S</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<span>Бижутерия Лапками</span>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

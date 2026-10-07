@@ -1,0 +1,51 @@
+{
+  "order": 22,
+  "createdAt": "2026-10-06",
+  "title": {
+    "en": "Red",
+    "ru": "Red",
+    "vi": "Red"
+  },
+  "description": {
+    "en": "A luscious splash of crimson. No fuss, just a smooth, glossy little shape pleasing to the fingertips. Its rich color fills the space around it with the unspoken warmth of a homemade dessert baking in the oven. A small, polished slice of comfort always within reach.",
+    "ru": "A luscious splash of crimson. No fuss, just a smooth, glossy little shape pleasing to the fingertips. Its rich color fills the space around it with the unspoken warmth of a homemade dessert baking in the oven. A small, polished slice of comfort always within reach.",
+    "vi": "A luscious splash of crimson. No fuss, just a smooth, glossy little shape pleasing to the fingertips. Its rich color fills the space around it with the unspoken warmth of a homemade dessert baking in the oven. A small, polished slice of comfort always within reach."
+  },
+  "price": 130000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 10, 1134, 2112, 723, 2127",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 1134, 2112, 723, 2127</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 2
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "New",
+    "ru": "Новинка",
+    "vi": "Mới ra mắt"
+  }
+}

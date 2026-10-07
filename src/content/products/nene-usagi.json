@@ -1,0 +1,45 @@
+{
+  "order": 6,
+  "createdAt": "2026-09-20",
+  "title": {
+    "en": "Nene Usagi",
+    "ru": "Nene Usagi",
+    "vi": "Nene Usagi"
+  },
+  "description": {
+    "en": "Pure, uncomplicated sweetness. It simply exists to bring a soft, patient presence into your day. Every time you mindlessly look down, enjoy that exact, comforting feeling of a happy little daydream—the kind where you share a quiet plate of mochi over a warm cup of tea. Just a little bit of joy to carry around with you.",
+    "ru": "Pure, uncomplicated sweetness. It simply exists to bring a soft, patient presence into your day. Every time you mindlessly look down, enjoy that exact, comforting feeling of a happy little daydream—the kind where you share a quiet plate of mochi over a warm cup of tea. Just a little bit of joy to carry around with you.",
+    "vi": "Pure, uncomplicated sweetness. It simply exists to bring a soft, patient presence into your day. Every time you mindlessly look down, enjoy that exact, comforting feeling of a happy little daydream—the kind where you share a quiet plate of mochi over a warm cup of tea. Just a little bit of joy to carry around with you."
+  },
+  "price": 135000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 160, 167, 214, 1832, 2114  •  Aiko colors: 41, 49",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 160, 167, 214, 1832, 2114  •  Aiko colors: 41, 49</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://www.etsy.com\" target=\"_blank\" rel=\"noopener noreferrer\">RenovatiobyLuciela</a> (Etsy)",
+  "stockLocations": [
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "Bestseller",
+    "ru": "Хит продаж",
+    "vi": "Bán chạy"
+  }
+}

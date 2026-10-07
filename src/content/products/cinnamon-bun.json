@@ -1,0 +1,51 @@
+{
+  "order": 11,
+  "createdAt": "2026-09-25",
+  "title": {
+    "en": "Cinnamon Bun",
+    "ru": "Cinnamon Bun",
+    "vi": "Cinnamon Bun"
+  },
+  "description": {
+    "en": "Close your eyes for a moment and imagine the scent of cinnamon and freshly baked pastries. Feel the velvet warmth of their fur nestled in your palms. Now, watch that cozy feeling come to life as you meet your personal connoisseur of comfort. Wrapped in layers of warmth, this little soul is ready to help you find your perfect sunbeam.",
+    "ru": "Close your eyes for a moment and imagine the scent of cinnamon and freshly baked pastries. Feel the velvet warmth of their fur nestled in your palms. Now, watch that cozy feeling come to life as you meet your personal connoisseur of comfort. Wrapped in layers of warmth, this little soul is ready to help you find your perfect sunbeam.",
+    "vi": "Close your eyes for a moment and imagine the scent of cinnamon and freshly baked pastries. Feel the velvet warmth of their fur nestled in your palms. Now, watch that cozy feeling come to life as you meet your personal connoisseur of comfort. Wrapped in layers of warmth, this little soul is ready to help you find your perfect sunbeam."
+  },
+  "price": 190000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 10, 205, 2108, 2114  •  Aiko colors: 21, 2156S",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 10, 205, 2108, 2114  •  Aiko colors: 21, 2156S</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<span>Бижутерия Лапками</span>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "Bestseller",
+    "ru": "Хит продаж",
+    "vi": "Bán chạy"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "order": 19,
+  "createdAt": "2026-10-03",
+  "title": {
+    "en": "Tuxedo",
+    "ru": "Tuxedo",
+    "vi": "Tuxedo"
+  },
+  "description": {
+    "en": "Tuxedo, check; white shirt, check. This little acrobat is permanently dressed to impress! Rocking a sharp look that says he’s always ready for a gala—or a high-speed chase. Whether it’s 3 AM zoomies or an intense battle with a shoelace, he brings his own brand of high-fashion entertainment to every moment.",
+    "ru": "Tuxedo, check; white shirt, check. This little acrobat is permanently dressed to impress! Rocking a sharp look that says he’s always ready for a gala—or a high-speed chase. Whether it’s 3 AM zoomies or an intense battle with a shoelace, he brings his own brand of high-fashion entertainment to every moment.",
+    "vi": "Tuxedo, check; white shirt, check. This little acrobat is permanently dressed to impress! Rocking a sharp look that says he’s always ready for a gala—or a high-speed chase. Whether it’s 3 AM zoomies or an intense battle with a shoelace, he brings his own brand of high-fashion entertainment to every moment."
+  },
+  "price": 195000,
+  "currency": "VND",
+  "categoryId": "keychains",
+  "category": {
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
+    "Delica colors: 2114  •  Aiko colors: 21, 41, 49 2156S",
+    "Generic keyring"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 2114  •  Aiko colors: 21, 41, 49 2156S</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "designedBy": "<span>Бижутерия Лапками</span>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 3
+    },
+    {
+      "type": "offline",
+      "city": "Da Nang",
+      "location": "My an, магазин NGÀY MAI",
+      "quantity": 1
+    },
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

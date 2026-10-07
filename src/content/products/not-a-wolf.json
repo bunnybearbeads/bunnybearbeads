@@ -1,0 +1,46 @@
+{
+  "order": 25,
+  "createdAt": "2026-10-09",
+  "title": {
+    "en": "Not a Wolf",
+    "ru": "Not a Wolf",
+    "vi": "Not a Wolf"
+  },
+  "description": {
+    "en": "Do not be afraid, it is completely 100% just a sheep. Maybe a little bit gray, maybe doing a tactical stealth disguise, but absolutely zero big bad wolf energy here. It just wants to hang from your phone and do a big scary pretend (it is actually just a tiny soft ball).",
+    "ru": "Do not be afraid, it is completely 100% just a sheep. Maybe a little bit gray, maybe doing a tactical stealth disguise, but absolutely zero big bad wolf energy here. It just wants to hang from your phone and do a big scary pretend (it is actually just a tiny soft ball).",
+    "vi": "Do not be afraid, it is completely 100% just a sheep. Maybe a little bit gray, maybe doing a tactical stealth disguise, but absolutely zero big bad wolf energy here. It just wants to hang from your phone and do a big scary pretend (it is actually just a tiny soft ball)."
+  },
+  "price": 165000,
+  "currency": "VND",
+  "categoryId": "phone-charms",
+  "category": {
+    "en": "Phone Charms",
+    "ru": "Фончармы (на телефон)",
+    "vi": "Dây đeo điện thoại"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": true,
+  "materials": [
+    "Miyuki Delica 11/0 – high-quality Japanese seed beads",
+    "Colors: 10, 201, 1570, 2114",
+    "Generic charm strap"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 201, 1570, 2114</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Ho Chi Minh city",
+      "location": "Ben Than, магазин Cat Food",
+      "quantity": 1
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ]
+}

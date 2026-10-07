@@ -7,18 +7,31 @@ const localizedString = z.object({
   vi: z.string(),
 });
 
+const stockLocationSchema = z.object({
+  type: z.enum(['offline', 'online']),
+  city: z.string(),
+  location: z.string().optional(),
+  quantity: z.number().optional(),
+  note: z.string().optional(),
+});
+
 const products = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/products' }),
   schema: z.object({
+    order: z.number().default(99),
+    createdAt: z.string().optional(),
     title: localizedString,
     description: localizedString,
     price: z.number(),
-    currency: z.string().default('USD'),
+    currency: z.string().default('VND'),
     categoryId: z.enum(['bracelets', 'rings', 'phone-charms', 'keychains', 'other']).default('bracelets'),
     category: localizedString,
     images: z.array(z.string()).default([]),
     inStock: z.boolean().default(true),
     materials: z.array(z.string()).optional(),
+    materialsHtml: z.string().optional(),
+    designedBy: z.string().optional(),
+    stockLocations: z.array(stockLocationSchema).default([]),
     badge: localizedString.optional(),
   }),
 });
