@@ -21,6 +21,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "astro": "^7.3.5"
+    "astro": "^7.3.5",
+    "hystmodal": "^1.0.1"
   }
 }

@@ -11,26 +11,32 @@
     "ru": "Meet the jungle’s most majestic disaster! A stunning fusion of wild tiger confidence and the beautifully chaotic absurdity only an orange cat can provide. You are looking at a fierce predator soul trapped in a classic orange goofball. Dare to challenge this whirlwind to a round of play—if you can handle that much unfiltered, unhinged energy.",
     "vi": "Meet the jungle’s most majestic disaster! A stunning fusion of wild tiger confidence and the beautifully chaotic absurdity only an orange cat can provide. You are looking at a fierce predator soul trapped in a classic orange goofball. Dare to challenge this whirlwind to a round of play—if you can handle that much unfiltered, unhinged energy."
   },
-  "price": 130000,
+  "price": 250000,
   "currency": "VND",
-  "categoryId": "phone-charms",
+  "categoryId": "keychains",
   "category": {
-    "en": "Phone Charms",
-    "ru": "Фончармы (на телефон)",
-    "vi": "Dây đeo điện thoại"
+    "en": "Keychains",
+    "ru": "Брелоки на ключи",
+    "vi": "Móc khóa"
   },
   "images": [
-    "/emblem-squared.png"
+    "/images/products/chaos.jpg"
   ],
   "inStock": true,
   "materials": [
     "Miyuki Delica & Toho Aiko – the world’s best seed beads",
     "Delica colors: 2104, 2108, 2114  •  Aiko colors: 21, 41, 49, 2156S",
-    "Generic charm strap"
+    "Generic keyring"
   ],
-  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 2104, 2108, 2114  •  Aiko colors: 21, 41, 49, 2156S</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 2104, 2108, 2114  •  Aiko colors: 21, 41, 49, 2156S</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
   "designedBy": "<span>Бижутерия Лапками</span>",
   "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 3
+    },
     {
       "type": "offline",
       "city": "Da Nang",
@@ -40,7 +46,7 @@
     },
     {
       "type": "offline",
-      "city": "Ho Chi Minh city",
+      "city": "Ho Chi Minh",
       "location": "Ben Than, магазин Cat Food",
       "quantity": 1,
       "lastCheckedAt": "2026-10-02"

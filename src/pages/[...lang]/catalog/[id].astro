@@ -24,6 +24,61 @@ const t = useTranslations(currentLang);
 
 const { productRaw } = Astro.props;
 const product = localize(productRaw.data, currentLang);
+
+// Find partner stock locations to compute days since checkup
+const ngayMaiLoc = productRaw.data.stockLocations?.find(
+  (l: any) => l.city?.toLowerCase().includes('da nang') || l.location?.includes('NGÀY MAI')
+);
+const catFoodLoc = productRaw.data.stockLocations?.find(
+  (l: any) => l.location?.includes('Cat Food') || l.city?.toLowerCase().includes('ho chi minh')
+);
+
+// Format relative days text (e.g. "2 дня", "3 days", "2 ngày")
+function getElapsedDaysText(checkDateStr?: string, lang: string = 'ru') {
+  if (!checkDateStr) {
+    if (lang === 'en') return 'a few days';
+    if (lang === 'vi') return 'vài ngày';
+    return 'пару дней';
+  }
+  const checkDate = new Date(checkDateStr);
+  const now = new Date('2026-10-07'); // project current reference date
+  const diffTime = Math.max(0, now.getTime() - checkDate.getTime());
+  const diffDays = Math.max(1, Math.round(diffTime / (1000 * 60 * 60 * 24)));
+
+  if (lang === 'en') {
+    return diffDays === 1 ? '1 day' : `${diffDays} days`;
+  }
+  if (lang === 'vi') {
+    return `${diffDays} ngày`;
+  }
+  // Russian pluralization
+  if (diffDays % 10 === 1 && diffDays % 100 !== 11) {
+    return `${diffDays} день`;
+  } else if ([2, 3, 4].includes(diffDays % 10) && ![12, 13, 14].includes(diffDays % 100)) {
+    return `${diffDays} дня`;
+  } else {
+    return `${diffDays} дней`;
+  }
+}
+
+const nmDaysText = getElapsedDaysText(ngayMaiLoc?.lastCheckedAt, currentLang);
+const cfDaysText = getElapsedDaysText(catFoodLoc?.lastCheckedAt, currentLang);
+
+function localizeCity(cityStr: string = '') {
+  const c = cityStr.toLowerCase();
+  if (c.includes('da lat')) return t('geo.city.dalat');
+  if (c.includes('da nang')) return t('geo.city.danang');
+  if (c.includes('ho chi minh')) return t('geo.city.hcm');
+  return cityStr;
+}
+
+function localizeDistrict(distStr: string = '') {
+  const d = distStr.toLowerCase();
+  if (d.includes('lâm viên') || d.includes('lam vien')) return t('geo.district.lamvien');
+  if (d.includes('my an') || d.includes('mỹ an')) return t('geo.district.myan');
+  if (d.includes('ben than') || d.includes('bến thành') || d.includes('ben thanh')) return t('geo.district.benthanh');
+  return distStr;
+}
 ---
 
 <Layout
@@ -45,8 +100,7 @@ const product = localize(productRaw.data, currentLang);
           <img
             src={product.images[0]}
             alt={product.title}
-            width="600"
-            height="600"
+            loading="eager"
           />
         ) : (
           <div style="height: 480px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(212, 163, 89, 0.16) 0%, rgba(42, 123, 136, 0.14) 100%);">
@@ -60,6 +114,13 @@ const product = localize(productRaw.data, currentLang);
       <div class="product-info-panel">
         <span class="product-category">{product.category}</span>
         <h1>{product.title}</h1>
+
+        {product.description && (
+          <p class="product-description-text">
+            {product.description}
+          </p>
+        )}
+
         <div class="product-price-large">{Number(product.price).toLocaleString('vi-VN')} {product.currency || 'VND'}</div>
 
         <!-- Where to Buy section -->
@@ -71,41 +132,130 @@ const product = localize(productRaw.data, currentLang);
 
           <div class="buy-options-list">
             {productRaw.data.stockLocations && productRaw.data.stockLocations.length > 0 ? (
-              productRaw.data.stockLocations.map((loc: any) => (
-                <div class:list={['buy-option-card', loc.type]}>
-                  <div class="buy-option-icon">
-                    {loc.type === 'offline' ? '📍' : '🚚'}
-                  </div>
-                  <div class="buy-option-content">
-                    <div class="buy-option-title">
-                      {loc.type === 'offline' ? (
-                        <>
-                          <strong>{loc.city}</strong>{loc.location ? `, ${loc.location}` : ''}
-                        </>
-                      ) : (
-                        <strong>{t('catalog.online_delivery')}</strong>
-                      )}
-                    </div>
-                    <div class="buy-option-meta">
-                      {loc.quantity !== undefined && (
-                        <span class="stock-quantity-pill">
-                          {loc.quantity} {t('catalog.pcs')}
+              (() => {
+                const dalatOffline = productRaw.data.stockLocations.find(
+                  (l: any) => l.type === 'offline' && l.city?.toLowerCase().includes('da lat')
+                );
+                const otherOffline = productRaw.data.stockLocations.filter(
+                  (l: any) => l.type === 'offline' && !l.city?.toLowerCase().includes('da lat')
+                );
+                const hasOnline = productRaw.data.stockLocations.some((l: any) => l.type === 'online');
+
+                const items: any[] = [];
+
+                // 1. Da Lat offline (if present)
+                if (dalatOffline) {
+                  items.push({ kind: 'offline', loc: dalatOffline });
+                }
+
+                // 2. Split delivery options (placed right after Da Lat, or first if no Da Lat offline)
+                if (hasOnline) {
+                  items.push({
+                    kind: 'delivery',
+                    icon: '🛵',
+                    title: t('catalog.delivery_dalat_title'),
+                    sub: t('catalog.delivery_dalat_sub'),
+                  });
+                  items.push({
+                    kind: 'delivery',
+                    icon: '📦',
+                    title: t('catalog.delivery_vn_title'),
+                    sub: t('catalog.delivery_vn_sub'),
+                  });
+                }
+
+                // 3. Other offline partner stores
+                otherOffline.forEach((loc: any) => {
+                  items.push({ kind: 'offline', loc });
+                });
+
+                return items.map((item: any) => {
+                  if (item.kind === 'delivery') {
+                    return (
+                      <div class="buy-option-card online">
+                        <div class="buy-option-icon">{item.icon}</div>
+                        <div class="buy-option-content">
+                          <div class="buy-option-title">
+                            <div class="delivery-text-wrap">
+                              <strong>{item.title}</strong>
+                              <span class="buy-option-delivery-sub">{item.sub}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <span class="stock-type-tag online">
+                          <span class="tag-status-indicator"></span>
+                          {t('catalog.delivery_badge')}
                         </span>
-                      )}
-                      {loc.lastCheckedAt && (
-                        <span class="stock-audit-pill" title={t('catalog.weekly_audit_hint')}>
-                          <span class="audit-icon">🕒</span>
-                          <span>{t('catalog.last_checked')}: {loc.lastCheckedAt}</span>
-                        </span>
-                      )}
+                      </div>
+                    );
+                  }
+
+                  const loc = item.loc;
+                  const isOfflineCheckup = loc.type === 'offline' && loc.lastCheckedAt;
+                  const modalTarget = isOfflineCheckup
+                    ? (loc.city.toLowerCase().includes('da nang') || (loc.location && loc.location.includes('NGÀY MAI'))
+                        ? '#modal-checkup-ngaymai'
+                        : '#modal-checkup-catfood')
+                    : undefined;
+
+                  return (
+                    <div
+                      class:list={[
+                        'buy-option-card',
+                        loc.type,
+                        modalTarget && 'buy-option-card--clickable',
+                      ]}
+                      data-hystmodal={modalTarget}
+                      role={modalTarget ? 'button' : undefined}
+                      tabindex={modalTarget ? 0 : undefined}
+                      title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
+                    >
+                      <div class="buy-option-icon">📍</div>
+                      <div class="buy-option-content">
+                        <div class="buy-option-title">
+                          {loc.location && loc.location.includes('магазин') ? (
+                            (() => {
+                              const parts = loc.location.split('магазин');
+                              const rawDistrict = parts[0].replace(/,\s*$/, '').trim();
+                              const district = localizeDistrict(rawDistrict);
+                              const shop = parts[1] ? parts[1].trim() : '';
+                              return (
+                                <>
+                                  <strong>{localizeCity(loc.city)}{district ? `, ${district}` : ''}</strong>, {t('catalog.shop_word')} <strong>{shop}</strong>
+                                </>
+                              );
+                            })()
+                          ) : (
+                            <>
+                              <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
+                            </>
+                          )}
+                        </div>
+                        <div class="buy-option-meta">
+                          {loc.quantity !== undefined && (
+                            loc.lastCheckedAt ? (
+                              <span class="stock-quantity-pill stock-quantity-pill--clickable">
+                                <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                                <span class="audit-prep"> {t('catalog.as_of')} </span>
+                                <span class="audit-date">{loc.lastCheckedAt}</span>
+                                <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
+                              </span>
+                            ) : (
+                              <span class="stock-quantity-pill">
+                                <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                              </span>
+                            )
+                          )}
+                        </div>
+                      </div>
+                      <span class:list={['stock-type-tag', loc.type]}>
+                        <span class="tag-status-indicator"></span>
+                        {loc.type === 'offline' ? t('catalog.offline_badge') : t('catalog.delivery_badge')}
+                      </span>
                     </div>
-                  </div>
-                  <span class:list={['stock-type-tag', loc.type]}>
-                    <span class="tag-status-indicator"></span>
-                    {loc.type === 'offline' ? t('catalog.offline_badge') : t('catalog.online_badge')}
-                  </span>
-                </div>
-              ))
+                  );
+                });
+              })()
             ) : (
               <div class="buy-option-card remake">
                 <div class="buy-option-icon">✨</div>
@@ -124,10 +274,6 @@ const product = localize(productRaw.data, currentLang);
             )}
           </div>
         </div>
-
-        <p class="product-description-text">
-          {product.description}
-        </p>
 
         <!-- Materials Section -->
         <div class="product-specs-section">
@@ -178,6 +324,123 @@ const product = localize(productRaw.data, currentLang);
       </div>
     </div>
   </div>
+
+  <!-- ====================================================================
+       HystModal Windows for Offline Partner Checkups
+       ==================================================================== -->
+  <!-- Modal: NGÀY MAI (Da Nang) -->
+  <div class="hystmodal" id="modal-checkup-ngaymai" aria-hidden="true">
+    <div class="hystmodal__wrap">
+      <div class="hystmodal__window checkup-modal-window" role="dialog" aria-modal="true" aria-labelledby="modal-nm-title">
+        <button data-hystclose class="hystmodal__close" aria-label={t('catalog.modal.close')}>✕</button>
+
+        <div class="modal-badge-tag">
+          <span>📍</span>
+          <span>{localizeCity('Da Nang')} • NGÀY MAI</span>
+        </div>
+
+        <h3 id="modal-nm-title" class="modal-headline">
+          {t('catalog.modal.title')}
+        </h3>
+
+        <div class="modal-body-content">
+          <p class="modal-lead">
+            {t('catalog.modal.nm_p1')}
+          </p>
+          <p>
+            {t('catalog.modal.nm_p2')}
+          </p>
+          <p set:html={t('catalog.modal.nm_p2_sub').replace('{item}', `<strong>«${product.title}»</strong>`)} />
+          <p class="modal-highlight">
+            {t('catalog.modal.nm_p3')}
+          </p>
+        </div>
+
+        <div class="modal-stock-photo-card">
+          <div class="stock-photo-header">
+            <span class="stock-photo-icon">📸</span>
+            <strong class="stock-photo-heading">{t('catalog.modal.stock_photo_title')} {ngayMaiLoc?.lastCheckedAt || '2026-10-04'}</strong>
+          </div>
+          <a
+            href="/images/stock/ngay-mai-showcase.jpg"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="stock-photo-frame"
+            title={t('catalog.modal.photo_zoom_hint')}
+          >
+            <img
+              src="/images/stock/ngay-mai-showcase.jpg"
+              alt={`Витрина с украшениями в NGÀY MAI (${ngayMaiLoc?.lastCheckedAt || '2026-10-04'})`}
+              class="stock-photo-image"
+              loading="lazy"
+            />
+            <span class="stock-photo-zoom-tag">🔍 {t('catalog.modal.photo_zoom_badge')}</span>
+          </a>
+        </div>
+
+        <div class="modal-hours">
+          <span class="modal-hours-icon">🕒</span>
+          <span>{t('catalog.modal.nm_hours')}</span>
+        </div>
+
+        <div class="modal-footer-actions">
+          <a
+            href="https://maps.app.goo.gl/9ZpC4aK4fGzW5c8r7"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-maps-link"
+          >
+            <span>🗺️</span>
+            <strong>{t('catalog.modal.nm_maps')}</strong>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Cat Food (Ho Chi Minh City) -->
+  <div class="hystmodal" id="modal-checkup-catfood" aria-hidden="true">
+    <div class="hystmodal__wrap">
+      <div class="hystmodal__window checkup-modal-window" role="dialog" aria-modal="true" aria-labelledby="modal-cf-title">
+        <button data-hystclose class="hystmodal__close" aria-label={t('catalog.modal.close')}>✕</button>
+
+        <div class="modal-badge-tag">
+          <span>📍</span>
+          <span>{localizeCity('Ho Chi Minh')} • Cat Food</span>
+        </div>
+
+        <h3 id="modal-cf-title" class="modal-headline">
+          {t('catalog.modal.title')}
+        </h3>
+
+        <div class="modal-body-content">
+          <p class="modal-lead">
+            {t('catalog.modal.catfood_p1')}
+          </p>
+          <p>
+            {t('catalog.modal.catfood_p2')}
+          </p>
+          <p class="modal-highlight">
+            {t('catalog.modal.catfood_p3')}
+          </p>
+        </div>
+
+        <div class="modal-footer-actions">
+          <a
+            href="https://maps.google.com/?q=Cat+Food+Shop+Ben+Thanh+Ho+Chi+Minh+City"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-maps-link"
+          >
+            <span>🗺️</span>
+            <strong>{t('catalog.modal.catfood_maps')}</strong>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </Layout>
 
 <style>
@@ -185,11 +448,9 @@ const product = localize(productRaw.data, currentLang);
     font-size: 16px;
     color: var(--text-dark);
     line-height: 1.8;
-    margin-bottom: 28px;
-    background: rgba(255, 255, 255, 0.4);
-    padding: 16px 20px;
-    border-radius: var(--radius-sm);
-    border-left: 3px solid var(--accent-gold);
+    margin-bottom: 24px;
+    padding: 0;
+    background: none;
   }
 
   .where-to-buy-section {
@@ -244,6 +505,16 @@ const product = localize(productRaw.data, currentLang);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
 
+  .buy-option-card--clickable {
+    cursor: pointer;
+  }
+
+  .buy-option-card--clickable:hover {
+    border-color: var(--accent-gold);
+    box-shadow: 0 4px 14px rgba(61, 46, 36, 0.09);
+    transform: translateY(-1px);
+  }
+
   .buy-option-icon {
     font-size: 20px;
     line-height: 1;
@@ -262,6 +533,19 @@ const product = localize(productRaw.data, currentLang);
     color: var(--color-brand-dark);
   }
 
+  .delivery-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .buy-option-delivery-sub {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1.35;
+  }
+
   .buy-option-hint {
     font-size: 12px;
     color: var(--text-muted);
@@ -277,11 +561,27 @@ const product = localize(productRaw.data, currentLang);
 
   .stock-quantity-pill {
     font-size: 12px;
-    font-weight: 700;
-    padding: 2px 10px;
+    padding: 3px 10px;
     background: rgba(42, 123, 136, 0.12);
     color: var(--accent-teal);
     border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .stock-quantity-pill strong {
+    font-weight: 700;
+  }
+
+  .stock-quantity-pill .audit-prep {
+    font-weight: 400;
+    opacity: 0.85;
+    margin: 0 3px;
+  }
+
+  .stock-quantity-pill .audit-date {
+    font-weight: 600;
   }
 
   .stock-audit-pill {
@@ -439,4 +739,237 @@ const product = localize(productRaw.data, currentLang);
     text-decoration: underline;
     font-weight: 600;
   }
+
+  /* Interactive checkup pill trigger */
+  .stock-quantity-pill--clickable {
+    cursor: pointer;
+    border: 1px solid rgba(42, 123, 136, 0.3);
+    transition: all 0.2s ease;
+    text-align: left;
+  }
+
+  .stock-quantity-pill--clickable:hover {
+    background: rgba(42, 123, 136, 0.22);
+    border-color: var(--accent-teal);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(42, 123, 136, 0.15);
+  }
+
+  .pill-info-icon {
+    font-size: 11px;
+    margin-left: 5px;
+    opacity: 0.8;
+  }
+
+  /* HystModal custom styling */
+  .checkup-modal-window {
+    background: #FAF7F2;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px rgba(40, 25, 15, 0.25);
+    padding: 36px 32px 32px;
+    max-width: 580px;
+    width: 92%;
+    position: relative;
+    border: 1px solid rgba(212, 163, 89, 0.3);
+    color: var(--text-dark);
+  }
+
+  .modal-badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #FFF4E5;
+    color: #B25E09;
+    border: 1px solid rgba(178, 94, 9, 0.25);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+
+  .modal-headline {
+    font-size: 24px;
+    font-family: var(--font-serif);
+    color: var(--color-brand-dark);
+    margin-bottom: 18px;
+    line-height: 1.3;
+  }
+
+  .modal-body-content {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #4A3E39;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .modal-lead {
+    font-weight: 600;
+    color: var(--color-brand-dark);
+    font-size: 15.5px;
+  }
+
+  .modal-highlight {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 12px 16px;
+    border-left: 3px solid var(--accent-gold);
+    border-radius: var(--radius-sm);
+    font-style: italic;
+  }
+
+  .modal-stock-photo-card {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    margin-bottom: 20px;
+  }
+
+  .stock-photo-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--color-brand-dark);
+  }
+
+  .stock-photo-icon {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .stock-photo-heading {
+    font-weight: 700;
+  }
+
+  .stock-photo-frame {
+    display: block;
+    position: relative;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    cursor: zoom-in;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: #e8e3dc;
+  }
+
+  .stock-photo-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .stock-photo-frame:hover .stock-photo-image {
+    transform: scale(1.02);
+  }
+
+  .stock-photo-zoom-tag {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    color: white;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    pointer-events: none;
+    transition: background 0.2s ease;
+  }
+
+  .stock-photo-frame:hover .stock-photo-zoom-tag {
+    background: rgba(0, 0, 0, 0.85);
+  }
+
+  .modal-hours {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+    margin-bottom: 20px;
+    padding: 9px 15px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    width: fit-content;
+  }
+
+  .modal-hours-icon {
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  .modal-footer-actions {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .btn-maps-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-teal);
+    color: white;
+    text-decoration: none;
+    padding: 12px 22px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(42, 123, 136, 0.25);
+  }
+
+  .btn-maps-link:hover {
+    background: var(--color-brand-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(61, 46, 36, 0.3);
+  }
+
+  .hystmodal__close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 32px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+  }
+
+  .hystmodal__close:hover {
+    background: rgba(0, 0, 0, 0.12);
+    color: var(--color-brand-dark);
+  }
 </style>
+
+<script>
+  import HystModal from 'hystmodal';
+  import 'hystmodal/css';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    new HystModal({
+      linkAttributeName: 'data-hystmodal',
+      catchFocus: true,
+      waitTransitions: true,
+      closeOnEsc: true,
+      closeOnOverlay: true,
+    });
+  });
+</script>
