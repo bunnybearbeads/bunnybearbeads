@@ -70,6 +70,8 @@ export const ui = {
     'catalog.offline_badge': 'Offline',
     'catalog.online_badge': 'Online Store',
     'catalog.online_delivery': 'Free delivery across Vietnam from Da Lat',
+    'catalog.last_checked': 'Stock checked',
+    'catalog.weekly_audit_hint': 'Weekly stock verification',
 
     // Blog UI
     'blog.title': 'Beadwork Journal & Stories',
@@ -129,6 +131,8 @@ export const ui = {
     'catalog.offline_badge': 'Оффлайн',
     'catalog.online_badge': 'Онлайн',
     'catalog.online_delivery': 'Бесплатная доставка по Вьетнаму из Далата',
+    'catalog.last_checked': 'Проверено',
+    'catalog.weekly_audit_hint': 'Еженедельный чекап наличия',
 
     // Blog UI
     'blog.title': 'Блог & Заметки мастера',
@@ -188,6 +192,8 @@ export const ui = {
     'catalog.offline_badge': 'Trực tiếp',
     'catalog.online_badge': 'Trực tuyến',
     'catalog.online_delivery': 'Freeship toàn quốc từ Đà Lạt',
+    'catalog.last_checked': 'Đã kiểm tra',
+    'catalog.weekly_audit_hint': 'Kiểm kê định kỳ mỗi tuần',
 
     // Blog UI
     'blog.title': 'Nhật Ký Đan Cườm & Câu Chuyện',

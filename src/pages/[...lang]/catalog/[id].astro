@@ -86,11 +86,19 @@ const product = localize(productRaw.data, currentLang);
                         <strong>{t('catalog.online_delivery')}</strong>
                       )}
                     </div>
-                    {loc.quantity !== undefined && (
-                      <span class="stock-quantity-pill">
-                        {loc.quantity} {t('catalog.pcs')}
-                      </span>
-                    )}
+                    <div class="buy-option-meta">
+                      {loc.quantity !== undefined && (
+                        <span class="stock-quantity-pill">
+                          {loc.quantity} {t('catalog.pcs')}
+                        </span>
+                      )}
+                      {loc.lastCheckedAt && (
+                        <span class="stock-audit-pill" title={t('catalog.weekly_audit_hint')}>
+                          <span class="audit-icon">🕒</span>
+                          <span>{t('catalog.last_checked')}: {loc.lastCheckedAt}</span>
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <span class:list={['stock-type-tag', loc.type]}>
                     <span class="tag-status-indicator"></span>
@@ -260,6 +268,13 @@ const product = localize(productRaw.data, currentLang);
     width: 100%;
   }
 
+  .buy-option-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
   .stock-quantity-pill {
     font-size: 12px;
     font-weight: 700;
@@ -267,6 +282,24 @@ const product = localize(productRaw.data, currentLang);
     background: rgba(42, 123, 136, 0.12);
     color: var(--accent-teal);
     border-radius: 12px;
+  }
+
+  .stock-audit-pill {
+    font-size: 11.5px;
+    font-weight: 500;
+    padding: 2px 8px;
+    background: rgba(100, 116, 139, 0.1);
+    color: #475569;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px dashed rgba(100, 116, 139, 0.25);
+  }
+
+  .audit-icon {
+    font-size: 11px;
+    line-height: 1;
   }
 
   /* Distinct visual badges (non-clickable tags) */

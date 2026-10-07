@@ -12,6 +12,7 @@ const stockLocationSchema = z.object({
   city: z.string(),
   location: z.string().optional(),
   quantity: z.number().optional(),
+  lastCheckedAt: z.string().optional(),
   note: z.string().optional(),
 });
 

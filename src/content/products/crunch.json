@@ -41,7 +41,8 @@
       "type": "offline",
       "city": "Da Nang",
       "location": "My an, магазин NGÀY MAI",
-      "quantity": 2
+      "quantity": 2,
+      "lastCheckedAt": "2026-10-05"
     },
     {
       "type": "online",
