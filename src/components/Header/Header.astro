@@ -30,12 +30,10 @@ const currentCategory = url.searchParams.get('category');
 
 // Top Secondary Navigation
 const topNavItems = [
-  { href: translatePath('/order'), label: t('nav.order'), isActive: currentCleanPath.startsWith('/order') },
   { href: translatePath('/about'), label: t('nav.about'), isActive: currentCleanPath.startsWith('/about') },
   { href: translatePath('/contacts'), label: t('nav.contacts'), isActive: currentCleanPath.startsWith('/contacts') },
-  { href: translatePath('/where-to-buy'), label: t('nav.where_to_buy'), isActive: currentCleanPath.startsWith('/where-to-buy') },
   { href: translatePath('/blog'), label: t('nav.blog'), isActive: currentCleanPath.startsWith('/blog') },
-  { href: translatePath('/delivery'), label: t('nav.delivery'), isActive: currentCleanPath.startsWith('/delivery') },
+  { href: translatePath('/faq'), label: t('nav.faq'), isActive: currentCleanPath.startsWith('/faq') },
 ];
 
 // Main Catalog Categories

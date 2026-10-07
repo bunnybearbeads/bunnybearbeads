@@ -1,8 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Accent from '../../components/Accent/Accent.astro';
-import { getStaticLangPaths, resolveLang, localize, getLocalizedUrl } from '../../utils/i18n';
-import homeDataRaw from '../../data/pages/home.json';
+import { getEntry, render } from 'astro:content';
+import { getStaticLangPaths, resolveLang, getLocalizedUrl } from '../../utils/i18n';
 
 export function getStaticPaths() {
   return getStaticLangPaths();
@@ -10,49 +10,51 @@ export function getStaticPaths() {
 
 const { lang: langParam } = Astro.params;
 const currentLang = resolveLang(langParam);
-const home = localize(homeDataRaw, currentLang);
+
+const homeEntry = await getEntry('home', currentLang);
+if (!homeEntry) {
+  throw new Error(`Home entry not found for lang: ${currentLang}`);
+}
+
+const { hero, features, featuresTitle, featuresSubtitle, seoTitle, seoDesc } = homeEntry.data;
+const { Content } = await render(homeEntry);
 ---
 
-<Layout lang={currentLang} title={home.seo.title} description={home.seo.description}>
+<Layout lang={currentLang} title={seoTitle} description={seoDesc}>
   <!-- Hero Section -->
   <section class="hero-section" id="welcome">
     <div class="container">
       <div class="hero-grid">
         <div class="hero-content">
-          <div class="welcome-badge">
-            <span>📿</span> {home.hero.badge}
-          </div>
-
           <h1 class="hero-title">
-            {home.hero.titlePrefix}<Accent>{home.hero.titleAccent}</Accent>
+            {hero.titlePrefix}<Accent>{hero.titleAccent}</Accent>
           </h1>
 
           <div class="welcome-card">
             <div class="welcome-text">
               <p>
-                <strong>{home.hero.authorGreeting}</strong>, {home.hero.authorTagline}
+                <strong>{hero.greeting}</strong>, {hero.tagline}
               </p>
-              <p>{home.hero.authorP1}</p>
-              <p>{home.hero.authorP2}</p>
+              <Content />
             </div>
 
             <div class="author-signature">
               <div class="author-avatar">
-                <img src="/logo_icon.png" alt={home.hero.authorName} width="52" height="52" />
+                <img src="/logo_icon.png" alt={hero.authorName} width="52" height="52" />
               </div>
               <div class="author-info">
-                <h4>{home.hero.authorName}</h4>
-                <p>{home.hero.authorRole}</p>
+                <h4>{hero.authorName}</h4>
+                <p>{hero.authorRole}</p>
               </div>
             </div>
           </div>
 
           <div class="cta-buttons">
             <a href={getLocalizedUrl('/catalog', currentLang)} class="btn btn-primary">
-              <span>✨</span> {home.hero.btnExplore}
+              <span>✨</span> {hero.btnExplore}
             </a>
             <a href={getLocalizedUrl('/contacts', currentLang)} class="btn btn-secondary">
-              <span>💌</span> {home.hero.btnOrder}
+              <span>💌</span> {hero.btnOrder}
             </a>
           </div>
         </div>
@@ -70,8 +72,8 @@ const home = localize(homeDataRaw, currentLang);
           <div class="floating-badge">
             <span class="floating-badge-icon">💎</span>
             <div class="floating-badge-text">
-              <h5>{home.hero.badgeCrafted}</h5>
-              <p>{home.hero.badgeUnique}</p>
+              <h5>{hero.badgeCrafted}</h5>
+              <p>{hero.badgeUnique}</p>
             </div>
           </div>
         </div>
@@ -82,11 +84,11 @@ const home = localize(homeDataRaw, currentLang);
   <!-- Features Section -->
   <section class="features-section" id="features">
     <div class="container">
-      <h2 class="section-title">{home.features.title}</h2>
-      <p class="section-subtitle">{home.features.subtitle}</p>
+      <h2 class="section-title">{featuresTitle}</h2>
+      <p class="section-subtitle">{featuresSubtitle}</p>
 
       <div class="features-grid">
-        {home.features.items.map((item: any) => (
+        {features.map((item) => (
           <div class="feature-card">
             <div class="feature-icon">{item.icon}</div>
             <h3>{item.title}</h3>

@@ -12,11 +12,17 @@ const { lang: langParam } = Astro.params;
 const currentLang = resolveLang(langParam);
 const t = useTranslations(currentLang);
 
-const rawPosts = await getCollection('blog');
-const posts = rawPosts.map((post) => ({
-  id: post.id,
-  data: localize(post.data, currentLang),
-}));
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter((post) => post.id.startsWith(`${currentLang}/`))
+  .map((post) => {
+    const slug = post.id.replace(`${currentLang}/`, '');
+    return {
+      id: slug,
+      data: post.data,
+    };
+  })
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
 <Layout
@@ -26,9 +32,6 @@ const posts = rawPosts.map((post) => ({
 >
   <div class="container" style="padding-bottom: 80px;">
     <header class="page-header">
-      <div class="welcome-badge">
-        <span>📖</span> {t('nav.blog')}
-      </div>
       <h1 class="page-title">{t('blog.title')}</h1>
       <p class="page-subtitle">{t('blog.subtitle')}</p>
     </header>

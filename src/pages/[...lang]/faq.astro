@@ -1,0 +1,118 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import { getStaticLangPaths, resolveLang, getLocalizedUrl } from '../../utils/i18n';
+
+export function getStaticPaths() {
+  return getStaticLangPaths();
+}
+
+const { lang: langParam } = Astro.params;
+const currentLang = resolveLang(langParam);
+
+// Meta per language
+const metaByLang: Record<string, { title: string; subtitle: string; seoTitle: string; seoDesc: string }> = {
+  ru: {
+    title: 'Частые вопросы',
+    subtitle: 'Всё, что вы хотели знать об индивидуальных заказах, материалах, оплате, доставке и честном подходе к делу',
+    seoTitle: 'Частые вопросы (FAQ) — BunnyBearBeads',
+    seoDesc: 'Ответы на частые вопросы об индивидуальных заказах, материалах, фурнитуре, оплате и доставке в BunnyBearBeads.',
+  },
+  en: {
+    title: 'Frequently Asked Questions',
+    subtitle: 'Everything you wanted to know about custom orders, materials, payment, shipping, and our honest craft philosophy',
+    seoTitle: 'FAQ — Frequently Asked Questions | BunnyBearBeads',
+    seoDesc: 'Answers to common questions about custom orders, beads & materials, hardware, payment, and shipping at BunnyBearBeads.',
+  },
+  vi: {
+    title: 'Câu hỏi thường gặp',
+    subtitle: 'Mọi điều bạn cần biết về đặt làm riêng, chất liệu, thanh toán, giao hàng và triết lý thủ công chân thật',
+    seoTitle: 'Câu Hỏi Thường Gặp (FAQ) — BunnyBearBeads',
+    seoDesc: 'Giải đáp thắc mắc về đặt làm theo yêu cầu, mua hạt cườm, thanh toán tài khoản ngân hàng Việt Nam và vận chuyển tại BunnyBearBeads.',
+  },
+};
+
+const meta = metaByLang[currentLang] || metaByLang.en;
+
+// Filter FAQ items by language folder (ru/, en/, vi/)
+const allFaqEntries = await getCollection('faq');
+const langEntries = allFaqEntries
+  .filter((entry) => entry.id.startsWith(`${currentLang}/`))
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+// Render all entries
+const renderedItems = await Promise.all(
+  langEntries.map(async (entry) => {
+    const rendered = await render(entry);
+    return {
+      entry,
+      Content: rendered.Content,
+    };
+  })
+);
+---
+
+<Layout lang={currentLang} title={meta.seoTitle} description={meta.seoDesc}>
+  <div class="container" style="padding-bottom: 80px;">
+    <header class="page-header">
+      <h1 class="page-title">{meta.title}</h1>
+      <p class="page-subtitle">{meta.subtitle}</p>
+    </header>
+
+    <div style="max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+      {renderedItems.map(({ entry, Content }) => (
+        <article class="content-card" style="margin: 0; padding: 28px 32px; border-radius: 16px;">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="font-size: 28px; line-height: 1; flex-shrink: 0; padding-top: 2px;">
+              {entry.data.icon}
+            </div>
+            <div style="flex: 1;" class="faq-content-body">
+              <h2 style="font-size: 1.35rem; margin-top: 0; margin-bottom: 12px; color: var(--color-brand-dark);">
+                {entry.data.question}
+              </h2>
+              <Content />
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Bottom CTA box -->
+    <div class="content-card" style="text-align: center; max-width: 860px; margin: 48px auto 0; padding: 36px 32px;">
+      <h2>
+        {currentLang === 'ru' 
+          ? 'Остались вопросы или есть идея?' 
+          : currentLang === 'vi' 
+          ? 'Bạn còn câu hỏi hoặc có ý tưởng mới?' 
+          : 'Still have questions or an idea?'}
+      </h2>
+      <p style="margin: 14px 0 24px; font-size: 1.05rem;">
+        {currentLang === 'ru'
+          ? 'Напишите мне напрямую — с радостью пообщаемся, обсудим бисер, фурнитуру или новый дизайн!'
+          : currentLang === 'vi'
+          ? 'Hãy nhắn tin trực tiếp cho mình nhé — mình luôn sẵn sàng trò chuyện về hạt cườm, phụ kiện hay mẫu thiết kế mới!'
+          : 'Message me directly — always happy to chat about beads, findings, or a new design idea!'}
+      </p>
+      <div class="cta-buttons" style="justify-content: center;">
+        <a href={getLocalizedUrl('/contacts', currentLang)} class="btn btn-primary">
+          💌 {currentLang === 'ru' ? 'Написать мастеру' : currentLang === 'vi' ? 'Liên hệ với mình' : 'Get in Touch'}
+        </a>
+        <a href={getLocalizedUrl('/catalog', currentLang)} class="btn btn-secondary">
+          ✨ {currentLang === 'ru' ? 'В каталог' : currentLang === 'vi' ? 'Xem danh mục' : 'Explore Catalog'}
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .faq-content-body :global(p) {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-dark);
+    margin: 0 0 12px 0;
+  }
+  .faq-content-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

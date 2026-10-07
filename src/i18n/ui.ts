@@ -33,6 +33,7 @@ export const ui = {
     'nav.contacts': 'Contacts & Socials',
     'nav.where_to_buy': 'Where to Buy',
     'nav.blog': 'Blog',
+    'nav.faq': 'FAQ — Must Read!',
     'nav.delivery': 'Delivery',
     'nav.language': 'Language',
 
@@ -81,6 +82,7 @@ export const ui = {
     'nav.contacts': 'Контакты и соц.сети',
     'nav.where_to_buy': 'Где купить',
     'nav.blog': 'Блог',
+    'nav.faq': 'FAQ — это важно!',
     'nav.delivery': 'Доставка',
     'nav.language': 'Язык',
 
@@ -129,6 +131,7 @@ export const ui = {
     'nav.contacts': 'Liên hệ & Mạng xã hội',
     'nav.where_to_buy': 'Điểm bán',
     'nav.blog': 'Blog',
+    'nav.faq': 'FAQ — Lưu ý quan trọng!',
     'nav.delivery': 'Vận chuyển',
     'nav.language': 'Ngôn ngữ',
 

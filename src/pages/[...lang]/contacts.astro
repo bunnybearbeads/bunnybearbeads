@@ -1,8 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Accent from '../../components/Accent/Accent.astro';
-import { getStaticLangPaths, resolveLang, localize } from '../../utils/i18n';
-import contactsDataRaw from '../../data/pages/contacts.json';
+import { getEntry, render } from 'astro:content';
+import { getStaticLangPaths, resolveLang } from '../../utils/i18n';
 
 export function getStaticPaths() {
   return getStaticLangPaths();
@@ -10,87 +10,77 @@ export function getStaticPaths() {
 
 const { lang: langParam } = Astro.params;
 const currentLang = resolveLang(langParam);
-const contacts = localize(contactsDataRaw, currentLang);
+
+const contactsEntry = await getEntry('contacts', currentLang);
+if (!contactsEntry) {
+  throw new Error(`Contacts entry not found for lang: ${currentLang}`);
+}
+
+const { title, subtitle, introHeading, telegramBox, channels, seoTitle, seoDesc } = contactsEntry.data;
+const { Content } = await render(contactsEntry);
 ---
 
-<Layout lang={currentLang} title={contacts.seo.title} description={contacts.seo.description}>
+<Layout lang={currentLang} title={seoTitle} description={seoDesc}>
   <div class="container" style="padding-bottom: 80px;">
     <header class="page-header">
-      <div class="welcome-badge">
-        <span>✈️</span> {contacts.badge}
-      </div>
-      <h1 class="page-title">{contacts.title}</h1>
-      <p class="page-subtitle">{contacts.subtitle}</p>
+      <h1 class="page-title">{title}</h1>
+      <p class="page-subtitle">{subtitle}</p>
     </header>
 
     <div class="contacts-grid">
       <!-- Contact Channels & Info -->
       <div class="contact-channels">
         <div class="content-card" style="margin-bottom: 24px;">
-          <h2>{contacts.introHeading}</h2>
-          <p>{contacts.introText}</p>
+          <h2>{introHeading}</h2>
+          <Content />
         </div>
 
-        <a href={contacts.channels.telegram.url} target="_blank" rel="noopener noreferrer" class="contact-channel-item channel-telegram-highlight">
+        <a href={channels.telegram.url} target="_blank" rel="noopener noreferrer" class="contact-channel-item channel-telegram-highlight">
           <span class="channel-icon">✈️</span>
           <div class="channel-meta">
-            <strong>{contacts.channels.telegram.label}</strong>
-            <span>{contacts.channels.telegram.value}</span>
+            <strong>{channels.telegram.label}</strong>
+            <span>{channels.telegram.value}</span>
           </div>
           <span class="channel-badge">Primary</span>
         </a>
 
-        <a href={contacts.channels.instagram.url} target="_blank" rel="noopener noreferrer" class="contact-channel-item">
+        <a href={channels.instagram.url} target="_blank" rel="noopener noreferrer" class="contact-channel-item">
           <span class="channel-icon">📸</span>
           <div class="channel-meta">
-            <strong>{contacts.channels.instagram.label}</strong>
-            <span>{contacts.channels.instagram.value}</span>
+            <strong>{channels.instagram.label}</strong>
+            <span>{channels.instagram.value}</span>
           </div>
         </a>
 
-        <a href={`mailto:${contacts.channels.email.value}`} class="contact-channel-item">
+        <a href={`mailto:${channels.email.value}`} class="contact-channel-item">
           <span class="channel-icon">✉️</span>
           <div class="channel-meta">
-            <strong>{contacts.channels.email.label}</strong>
-            <span>{contacts.channels.email.value}</span>
+            <strong>{channels.email.label}</strong>
+            <span>{channels.email.value}</span>
           </div>
         </a>
 
         <div class="contact-channel-item">
           <span class="channel-icon">📍</span>
           <div class="channel-meta">
-            <strong>{contacts.channels.location.label}</strong>
-            <span>{contacts.channels.location.value}</span>
+            <strong>{channels.location.label}</strong>
+            <span>{channels.location.value}</span>
           </div>
         </div>
       </div>
 
-      <!-- Telegram Direct Messenger Hub (Replaces Form) -->
-      <div class="content-card telegram-hub-card">
-        <div class="telegram-hub-header">
-          <span class="hub-tag">{contacts.telegramBox.badge}</span>
-          <h2>{contacts.telegramBox.heading} <Accent>💬</Accent></h2>
-          <p>{contacts.telegramBox.description}</p>
+      <!-- Telegram Direct Box -->
+      <div class="telegram-direct-card">
+        <div class="telegram-card-header">
+          <div class="tg-badge"><span>⚡</span> {telegramBox.badge}</div>
+          <h2>{telegramBox.heading}</h2>
+          <p>{telegramBox.description}</p>
         </div>
 
-        <div class="telegram-hub-action">
-          <a
-            href={contacts.telegramBox.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-telegram-large"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.37.74-.56 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.37.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24-.01.44z"/>
-            </svg>
-            <span>{contacts.telegramBox.btnText}</span>
-          </a>
-        </div>
-
-        <div class="telegram-perks-list">
-          {contacts.telegramBox.perks.map((perk: any) => (
-            <div class="telegram-perk-item">
-              <span class="perk-icon">{perk.icon}</span>
+        <div class="tg-perks">
+          {telegramBox.perks.map((perk) => (
+            <div class="tg-perk-item">
+              <span class="tg-perk-icon">{perk.icon}</span>
               <div>
                 <strong>{perk.title}</strong>
                 <p>{perk.text}</p>
@@ -98,132 +88,199 @@ const contacts = localize(contactsDataRaw, currentLang);
             </div>
           ))}
         </div>
+
+        <div class="telegram-card-footer">
+          <a href={telegramBox.url} target="_blank" rel="noopener noreferrer" class="btn btn-telegram-large">
+            <span>✈️</span> {telegramBox.btnText}
+          </a>
+          <span class="tg-subtext">Direct dialogue • Instant responses</span>
+        </div>
       </div>
     </div>
   </div>
 </Layout>
 
 <style>
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .contact-channel-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--color-brand-dark);
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .contact-channel-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-gold);
+    box-shadow: var(--shadow-medium);
+  }
+
   .channel-telegram-highlight {
-    background: linear-gradient(135deg, rgba(42, 123, 136, 0.12) 0%, rgba(255, 255, 255, 0.95) 100%) !important;
+    background: linear-gradient(135deg, rgba(42, 123, 136, 0.08) 0%, rgba(212, 163, 89, 0.08) 100%);
     border-color: rgba(42, 123, 136, 0.35) !important;
-    position: relative;
+  }
+
+  .channel-icon {
+    font-size: 26px;
+    line-height: 1;
+  }
+
+  .channel-meta {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .channel-meta strong {
+    font-size: 15px;
+    color: var(--color-brand-dark);
+    margin-bottom: 2px;
+  }
+
+  .channel-meta span {
+    font-size: 13.5px;
+    color: var(--text-muted);
   }
 
   .channel-badge {
-    margin-left: auto;
     font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    background: var(--accent-teal, #2A7B88);
-    color: white;
-    padding: 3px 10px;
+    padding: 4px 10px;
+    background: var(--accent-teal);
+    color: #fff;
     border-radius: 12px;
   }
 
-  .telegram-hub-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 243, 237, 0.92) 100%);
+  .telegram-direct-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
     border: 1px solid rgba(42, 123, 136, 0.25);
     border-radius: 20px;
-    padding: 36px 32px;
-    margin-bottom: 0;
-    box-shadow: 0 14px 34px rgba(60, 45, 30, 0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+    padding: 40px 36px;
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    overflow: hidden;
   }
 
-  .telegram-hub-header h2 {
-    font-size: 24px;
-    margin: 8px 0 10px;
+  .telegram-direct-card::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(42, 123, 136, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .tg-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(42, 123, 136, 0.1);
+    color: var(--accent-teal);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .telegram-card-header h2 {
+    font-size: 28px;
+    margin-bottom: 12px;
     color: var(--color-brand-dark);
   }
 
-  .telegram-hub-header p {
+  .telegram-card-header p {
     font-size: 15px;
-    line-height: 1.65;
     color: var(--text-dark);
-    margin: 0;
+    line-height: 1.6;
+    margin-bottom: 28px;
   }
 
-  .hub-tag {
-    display: inline-block;
-    font-size: 11.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--accent-teal, #2A7B88);
-    background: rgba(42, 123, 136, 0.12);
-    padding: 4px 12px;
-    border-radius: 20px;
+  .tg-perks {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .tg-perk-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .tg-perk-icon {
+    font-size: 18px;
+    padding-top: 2px;
+  }
+
+  .tg-perk-item strong {
+    display: block;
+    font-size: 14.5px;
+    color: var(--color-brand-dark);
+  }
+
+  .tg-perk-item p {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin: 2px 0 0 0;
+    line-height: 1.45;
   }
 
   .btn-telegram-large {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    background: linear-gradient(135deg, #2A7B88 0%, #1c5b65 100%);
-    color: #FAF7F2;
-    padding: 16px 28px;
-    border-radius: 30px;
+    gap: 10px;
+    width: 100%;
+    padding: 16px 24px;
+    background: var(--accent-teal);
+    color: #fff;
     font-size: 16px;
     font-weight: 600;
+    border-radius: 30px;
     text-decoration: none;
-    transition: all 0.25s ease;
-    box-shadow: 0 8px 20px rgba(42, 123, 136, 0.32);
-    text-align: center;
+    box-shadow: 0 4px 14px rgba(42, 123, 136, 0.3);
+    transition: all 0.2s ease;
   }
 
   .btn-telegram-large:hover {
+    background: var(--color-brand-accent);
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(42, 123, 136, 0.45);
-    background: linear-gradient(135deg, #328f9e 0%, #236f7b 100%);
-    color: white;
+    box-shadow: 0 6px 20px rgba(42, 123, 136, 0.4);
   }
 
-  .telegram-perks-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding-top: 16px;
-    border-top: 1px dashed rgba(212, 163, 89, 0.3);
-  }
-
-  .telegram-perk-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-  }
-
-  .perk-icon {
-    font-size: 22px;
-    line-height: 1;
-    margin-top: 2px;
-  }
-
-  .telegram-perk-item strong {
+  .tg-subtext {
     display: block;
-    font-size: 14.5px;
-    color: var(--color-brand-dark);
-    margin-bottom: 2px;
-  }
-
-  .telegram-perk-item p {
-    font-size: 13.5px;
+    text-align: center;
+    font-size: 12px;
     color: var(--text-muted);
-    line-height: 1.5;
-    margin: 0;
+    margin-top: 12px;
   }
 
-  @media (max-width: 600px) {
-    .telegram-hub-card {
-      padding: 24px 20px;
-    }
-    .btn-telegram-large {
-      font-size: 14.5px;
-      padding: 14px 20px;
+  @media (max-width: 860px) {
+    .contacts-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
