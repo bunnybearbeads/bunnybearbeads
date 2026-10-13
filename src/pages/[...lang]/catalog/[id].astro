@@ -131,21 +131,25 @@ function localizeDistrict(distStr: string = '') {
           </div>
 
           <div class="buy-options-list">
-            {productRaw.data.stockLocations && productRaw.data.stockLocations.length > 0 ? (
-              (() => {
-                const dalatOffline = productRaw.data.stockLocations.find(
-                  (l: any) => l.type === 'offline' && l.city?.toLowerCase().includes('da lat')
-                );
-                const otherOffline = productRaw.data.stockLocations.filter(
-                  (l: any) => l.type === 'offline' && !l.city?.toLowerCase().includes('da lat')
-                );
-                const hasOnline = productRaw.data.stockLocations.some((l: any) => l.type === 'online');
+            {(() => {
+              const stockLocations = productRaw.data.stockLocations || [];
+              const dalatOffline = stockLocations.find(
+                (l: any) => l.type === 'offline' && l.city?.toLowerCase().includes('da lat')
+              );
+              const otherOffline = stockLocations.filter(
+                (l: any) => l.type === 'offline' && !l.city?.toLowerCase().includes('da lat')
+              );
+              const hasOnline = stockLocations.some((l: any) => l.type === 'online') || stockLocations.length === 0;
+
+              // Determine if Da Lat has ready offline stock on hand or is craft-to-order (remake)
+              const isDalatInStock = dalatOffline ? (dalatOffline.quantity !== undefined && dalatOffline.quantity > 0) : false;
+              const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'Lâm Viên', quantity: 0 };
 
                 const items: any[] = [];
 
-                // 1. Da Lat offline (if present)
-                if (dalatOffline) {
-                  items.push({ kind: 'offline', loc: dalatOffline });
+                // 1. Da Lat point (in-stock or remake)
+                if (dalatLoc) {
+                  items.push({ kind: 'offline', loc: dalatLoc, isDalatLoc: true, isDalatInStock });
                 }
 
                 // 2. Split delivery options (placed right after Da Lat, or first if no Da Lat offline)
@@ -154,25 +158,27 @@ function localizeDistrict(distStr: string = '') {
                     kind: 'delivery',
                     icon: '🛵',
                     title: t('catalog.delivery_dalat_title'),
-                    sub: t('catalog.delivery_dalat_sub'),
+                    sub: isDalatInStock ? t('catalog.delivery_dalat_sub') : t('catalog.delivery_dalat_sub_remake'),
+                    nestedClass: dalatLoc ? 'nested-delivery nested-first' : undefined,
                   });
                   items.push({
                     kind: 'delivery',
                     icon: '📦',
                     title: t('catalog.delivery_vn_title'),
-                    sub: t('catalog.delivery_vn_sub'),
+                    sub: isDalatInStock ? t('catalog.delivery_vn_sub') : t('catalog.delivery_vn_sub_remake'),
+                    nestedClass: dalatLoc ? 'nested-delivery nested-last' : undefined,
                   });
                 }
 
                 // 3. Other offline partner stores
                 otherOffline.forEach((loc: any) => {
-                  items.push({ kind: 'offline', loc });
+                  items.push({ kind: 'offline', loc, isDalatLoc: false, isDalatInStock: true });
                 });
 
                 return items.map((item: any) => {
                   if (item.kind === 'delivery') {
                     return (
-                      <div class="buy-option-card online">
+                      <div class:list={['buy-option-card', 'online', item.nestedClass]}>
                         <div class="buy-option-icon">{item.icon}</div>
                         <div class="buy-option-content">
                           <div class="buy-option-title">
@@ -226,9 +232,22 @@ function localizeDistrict(distStr: string = '') {
                               );
                             })()
                           ) : (
-                            <>
-                              <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
-                            </>
+                            item.isDalatLoc && !item.isDalatInStock ? (
+                              <div class="dalat-remake-wrap">
+                                <div class="dalat-title-row">
+                                  <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
+                                  <span class="stock-quantity-pill stock-sold-pill">
+                                    <strong>{t('catalog.sold_out')}</strong>
+                                  </span>
+                                </div>
+                                <div class="dalat-remake-craft-text">{t('catalog.craft_remake')}</div>
+                                <div class="dalat-remake-time-text">{t('catalog.craft_time')}</div>
+                              </div>
+                            ) : (
+                              <>
+                                <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
+                              </>
+                            )
                           )}
                         </div>
                         <div class="buy-option-meta">
@@ -241,9 +260,11 @@ function localizeDistrict(distStr: string = '') {
                                 <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
                               </span>
                             ) : (
-                              <span class="stock-quantity-pill">
-                                <strong>{loc.quantity} {t('catalog.pcs')}</strong>
-                              </span>
+                              (!item.isDalatLoc || item.isDalatInStock) && (
+                                <span class="stock-quantity-pill">
+                                  <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                                </span>
+                              )
                             )
                           )}
                         </div>
@@ -255,23 +276,7 @@ function localizeDistrict(distStr: string = '') {
                     </div>
                   );
                 });
-              })()
-            ) : (
-              <div class="buy-option-card remake">
-                <div class="buy-option-icon">✨</div>
-                <div class="buy-option-content">
-                  <div class="buy-option-title">
-                    <strong>{t('catalog.remake_order')}</strong>
-                  </div>
-                  <div class="buy-option-hint">
-                    Товара сейчас нет в наличии, но мы с радостью сделаем его специально для вас!
-                  </div>
-                </div>
-                <button type="button" class="btn-remake-action">
-                  {t('catalog.remake_order')}
-                </button>
-              </div>
-            )}
+              })()}
           </div>
         </div>
 
@@ -515,6 +520,72 @@ function localizeDistrict(distStr: string = '') {
     transform: translateY(-1px);
   }
 
+  /* Nested delivery options branching from Da Lat offline point */
+  .buy-option-card.nested-delivery {
+    margin-left: 28px;
+    position: relative;
+  }
+
+  /* Vertical trunk connecting down through the first nested item (Courier) */
+  .buy-option-card.nested-delivery.nested-first::after {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: -11px;
+    bottom: -11px;
+    width: 2px;
+    background: rgba(4, 120, 87, 0.35);
+    transition: background-color 0.2s ease;
+  }
+
+  /* Horizontal branch connecting into the first nested item (Courier) */
+  .buy-option-card.nested-delivery.nested-first::before {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    width: 18px;
+    height: 2px;
+    background: rgba(4, 120, 87, 0.35);
+    transition: background-color 0.2s ease;
+  }
+
+  /* Curved branch connecting into the terminal nested item (Shipping) */
+  .buy-option-card.nested-delivery.nested-last::before {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: -11px;
+    height: calc(50% + 11px);
+    width: 18px;
+    border-left: 2px solid rgba(4, 120, 87, 0.35);
+    border-bottom: 2px solid rgba(4, 120, 87, 0.35);
+    border-bottom-left-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+  }
+
+  .buy-option-card.nested-delivery:hover::before,
+  .buy-option-card.nested-delivery.nested-first:hover::after {
+    background-color: var(--accent-teal);
+    border-color: var(--accent-teal);
+  }
+
+  @media (max-width: 600px) {
+    .buy-option-card.nested-delivery {
+      margin-left: 18px;
+    }
+    .buy-option-card.nested-delivery.nested-first::after,
+    .buy-option-card.nested-delivery.nested-first::before {
+      left: -12px;
+      width: 12px;
+    }
+    .buy-option-card.nested-delivery.nested-last::before {
+      left: -12px;
+      width: 12px;
+    }
+  }
+
   .buy-option-icon {
     font-size: 20px;
     line-height: 1;
@@ -540,6 +611,33 @@ function localizeDistrict(distStr: string = '') {
   }
 
   .buy-option-delivery-sub {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1.35;
+  }
+
+  .dalat-remake-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .dalat-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .dalat-remake-craft-text {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--color-brand-dark);
+    line-height: 1.35;
+  }
+
+  .dalat-remake-time-text {
     font-size: 13px;
     font-weight: 400;
     color: var(--text-muted);
@@ -572,6 +670,12 @@ function localizeDistrict(distStr: string = '') {
 
   .stock-quantity-pill strong {
     font-weight: 700;
+  }
+
+  .stock-sold-pill {
+    background: rgba(180, 83, 9, 0.12);
+    color: #B45309;
+    border: 1px solid rgba(180, 83, 9, 0.25);
   }
 
   .stock-quantity-pill .audit-prep {
@@ -649,24 +753,7 @@ function localizeDistrict(distStr: string = '') {
     box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
   }
 
-  /* Remake button for when product is out of stock */
-  .btn-remake-action {
-    background: var(--color-brand-dark);
-    color: #FAF7F2;
-    border: 1px solid var(--color-brand-dark);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: default;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-  }
 
-  .btn-remake-action:hover {
-    background: var(--accent-gold);
-    border-color: var(--accent-gold);
-  }
 
   .product-specs-section {
     margin-top: 24px;
