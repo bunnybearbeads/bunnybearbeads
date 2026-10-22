@@ -8,7 +8,7 @@
 }
 
 .site-header {
-  width: 1140px;
+  width: 1188px;
   margin: 0 auto;
 }
 
@@ -134,7 +134,7 @@
    Lower Header - Main Floating Bar with Medallion and Categories
    ========================================================================== */
 .header-bottom {
-  height: 64px;
+  height: 70px;
   padding: 0 36px;
   display: flex;
   align-items: center;
@@ -157,8 +157,8 @@
 
 .header__medallion {
   vertical-align: top;
-  height: 84px;
-  width: 84px;
+  height: 90px;
+  width: 90px;
   border: 0.5px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 50%;
@@ -175,7 +175,7 @@
 
 .header__brand {
   font-family: var(--font-serif);
-  font-size: 33px;
+  font-size: 35px;
   font-weight: 700;
   color: var(--color-brand-dark);
   letter-spacing: -0.2px;
@@ -328,7 +328,7 @@
   }
 
   .site-header {
-    width: 1320px;
+    width: 1368px;
   }
 
   .header-top {

@@ -40,13 +40,13 @@ function localizeDistrict(distStr: string = '') {
 
     <!-- Info Panel -->
     <div class="product-info-panel">
-      <div class="back-nav">
+      <div class="product-top-meta">
         <a href={getLocalizedUrl('/catalog', currentLang)} class="back-link">
           ← {t('catalog.back_to_catalog')}
         </a>
+        <span class="product-top-sep" aria-hidden="true">•</span>
+        <span class="product-category">{product.category}</span>
       </div>
-
-      <span class="product-category">{product.category}</span>
       <h1>{product.title}</h1>
 
       {product.description && (
