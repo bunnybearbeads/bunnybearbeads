@@ -1,24 +1,24 @@
 .blog-article-card {
-  padding: 48px 40px;
+  padding: 43px 36px;
 }
 
 .blog-article-meta {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-muted);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .blog-article-title {
-  font-size: 42px;
+  font-size: 38px;
   line-height: 1.2;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
   color: var(--color-brand-dark);
 }
 
 .blog-article-cover {
   border-radius: var(--radius-md);
   overflow: hidden;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   box-shadow: var(--shadow-soft);
 }
 
@@ -29,21 +29,21 @@
 }
 
 .blog-article-lead {
-  font-size: 19px;
+  font-size: 17px;
   line-height: 1.8;
   color: var(--color-brand-dark);
-  margin-bottom: 24px;
+  margin-bottom: 22px;
   font-weight: 500;
 }
 
 .blog-body {
-  font-size: 16.5px;
+  font-size: 15px;
   line-height: 1.85;
   color: var(--text-dark);
 }
 
 .blog-body p {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .blog-body p:last-child {
@@ -51,11 +51,69 @@
 }
 
 .blog-article-tags {
-  margin-top: 36px;
-  padding-top: 20px;
+  margin-top: 32px;
+  padding-top: 18px;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .blog-article-cta {
-  margin-top: 36px;
+  margin-top: 32px;
+}
+
+/* ==========================================================================
+   Large Desktop (1500px+)
+   ========================================================================== */
+@media (1500px <= width) {
+  .blog-article-card {
+    padding: 53px 44px;
+  }
+
+  .blog-article-meta {
+    font-size: 14.5px;
+    margin-bottom: 18px;
+  }
+
+  .blog-article-title {
+    font-size: 46px;
+    margin-bottom: 26px;
+  }
+
+  .blog-article-cover {
+    margin-bottom: 36px;
+  }
+
+  .blog-article-lead {
+    font-size: 21px;
+    margin-bottom: 26px;
+  }
+
+  .blog-body {
+    font-size: 18px;
+  }
+
+  .blog-body p {
+    margin-bottom: 22px;
+  }
+
+  .blog-article-tags {
+    margin-top: 40px;
+    padding-top: 22px;
+  }
+
+  .blog-article-cta {
+    margin-top: 40px;
+  }
+}
+
+/* ==========================================================================
+   Mobile (< 740px)
+   ========================================================================== */
+@media (width < 740px) {
+  .blog-article-card {
+    padding: 28px 20px;
+  }
+
+  .blog-article-title {
+    font-size: 30px;
+  }
 }

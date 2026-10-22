@@ -1,25 +1,25 @@
 .faq-list {
-  max-width: 860px;
+  max-width: 774px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
 }
 
 .faq-card {
   margin: 0;
-  padding: 28px 32px;
-  border-radius: 16px;
+  padding: 25px 28px;
+  border-radius: 14px;
 }
 
 .faq-card__inner {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
+  gap: 14px;
 }
 
 .faq-card__icon {
-  font-size: 28px;
+  font-size: 25px;
   line-height: 1;
   flex-shrink: 0;
   padding-top: 2px;
@@ -30,17 +30,17 @@
 }
 
 .faq-card__question {
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   margin-top: 0;
-  margin-bottom: 12px;
+  margin-bottom: 11px;
   color: var(--color-brand-dark);
 }
 
 .faq-card__body p {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   line-height: 1.7;
   color: var(--text-dark);
-  margin: 0 0 12px 0;
+  margin: 0 0 11px 0;
 }
 
 .faq-card__body p:last-child {
@@ -49,16 +49,73 @@
 
 .faq-cta-card {
   text-align: center;
-  max-width: 860px;
-  margin: 48px auto 0;
-  padding: 36px 32px;
+  max-width: 774px;
+  margin: 43px auto 0;
+  padding: 32px 28px;
 }
 
 .faq-cta-card p {
-  margin: 14px 0 24px;
-  font-size: 1.05rem;
+  margin: 12px 0 22px;
+  font-size: 0.95rem;
 }
 
 .faq-cta-card .cta-buttons {
   justify-content: center;
+}
+
+/* ==========================================================================
+   Large Desktop (1500px+)
+   ========================================================================== */
+@media (1500px <= width) {
+  .faq-list {
+    max-width: 946px;
+    gap: 26px;
+  }
+
+  .faq-card {
+    padding: 31px 35px;
+    border-radius: 18px;
+  }
+
+  .faq-card__inner {
+    gap: 18px;
+  }
+
+  .faq-card__icon {
+    font-size: 31px;
+  }
+
+  .faq-card__question {
+    font-size: 1.5rem;
+    margin-bottom: 13px;
+  }
+
+  .faq-card__body p {
+    font-size: 1.15rem;
+    margin: 0 0 13px 0;
+  }
+
+  .faq-cta-card {
+    max-width: 946px;
+    margin: 53px auto 0;
+    padding: 40px 35px;
+  }
+
+  .faq-cta-card p {
+    margin: 16px 0 26px;
+    font-size: 1.15rem;
+  }
+}
+
+/* ==========================================================================
+   Mobile (< 740px)
+   ========================================================================== */
+@media (width < 740px) {
+  .faq-card {
+    padding: 20px 18px;
+  }
+
+  .faq-cta-card {
+    padding: 26px 20px;
+  }
 }

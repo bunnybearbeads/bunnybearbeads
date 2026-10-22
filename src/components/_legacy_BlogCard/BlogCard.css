@@ -1,8 +1,8 @@
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 32px;
-  margin-bottom: 60px;
+  grid-template-columns: repeat(auto-fill, minmax(306px, 1fr));
+  gap: 28px;
+  margin-bottom: 54px;
 }
 
 .blog-card {
@@ -24,13 +24,13 @@
 }
 
 .blog-image {
-  height: 220px;
+  height: 198px;
   width: 100%;
   object-fit: cover;
 }
 
 .blog-placeholder-banner {
-  height: 220px;
+  height: 198px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -40,26 +40,26 @@
 }
 
 .blog-placeholder-icon {
-  font-size: 48px;
+  font-size: 43px;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
 .blog-details {
-  padding: 28px;
+  padding: 25px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
 .blog-meta {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-muted);
-  margin-bottom: 10px;
+  margin-bottom: 9px;
 }
 
 .blog-title {
-  font-size: 24px;
-  margin-bottom: 12px;
+  font-size: 21.5px;
+  margin-bottom: 11px;
   line-height: 1.3;
 }
 
@@ -74,13 +74,62 @@
 }
 
 .blog-excerpt {
-  font-size: 15px;
+  font-size: 13.5px;
   color: var(--text-muted);
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   flex: 1;
 }
 
 .blog-actions {
   margin-top: auto;
+}
+
+/* ==========================================================================
+   Large Desktop (1500px+)
+   ========================================================================== */
+@media (1500px <= width) {
+  .blog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(374px, 1fr));
+    gap: 36px;
+    margin-bottom: 66px;
+  }
+
+  .blog-image,
+  .blog-placeholder-banner {
+    height: 242px;
+  }
+
+  .blog-placeholder-icon {
+    font-size: 53px;
+  }
+
+  .blog-details {
+    padding: 31px;
+  }
+
+  .blog-meta {
+    font-size: 14.5px;
+    margin-bottom: 11px;
+  }
+
+  .blog-title {
+    font-size: 26.5px;
+    margin-bottom: 13px;
+  }
+
+  .blog-excerpt {
+    font-size: 16.5px;
+    margin-bottom: 22px;
+  }
+}
+
+/* ==========================================================================
+   Mobile (< 740px)
+   ========================================================================== */
+@media (width < 740px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }

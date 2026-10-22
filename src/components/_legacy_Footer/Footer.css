@@ -1,9 +1,23 @@
 .site-footer {
   background: rgba(44, 40, 37, 0.04);
   border-top: 1px solid rgba(0, 0, 0, 0.06);
-  padding: 40px 0;
+  padding: 36px 0;
   text-align: center;
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: 13px;
   margin-top: auto;
+}
+
+@media (1500px <= width) {
+  .site-footer {
+    padding: 44px 0;
+    font-size: 15.5px;
+  }
+}
+
+@media (width < 740px) {
+  .site-footer {
+    padding: 28px 0;
+    font-size: 13px;
+  }
 }

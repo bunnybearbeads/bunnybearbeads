@@ -1,41 +1,34 @@
 .hero-section {
-  padding: 30px 0 60px;
+  padding: 26px 0 54px;
 }
 
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 54px;
   align-items: center;
-}
-
-@media (max-width: 968px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
 }
 
 .welcome-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
+  gap: 7px;
+  padding: 7px 16px;
   background: rgba(42, 123, 136, 0.1);
   border: 1px solid rgba(42, 123, 136, 0.2);
   border-radius: 50px;
   color: var(--accent-teal);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .hero-title {
-  font-size: 52px;
+  font-size: 46px;
   line-height: 1.15;
   font-weight: 700;
   color: var(--text-dark);
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .welcome-card {
@@ -44,9 +37,9 @@
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  padding: 36px;
+  padding: 32px;
   box-shadow: var(--shadow-soft);
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   position: relative;
   overflow: hidden;
 }
@@ -55,18 +48,18 @@
   content: '"';
   position: absolute;
   top: -10px;
-  right: 20px;
+  right: 18px;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 160px;
+  font-size: 144px;
   color: rgba(212, 175, 55, 0.1);
   pointer-events: none;
   line-height: 1;
 }
 
 .welcome-text p {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   color: var(--text-dark);
-  font-size: 16.5px;
+  font-size: 15px;
 }
 
 .welcome-text p:last-child {
@@ -74,17 +67,17 @@
 }
 
 .author-signature {
-  margin-top: 24px;
+  margin-top: 22px;
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding-top: 20px;
+  gap: 14px;
+  padding-top: 18px;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .author-avatar {
-  width: 52px;
-  height: 52px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background: #FFF9F3;
   display: flex;
@@ -103,13 +96,13 @@
 }
 
 .author-info h4 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-dark);
 }
 
 .author-info p {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-muted);
 }
 
@@ -140,15 +133,15 @@
 
 .floating-badge {
   position: absolute;
-  bottom: -20px;
-  left: -20px;
+  bottom: -18px;
+  left: -18px;
   background: white;
-  padding: 16px 24px;
+  padding: 14px 22px;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-soft);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   border: 1px solid rgba(212, 175, 55, 0.2);
   animation: float 4s ease-in-out infinite;
 }
@@ -159,16 +152,115 @@
 }
 
 .floating-badge-icon {
-  font-size: 28px;
+  font-size: 25px;
 }
 
 .floating-badge-text h5 {
-  font-size: 15px;
+  font-size: 13.5px;
   font-weight: 700;
   color: var(--text-dark);
 }
 
 .floating-badge-text p {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Large Desktop (1500px+)
+   ========================================================================== */
+@media (1500px <= width) {
+  .hero-section {
+    padding: 34px 0 66px;
+  }
+
+  .hero-grid {
+    gap: 66px;
+  }
+
+  .welcome-badge {
+    padding: 9px 20px;
+    font-size: 15.5px;
+    margin-bottom: 26px;
+  }
+
+  .hero-title {
+    font-size: 58px;
+    margin-bottom: 26px;
+  }
+
+  .welcome-card {
+    padding: 40px;
+    margin-bottom: 36px;
+  }
+
+  .welcome-card::before {
+    font-size: 176px;
+  }
+
+  .welcome-text p {
+    margin-bottom: 18px;
+    font-size: 18px;
+  }
+
+  .author-signature {
+    margin-top: 26px;
+    gap: 18px;
+    padding-top: 22px;
+  }
+
+  .author-avatar {
+    width: 58px;
+    height: 58px;
+  }
+
+  .author-info h4 {
+    font-size: 20px;
+  }
+
+  .author-info p {
+    font-size: 14.5px;
+  }
+
+  .floating-badge {
+    bottom: -22px;
+    left: -22px;
+    padding: 18px 26px;
+    gap: 14px;
+  }
+
+  .floating-badge-icon {
+    font-size: 31px;
+  }
+
+  .floating-badge-text h5 {
+    font-size: 16.5px;
+  }
+
+  .floating-badge-text p {
+    font-size: 13px;
+  }
+}
+
+/* ==========================================================================
+   Mobile (< 740px)
+   ========================================================================== */
+@media (width < 740px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .welcome-card {
+    padding: 24px 20px;
+  }
+
+  .floating-badge {
+    left: 12px;
+    bottom: -14px;
+  }
 }

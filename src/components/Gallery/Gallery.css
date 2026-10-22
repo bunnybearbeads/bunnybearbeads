@@ -1,7 +1,7 @@
 .gallery {
   display: grid;
-  grid-template-columns: 76px 1fr;
-  gap: 14px;
+  grid-template-columns: 68px 1fr;
+  gap: 12px;
   align-items: start;
 }
 
@@ -19,7 +19,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 9px;
 }
 
 .gallery__thumb-item {
@@ -30,10 +30,10 @@
   display: block;
   width: 100%;
   aspect-ratio: 3 / 4;
-  padding: 2px;
+  padding: 0;
   background: rgba(255, 255, 255, 0.75);
   border: 2px solid transparent;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
   overflow: hidden;
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
@@ -56,7 +56,6 @@
   aspect-ratio: 3 / 4;
   object-fit: cover;
   display: block;
-  border-radius: 8px;
 }
 
 /* ==========================================================================
@@ -66,7 +65,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 3 / 4;
-  border-radius: var(--radius-lg, 24px);
+  border-radius: var(--radius-lg, 22px);
   overflow: hidden;
   background: #FAF7F2;
   box-shadow: var(--shadow-hover);
@@ -92,27 +91,54 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, rgba(212, 163, 89, 0.16) 0%, rgba(42, 123, 136, 0.14) 100%);
-  padding: 24px;
+  padding: 22px;
   text-align: center;
 }
 
 .gallery__placeholder-icon {
-  font-size: 80px;
-  margin-bottom: 12px;
+  font-size: 72px;
+  margin-bottom: 10px;
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1));
 }
 
 .gallery__placeholder-caption {
   font-family: var(--font-serif);
-  font-size: 20px;
+  font-size: 18px;
   color: var(--color-brand-dark);
   font-style: italic;
 }
 
 /* ==========================================================================
-   Responsive Mobile View (Thumbnails move below main photo)
+   Large Desktop (1500px+)
    ========================================================================== */
-@media (max-width: 640px) {
+@media (1500px <= width) {
+  .gallery {
+    grid-template-columns: 84px 1fr;
+    gap: 16px;
+  }
+
+  .gallery__thumbs {
+    gap: 11px;
+  }
+
+  .gallery__thumb-btn {
+    border-radius: 13px;
+  }
+
+  .gallery__placeholder-icon {
+    font-size: 88px;
+    margin-bottom: 14px;
+  }
+
+  .gallery__placeholder-caption {
+    font-size: 22px;
+  }
+}
+
+/* ==========================================================================
+   Mobile (< 740px)
+   ========================================================================== */
+@media (width < 740px) {
   .gallery {
     grid-template-columns: 1fr;
     gap: 12px;

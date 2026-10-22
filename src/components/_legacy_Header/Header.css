@@ -1,15 +1,15 @@
 /* Two-Level Header: Top Text Menu + Lower Floating Brand Bar */
 .site-header-wrapper {
   position: sticky;
-  top: 14px;
+  top: 12px;
   z-index: 100;
   width: 100%;
-  padding: 0 24px;
-  margin-bottom: 30px;
+  padding: 0 22px;
+  margin-bottom: 26px;
 }
 
 .site-header {
-  max-width: 1200px;
+  max-width: 1080px;
   margin: 0 auto;
 }
 
@@ -20,15 +20,15 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 18px;
-  padding: 0 16px 8px;
-  font-size: 13px;
+  gap: 16px;
+  padding: 0 14px 7px;
+  font-size: 12px;
 }
 
 .header-top__nav {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -61,10 +61,10 @@
   align-items: center;
   gap: 5px;
   font-family: var(--font-sans);
-  font-size: 13.5px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--color-nav-link, #5C4A3E);
-  padding: 4px 8px;
+  padding: 4px 7px;
   border-radius: 6px;
   transition: background 0.2s ease, color 0.2s ease;
 }
@@ -76,7 +76,7 @@
 }
 
 .lang-arrow {
-  font-size: 10px;
+  font-size: 9px;
   transition: transform 0.2s ease;
 }
 
@@ -92,10 +92,10 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
-  border-radius: 12px;
+  border-radius: 11px;
   box-shadow: 0 12px 28px rgba(60, 45, 30, 0.18);
-  padding: 6px;
-  min-width: 145px;
+  padding: 5px;
+  min-width: 132px;
   display: none;
   flex-direction: column;
   gap: 2px;
@@ -110,13 +110,13 @@
 .lang-option {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  font-size: 13px;
+  gap: 7px;
+  padding: 7px 11px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--color-brand-dark);
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 7px;
   transition: all 0.15s ease;
 }
 
@@ -132,18 +132,18 @@
 }
 
 /* ==========================================================================
-   Lower Header - Main Floating Bar with Medallion and 3 Categories
+   Lower Header - Main Floating Bar with Medallion and Categories
    ========================================================================== */
 .header-bottom {
-  height: 74px;
-  padding: 0 38px;
+  height: 66px;
+  padding: 0 34px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: linear-gradient(180deg, rgba(248, 243, 237, 0.88) 0%, rgba(238, 229, 219, 0.82) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-radius: 11px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 14px 34px rgba(80, 60, 45, 0.2);
   transition: all 0.3s ease;
@@ -152,19 +152,19 @@
 .header__logo {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   text-decoration: none;
   flex-shrink: 0;
 }
 
 .header__medallion {
   vertical-align: top;
-  height: 96px;
-  width: 96px;
+  height: 86px;
+  width: 86px;
   border: 0.5px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 50%;
-  margin: -12px 0;
+  margin: -10px 0;
   object-fit: cover;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   flex-shrink: 0;
@@ -177,7 +177,7 @@
 
 .header__brand {
   font-family: var(--font-serif);
-  font-size: 38px;
+  font-size: 34px;
   font-weight: 700;
   color: var(--color-brand-dark);
   letter-spacing: -0.2px;
@@ -193,7 +193,7 @@
 .category-links {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 20px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -201,12 +201,12 @@
 
 .category-links a {
   font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--color-brand-dark);
   text-decoration: none;
   position: relative;
-  padding: 6px 0;
+  padding: 5px 0;
   white-space: nowrap;
   transition: color 0.25s ease;
 }
@@ -237,43 +237,26 @@
 .header-bottom__actions {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
-.search-toggle-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background: rgba(255, 255, 255, 0.55);
-  color: var(--color-nav-link);
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.search-toggle-btn:hover {
-  color: var(--accent-teal);
-  background: rgba(42, 123, 136, 0.12);
-  transform: translateY(-1px);
-}
-
+.search-toggle-btn,
 .nav-cart-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  color: var(--color-nav-link, #5C4A3E);
-  transition: all 0.3s ease;
-  text-decoration: none;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.55);
   border: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--color-nav-link, #5C4A3E);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s ease;
 }
 
+.search-toggle-btn:hover,
 .nav-cart-icon:hover {
   color: var(--accent-teal, #2A7B88);
   background: rgba(42, 123, 136, 0.12);
@@ -294,9 +277,9 @@
 .mobile-menu {
   display: none;
   position: absolute;
-  top: 130px;
-  left: 24px;
-  right: 24px;
+  top: 120px;
+  left: 16px;
+  right: 16px;
   background: rgba(250, 247, 242, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -337,45 +320,119 @@
   font-size: 16px;
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 960px) {
+/* ==========================================================================
+   Large Desktop (1500px+)
+   ========================================================================== */
+@media (1500px <= width) {
+  .site-header-wrapper {
+    top: 16px;
+    padding: 0 26px;
+    margin-bottom: 34px;
+  }
+
+  .site-header {
+    max-width: 1320px;
+  }
+
   .header-top {
-    display: none; /* Collapses into mobile drawer */
+    gap: 20px;
+    padding: 0 18px 9px;
+    font-size: 14.5px;
   }
+
+  .header-top__nav {
+    gap: 20px;
+  }
+
+  .lang-dropdown-toggle {
+    font-size: 15px;
+    padding: 5px 9px;
+  }
+
+  .lang-dropdown-menu {
+    min-width: 160px;
+    padding: 7px;
+  }
+
+  .lang-option {
+    padding: 9px 13px;
+    font-size: 14.5px;
+  }
+
   .header-bottom {
-    padding: 0 20px;
+    height: 82px;
+    padding: 0 42px;
+    border-radius: 12px;
   }
-  .header__brand {
-    font-size: 28px;
+
+  .header__logo {
+    gap: 20px;
   }
+
   .header__medallion {
-    height: 76px;
-    width: 76px;
-    margin: -8px 0;
+    height: 106px;
+    width: 106px;
+    margin: -12px 0;
   }
-  .header__categories {
-    display: none;
+
+  .header__brand {
+    font-size: 42px;
   }
-  .mobile-toggle {
-    display: block;
+
+  .category-links {
+    gap: 24px;
+  }
+
+  .category-links a {
+    font-size: 20px;
+    padding: 7px 0;
+  }
+
+  .header-bottom__actions {
+    gap: 16px;
+  }
+
+  .search-toggle-btn,
+  .nav-cart-icon {
+    width: 42px;
+    height: 42px;
   }
 }
 
-@media (max-width: 520px) {
+/* ==========================================================================
+   Mobile (< 740px)
+   ========================================================================== */
+@media (width < 740px) {
   .site-header-wrapper {
     top: 10px;
     padding: 0 12px;
+    margin-bottom: 20px;
   }
+
+  .header-top {
+    display: none;
+  }
+
   .header-bottom {
     height: 64px;
     padding: 0 14px;
   }
+
   .header__medallion {
     height: 56px;
     width: 56px;
     margin: -6px 0;
   }
+
   .header__brand {
     font-size: 22px;
+  }
+
+  .header__categories {
+    display: none;
+  }
+
+  .mobile-toggle {
+    display: block;
   }
 }
