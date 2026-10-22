@@ -34,18 +34,18 @@ function localizeDistrict(distStr: string = '') {
 }
 ---
 
-<div class="container page-container-top">
-  <div class="back-nav">
-    <a href={getLocalizedUrl('/catalog', currentLang)} class="back-link">
-      ← {t('catalog.back_to_catalog')}
-    </a>
-  </div>
-
+<div class="container page-container">
   <div class="product-detail-grid">
     <Gallery images={product.images} alt={product.title} />
 
     <!-- Info Panel -->
     <div class="product-info-panel">
+      <div class="back-nav">
+        <a href={getLocalizedUrl('/catalog', currentLang)} class="back-link">
+          ← {t('catalog.back_to_catalog')}
+        </a>
+      </div>
+
       <span class="product-category">{product.category}</span>
       <h1>{product.title}</h1>
 

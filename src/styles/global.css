@@ -58,7 +58,6 @@ body {
   color: var(--color-text-main);
   line-height: 1.65;
   min-height: 100vh;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -76,9 +75,9 @@ h1, h2, h3, h4, .font-serif {
    ========================================================================== */
 .container {
   width: 100%;
-  max-width: 1080px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 22px;
+  padding: 0 4%;
 }
 
 .page-container {
