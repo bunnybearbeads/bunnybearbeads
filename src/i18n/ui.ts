@@ -77,9 +77,13 @@ export const ui = {
     'catalog.delivery_vn_title': 'Shipping across Vietnam',
     'catalog.delivery_vn_sub': 'free, 1–3 days',
     'catalog.delivery_vn_sub_remake': '1–3 days upon completion',
-    'catalog.sold_out': 'Sold out',
+    'catalog.sold_out': 'Out of stock',
+    'catalog.out_of_stock': 'Out of stock',
     'catalog.craft_remake': 'Happy to craft a remake',
     'catalog.craft_time': '2–4 days',
+    'catalog.crafter_note_title': 'Made to Order',
+    'catalog.expand': 'Read more ↓',
+    'catalog.collapse': 'Show less ↑',
     'catalog.last_checked': 'Stock checked',
     'catalog.as_of': 'as of',
     'catalog.weekly_audit_hint': 'Weekly stock verification — click for details',
@@ -117,6 +121,19 @@ export const ui = {
     // Delivery Page
     'delivery.title': 'Shipping & Payment',
     'delivery.subtitle': 'Worldwide insured delivery, protective packaging, and bespoke care',
+
+    // FAQ Page
+    'faq.title': 'Frequently Asked Questions',
+    'faq.subtitle': 'Everything you wanted to know about custom orders, materials, payment, shipping, and our honest craft philosophy',
+    'faq.seo_title': 'FAQ — Frequently Asked Questions | BunnyBearBeads',
+    'faq.seo_desc': 'Answers to common questions about custom orders, beads & materials, hardware, payment, and shipping at BunnyBearBeads.',
+    'faq.cta_heading': 'Still have questions or an idea?',
+    'faq.cta_text': 'Message me directly — always happy to chat about beads, findings, or a new design idea!',
+    'faq.cta_contact': 'Get in Touch',
+    'faq.cta_catalog': 'Explore Catalog',
+
+    // Blog Article CTA
+    'blog.explore_catalog': 'Explore Jewelry Catalog',
 
     // Footer
     'footer.copyright': '© 2026 BunnyBearBeads — Artisan Beadwork Workshop. Crafted with love 💖',
@@ -172,9 +189,13 @@ export const ui = {
     'catalog.delivery_vn_title': 'Пересылка по Вьетнаму',
     'catalog.delivery_vn_sub': 'бесплатно, 1–3 дня',
     'catalog.delivery_vn_sub_remake': '1–3 дня по окончанию работ',
-    'catalog.sold_out': 'Продано',
+    'catalog.sold_out': 'Нет в наличии',
+    'catalog.out_of_stock': 'Нет в наличии',
     'catalog.craft_remake': 'С удовольствием сплету повтор',
     'catalog.craft_time': '2–4 дня',
+    'catalog.crafter_note_title': 'Изготовление под заказ',
+    'catalog.expand': 'Читать полностью ↓',
+    'catalog.collapse': 'Свернуть ↑',
     'catalog.last_checked': 'Проверено',
     'catalog.as_of': 'на',
     'catalog.weekly_audit_hint': 'Еженедельный чекап наличия — нажмите, чтобы узнать подробнее',
@@ -212,6 +233,19 @@ export const ui = {
     // Delivery Page
     'delivery.title': 'Доставка и оплата',
     'delivery.subtitle': 'Бережная доставка по всему миру, подарочная упаковка и гарантия качества',
+
+    // FAQ Page
+    'faq.title': 'Частые вопросы',
+    'faq.subtitle': 'Всё, что вы хотели знать об индивидуальных заказах, материалах, оплате, доставке и честном подходе к делу',
+    'faq.seo_title': 'Частые вопросы (FAQ) — BunnyBearBeads',
+    'faq.seo_desc': 'Ответы на частые вопросы об индивидуальных заказах, материалах, фурнитуре, оплате и доставке в BunnyBearBeads.',
+    'faq.cta_heading': 'Остались вопросы или есть идея?',
+    'faq.cta_text': 'Напишите мне напрямую — с радостью пообщаемся, обсудим бисер, фурнитуру или новый дизайн!',
+    'faq.cta_contact': 'Написать мастеру',
+    'faq.cta_catalog': 'В каталог',
+
+    // Blog Article CTA
+    'blog.explore_catalog': 'Смотреть каталог изделий',
 
     // Footer
     'footer.copyright': '© 2026 BunnyBearBeads — Мастерская авторского бисероплетения. Сделано с любовью 💖',
@@ -267,9 +301,13 @@ export const ui = {
     'catalog.delivery_vn_title': 'Chuyển phát toàn quốc',
     'catalog.delivery_vn_sub': 'miễn phí, 1–3 ngày',
     'catalog.delivery_vn_sub_remake': '1–3 ngày sau khi hoàn thành',
-    'catalog.sold_out': 'Đã bán hết',
+    'catalog.sold_out': 'Tạm hết hàng',
+    'catalog.out_of_stock': 'Tạm hết hàng',
     'catalog.craft_remake': 'Sẵn sàng làm lại theo yêu cầu',
     'catalog.craft_time': '2–4 ngày',
+    'catalog.crafter_note_title': 'Đặt làm theo yêu cầu',
+    'catalog.expand': 'Xem thêm ↓',
+    'catalog.collapse': 'Thu gọn ↑',
     'catalog.last_checked': 'Đã kiểm tra',
     'catalog.as_of': 'tính đến ngày',
     'catalog.weekly_audit_hint': 'Kiểm kê định kỳ mỗi tuần — bấm để xem chi tiết',
@@ -307,6 +345,19 @@ export const ui = {
     // Delivery Page
     'delivery.title': 'Vận Chuyển & Thanh Toán',
     'delivery.subtitle': 'Giao hàng toàn cầu an toàn, đóng gói hộp quà sang trọng và tận tâm',
+
+    // FAQ Page
+    'faq.title': 'Câu hỏi thường gặp',
+    'faq.subtitle': 'Mọi điều bạn cần biết về đặt làm riêng, chất liệu, thanh toán, giao hàng và triết lý thủ công chân thật',
+    'faq.seo_title': 'Câu Hỏi Thường Gặp (FAQ) — BunnyBearBeads',
+    'faq.seo_desc': 'Giải đáp thắc mắc về đặt làm theo yêu cầu, mua hạt cườm, thanh toán tài khoản ngân hàng Việt Nam và vận chuyển tại BunnyBearBeads.',
+    'faq.cta_heading': 'Bạn còn câu hỏi hoặc có ý tưởng mới?',
+    'faq.cta_text': 'Hãy nhắn tin trực tiếp cho mình nhé — mình luôn sẵn sàng trò chuyện về hạt cườm, phụ kiện hay mẫu thiết kế mới!',
+    'faq.cta_contact': 'Liên hệ với mình',
+    'faq.cta_catalog': 'Xem danh mục',
+
+    // Blog Article CTA
+    'blog.explore_catalog': 'Xem các mẫu trang sức',
 
     // Footer
     'footer.copyright': '© 2026 BunnyBearBeads — Xưởng thủ công cườm nghệ thuật. Làm bằng cả trái tim 💖',

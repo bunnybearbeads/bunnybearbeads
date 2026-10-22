@@ -1,0 +1,71 @@
+---
+import './BlogArticle.css';
+import { type SupportedLanguage } from '../../i18n/ui';
+import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
+
+interface BlogArticleData {
+  title: string;
+  excerpt: string;
+  date: string;
+  author: string;
+  coverImage?: string;
+  tags?: string[];
+}
+
+interface Props {
+  data: BlogArticleData;
+  currentLang: SupportedLanguage;
+}
+
+const { data, currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+---
+
+<div class="container page-container-top page-container-narrow">
+  <div class="back-nav">
+    <a href={getLocalizedUrl('/blog', currentLang)} class="back-link">
+      ← {t('blog.back_to_blog')}
+    </a>
+  </div>
+
+  <article class="content-card blog-article-card">
+    <div class="blog-meta blog-article-meta">
+      <span>{t('blog.published_on')} {data.date}</span> • <span>{data.author}</span>
+    </div>
+
+    <h1 class="blog-article-title">
+      {data.title}
+    </h1>
+
+    {data.coverImage && (
+      <div class="blog-article-cover">
+        <img
+          src={data.coverImage}
+          alt={data.title}
+        />
+      </div>
+    )}
+
+    <p class="blog-article-lead">
+      {data.excerpt}
+    </p>
+
+    <div class="blog-body">
+      <slot />
+    </div>
+
+    {data.tags && data.tags.length > 0 && (
+      <div class="materials-tags blog-article-tags">
+        {data.tags.map((tag: string) => (
+          <span class="material-tag">#{tag}</span>
+        ))}
+      </div>
+    )}
+
+    <div class="cta-buttons blog-article-cta">
+      <a href={getLocalizedUrl('/catalog', currentLang)} class="btn btn-primary">
+        <span>✨</span> {t('blog.explore_catalog')}
+      </a>
+    </div>
+  </article>
+</div>

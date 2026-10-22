@@ -1,0 +1,110 @@
+---
+import './ContactsSection.css';
+
+interface ChannelLink {
+  label: string;
+  value: string;
+  url?: string;
+}
+
+interface ChannelsData {
+  telegram: { label: string; value: string; url: string };
+  instagram: { label: string; value: string; url: string };
+  email: ChannelLink;
+  location: ChannelLink;
+}
+
+interface TelegramPerk {
+  icon: string;
+  title: string;
+  text: string;
+}
+
+interface TelegramBoxData {
+  badge: string;
+  heading: string;
+  description: string;
+  btnText: string;
+  url: string;
+  perks: TelegramPerk[];
+}
+
+interface Props {
+  introHeading: string;
+  channels: ChannelsData;
+  telegramBox: TelegramBoxData;
+}
+
+const { introHeading, channels, telegramBox } = Astro.props;
+---
+
+<div class="contacts-grid">
+  <!-- Contact Channels & Info -->
+  <div class="contact-channels">
+    <div class="content-card contacts-intro-card">
+      <h2>{introHeading}</h2>
+      <slot />
+    </div>
+
+    <a href={channels.telegram.url} target="_blank" rel="noopener noreferrer" class="contact-channel-item channel-telegram-highlight">
+      <span class="channel-icon">✈️</span>
+      <div class="channel-meta">
+        <strong>{channels.telegram.label}</strong>
+        <span>{channels.telegram.value}</span>
+      </div>
+      <span class="channel-badge">Primary</span>
+    </a>
+
+    <a href={channels.instagram.url} target="_blank" rel="noopener noreferrer" class="contact-channel-item">
+      <span class="channel-icon">📸</span>
+      <div class="channel-meta">
+        <strong>{channels.instagram.label}</strong>
+        <span>{channels.instagram.value}</span>
+      </div>
+    </a>
+
+    <a href={`mailto:${channels.email.value}`} class="contact-channel-item">
+      <span class="channel-icon">✉️</span>
+      <div class="channel-meta">
+        <strong>{channels.email.label}</strong>
+        <span>{channels.email.value}</span>
+      </div>
+    </a>
+
+    <div class="contact-channel-item">
+      <span class="channel-icon">📍</span>
+      <div class="channel-meta">
+        <strong>{channels.location.label}</strong>
+        <span>{channels.location.value}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Telegram Direct Box -->
+  <div class="telegram-direct-card">
+    <div class="telegram-card-header">
+      <div class="tg-badge"><span>⚡</span> {telegramBox.badge}</div>
+      <h2>{telegramBox.heading}</h2>
+      <p>{telegramBox.description}</p>
+    </div>
+
+    <div class="tg-perks">
+      {telegramBox.perks.map((perk) => (
+        <div class="tg-perk-item">
+          <span class="tg-perk-icon">{perk.icon}</span>
+          <div>
+            <strong>{perk.title}</strong>
+            <p>{perk.text}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="telegram-card-footer">
+      <a href={telegramBox.url} target="_blank" rel="noopener noreferrer" class="btn btn-telegram-large">
+        <span>✈️</span> {telegramBox.btnText}
+      </a>
+      <span class="tg-subtext">Direct dialogue • Instant responses</span>
+    </div>
+  </div>
+</div>

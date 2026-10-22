@@ -1,0 +1,54 @@
+---
+import './BlogCard.css';
+import { type SupportedLanguage } from '../../i18n/ui';
+import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
+
+interface BlogPostData {
+  title: string;
+  excerpt: string;
+  date: string;
+  author: string;
+  coverImage?: string;
+}
+
+interface Props {
+  id: string;
+  data: BlogPostData;
+  currentLang: SupportedLanguage;
+}
+
+const { id, data, currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+const postUrl = getLocalizedUrl(`/blog/${id}`, currentLang);
+---
+
+<article class="blog-card">
+  {data.coverImage ? (
+    <img
+      class="blog-image"
+      src={data.coverImage}
+      alt={data.title}
+      loading="lazy"
+    />
+  ) : (
+    <div class="blog-placeholder-banner">
+      <span class="blog-placeholder-icon">📖</span>
+    </div>
+  )}
+  <div class="blog-details">
+    <div class="blog-meta">
+      <span>{data.date}</span> • <span>{data.author}</span>
+    </div>
+    <h2 class="blog-title">
+      <a href={postUrl}>
+        {data.title}
+      </a>
+    </h2>
+    <p class="blog-excerpt">{data.excerpt}</p>
+    <div class="blog-actions">
+      <a href={postUrl} class="btn btn-secondary btn-sm">
+        {t('blog.read_more')} →
+      </a>
+    </div>
+  </div>
+</article>

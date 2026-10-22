@@ -1,8 +1,8 @@
 ---
 import './Header.css';
-import Accent from '../Accent/Accent.astro';
+import Accent from '../_legacy_Accent/Accent.astro';
 import { languages, type SupportedLanguage } from '../../i18n/ui';
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
+import { getLangFromUrl, stripLangFromPath, useTranslations, useTranslatedPath } from '../../i18n/utils';
 
 interface Props {
   currentLang?: SupportedLanguage;
@@ -13,17 +13,7 @@ const currentLang = Astro.props.currentLang || getLangFromUrl(url);
 const t = useTranslations(currentLang);
 const translatePath = useTranslatedPath(currentLang);
 
-// Extract clean pathname without current locale
-const pathname = url.pathname;
-let currentCleanPath = pathname;
-if (currentCleanPath.startsWith('/ru/') || currentCleanPath === '/ru') {
-  currentCleanPath = currentCleanPath.replace(/^\/ru/, '') || '/';
-} else if (currentCleanPath.startsWith('/vi/') || currentCleanPath === '/vi') {
-  currentCleanPath = currentCleanPath.replace(/^\/vi/, '') || '/';
-}
-if (!currentCleanPath.startsWith('/')) {
-  currentCleanPath = `/${currentCleanPath}`;
-}
+const currentCleanPath = stripLangFromPath(url.pathname);
 
 // Current query param for category
 const currentCategory = url.searchParams.get('category');

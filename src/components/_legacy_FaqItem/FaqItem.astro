@@ -1,0 +1,24 @@
+---
+import './FaqItem.css';
+
+interface Props {
+  icon: string;
+  question: string;
+}
+
+const { icon, question } = Astro.props;
+---
+
+<article class="content-card faq-card">
+  <div class="faq-card__inner">
+    <div class="faq-card__icon" aria-hidden="true">
+      {icon}
+    </div>
+    <div class="faq-card__body">
+      <h2 class="faq-card__question">
+        {question}
+      </h2>
+      <slot />
+    </div>
+  </div>
+</article>

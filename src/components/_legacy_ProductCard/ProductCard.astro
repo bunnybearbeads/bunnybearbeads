@@ -1,0 +1,88 @@
+---
+import './ProductCard.css';
+import { type SupportedLanguage } from '../../i18n/ui';
+import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
+
+interface ProductCardData {
+  title: string;
+  description: string;
+  price: number;
+  currency?: string;
+  category: string;
+  images?: string[];
+  inStock?: boolean;
+  badge?: string;
+}
+
+interface Props {
+  id: string;
+  categoryId: string;
+  data: ProductCardData;
+  currentLang: SupportedLanguage;
+}
+
+const { id, categoryId, data, currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+const detailUrl = getLocalizedUrl(`/catalog/${id}`, currentLang);
+
+const categoryIcons: Record<string, string> = {
+  'phone-charms': '📱',
+  keychains: '🔑',
+  rings: '💍',
+  bracelets: '📿',
+};
+const placeholderIcon = categoryIcons[categoryId] || '✨';
+---
+
+<article class="product-card" data-category={categoryId}>
+  {data.images && data.images.length > 0 ? (
+    <div class="product-image-box">
+      <img
+        src={data.images[0]}
+        alt={data.title}
+        loading="lazy"
+      />
+      {data.badge ? (
+        <span class:list={['product-badge', { 'out-of-stock': !data.inStock }]}>
+          {data.badge}
+        </span>
+      ) : !data.inStock ? (
+        <span class="product-badge out-of-stock">
+          {t('catalog.out_of_stock')}
+        </span>
+      ) : null}
+    </div>
+  ) : (
+    <div class="product-image-box product-placeholder-box">
+      <span class="placeholder-icon">{placeholderIcon}</span>
+      {data.badge ? (
+        <span class:list={['product-badge', { 'out-of-stock': !data.inStock }]}>
+          {data.badge}
+        </span>
+      ) : !data.inStock ? (
+        <span class="product-badge out-of-stock">
+          {t('catalog.out_of_stock')}
+        </span>
+      ) : null}
+    </div>
+  )}
+
+  <div class="product-details">
+    <span class="product-category">{data.category}</span>
+    <h2 class="product-title">
+      <a href={detailUrl}>
+        {data.title}
+      </a>
+    </h2>
+    <p class="product-desc">{data.description}</p>
+
+    <div class="product-bottom">
+      <span class="product-price">
+        {Number(data.price).toLocaleString('vi-VN')} {data.currency || 'VND'}
+      </span>
+      <a href={detailUrl} class="btn btn-primary btn-sm">
+        {t('catalog.view_details')} →
+      </a>
+    </div>
+  </div>
+</article>

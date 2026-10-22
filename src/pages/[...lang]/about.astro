@@ -1,7 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/_legacy_PageHeader/PageHeader.astro';
 import { getEntry, render } from 'astro:content';
-import { getStaticLangPaths, resolveLang } from '../../utils/i18n';
+import { getStaticLangPaths, resolveLang } from '../../i18n/utils';
 
 export function getStaticPaths() {
   return getStaticLangPaths();
@@ -10,9 +11,7 @@ export function getStaticPaths() {
 const { lang: langParam } = Astro.params;
 const currentLang = resolveLang(langParam);
 
-// Get markdown entry for the current language
 const aboutEntry = await getEntry('about', currentLang);
-
 if (!aboutEntry) {
   throw new Error(`About entry not found for lang: ${currentLang}`);
 }
@@ -21,11 +20,11 @@ const { Content } = await render(aboutEntry);
 ---
 
 <Layout lang={currentLang} title={aboutEntry.data.seoTitle} description={aboutEntry.data.seoDesc}>
-  <div class="container" style="padding-bottom: 80px;">
-    <header class="page-header">
-      <h1 class="page-title">{aboutEntry.data.title}</h1>
-      <p class="page-subtitle" set:html={aboutEntry.data.subtitle} />
-    </header>
+  <div class="container page-container">
+    <PageHeader
+      title={aboutEntry.data.title}
+      subtitleHtml={aboutEntry.data.subtitle}
+    />
 
     <article class="content-card">
       <Content />

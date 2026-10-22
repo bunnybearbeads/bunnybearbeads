@@ -1,0 +1,51 @@
+{
+  "order": 45,
+  "createdAt": "2026-10-18",
+  "title": {
+    "en": "Silent Moon Mariners",
+    "ru": "Silent Moon Mariners",
+    "vi": "Silent Moon Mariners"
+  },
+  "description": {
+    "en": "Guided by the silent glow of a midnight tide. Deep nocturnal blues, silver starlight, and shimmering pearl beads come together in a sleek geometric weave made for calm souls navigating life's open waters.",
+    "ru": "Глубокий ночной индиго, серебристые искры звезд и перламутровые переливы лунного света. Геометрическое плетение, вдохновленное спокойствием ночного океана и тихим светом путеводных созвездий.",
+    "vi": "Sắc chàm sâu thẳm của màn đêm hòa quyện cùng ánh bạc lung linh của ngàn sao và ngọc trai dịu mát. Họa tiết dệt cườm mang vẻ đẹp tĩnh lặng của đại dương dưới trăng, đồng hành cùng bạn qua mọi hải trình cuộc sống."
+  },
+  "price": 340000,
+  "currency": "VND",
+  "categoryId": "bracelets",
+  "category": {
+    "en": "Bracelets",
+    "ru": "Браслеты",
+    "vi": "Vòng tay"
+  },
+  "images": [
+    "/emblem-squared.png"
+  ],
+  "inStock": false,
+  "materials": [
+    "Miyuki Delica 11/0 seed beads",
+    "Geometric celestial pattern with silver-lined indigo & lunar pearl tones",
+    "Stainless steel magnetic slide clasp"
+  ],
+  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-precision Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Lunar palette: deep indigo, night sky matte, silver-lined star accents</strong></span><br />\n<span class=\"mat-accessory\">Durable stainless steel clasp</span>",
+  "designedBy": "BunnyBearBeads",
+  "stockLocations": [
+    {
+      "type": "offline",
+      "city": "Da Lat",
+      "location": "Lâm Viên",
+      "quantity": 0
+    },
+    {
+      "type": "online",
+      "city": "Da Lat",
+      "note": "Бесплатная доставка по Вьетнаму"
+    }
+  ],
+  "badge": {
+    "en": "Out of stock",
+    "ru": "Нет в наличии",
+    "vi": "Tạm hết hàng"
+  }
+}

@@ -23,6 +23,7 @@ const products = defineCollection({
     createdAt: z.string().optional(),
     title: localizedString,
     description: localizedString,
+    crafterNote: localizedString.optional(),
     price: z.number(),
     currency: z.string().default('VND'),
     categoryId: z.enum(['bracelets', 'rings', 'phone-charms', 'keychains', 'other']).default('bracelets'),

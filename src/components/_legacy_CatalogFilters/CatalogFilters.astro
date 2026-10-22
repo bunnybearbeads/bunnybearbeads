@@ -1,0 +1,72 @@
+---
+import './CatalogFilters.css';
+
+interface CategoryFilter {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  categories: CategoryFilter[];
+}
+
+const { categories } = Astro.props;
+---
+
+<div class="catalog-filters" id="catalog-filters">
+  {categories.map((cat) => (
+    <button
+      type="button"
+      class:list={['filter-pill', { active: cat.id === 'all' }]}
+      data-category={cat.id}
+    >
+      {cat.label}
+    </button>
+  ))}
+</div>
+
+<script>
+  function setupFilters() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialCategory = urlParams.get('category') || 'all';
+
+    const buttons = document.querySelectorAll<HTMLButtonElement>('#catalog-filters .filter-pill');
+    const cards = document.querySelectorAll<HTMLElement>('#products-grid .product-card');
+
+    function applyFilter(category: string) {
+      buttons.forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.category === category);
+      });
+
+      cards.forEach((card) => {
+        const itemCat = card.dataset.category;
+        if (category === 'all' || itemCat === category) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.category || 'all';
+        applyFilter(cat);
+        const newUrl = new URL(window.location.href);
+        if (cat === 'all') {
+          newUrl.searchParams.delete('category');
+        } else {
+          newUrl.searchParams.set('category', cat);
+        }
+        window.history.pushState({}, '', newUrl.toString());
+      });
+    });
+
+    if (initialCategory && initialCategory !== 'all') {
+      applyFilter(initialCategory);
+    }
+  }
+
+  setupFilters();
+  window.addEventListener('popstate', setupFilters);
+</script>

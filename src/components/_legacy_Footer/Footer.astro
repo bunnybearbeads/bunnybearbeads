@@ -1,0 +1,18 @@
+---
+import './Footer.css';
+import { type SupportedLanguage } from '../../i18n/ui';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+interface Props {
+  currentLang?: SupportedLanguage;
+}
+
+const currentLang = Astro.props.currentLang || getLangFromUrl(Astro.url);
+const t = useTranslations(currentLang);
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <p>{t('footer.copyright')}</p>
+  </div>
+</footer>

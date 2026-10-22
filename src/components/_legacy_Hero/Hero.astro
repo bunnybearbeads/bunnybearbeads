@@ -1,0 +1,85 @@
+---
+import './Hero.css';
+import Accent from '../_legacy_Accent/Accent.astro';
+import { type SupportedLanguage } from '../../i18n/ui';
+import { getLocalizedUrl } from '../../i18n/utils';
+
+interface HeroData {
+  titlePrefix: string;
+  titleAccent: string;
+  greeting: string;
+  tagline: string;
+  authorName: string;
+  authorRole: string;
+  badgeCrafted: string;
+  badgeUnique: string;
+  btnExplore: string;
+  btnOrder: string;
+}
+
+interface Props {
+  hero: HeroData;
+  currentLang: SupportedLanguage;
+}
+
+const { hero, currentLang } = Astro.props;
+---
+
+<section class="hero-section" id="welcome">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          {hero.titlePrefix}<Accent>{hero.titleAccent}</Accent>
+        </h1>
+
+        <div class="welcome-card">
+          <div class="welcome-text">
+            <p>
+              <strong>{hero.greeting}</strong>, {hero.tagline}
+            </p>
+            <slot />
+          </div>
+
+          <div class="author-signature">
+            <div class="author-avatar">
+              <img src="/logo_icon.png" alt={hero.authorName} width="52" height="52" />
+            </div>
+            <div class="author-info">
+              <h4>{hero.authorName}</h4>
+              <p>{hero.authorRole}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-buttons">
+          <a href={getLocalizedUrl('/catalog', currentLang)} class="btn btn-primary">
+            <span>✨</span> {hero.btnExplore}
+          </a>
+          <a href={getLocalizedUrl('/contacts', currentLang)} class="btn btn-secondary">
+            <span>💌</span> {hero.btnOrder}
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-image-wrapper">
+        <div class="image-frame">
+          <img
+            src="/beadwork_hero.png"
+            alt="Handcrafted beadwork jewelry art by BunnyBearBeads"
+            width="600"
+            height="600"
+            loading="eager"
+          />
+        </div>
+        <div class="floating-badge">
+          <span class="floating-badge-icon">💎</span>
+          <div class="floating-badge-text">
+            <h5>{hero.badgeCrafted}</h5>
+            <p>{hero.badgeUnique}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

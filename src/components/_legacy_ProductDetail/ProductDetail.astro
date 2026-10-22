@@ -1,0 +1,471 @@
+---
+import './ProductDetail.css';
+import { type SupportedLanguage } from '../../i18n/ui';
+import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
+
+interface Props {
+  product: any;
+  productRaw: any;
+  currentLang: SupportedLanguage;
+}
+
+const { product, productRaw, currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+
+const ngayMaiLoc = productRaw.data.stockLocations?.find(
+  (l: any) => l.city?.toLowerCase().includes('da nang') || l.location?.includes('NGÀY MAI')
+);
+
+function localizeCity(cityStr: string = '') {
+  const c = cityStr.toLowerCase();
+  if (c.includes('da lat')) return t('geo.city.dalat');
+  if (c.includes('da nang')) return t('geo.city.danang');
+  if (c.includes('ho chi minh')) return t('geo.city.hcm');
+  return cityStr;
+}
+
+function localizeDistrict(distStr: string = '') {
+  const d = distStr.toLowerCase();
+  if (d.includes('lâm viên') || d.includes('lam vien')) return t('geo.district.lamvien');
+  if (d.includes('my an') || d.includes('mỹ an')) return t('geo.district.myan');
+  if (d.includes('ben than') || d.includes('bến thành') || d.includes('ben thanh')) return t('geo.district.benthanh');
+  return distStr;
+}
+---
+
+<div class="container page-container-top">
+  <div class="back-nav">
+    <a href={getLocalizedUrl('/catalog', currentLang)} class="back-link">
+      ← {t('catalog.back_to_catalog')}
+    </a>
+  </div>
+
+  <div class="product-detail-grid">
+    <!-- Gallery / Image -->
+    <div class="product-gallery">
+      {product.images && product.images.length > 0 ? (
+        <img
+          src={product.images[0]}
+          alt={product.title}
+          loading="eager"
+        />
+      ) : (
+        <div class="product-gallery-placeholder">
+          <span class="product-gallery-placeholder__icon">📿</span>
+          <span class="product-gallery-placeholder__caption">BunnyBearBeads Masterpiece</span>
+        </div>
+      )}
+    </div>
+
+    <!-- Info Panel -->
+    <div class="product-info-panel">
+      <span class="product-category">{product.category}</span>
+      <h1>{product.title}</h1>
+
+      {product.description && (
+        <p class="product-description-text">
+          {product.description}
+        </p>
+      )}
+
+      <div class="product-price-large">
+        {Number(product.price).toLocaleString('vi-VN')} {product.currency || 'VND'}
+      </div>
+
+      <!-- Where to Buy section -->
+      <div class="where-to-buy-section">
+        <div class="section-subtitle-badge">
+          <span class="badge-dot"></span>
+          <span>{t('catalog.where_to_buy')}</span>
+        </div>
+
+        <div class="buy-options-list">
+          {(() => {
+            const stockLocations = productRaw.data.stockLocations || [];
+            const dalatOffline = stockLocations.find(
+              (l: any) => l.type === 'offline' && l.city?.toLowerCase().includes('da lat')
+            );
+            const otherOffline = stockLocations.filter(
+              (l: any) => l.type === 'offline' && !l.city?.toLowerCase().includes('da lat')
+            );
+            const hasOnline = stockLocations.some((l: any) => l.type === 'online') || stockLocations.length === 0;
+
+            const isDalatInStock = dalatOffline ? (dalatOffline.quantity !== undefined && dalatOffline.quantity > 0) : false;
+            const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'Lâm Viên', quantity: 0 };
+
+            const items: any[] = [];
+
+            if (dalatLoc) {
+              items.push({ kind: 'offline', loc: dalatLoc, isDalatLoc: true, isDalatInStock });
+            }
+
+            if (hasOnline) {
+              items.push({
+                kind: 'delivery',
+                icon: '🛵',
+                title: t('catalog.delivery_dalat_title'),
+                sub: isDalatInStock ? t('catalog.delivery_dalat_sub') : t('catalog.delivery_dalat_sub_remake'),
+                nestedClass: dalatLoc ? 'nested-delivery nested-first' : undefined,
+              });
+              items.push({
+                kind: 'delivery',
+                icon: '📦',
+                title: t('catalog.delivery_vn_title'),
+                sub: isDalatInStock ? t('catalog.delivery_vn_sub') : t('catalog.delivery_vn_sub_remake'),
+                nestedClass: dalatLoc ? 'nested-delivery nested-last' : undefined,
+              });
+            }
+
+            otherOffline.forEach((loc: any) => {
+              items.push({ kind: 'offline', loc, isDalatLoc: false, isDalatInStock: true });
+            });
+
+            return items.map((item: any) => {
+              if (item.kind === 'delivery') {
+                return (
+                  <div class:list={['buy-option-card', 'online', item.nestedClass]}>
+                    <div class="buy-option-icon">{item.icon}</div>
+                    <div class="buy-option-content">
+                      <div class="buy-option-title">
+                        <div class="delivery-text-wrap">
+                          <strong>{item.title}</strong>
+                          <span class="buy-option-delivery-sub">{item.sub}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="stock-type-tag online">
+                      <span class="tag-status-indicator"></span>
+                      {t('catalog.delivery_badge')}
+                    </span>
+                  </div>
+                );
+              }
+
+              const loc = item.loc;
+              const isOfflineCheckup = loc.type === 'offline' && loc.lastCheckedAt;
+              const modalTarget = isOfflineCheckup
+                ? (loc.city.toLowerCase().includes('da nang') || (loc.location && loc.location.includes('NGÀY MAI'))
+                    ? '#modal-checkup-ngaymai'
+                    : '#modal-checkup-catfood')
+                : undefined;
+
+              return (
+                <div
+                  class:list={[
+                    'buy-option-card',
+                    loc.type,
+                    modalTarget && 'buy-option-card--clickable',
+                  ]}
+                  data-hystmodal={modalTarget}
+                  role={modalTarget ? 'button' : undefined}
+                  tabindex={modalTarget ? 0 : undefined}
+                  title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
+                >
+                  <div class="buy-option-icon">📍</div>
+                  <div class="buy-option-content">
+                    <div class="buy-option-title">
+                      {loc.location && loc.location.includes('магазин') ? (
+                        (() => {
+                          const parts = loc.location.split('магазин');
+                          const rawDistrict = parts[0].replace(/,\s*$/, '').trim();
+                          const district = localizeDistrict(rawDistrict);
+                          const shop = parts[1] ? parts[1].trim() : '';
+                          return (
+                            <>
+                              <strong>{localizeCity(loc.city)}{district ? `, ${district}` : ''}</strong>, {t('catalog.shop_word')} <strong>{shop}</strong>
+                            </>
+                          );
+                        })()
+                      ) : item.isDalatLoc && !item.isDalatInStock ? (
+                        <div class="dalat-remake-wrap">
+                          <div class="dalat-title-row">
+                            <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
+                            <span class="stock-quantity-pill stock-sold-pill">
+                              <strong>{t('catalog.sold_out')}</strong>
+                            </span>
+                          </div>
+                          <div class="dalat-remake-craft-text">{t('catalog.craft_remake')}</div>
+                          <div class="dalat-remake-time-text">{t('catalog.craft_time')}</div>
+                        </div>
+                      ) : (
+                        <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
+                      )}
+                    </div>
+                    <div class="buy-option-meta">
+                      {loc.quantity !== undefined && (
+                        loc.lastCheckedAt ? (
+                          <span class="stock-quantity-pill stock-quantity-pill--clickable">
+                            <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                            <span class="audit-prep"> {t('catalog.as_of')} </span>
+                            <span class="audit-date">{loc.lastCheckedAt}</span>
+                            <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
+                          </span>
+                        ) : (
+                          (!item.isDalatLoc || item.isDalatInStock) && (
+                            <span class="stock-quantity-pill">
+                              <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                            </span>
+                          )
+                        )
+                      )}
+                    </div>
+                  </div>
+                  <span class:list={['stock-type-tag', loc.type]}>
+                    <span class="tag-status-indicator"></span>
+                    {loc.type === 'offline' ? t('catalog.offline_badge') : t('catalog.delivery_badge')}
+                  </span>
+                </div>
+              );
+            });
+          })()}
+        </div>
+      </div>
+
+      <!-- Crafter's Note Section -->
+      {product.crafterNote && (
+        <div class="crafter-note-section">
+          <div class="section-subtitle-badge">
+            <span class="badge-dot crafter-badge-dot"></span>
+            <span>{t('catalog.crafter_note_title')}</span>
+          </div>
+          <div class="crafter-note-card">
+            <div class="crafter-note-content-wrapper" id="crafter-note-wrapper">
+              <div class="crafter-note-body" set:html={product.crafterNote} />
+              <div class="crafter-note-fade" id="crafter-note-fade" aria-hidden="true"></div>
+            </div>
+            <div class="crafter-note-actions">
+              <button
+                type="button"
+                class="btn-expand-note"
+                id="btn-expand-crafter-note"
+                aria-expanded="false"
+                data-expand-text={t('catalog.expand')}
+                data-collapse-text={t('catalog.collapse')}
+              >
+                <span class="btn-expand-text">{t('catalog.expand')}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <!-- Materials Section -->
+      <div class="product-specs-section">
+        <strong class="specs-heading">
+          {t('catalog.materials_label')}
+        </strong>
+        {productRaw.data.materialsHtml ? (
+          <div class="materials-html-content" set:html={productRaw.data.materialsHtml} />
+        ) : product.materials && product.materials.length > 0 ? (
+          <div class="materials-tags">
+            {product.materials.map((mat: string) => (
+              <span class="material-tag">{mat}</span>
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      <!-- Credits Section -->
+      <div class="product-specs-section credits-section">
+        <strong class="specs-heading">
+          {t('catalog.credits')}
+        </strong>
+        <div class="credits-box">
+          <div class="credit-row">
+            <span class="credit-label">{t('catalog.crafted_by')}:</span>
+            <strong class="credit-val brand-craft">BunnyBearBeads</strong>
+          </div>
+          {productRaw.data.designedBy && (
+            <div class="credit-row">
+              <span class="credit-label">{t('catalog.designed_by')}:</span>
+              <span class="credit-val" set:html={productRaw.data.designedBy} />
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div class="cta-buttons product-cta-buttons">
+        <a
+          href="https://t.me/bunnybearbeads"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-primary btn-lg"
+        >
+          <span>✈️</span> {t('catalog.order_piece')} (Telegram)
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: NGÀY MAI (Da Nang) -->
+<div class="hystmodal" id="modal-checkup-ngaymai" aria-hidden="true">
+  <div class="hystmodal__wrap">
+    <div class="hystmodal__window checkup-modal-window" role="dialog" aria-modal="true" aria-labelledby="modal-nm-title">
+      <button data-hystclose class="hystmodal__close" aria-label={t('catalog.modal.close')}>✕</button>
+
+      <div class="modal-badge-tag">
+        <span>📍</span>
+        <span>{localizeCity('Da Nang')} • NGÀY MAI</span>
+      </div>
+
+      <h3 id="modal-nm-title" class="modal-headline">
+        {t('catalog.modal.title')}
+      </h3>
+
+      <div class="modal-body-content">
+        <p class="modal-lead">
+          {t('catalog.modal.nm_p1')}
+        </p>
+        <p>
+          {t('catalog.modal.nm_p2')}
+        </p>
+        <p set:html={t('catalog.modal.nm_p2_sub').replace('{item}', `<strong>«${product.title}»</strong>`)} />
+        <p class="modal-highlight">
+          {t('catalog.modal.nm_p3')}
+        </p>
+      </div>
+
+      <div class="modal-stock-photo-card">
+        <div class="stock-photo-header">
+          <span class="stock-photo-icon">📸</span>
+          <strong class="stock-photo-heading">{t('catalog.modal.stock_photo_title')} {ngayMaiLoc?.lastCheckedAt || '2026-10-04'}</strong>
+        </div>
+        <a
+          href="/images/stock/ngay-mai-showcase.jpg"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="stock-photo-frame"
+          title={t('catalog.modal.photo_zoom_hint')}
+        >
+          <img
+            src="/images/stock/ngay-mai-showcase.jpg"
+            alt={`Витрина с украшениями в NGÀY MAI (${ngayMaiLoc?.lastCheckedAt || '2026-10-04'})`}
+            class="stock-photo-image"
+            loading="lazy"
+          />
+          <span class="stock-photo-zoom-tag">🔍 {t('catalog.modal.photo_zoom_badge')}</span>
+        </a>
+      </div>
+
+      <div class="modal-hours">
+        <span class="modal-hours-icon">🕒</span>
+        <span>{t('catalog.modal.nm_hours')}</span>
+      </div>
+
+      <div class="modal-footer-actions">
+        <a
+          href="https://maps.app.goo.gl/9ZpC4aK4fGzW5c8r7"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-maps-link"
+        >
+          <span>🗺️</span>
+          <strong>{t('catalog.modal.nm_maps')}</strong>
+          <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Cat Food (Ho Chi Minh City) -->
+<div class="hystmodal" id="modal-checkup-catfood" aria-hidden="true">
+  <div class="hystmodal__wrap">
+    <div class="hystmodal__window checkup-modal-window" role="dialog" aria-modal="true" aria-labelledby="modal-cf-title">
+      <button data-hystclose class="hystmodal__close" aria-label={t('catalog.modal.close')}>✕</button>
+
+      <div class="modal-badge-tag">
+        <span>📍</span>
+        <span>{localizeCity('Ho Chi Minh')} • Cat Food</span>
+      </div>
+
+      <h3 id="modal-cf-title" class="modal-headline">
+        {t('catalog.modal.title')}
+      </h3>
+
+      <div class="modal-body-content">
+        <p class="modal-lead">
+          {t('catalog.modal.catfood_p1')}
+        </p>
+        <p>
+          {t('catalog.modal.catfood_p2')}
+        </p>
+        <p class="modal-highlight">
+          {t('catalog.modal.catfood_p3')}
+        </p>
+      </div>
+
+      <div class="modal-footer-actions">
+        <a
+          href="https://maps.google.com/?q=Cat+Food+Shop+Ben+Thanh+Ho+Chi+Minh+City"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-maps-link"
+        >
+          <span>🗺️</span>
+          <strong>{t('catalog.modal.catfood_maps')}</strong>
+          <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import HystModal from 'hystmodal';
+  import 'hystmodal/css';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    new HystModal({
+      linkAttributeName: 'data-hystmodal',
+      catchFocus: true,
+      waitTransitions: true,
+      closeOnEsc: true,
+      closeOnOverlay: true,
+    });
+
+    const wrapper = document.getElementById('crafter-note-wrapper');
+    const btn = document.getElementById('btn-expand-crafter-note');
+    const fade = document.getElementById('crafter-note-fade');
+    const textSpan = btn?.querySelector('.btn-expand-text');
+
+    if (wrapper && btn) {
+      const checkOverflow = () => {
+        if (wrapper.classList.contains('is-expanded')) return;
+        const isOverflowing = wrapper.scrollHeight > 230;
+        if (!isOverflowing) {
+          btn.style.display = 'none';
+          if (fade) fade.style.display = 'none';
+        } else {
+          btn.style.display = 'inline-flex';
+          if (fade) fade.style.display = 'block';
+        }
+      };
+
+      checkOverflow();
+
+      const images = wrapper.querySelectorAll('img');
+      images.forEach((img) => {
+        if ((img as HTMLImageElement).complete) {
+          checkOverflow();
+        } else {
+          img.addEventListener('load', checkOverflow);
+        }
+      });
+
+      btn.addEventListener('click', () => {
+        const isExpanded = wrapper.classList.toggle('is-expanded');
+        btn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+        if (textSpan) {
+          textSpan.textContent = isExpanded
+            ? btn.getAttribute('data-collapse-text') || 'Show less ↑'
+            : btn.getAttribute('data-expand-text') || 'Read more ↓';
+        }
+        if (!isExpanded) {
+          wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    }
+  });
+</script>

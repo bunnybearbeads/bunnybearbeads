@@ -1,8 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Accent from '../../components/Accent/Accent.astro';
+import Hero from '../../components/_legacy_Hero/Hero.astro';
+import FeaturesSection from '../../components/_legacy_FeaturesSection/FeaturesSection.astro';
 import { getEntry, render } from 'astro:content';
-import { getStaticLangPaths, resolveLang, getLocalizedUrl } from '../../utils/i18n';
+import { getStaticLangPaths, resolveLang } from '../../i18n/utils';
 
 export function getStaticPaths() {
   return getStaticLangPaths();
@@ -21,81 +22,13 @@ const { Content } = await render(homeEntry);
 ---
 
 <Layout lang={currentLang} title={seoTitle} description={seoDesc}>
-  <!-- Hero Section -->
-  <section class="hero-section" id="welcome">
-    <div class="container">
-      <div class="hero-grid">
-        <div class="hero-content">
-          <h1 class="hero-title">
-            {hero.titlePrefix}<Accent>{hero.titleAccent}</Accent>
-          </h1>
+  <Hero hero={hero} currentLang={currentLang}>
+    <Content />
+  </Hero>
 
-          <div class="welcome-card">
-            <div class="welcome-text">
-              <p>
-                <strong>{hero.greeting}</strong>, {hero.tagline}
-              </p>
-              <Content />
-            </div>
-
-            <div class="author-signature">
-              <div class="author-avatar">
-                <img src="/logo_icon.png" alt={hero.authorName} width="52" height="52" />
-              </div>
-              <div class="author-info">
-                <h4>{hero.authorName}</h4>
-                <p>{hero.authorRole}</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="cta-buttons">
-            <a href={getLocalizedUrl('/catalog', currentLang)} class="btn btn-primary">
-              <span>✨</span> {hero.btnExplore}
-            </a>
-            <a href={getLocalizedUrl('/contacts', currentLang)} class="btn btn-secondary">
-              <span>💌</span> {hero.btnOrder}
-            </a>
-          </div>
-        </div>
-
-        <div class="hero-image-wrapper">
-          <div class="image-frame">
-            <img
-              src="/beadwork_hero.png"
-              alt="Handcrafted beadwork jewelry art by BunnyBearBeads"
-              width="600"
-              height="600"
-              loading="eager"
-            />
-          </div>
-          <div class="floating-badge">
-            <span class="floating-badge-icon">💎</span>
-            <div class="floating-badge-text">
-              <h5>{hero.badgeCrafted}</h5>
-              <p>{hero.badgeUnique}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="features-section" id="features">
-    <div class="container">
-      <h2 class="section-title">{featuresTitle}</h2>
-      <p class="section-subtitle">{featuresSubtitle}</p>
-
-      <div class="features-grid">
-        {features.map((item) => (
-          <div class="feature-card">
-            <div class="feature-icon">{item.icon}</div>
-            <h3>{item.title}</h3>
-            <p>{item.desc}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  <FeaturesSection
+    title={featuresTitle}
+    subtitle={featuresSubtitle}
+    features={features}
+  />
 </Layout>
