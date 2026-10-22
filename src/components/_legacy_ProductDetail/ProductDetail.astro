@@ -1,5 +1,6 @@
 ---
 import './ProductDetail.css';
+import Gallery from '../Gallery/Gallery.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
 
@@ -41,21 +42,7 @@ function localizeDistrict(distStr: string = '') {
   </div>
 
   <div class="product-detail-grid">
-    <!-- Gallery / Image -->
-    <div class="product-gallery">
-      {product.images && product.images.length > 0 ? (
-        <img
-          src={product.images[0]}
-          alt={product.title}
-          loading="eager"
-        />
-      ) : (
-        <div class="product-gallery-placeholder">
-          <span class="product-gallery-placeholder__icon">📿</span>
-          <span class="product-gallery-placeholder__caption">BunnyBearBeads Masterpiece</span>
-        </div>
-      )}
-    </div>
+    <Gallery images={product.images} alt={product.title} />
 
     <!-- Info Panel -->
     <div class="product-info-panel">

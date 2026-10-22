@@ -1,0 +1,57 @@
+---
+import './Gallery.css';
+
+interface Props {
+  images?: string[];
+  alt: string;
+}
+
+const { images = [], alt } = Astro.props;
+const mainImage = images[0];
+const hasThumbnails = images.length > 0;
+---
+
+<div class="gallery">
+  {hasThumbnails && (
+    <ul class="gallery__thumbs" aria-label="Product thumbnails">
+      {images.map((src, index) => (
+        <li
+          class:list={[
+            'gallery__thumb-item',
+            { 'gallery__thumb-item--active': index === 0 },
+          ]}
+        >
+          <button
+            type="button"
+            class="gallery__thumb-btn"
+            aria-label={`${alt} — photo ${index + 1}`}
+            aria-current={index === 0 ? 'true' : undefined}
+          >
+            <img
+              src={src}
+              alt={`${alt} — preview ${index + 1}`}
+              class="gallery__thumb-img"
+              loading={index >= 5 ? 'lazy' : undefined}
+            />
+          </button>
+        </li>
+      ))}
+    </ul>
+  )}
+
+  <div class="gallery__stage">
+    {mainImage ? (
+      <img
+        src={mainImage}
+        alt={alt}
+        class="gallery__main-img"
+        fetchpriority="high"
+      />
+    ) : (
+      <div class="gallery__placeholder">
+        <span class="gallery__placeholder-icon" aria-hidden="true">📿</span>
+        <span class="gallery__placeholder-caption">BunnyBearBeads Masterpiece</span>
+      </div>
+    )}
+  </div>
+</div>
