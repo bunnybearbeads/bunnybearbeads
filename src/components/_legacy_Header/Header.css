@@ -1,17 +1,15 @@
 /* Two-Level Header: Top Text Menu + Lower Floating Brand Bar */
 .site-header-wrapper {
   position: sticky;
-  top: 12px;
+  top: 10px;
   z-index: 100;
   width: 100%;
-  margin-bottom: 26px;
+  margin-bottom: 32px;
 }
 
 .site-header {
-  width: 100%;
-  max-width: 1320px;
+  width: 1140px;
   margin: 0 auto;
-  padding: 0 3.2%;
 }
 
 /* ==========================================================================
@@ -22,7 +20,7 @@
   align-items: center;
   justify-content: flex-end;
   gap: 18px;
-  padding: 0 16px 8px;
+  padding: 0 16px 5px;
   font-size: 13.5px;
 }
 
@@ -136,7 +134,7 @@
    Lower Header - Main Floating Bar with Medallion and Categories
    ========================================================================== */
 .header-bottom {
-  height: 74px;
+  height: 64px;
   padding: 0 36px;
   display: flex;
   align-items: center;
@@ -159,8 +157,8 @@
 
 .header__medallion {
   vertical-align: top;
-  height: 94px;
-  width: 94px;
+  height: 84px;
+  width: 84px;
   border: 0.5px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 50%;
@@ -177,7 +175,7 @@
 
 .header__brand {
   font-family: var(--font-serif);
-  font-size: 38px;
+  font-size: 33px;
   font-weight: 700;
   color: var(--color-brand-dark);
   letter-spacing: -0.2px;
@@ -326,13 +324,11 @@
 @media (1600px <= width) {
   .site-header-wrapper {
     top: 16px;
-    padding: 0 26px;
-    margin-bottom: 34px;
+    margin-bottom: 60px;
   }
 
   .site-header {
-    max-width: 1350px;
-    padding: 0;
+    width: 1320px;
   }
 
   .header-top {
@@ -410,6 +406,7 @@
   }
 
   .site-header {
+    width: 100%;
     padding: 0 16px;
   }
 
