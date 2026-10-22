@@ -117,7 +117,7 @@
   color: var(--color-brand-dark);
   text-decoration: none;
   border-radius: 7px;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .lang-option:hover {
@@ -146,7 +146,6 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 14px 34px rgba(80, 60, 45, 0.2);
-  transition: all 0.3s ease;
 }
 
 .header__logo {
@@ -253,7 +252,7 @@
   color: var(--color-nav-link, #5C4A3E);
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.25s ease;
+  transition: color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
 }
 
 .search-toggle-btn:hover,

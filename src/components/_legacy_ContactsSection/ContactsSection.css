@@ -26,7 +26,7 @@
   text-decoration: none;
   color: var(--color-brand-dark);
   margin-bottom: 14px;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   box-shadow: var(--shadow-soft);
 }
 
@@ -168,7 +168,7 @@
   border-radius: 28px;
   text-decoration: none;
   box-shadow: 0 4px 14px rgba(42, 123, 136, 0.3);
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-telegram-large:hover {
