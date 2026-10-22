@@ -8,7 +8,7 @@
   margin-top: auto;
 }
 
-@media (1500px <= width) {
+@media (1600px <= width) {
   .site-footer {
     padding: 44px 0;
     font-size: 15.5px;

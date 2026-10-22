@@ -16,7 +16,7 @@
   margin: 0 auto 26px;
 }
 
-@media (1500px <= width) {
+@media (1600px <= width) {
   .page-header {
     padding: 44px 0 22px;
   }

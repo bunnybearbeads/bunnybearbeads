@@ -86,9 +86,9 @@
 }
 
 /* ==========================================================================
-   Large Desktop (1500px+)
+   Large Desktop (1600px+)
    ========================================================================== */
-@media (1500px <= width) {
+@media (1600px <= width) {
   .blog-grid {
     grid-template-columns: repeat(auto-fill, minmax(374px, 1fr));
     gap: 36px;

@@ -214,9 +214,9 @@ h1, h2, h3, h4, .font-serif {
 }
 
 /* ==========================================================================
-   LARGE DESKTOP (1500px+: ~10% larger than original)
+   LARGE DESKTOP (1600px+: ~10% larger than original)
    ========================================================================== */
-@media (1500px <= width) {
+@media (1600px <= width) {
   :root {
     --radius-lg: 26px;
     --radius-md: 18px;
