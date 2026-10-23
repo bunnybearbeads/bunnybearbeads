@@ -181,7 +181,7 @@
         overflow: visible;
     }
         .gallery__nav-viewport {
-
+            overflow: visible;
         }
             .gallery__nav-ribbon {
 
@@ -201,8 +201,7 @@
     }
 
     .gallery__thumbnail {
-        width: 68px;
-        flex: 0 0 68px;
+        width: calc((100vw - 2 * var(--container-padding) - 32px) /5);
         border-width: 3px;
     }
 
