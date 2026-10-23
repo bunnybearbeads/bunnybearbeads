@@ -71,7 +71,7 @@
 }
 
 
-.gallery__control--larger {
+.gallery__control--stage {
     width: 44px;
     height: 28px;
     border-radius: 14px;
@@ -82,7 +82,7 @@
 
 @media (1600px <= width) {
 
-    .gallery__control--larger {
+    .gallery__control--stage {
         width: 52px;
         height: 32px;
         margin-top: -14px;

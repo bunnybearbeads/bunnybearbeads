@@ -5,7 +5,8 @@
 
 .is-gallery-fullscreen .gallery {
     --gallery-fs-control: 58px;
-    --gallery-fs-gap: 12px;
+    --gallery-left-fs-gap: 12px;
+    --gallery-right-fs-gap: 18px;
 }
 
 .is-gallery-fullscreen .gallery {
@@ -17,14 +18,14 @@
 }
     .is-gallery-fullscreen .gallery__navigation {
         height: calc(100svh - 64px);
-        width: calc(98px + var(--gallery-fs-gap));
-        border-right: var(--gallery-fs-gap) solid transparent; /* border instead of gap so you can't click in between columns to close it (don't use padding because of absolute arrows inside) */
+        width: calc(98px + var(--gallery-left-fs-gap));
+        border-right: var(--gallery-left-fs-gap) solid transparent; /* border instead of gap so you can't click in between columns to close it (don't use padding because of absolute arrows inside) */
     }
         .is-gallery-fullscreen .gallery__nav-viewport {
             overflow: visible;
         }
             .is-gallery-fullscreen .gallery__nav-ribbon {
-                gap: var(--gallery-fs-gap);
+                gap: var(--gallery-left-fs-gap);
             }
                 .is-gallery-fullscreen .gallery__thumbnail {
 
@@ -57,7 +58,7 @@
     .is-gallery-fullscreen .gallery__counter {
         display: block;
         width: var(--gallery-fs-control);
-        margin-left: var(--gallery-fs-gap);
+        margin-left: var(--gallery-right-fs-gap);
         font-size: 14px;
         font-weight: 600;
         color: var(--text-muted);
@@ -69,7 +70,7 @@
 
 
 
-/* by default it's big as monitor version */
+/* nav controls (big as monitor version) */
 .is-gallery-fullscreen .gallery__control {
     width: 36px;
     height: 24px;
@@ -80,9 +81,10 @@
 }
 
 
-.is-gallery-fullscreen .gallery__control--larger {
+/* stage controls */
+.is-gallery-fullscreen .gallery__control--stage {
     left: 100%;
-    margin-left: var(--gallery-fs-gap);
+    margin-left: var(--gallery-right-fs-gap);
     margin-right: 0;
     right: auto;
     width: var(--gallery-fs-control);
@@ -92,18 +94,18 @@
 }
 
 
-.is-gallery-fullscreen .gallery__control--larger:hover:not(:disabled) {
+.is-gallery-fullscreen .gallery__control--stage:hover:not(:disabled) {
     box-shadow: 0 4px 14px rgba(42, 123, 136, 0.25);
 }
 
 
-.is-gallery-fullscreen .gallery__control--larger.gallery__control--prev {
+.is-gallery-fullscreen .gallery__control--stage.gallery__control--prev {
     top: auto;
     bottom: 50%;
     margin-bottom: 28px;
 }
 
-.is-gallery-fullscreen .gallery__control--larger.gallery__control--next {
+.is-gallery-fullscreen .gallery__control--stage.gallery__control--next {
     bottom: auto;
     top: 50%;
     margin-top: 28px;
