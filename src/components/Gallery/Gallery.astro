@@ -3,17 +3,17 @@ import './Gallery.css';
 import Icon from '../Icon/Icon.astro';
 
 interface Props {
-  images?: string[];
+  images: string[];
   alt: string;
 }
 
 const { images = [], alt } = Astro.props;
-const hasImages = images.length > 0;
+const hasMultipleImages = images.length > 1;
 ---
 
 <div class="gallery" data-gallery>
-  {hasImages && (
-    <div class="gallery__thumbs-column" data-gallery-thumbs-col>
+  {hasMultipleImages && (
+    <div class="gallery__navigation" data-gallery-thumbs-col>
       <button
         type="button"
         class="gallery__thumbs-nav gallery__thumbs-nav--prev"
@@ -24,32 +24,28 @@ const hasImages = images.length > 0;
         <Icon name="keyboard_arrow_up" />
       </button>
 
-      <div class="gallery__thumbs-viewport" data-gallery-thumbs>
-        <ul class="gallery__thumbs" aria-label="Product thumbnails">
+      <div class="gallery__nav-viewport" data-gallery-thumbs>
+        <div class="gallery__nav-ribbon" aria-label="Product thumbnails">
           {images.map((src, index) => (
-            <li
+            <button
+              type="button"
               class:list={[
-                'gallery__thumb-item',
-                { 'gallery__thumb-item--active': index === 0 },
+                'gallery__thumb',
+                { 'gallery__thumb--active': index === 0 },
               ]}
               data-gallery-thumb-slide
+              aria-label={`${alt} — photo ${index + 1}`}
+              aria-current={index === 0 ? 'true' : undefined}
             >
-              <button
-                type="button"
-                class="gallery__thumb-btn"
-                aria-label={`${alt} — photo ${index + 1}`}
-                aria-current={index === 0 ? 'true' : undefined}
-              >
-                <img
-                  src={src}
-                  alt={`${alt} — preview ${index + 1}`}
-                  class="gallery__thumb-img"
-                  loading={index >= 5 ? 'lazy' : undefined}
-                />
-              </button>
-            </li>
+              <img
+                src={src}
+                alt={`${alt} — preview ${index + 1}`}
+                class="gallery__thumb-img"
+                loading={index >= 5 ? 'lazy' : undefined}
+              />
+            </button>
           ))}
-        </ul>
+        </div>
       </div>
 
       <button
@@ -65,7 +61,7 @@ const hasImages = images.length > 0;
   )}
 
   <div class="gallery__stage-column" data-gallery-stage-col>
-    {hasImages && (
+    {hasMultipleImages && (
       <button
         type="button"
         class="gallery__thumbs-nav gallery__stage-nav gallery__thumbs-nav--prev"
@@ -78,29 +74,22 @@ const hasImages = images.length > 0;
     )}
 
     <div class="gallery__stage" data-gallery-main>
-      {hasImages ? (
-        <div class="gallery__stage-track">
-          {images.map((src, index) => (
-            <div class="gallery__stage-slide">
-              <img
-                src={src}
-                alt={index === 0 ? alt : `${alt} — photo ${index + 1}`}
-                class="gallery__main-img"
-                fetchpriority={index === 0 ? 'high' : 'low'}
-                loading={index === 0 ? undefined : 'lazy'}
-              />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div class="gallery__placeholder">
-          <span class="gallery__placeholder-icon" aria-hidden="true">📿</span>
-          <span class="gallery__placeholder-caption">BunnyBearBeads Masterpiece</span>
-        </div>
-      )}
+      <div class="gallery__stage-track">
+        {images.map((src, index) => (
+          <div class="gallery__stage-slide">
+            <img
+              src={src}
+              alt={index === 0 ? alt : `${alt} — photo ${index + 1}`}
+              class="gallery__main-img"
+              fetchpriority={index === 0 ? 'high' : 'low'}
+              loading={index === 0 ? undefined : 'lazy'}
+            />
+          </div>
+        ))}
+      </div>
     </div>
 
-    {hasImages && (
+    {hasMultipleImages && (
       <button
         type="button"
         class="gallery__thumbs-nav gallery__stage-nav gallery__thumbs-nav--next"
@@ -113,17 +102,17 @@ const hasImages = images.length > 0;
     )}
   </div>
 
-  {hasImages && (
-    <div class="gallery__fs-controls" data-gallery-fs-controls>
-      <button
-        type="button"
-        class="gallery__fs-btn gallery__fs-btn--close"
-        data-gallery-fs-close
-        aria-label="Close fullscreen gallery"
-      >
-        <Icon name="close" />
-      </button>
+  <div class="gallery__fs-controls" data-gallery-fs-controls>
+    <button
+      type="button"
+      class="gallery__fs-btn gallery__fs-btn--close"
+      data-gallery-fs-close
+      aria-label="Close fullscreen gallery"
+    >
+      <Icon name="close" />
+    </button>
 
+    {hasMultipleImages && (
       <div class="gallery__fs-nav-group">
         <button
           type="button"
@@ -147,8 +136,8 @@ const hasImages = images.length > 0;
           <Icon name="keyboard_arrow_down" />
         </button>
       </div>
-    </div>
-  )}
+    )}
+  </div>
 </div>
 
 <script>
@@ -172,10 +161,59 @@ const hasImages = images.length > 0;
       galleryRoot.querySelectorAll<HTMLElement>('[data-gallery-thumb-slide]')
     );
 
-    if (!mainNode || !thumbsNode || thumbSlides.length === 0) return;
+    if (!mainNode || !fsCloseBtn) return;
 
     let isFullscreen = false;
     let savedScrollY = 0;
+    let onFullscreenChange: (() => void) | null = null;
+
+    const setFullscreen = (nextState: boolean) => {
+      if (nextState === isFullscreen) return;
+      if (nextState && window.innerWidth < 740) return;
+
+      if (nextState) {
+        savedScrollY = window.scrollY;
+        isFullscreen = true;
+        document.documentElement.classList.add('is-gallery-fullscreen');
+      } else {
+        isFullscreen = false;
+        document.documentElement.classList.remove('is-gallery-fullscreen');
+        window.scrollTo(0, savedScrollY);
+      }
+
+      if (onFullscreenChange) {
+        onFullscreenChange();
+      }
+    };
+
+    mainNode.addEventListener('click', () => {
+      if (window.innerWidth < 740) return;
+      if (!isFullscreen) {
+        setFullscreen(true);
+      }
+    });
+
+    fsCloseBtn.addEventListener('click', () => {
+      setFullscreen(false);
+    });
+
+    galleryRoot.addEventListener('click', (event) => {
+      if (!isFullscreen) return;
+      if (event.target === galleryRoot) {
+        setFullscreen(false);
+      }
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (!isFullscreen) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setFullscreen(false);
+      }
+    });
+
+    // If product has only 1 photo, do not initialize Embla carousels
+    if (!thumbsNode || thumbSlides.length <= 1) return;
 
     const emblaMain = EmblaCarousel(mainNode, {
       loop: false,
@@ -267,16 +305,13 @@ const hasImages = images.length > 0;
 
       thumbSlides.forEach((slide, idx) => {
         const isSelected = idx === selectedIndex;
-        if (slide.classList.contains('gallery__thumb-item--active') !== isSelected) {
-          slide.classList.toggle('gallery__thumb-item--active', isSelected);
+        if (slide.classList.contains('gallery__thumb--active') !== isSelected) {
+          slide.classList.toggle('gallery__thumb--active', isSelected);
         }
-        const btn = slide.querySelector('button');
-        if (btn) {
-          if (isSelected) {
-            setAttrIfChanged(btn, 'aria-current', 'true');
-          } else if (btn.hasAttribute('aria-current')) {
-            btn.removeAttribute('aria-current');
-          }
+        if (isSelected) {
+          setAttrIfChanged(slide, 'aria-current', 'true');
+        } else if (slide.hasAttribute('aria-current')) {
+          slide.removeAttribute('aria-current');
         }
       });
 
@@ -284,54 +319,17 @@ const hasImages = images.length > 0;
       updateThumbsNav();
     };
 
-    const setFullscreen = (nextState: boolean) => {
-      if (nextState === isFullscreen) return;
-      if (nextState && window.innerWidth < 740) return;
-
+    onFullscreenChange = () => {
       const currentIndex = emblaMain.selectedScrollSnap();
-
-      if (nextState) {
-        savedScrollY = window.scrollY;
-        isFullscreen = true;
-        document.documentElement.classList.add('is-gallery-fullscreen');
-      } else {
-        isFullscreen = false;
-        document.documentElement.classList.remove('is-gallery-fullscreen');
-        window.scrollTo(0, savedScrollY);
-      }
-
       emblaMain.reInit();
       emblaThumbs.reInit();
       emblaMain.scrollTo(currentIndex, true);
       syncSelectedThumb(true);
     };
 
-    mainNode.addEventListener('click', () => {
-      if (window.innerWidth < 740) return;
-      if (!isFullscreen) {
-        setFullscreen(true);
-      }
-    });
-
-    if (fsCloseBtn) {
-      fsCloseBtn.addEventListener('click', () => {
-        setFullscreen(false);
-      });
-    }
-
-    galleryRoot.addEventListener('click', (event) => {
-      if (!isFullscreen) return;
-      if (event.target === galleryRoot) {
-        setFullscreen(false);
-      }
-    });
-
     window.addEventListener('keydown', (event) => {
       if (!isFullscreen) return;
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        setFullscreen(false);
-      } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+      if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
         event.preventDefault();
         emblaMain.scrollPrev();
       } else if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
