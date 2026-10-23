@@ -250,6 +250,10 @@ html.is-gallery-fullscreen .gallery__thumbs-column {
   height: calc(100vh - 64px);
 }
 
+html.is-gallery-fullscreen .gallery__thumbs-viewport {
+  overflow: visible;
+}
+
 html.is-gallery-fullscreen .gallery__stage-column {
   height: calc(100vh - 64px);
   width: auto;
@@ -257,6 +261,7 @@ html.is-gallery-fullscreen .gallery__stage-column {
 }
 
 html.is-gallery-fullscreen .gallery__stage {
+  overflow: visible;
   cursor: grab;
 }
 
