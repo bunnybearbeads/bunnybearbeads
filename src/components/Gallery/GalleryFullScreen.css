@@ -8,6 +8,7 @@
 
 .is-gallery-fullscreen .gallery {
     height: 100%;
+    overflow: hidden; /* cur carousel */
     gap: 24px;
     align-items: center;
     justify-content: center;
@@ -17,130 +18,37 @@
     }
         .is-gallery-fullscreen .gallery__nav-viewport {
             overflow: visible;
-            /*width: 100%;*/
-            /*height: 0;*/
-            /*min-height: 100%;*/
         }
             .is-gallery-fullscreen .gallery__nav-ribbon {
-                /*display: flex;*/
-                /*flex-direction: column;*/
                 /*gap: 12px;*/
-                /*height: 100%;*/
-                /*user-select: none;*/
-                /*-webkit-touch-callout: none;*/
             }
                 .is-gallery-fullscreen .gallery__thumbnail {
-                    /*flex-shrink: 0;*/
-                    /*display: block;*/
-                    /*width: 100%;*/
-                    /*background: #ffffff;*/
-                    /*padding: var(--gallery-border);*/
-                    /*border: none;*/
-                    /*border-radius: var(--radius-md);*/
-                    /*cursor: pointer;*/
-                    /*overflow: hidden;*/
-                    /*outline: none;*/
-                    /*transition: background-color var(--transition-hover);*/
-                }
 
-
-                .is-gallery-fullscreen .gallery__thumbnail:hover,
-                .is-gallery-fullscreen .gallery__thumbnail:focus-within {
-                    /*background-color: var(--accent-gold);*/
-                }
-
-                .is-gallery-fullscreen .gallery__thumbnail--current,
-                .is-gallery-fullscreen .gallery__thumbnail--current:hover {
-                    /*background-color: var(--accent-teal-70pct);*/
-                    /*cursor: default;*/
                 }
                     .is-gallery-fullscreen .gallery__thumb-image {
-                        /*vertical-align: top;*/
-                        /*width: 100%;*/
-                        /*height: auto;*/
-                        /*aspect-ratio: 3 / 4;*/
-                        /*object-fit: cover;*/
-                        /*background-color: var(--image-fallback);*/
-                        /*border-radius: calc(var(--radius-md) - var(--gallery-border) - 1px); !* -1px визуально лучше *!*/
+
                     }
 
     .is-gallery-fullscreen .gallery__stage {
-        /*position: relative;*/
-        /*flex-grow: 1;*/
-        /*min-width: 0;*/
         flex-grow: 0;
         width: auto;
-        height: calc(100svh - 64px);
     }
         .is-gallery-fullscreen .gallery__viewport {
             overflow: visible;
         }
             .is-gallery-fullscreen .gallery__strut {
-                /*position: relative;*/
-                /*aspect-ratio: 3 / 4; !* setting up height *!*/
+                height: calc(100svh - 64px);
             }
                 .is-gallery-fullscreen .gallery__ribbon {
-                    /*margin-top: calc(-1 * var(--gallery-border)); !* compensate padding on the gallery__wrap *!*/
-                    /*margin-left: calc(-1 * var(--gallery-border)); !* compensate padding on the gallery__wrap *!*/
-                    /*margin-right: calc(-1 * var(--gallery-border)); !* compensate padding on the gallery__wrap *!*/
-                    /* margin-bottom isn't needed because it just won't work, but we don't really need it (it's only necessary to shift it up) */
-                    /*display: flex;*/
-                    /*flex-direction: column;*/
-                    /*height: calc(100% + 2 * var(--gallery-border));*/
-                    /*gap: 12px;*/
-                    /*user-select: none;*/
-                    /*-webkit-touch-callout: none;*/
+                    height: 100%;
+                    gap: 32px;
                 }
                     .is-gallery-fullscreen .gallery__slide {
-                        /*flex: 0 0 100%;*/
-                        /*padding: var(--gallery-border); !* real white border (and it's inside a slide) *!*/
-                        /*background: #ffffff;*/
-                        /*border-radius: var(--radius-lg);*/
-                        /*overflow: hidden;*/
-                        /*cursor: pointer;*/
+
                     }
                         .is-gallery-fullscreen .gallery__image {
-                            /*vertical-align: top;*/
-                            /*width: 100%;*/
-                            /*height: 100%; !* 3:4 as set above *!*/
-                            /*object-fit: cover;*/
-                            /*display: block;*/
-                            /*background-color: var(--image-fallback);*/
-                            /*border-radius: calc(var(--radius-lg) - var(--gallery-border));*/
+
                         }
-
-
-
-
-
-
-
-.is-gallery-fullscreen .gallery__stage {
-    aspect-ratio: 3 / 4;
-}
-
-.is-gallery-fullscreen .gallery__strut {
-    height: 100%;
-    overflow: visible;
-}
-
-
-.is-gallery-fullscreen .gallery__ribbon {
-    height: 100%;
-    gap: 32px;
-}
-
-.is-gallery-fullscreen .gallery__slide {
-    height: 100%;
-}
-
-.is-gallery-fullscreen .gallery__image {
-    width: 100%;
-    height: 100%;
-}
-
-
-
 
 
 
