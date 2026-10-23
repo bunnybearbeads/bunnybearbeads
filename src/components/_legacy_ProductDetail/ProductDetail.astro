@@ -1,6 +1,5 @@
 ---
 import './ProductDetail.css';
-import Gallery from '../Gallery/Gallery.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
 
@@ -34,13 +33,8 @@ function localizeDistrict(distStr: string = '') {
 }
 ---
 
-<div class="container page-container">
-  <div class="product-detail-grid">
-    <Gallery images={product.images} alt={product.title} />
-
-    <!-- Info Panel -->
-    <div class="product-info-panel">
-      <div class="product-top-meta">
+<div class="product-info-panel">
+  <div class="product-top-meta">
         <a href={getLocalizedUrl('/catalog', currentLang)} class="back-link">
           ← {t('catalog.back_to_catalog')}
         </a>
@@ -281,8 +275,6 @@ function localizeDistrict(distStr: string = '') {
           <span>✈️</span> {t('catalog.order_piece')} (Telegram)
         </a>
       </div>
-    </div>
-  </div>
 </div>
 
 <!-- Modal: NGÀY MAI (Da Nang) -->

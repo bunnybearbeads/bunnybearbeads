@@ -37,6 +37,9 @@
   --radius-md: 12px;
   --radius-sm: 8px;
   --radius-pill: 50px;
+
+  /* Dynamic mobile container padding: 320px -> 12px, 360px -> 16px, 400px -> 20px, 440px+ -> 24px */
+  --container-padding: clamp(12px, calc(10vw - 20px), 24px);
 }
 
 /* ==========================================================================
@@ -297,7 +300,7 @@ h1, h2, h3, h4, .font-serif {
 
   .container {
     width: 100%;
-    padding: 0 16px;
+    padding: 0 var(--container-padding);
   }
 
   .content-card {

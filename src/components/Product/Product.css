@@ -1,0 +1,45 @@
+.product {
+  padding-bottom: 72px;
+}
+
+.product__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.product__summary,
+.product__gallery,
+.product__variants,
+.product__details {
+  min-width: 0;
+}
+
+/* ==========================================================================
+   Large Desktop (1600px+)
+   ========================================================================== */
+@media (1600px <= width) {
+  .product {
+    padding-bottom: 90px;
+  }
+
+  .product__body {
+    gap: 40px;
+  }
+}
+
+/* ==========================================================================
+   Mobile (< 740px)
+   ========================================================================== */
+@media (width < 740px) {
+  .product {
+    overflow: hidden;
+    padding-bottom: 48px;
+  }
+
+  .product__body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+}

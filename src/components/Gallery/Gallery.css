@@ -226,16 +226,11 @@ html.is-gallery-fullscreen body {
   overflow: hidden;
 }
 
-html.is-gallery-fullscreen body > *:not(main),
-html.is-gallery-fullscreen main > *:not(:has(.gallery)),
-html.is-gallery-fullscreen .page-container > *:not(:has(.gallery)),
-html.is-gallery-fullscreen .product-detail-grid > *:not(.gallery) {
+html.is-gallery-fullscreen body *:not(:has(.gallery)):not(.gallery):not(.gallery *) {
   display: none !important;
 }
 
-html.is-gallery-fullscreen main,
-html.is-gallery-fullscreen .page-container,
-html.is-gallery-fullscreen .product-detail-grid {
+html.is-gallery-fullscreen body *:has(.gallery) {
   width: 100% !important;
   max-width: none !important;
   height: 100vh !important;
@@ -410,6 +405,10 @@ html.is-gallery-fullscreen .gallery__fs-controls {
     width: 100%;
   }
 
+  .gallery__thumbs-viewport {
+    overflow: visible;
+  }
+
   .gallery__thumbs-nav {
     display: none !important;
   }
@@ -432,12 +431,13 @@ html.is-gallery-fullscreen .gallery__fs-controls {
 
   .gallery__stage {
     height: auto;
+    overflow: visible;
     cursor: grab;
   }
 
   .gallery__stage-track {
     flex-direction: row;
     height: auto;
-    gap: 10px;
+    gap: var(--container-padding);
   }
 }

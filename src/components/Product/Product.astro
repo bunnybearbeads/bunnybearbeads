@@ -1,0 +1,37 @@
+---
+import './Product.css';
+import Gallery from '../Gallery/Gallery.astro';
+import ProductDetail from '../_legacy_ProductDetail/ProductDetail.astro';
+import { type SupportedLanguage } from '../../i18n/ui';
+
+interface Props {
+  product: any;
+  productRaw: any;
+  currentLang: SupportedLanguage;
+}
+
+const { product, productRaw, currentLang } = Astro.props;
+---
+
+<div class="product">
+  <div class="product__wrap container">
+    <div class="product__body">
+      <div class="product__summary">
+        <div class="product__gallery">
+          <Gallery images={product.images} alt={product.title} />
+        </div>
+        <div class="product__variants"></div>
+      </div>
+
+      <div class="product__details">
+        <ProductDetail
+          product={product}
+          productRaw={productRaw}
+          currentLang={currentLang}
+        />
+      </div>
+    </div>
+
+    <div class="product__related"></div>
+  </div>
+</div>

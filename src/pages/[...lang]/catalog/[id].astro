@@ -1,6 +1,6 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import ProductDetail from '../../../components/_legacy_ProductDetail/ProductDetail.astro';
+import Product from '../../../components/Product/Product.astro';
 import { getCollection } from 'astro:content';
 import { SUPPORTED_LANGUAGES, resolveLang, localize } from '../../../i18n/utils';
 
@@ -29,7 +29,7 @@ const product = localize(productRaw.data, currentLang);
   title={`${product.title} — BunnyBearBeads`}
   description={product.description}
 >
-  <ProductDetail
+  <Product
     product={product}
     productRaw={productRaw}
     currentLang={currentLang}
