@@ -67,7 +67,7 @@ const hasImages = images.length > 0;
     </div>
   )}
 
-  <div class="gallery__stage-column">
+  <div class="gallery__stage-column" data-gallery-stage-col>
     {hasImages && (
       <button
         type="button"
@@ -383,40 +383,70 @@ const hasImages = images.length > 0;
       });
     }
 
-    const thumbsCol = galleryRoot.querySelector<HTMLElement>('[data-gallery-thumbs-col]') || thumbsNode;
-    let wheelAccumulator = 0;
-    thumbsCol.addEventListener(
-      'wheel',
-      (event) => {
-        if (window.innerWidth < 740) return;
+    const bindWheelScroll = (
+      targetEl: HTMLElement,
+      embla: ReturnType<typeof EmblaCarousel>,
+      stepCount = 1
+    ) => {
+      let isWheelLocked = false;
+      let lastTriggerTime = 0;
+      let prevAbsDelta = 0;
+      let unlockTimer: number | undefined;
 
-        const canPrev = emblaThumbs.canScrollPrev();
-        const canNext = emblaThumbs.canScrollNext();
-        if (!canPrev && !canNext) return;
+      targetEl.addEventListener(
+        'wheel',
+        (event) => {
+          if (window.innerWidth < 740) return;
 
-        event.preventDefault();
+          const canPrev = embla.canScrollPrev();
+          const canNext = embla.canScrollNext();
+          if (!canPrev && !canNext) return;
 
-        if ((event.deltaY < 0 && !canPrev) || (event.deltaY > 0 && !canNext)) {
-          wheelAccumulator = 0;
-          return;
-        }
+          event.preventDefault();
 
-        wheelAccumulator += event.deltaY;
+          const absDelta = Math.abs(event.deltaY);
+          const now = performance.now();
 
-        const stepThreshold = 40;
-        const steps = Math.trunc(wheelAccumulator / stepThreshold);
-        if (steps !== 0) {
-          wheelAccumulator -= steps * stepThreshold;
-          const maxSnap = emblaThumbs.scrollSnapList().length - 1;
+          window.clearTimeout(unlockTimer);
+          unlockTimer = window.setTimeout(() => {
+            isWheelLocked = false;
+            prevAbsDelta = 0;
+          }, 80);
+
+          // Unlock early if user initiates a new finger flick during trackpad inertia decay
+          if (
+            isWheelLocked &&
+            now - lastTriggerTime > 220 &&
+            absDelta > prevAbsDelta * 1.6 &&
+            absDelta > 16
+          ) {
+            isWheelLocked = false;
+          }
+          prevAbsDelta = absDelta;
+
+          if (isWheelLocked || absDelta < 6) return;
+          if ((event.deltaY < 0 && !canPrev) || (event.deltaY > 0 && !canNext)) return;
+
+          isWheelLocked = true;
+          lastTriggerTime = now;
+
+          const direction = event.deltaY > 0 ? 1 : -1;
+          const maxSnap = embla.scrollSnapList().length - 1;
           const target = Math.max(
             0,
-            Math.min(maxSnap, emblaThumbs.selectedScrollSnap() + steps)
+            Math.min(maxSnap, embla.selectedScrollSnap() + direction * stepCount)
           );
-          emblaThumbs.scrollTo(target);
-        }
-      },
-      { passive: false }
-    );
+          embla.scrollTo(target);
+        },
+        { passive: false }
+      );
+    };
+
+    const thumbsCol = galleryRoot.querySelector<HTMLElement>('[data-gallery-thumbs-col]') || thumbsNode;
+    const stageCol = galleryRoot.querySelector<HTMLElement>('[data-gallery-stage-col]') || mainNode;
+
+    bindWheelScroll(thumbsCol, emblaThumbs, 1);
+    bindWheelScroll(stageCol, emblaMain, 1);
 
     emblaMain.on('init', updateMainNav);
     emblaMain.on('select', () => syncSelectedThumb(false));
