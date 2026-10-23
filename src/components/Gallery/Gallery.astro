@@ -7,7 +7,7 @@ import { type SupportedLanguage } from '../../i18n/ui';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 interface Props {
-  images: string[];
+  images: (string | { type?: 'image' | 'video'; src: string; poster?: string })[];
   alt: string;
   lang?: SupportedLanguage;
 }
@@ -15,6 +15,29 @@ interface Props {
 const { images = [], alt, lang } = Astro.props;
 const currentLang = lang || getLangFromUrl(Astro.url);
 const t = useTranslations(currentLang);
+
+interface MediaItem {
+  type: 'image' | 'video';
+  src: string;
+  poster?: string;
+}
+
+const items: MediaItem[] = images.map((item) => {
+  if (typeof item === 'string') {
+    const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(item);
+    return {
+      type: isVideo ? 'video' : 'image',
+      src: item,
+      poster: isVideo ? item.replace(/\.[^.]+$/, '.jpg') : undefined,
+    };
+  }
+  const isVideo = item.type === 'video' || /\.(mp4|webm|ogg|mov)$/i.test(item.src);
+  return {
+    type: isVideo ? 'video' : 'image',
+    src: item.src,
+    poster: item.poster || (isVideo ? item.src.replace(/\.[^.]+$/, '.jpg') : undefined),
+  };
+});
 ---
 
 <div class="gallery" data-gallery>
@@ -32,26 +55,36 @@ const t = useTranslations(currentLang);
 
     <div class="gallery__nav-viewport" data-gallery-thumbs>
       <div class="gallery__nav-ribbon" aria-label={t('gallery.thumbs_ribbon')}>
-        {images.map((src, index) => (
-          <button
-            class:list={[
-              'gallery__thumbnail',
-              { 'gallery__thumbnail--current': index === 0 },
-            ]}
-            data-gallery-thumb-slide
-            aria-label={`${alt} — ${t('gallery.photo')} ${index + 1}`}
-            aria-current={index === 0 ? 'true' : undefined}
-            tabindex="-1"
-            type="button"
-          >
-            <img
-              class="gallery__thumb-image"
-              src={src}
-              alt={`${alt} — ${t('gallery.preview')} ${index + 1}`}
-              loading={index >= 5 ? 'lazy' : undefined}
-            />
-          </button>
-        ))}
+        {items.map((item, index) => {
+          const thumbSrc = item.type === 'video' ? (item.poster || item.src) : item.src;
+          const mediaLabel = item.type === 'video' ? t('gallery.video') : t('gallery.photo');
+          return (
+            <button
+              class:list={[
+                'gallery__thumbnail',
+                { 'gallery__thumbnail--current': index === 0 },
+                { 'gallery__thumbnail--video': item.type === 'video' },
+              ]}
+              data-gallery-thumb-slide
+              aria-label={`${alt} — ${mediaLabel} ${index + 1}`}
+              aria-current={index === 0 ? 'true' : undefined}
+              tabindex="-1"
+              type="button"
+            >
+              <img
+                class="gallery__thumb-image"
+                src={thumbSrc}
+                alt={`${alt} — ${t('gallery.preview')} ${index + 1}`}
+                loading={index >= 5 ? 'lazy' : undefined}
+              />
+              {item.type === 'video' && (
+                <span class="gallery__thumb-play" aria-hidden="true">
+                  <Icon name="play_arrow" />
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
     </div>
 
@@ -81,15 +114,39 @@ const t = useTranslations(currentLang);
     <div class="gallery__viewport">
       <div class="gallery__strut" data-gallery-main>
         <div class="gallery__ribbon">
-          {images.map((src, index) => (
+          {items.map((item, index) => (
             <div class="gallery__item">
-              <img
-                class="gallery__image"
-                src={src}
-                alt={index === 0 ? alt : `${alt} — ${t('gallery.photo')} ${index + 1}`}
-                fetchpriority={index === 0 ? 'high' : 'low'}
-                loading={index === 0 ? undefined : 'lazy'}
-              />
+              {item.type === 'video' ? (
+                <video
+                  class="gallery__image gallery__image--video"
+                  src={item.src}
+                  poster={item.poster}
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                  preload="metadata"
+                  data-gallery-video
+                />
+                <button
+                  class="gallery__playback"
+                  data-gallery-video-toggle
+                  data-aria-play={t('gallery.play')}
+                  data-aria-pause={t('gallery.pause')}
+                  aria-label={t('gallery.pause')}
+                  type="button"
+                >
+                  <span class="icon" data-gallery-video-icon>pause</span>
+                </button>
+              ) : (
+                <img
+                  class="gallery__image"
+                  src={item.src}
+                  alt={index === 0 ? alt : `${alt} — ${t('gallery.photo')} ${index + 1}`}
+                  fetchpriority={index === 0 ? 'high' : 'low'}
+                  loading={index === 0 ? undefined : 'lazy'}
+                />
+              )}
             </div>
           ))}
         </div>
@@ -117,7 +174,7 @@ const t = useTranslations(currentLang);
       <Icon name="close" />
     </button>
     <div class="gallery__counter" data-gallery-fs-counter>
-      1 / {images.length}
+      1 / {items.length}
     </div>
   </div>
 
@@ -146,6 +203,9 @@ const t = useTranslations(currentLang);
     const nextBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-thumbs-next]');
     const fsCounter = galleryRoot.querySelector<HTMLElement>('[data-gallery-fs-counter]');
     const fsCloseBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-fs-close]');
+    const videos = Array.from(
+      galleryRoot.querySelectorAll<HTMLVideoElement>('[data-gallery-video]')
+    );
     const thumbSlides = Array.from(
       galleryRoot.querySelectorAll<HTMLElement>('[data-gallery-thumb-slide]')
     );
@@ -243,6 +303,23 @@ const t = useTranslations(currentLang);
 
       updateMainNav();
       updateThumbsNav();
+      syncVideoPlayback();
+    };
+
+    // Sync video playback: autoplay active slide's video, pause others
+    const syncVideoPlayback = () => {
+      const selectedIndex = emblaMain.selectedScrollSnap();
+      const slides = emblaMain.slideNodes();
+      slides.forEach((slide, idx) => {
+        const video = slide.querySelector<HTMLVideoElement>('video');
+        if (video) {
+          if (idx === selectedIndex) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        }
+      });
     };
 
     // Fullscreen mode state & handlers
@@ -260,6 +337,9 @@ const t = useTranslations(currentLang);
         galleryRoot.before(placeholder);
         document.body.appendChild(galleryRoot);
         document.documentElement.classList.add('is-gallery-fullscreen');
+        videos.forEach((video) => {
+          video.controls = true;
+        });
       } else {
         isFullscreen = false;
         if (placeholder.parentNode) {
@@ -267,6 +347,9 @@ const t = useTranslations(currentLang);
         }
         document.documentElement.classList.remove('is-gallery-fullscreen');
         window.scrollTo(0, savedScrollY);
+        videos.forEach((video) => {
+          video.controls = false;
+        });
       }
 
       document.documentElement.classList.remove('is-dragging');
@@ -400,6 +483,42 @@ const t = useTranslations(currentLang);
       });
     }
 
+    // Video play/pause toggle button in corner (non-fullscreen)
+    const videoToggles = Array.from(
+      galleryRoot.querySelectorAll<HTMLButtonElement>('[data-gallery-video-toggle]')
+    );
+
+    videoToggles.forEach((btn) => {
+      const item = btn.closest('.gallery__item');
+      const video = item?.querySelector<HTMLVideoElement>('[data-gallery-video]');
+      if (!video) return;
+
+      const iconEl = btn.querySelector<HTMLElement>('[data-gallery-video-icon]');
+      const tPlay = btn.dataset.ariaPlay || 'Play';
+      const tPause = btn.dataset.ariaPause || 'Pause';
+
+      const updateState = (isPaused: boolean) => {
+        if (iconEl) iconEl.textContent = isPaused ? 'play_arrow' : 'pause';
+        btn.setAttribute('aria-label', isPaused ? tPlay : tPause);
+      };
+
+      video.addEventListener('play', () => updateState(false));
+      video.addEventListener('pause', () => updateState(true));
+
+      btn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (video.paused) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+
+      btn.addEventListener('pointerdown', (event) => {
+        event.stopPropagation();
+      });
+    });
+
     // Wheel scroll handler (fullscreen desktop only, with trackpad inertia debounce)
     const bindWheelScroll = (
       targetEl: HTMLElement,
@@ -501,5 +620,6 @@ const t = useTranslations(currentLang);
     // Initial state setup
     updateMainNav();
     updateThumbsNav();
+    syncVideoPlayback();
   });
 </script>

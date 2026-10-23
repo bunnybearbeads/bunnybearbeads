@@ -22,6 +22,11 @@
   "images": [
     "/images/products/solar-flare/PB090071-cleaned-and-signed.jpg",
     "/images/products/solar-flare/PB090076-cleaned-and-signed.jpg",
+    {
+      "type": "video",
+      "src": "/images/products/solar-flare/18148-289376274.mp4",
+      "poster": "/images/products/solar-flare/18148-289376274.jpg"
+    },
     "/images/products/solar-flare/PB090084.jpg",
     "/images/products/solar-flare/PB090086-cleaned-and-signed.jpg",
     "/images/products/solar-flare/temp.jpg",

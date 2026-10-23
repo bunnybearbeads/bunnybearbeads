@@ -56,6 +56,14 @@
 
                         }
 
+                        .is-gallery-fullscreen .gallery__image--video {
+                            pointer-events: auto;
+                        }
+
+                        .is-gallery-fullscreen .gallery__playback {
+                            display: none !important;
+                        }
+
 
     .is-gallery-fullscreen .gallery__fs-panel {
         position: relative;
@@ -119,7 +127,7 @@
     border-radius: 12px;
     margin-top: -10px;
     margin-bottom: -10px;
-    font-size: 22px; /* chevron icon inside */
+    font-size: 30px; /* chevron icon inside */
 }
 
 
@@ -169,7 +177,6 @@
 @media (1600px <= width) {
 
     .gallery__close {
-        font-size: 28px;
+        font-size: 24px;
     }
-
 }

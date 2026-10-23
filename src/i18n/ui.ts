@@ -143,8 +143,11 @@ export const ui = {
     'gallery.main_prev': 'Previous photo',
     'gallery.main_next': 'Next photo',
     'gallery.photo': 'photo',
+    'gallery.video': 'video',
     'gallery.preview': 'preview',
     'gallery.close': 'Close fullscreen gallery',
+    'gallery.play': 'Play video',
+    'gallery.pause': 'Pause video',
 
     // Footer
     'footer.copyright': '© 2026 BunnyBearBeads — Artisan Beadwork Workshop. Crafted with love 💖',
@@ -266,8 +269,11 @@ export const ui = {
     'gallery.main_prev': 'Предыдущее фото',
     'gallery.main_next': 'Следующее фото',
     'gallery.photo': 'фото',
+    'gallery.video': 'видео',
     'gallery.preview': 'превью',
     'gallery.close': 'Закрыть галерею',
+    'gallery.play': 'Воспроизвести видео',
+    'gallery.pause': 'Приостановить видео',
 
     // Footer
     'footer.copyright': '© 2026 BunnyBearBeads — Мастерская авторского бисероплетения. Сделано с любовью 💖',
@@ -389,8 +395,11 @@ export const ui = {
     'gallery.main_prev': 'Ảnh trước',
     'gallery.main_next': 'Ảnh tiếp theo',
     'gallery.photo': 'ảnh',
+    'gallery.video': 'video',
     'gallery.preview': 'bản xem trước',
     'gallery.close': 'Đóng bộ sưu tập',
+    'gallery.play': 'Phát video',
+    'gallery.pause': 'Tạm dừng video',
 
     // Footer
     'footer.copyright': '© 2026 BunnyBearBeads — Xưởng thủ công cườm nghệ thuật. Làm bằng cả trái tim 💖',

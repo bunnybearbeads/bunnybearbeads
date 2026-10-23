@@ -28,6 +28,7 @@
                 -webkit-touch-callout: none;
             }
                 .gallery__thumbnail {
+                    position: relative;
                     flex-shrink: 0;
                     display: block;
                     width: 100%;
@@ -62,6 +63,24 @@
                         border-radius: calc(var(--radius-md) - var(--gallery-border) - 1px); /* -1px визуально лучше */
                     }
 
+                    .gallery__thumb-play {
+                        position: absolute;
+                        bottom: calc(var(--gallery-border) + 8px);
+                        right: calc(var(--gallery-border) + 8px);
+                        width: 24px;
+                        height: 24px;
+                        border-radius: 50%;
+                        background-color: rgb(44 40 37 / 65%);
+                        color: #ffffff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 14px;
+                        pointer-events: none;
+                        backdrop-filter: blur(2px);
+                    }
+
+
     .gallery__stage {
         position: relative;
         flex-grow: 1;
@@ -91,6 +110,7 @@
                     -webkit-touch-callout: none;
                 }
                     .gallery__item {
+                        position: relative;
                         flex: 0 0 100%;
                         padding: var(--gallery-border); /* real white border (and it's inside a slide) */
                         background: #ffffff;
@@ -106,6 +126,45 @@
                             display: block;
                             background-color: var(--image-fallback);
                             border-radius: calc(var(--radius-lg) - var(--gallery-border));
+                        }
+
+                        .gallery__image--video {
+                            pointer-events: none;
+                        }
+
+                        .gallery__playback {
+                            position: absolute;
+                            bottom: 24px;
+                            right: 24px;
+                            z-index: 2;
+                            width: 48px;
+                            height: 48px;
+                            border-radius: 50%;
+                            border: 1px solid rgba(255, 255, 255, 0.25);
+                            background-color: rgba(44, 40, 37, 0.65);
+                            color: #ffffff;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 20px;
+                            cursor: pointer;
+                            user-select: none;
+                            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                            backdrop-filter: blur(4px);
+                            transition: background-color var(--transition-hover), transform var(--transition-hover);
+                        }
+
+                        .gallery__playback:hover {
+                            background-color: rgba(44, 40, 37, 0.9);
+                            transform: scale(1.08);
+                        }
+
+                        /* expand clickable area */
+                        .gallery__playback::before {
+                            content: '';
+                            position: absolute;
+                            inset: -6px;
+                            border-radius: 50%;
                         }
 
     .gallery__fs-panel {
@@ -145,6 +204,14 @@
 
                     }
 
+                    .gallery__thumb-play {
+                        width: 28px;
+                        height: 28px;
+                        font-size: 16px;
+                        bottom: calc(var(--gallery-border) + 10px);
+                        right: calc(var(--gallery-border) + 10px);
+                    }
+
     .gallery__stage {
 
     }
@@ -162,6 +229,14 @@
                     }
                         .gallery__image {
 
+                        }
+
+                        .gallery__playback {
+                            width: 58px;
+                            height: 58px;
+                            font-size: 24px;
+                            bottom: 28px;
+                            right: 28px;
                         }
 }
 

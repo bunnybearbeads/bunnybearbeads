@@ -16,6 +16,15 @@ const stockLocationSchema = z.object({
   note: z.string().optional(),
 });
 
+const mediaItemSchema = z.union([
+  z.string(),
+  z.object({
+    type: z.enum(['image', 'video']).default('image'),
+    src: z.string(),
+    poster: z.string().optional(),
+  }),
+]);
+
 const products = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/products' }),
   schema: z.object({
@@ -28,7 +37,7 @@ const products = defineCollection({
     currency: z.string().default('VND'),
     categoryId: z.enum(['bracelets', 'rings', 'phone-charms', 'keychains', 'other']).default('bracelets'),
     category: localizedString,
-    images: z.array(z.string()).default([]),
+    images: z.array(mediaItemSchema).default([]),
     inStock: z.boolean().default(true),
     materials: z.array(z.string()).optional(),
     materialsHtml: z.string().optional(),
