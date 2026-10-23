@@ -115,6 +115,7 @@ const t = useTranslations(currentLang);
 <script>
   /* AI (whole script) */
   import EmblaCarousel from 'embla-carousel';
+  import { isMobile, BREAKPOINTS } from '../../utils/breakpoints';
 
   const THUMBS_SCROLL_STEP = 4;
   const galleries = document.querySelectorAll<HTMLElement>('[data-gallery]');
@@ -140,7 +141,7 @@ const t = useTranslations(currentLang);
       axis: 'y',
       watchDrag: (embla) => embla.canScrollPrev() || embla.canScrollNext(),
       breakpoints: {
-        '(max-width: 739px)': { axis: 'x' },
+        [BREAKPOINTS.mobile]: { axis: 'x' },
       },
     });
 
@@ -151,7 +152,7 @@ const t = useTranslations(currentLang);
       axis: 'y',
       watchDrag: (embla) => embla.canScrollPrev() || embla.canScrollNext(),
       breakpoints: {
-        '(max-width: 739px)': { axis: 'x' },
+        [BREAKPOINTS.mobile]: { axis: 'x' },
       },
     });
 
@@ -246,7 +247,7 @@ const t = useTranslations(currentLang);
 
     const setFullscreen = (nextState: boolean) => {
       if (nextState === isFullscreen) return;
-      if (nextState && window.innerWidth < 740) return;
+      if (nextState && isMobile()) return;
 
       if (nextState) {
         savedScrollY = window.scrollY;
@@ -274,7 +275,7 @@ const t = useTranslations(currentLang);
 
     // Open fullscreen by clicking main slide (desktop only)
     mainNode.addEventListener('click', () => {
-      if (window.innerWidth < 740) return;
+      if (isMobile()) return;
       if (!isFullscreen) {
         setFullscreen(true);
       }
@@ -410,7 +411,7 @@ const t = useTranslations(currentLang);
       targetEl.addEventListener(
         'wheel',
         (event) => {
-          if (!isFullscreen || window.innerWidth < 740) return;
+          if (!isFullscreen || isMobile()) return;
 
           const canPrev = embla.canScrollPrev();
           const canNext = embla.canScrollNext();
