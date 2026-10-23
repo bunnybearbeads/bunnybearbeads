@@ -49,8 +49,8 @@
                     background-color: rgb(42 123 136 / 45%);
                 }
 
-                .gallery__thumbnail--active,
-                .gallery__thumbnail--active:hover {
+                .gallery__thumbnail--current,
+                .gallery__thumbnail--current:hover {
                     background-color: var(--accent-gold);
                     cursor: default;
                 }

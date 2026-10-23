@@ -31,7 +31,7 @@ const hasMultipleImages = images.length > 1;
               type="button"
               class:list={[
                 'gallery__thumbnail',
-                { 'gallery__thumbnail--active': index === 0 },
+                { 'gallery__thumbnail--current': index === 0 },
               ]}
               data-gallery-thumb-slide
               aria-label={`${alt} — photo ${index + 1}`}
@@ -307,8 +307,8 @@ const hasMultipleImages = images.length > 1;
 
       thumbSlides.forEach((slide, idx) => {
         const isSelected = idx === selectedIndex;
-        if (slide.classList.contains('gallery__thumbnail--active') !== isSelected) {
-          slide.classList.toggle('gallery__thumbnail--active', isSelected);
+        if (slide.classList.contains('gallery__thumbnail--current') !== isSelected) {
+          slide.classList.toggle('gallery__thumbnail--current', isSelected);
         }
         if (isSelected) {
           setAttrIfChanged(slide, 'aria-current', 'true');
