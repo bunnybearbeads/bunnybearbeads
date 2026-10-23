@@ -6,18 +6,6 @@
     display: flex;
     gap: 12px;
 }
-
-/* Single photo (no carousel initialized) */
-.gallery:has(.gallery__slide:only-child) .gallery__viewport:active {
-    cursor: zoom-in;
-}
-
-.gallery__viewport.is-dragging,
-.gallery__viewport.is-dragging *,
-.gallery__nav-viewport.is-dragging,
-.gallery__nav-viewport.is-dragging * {
-    cursor: grabbing !important;
-}
     .gallery__navigation {
         position: relative;
         display: grid;

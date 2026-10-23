@@ -225,6 +225,11 @@ h1, h2, h3, h4, .font-serif {
   display: inline;
 }
 
+.is-dragging,
+.is-dragging * {
+  cursor: grabbing !important;
+}
+
 /* ==========================================================================
    LARGE DESKTOP (1600px+: ~10% larger than original)
    ========================================================================== */

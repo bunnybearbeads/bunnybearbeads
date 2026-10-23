@@ -183,8 +183,7 @@ const hasMultipleImages = images.length > 1;
         window.scrollTo(0, savedScrollY);
       }
 
-      mainNode.classList.remove('is-dragging');
-      if (thumbsNode) thumbsNode.classList.remove('is-dragging');
+      document.documentElement.classList.remove('is-dragging');
 
       if (onFullscreenChange) {
         onFullscreenChange();
@@ -459,15 +458,15 @@ const hasMultipleImages = images.length > 1;
     });
     emblaMain.on('scroll', () => {
       if (isMainPointerDown) {
-        mainNode.classList.add('is-dragging');
+        document.documentElement.classList.add('is-dragging');
       }
     });
     emblaMain.on('pointerUp', () => {
       isMainPointerDown = false;
-      mainNode.classList.remove('is-dragging');
+      document.documentElement.classList.remove('is-dragging');
     });
     emblaMain.on('settle', () => {
-      mainNode.classList.remove('is-dragging');
+      document.documentElement.classList.remove('is-dragging');
     });
 
     let isThumbsPointerDown = false;
@@ -476,15 +475,15 @@ const hasMultipleImages = images.length > 1;
     });
     emblaThumbs.on('scroll', () => {
       if (isThumbsPointerDown) {
-        thumbsNode.classList.add('is-dragging');
+        document.documentElement.classList.add('is-dragging');
       }
     });
     emblaThumbs.on('pointerUp', () => {
       isThumbsPointerDown = false;
-      thumbsNode.classList.remove('is-dragging');
+      document.documentElement.classList.remove('is-dragging');
     });
     emblaThumbs.on('settle', () => {
-      thumbsNode.classList.remove('is-dragging');
+      document.documentElement.classList.remove('is-dragging');
     });
 
     emblaMain.on('init', updateMainNav);
