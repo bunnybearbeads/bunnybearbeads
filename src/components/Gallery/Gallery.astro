@@ -379,6 +379,41 @@ const hasImages = images.length > 0;
       });
     }
 
+    const thumbsCol = galleryRoot.querySelector<HTMLElement>('[data-gallery-thumbs-col]') || thumbsNode;
+    let wheelAccumulator = 0;
+    thumbsCol.addEventListener(
+      'wheel',
+      (event) => {
+        if (window.innerWidth < 740) return;
+
+        const canPrev = emblaThumbs.canScrollPrev();
+        const canNext = emblaThumbs.canScrollNext();
+        if (!canPrev && !canNext) return;
+
+        event.preventDefault();
+
+        if ((event.deltaY < 0 && !canPrev) || (event.deltaY > 0 && !canNext)) {
+          wheelAccumulator = 0;
+          return;
+        }
+
+        wheelAccumulator += event.deltaY;
+
+        const stepThreshold = 40;
+        const steps = Math.trunc(wheelAccumulator / stepThreshold);
+        if (steps !== 0) {
+          wheelAccumulator -= steps * stepThreshold;
+          const maxSnap = emblaThumbs.scrollSnapList().length - 1;
+          const target = Math.max(
+            0,
+            Math.min(maxSnap, emblaThumbs.selectedScrollSnap() + steps)
+          );
+          emblaThumbs.scrollTo(target);
+        }
+      },
+      { passive: false }
+    );
+
     emblaMain.on('init', updateMainNav);
     emblaMain.on('select', () => syncSelectedThumb(false));
     emblaMain.on('reInit', () => syncSelectedThumb(false));
