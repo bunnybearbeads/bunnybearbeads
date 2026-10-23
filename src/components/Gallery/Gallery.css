@@ -241,4 +241,10 @@
                             .gallery__image {
 
                             }
+
+    @media (440px <= width) {
+        .gallery__stage {
+            overflow: hidden; /* otherwise it looks weird */
+        }
+    }
 }
