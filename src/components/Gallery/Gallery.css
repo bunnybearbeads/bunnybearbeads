@@ -108,7 +108,7 @@
                             border-radius: calc(var(--radius-lg) - var(--gallery-border));
                         }
 
-    .gallery__counter {
+    .gallery__fs-panel {
         display: none;
     }
 

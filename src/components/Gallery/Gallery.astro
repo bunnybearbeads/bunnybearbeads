@@ -107,15 +107,32 @@ const t = useTranslations(currentLang);
     </button>
   </div>
 
-  <span class="gallery__counter" data-gallery-fs-counter>
-    1 / {images.length}
-  </span>
+  <div class="gallery__fs-panel">
+    <button
+      class="gallery__close"
+      data-gallery-fs-close
+      aria-label={t('gallery.close')}
+      type="button"
+    >
+      <Icon name="close" />
+    </button>
+    <div class="gallery__counter" data-gallery-fs-counter>
+      1 / {images.length}
+    </div>
+  </div>
+
 </div>
 
 <script>
   /* AI (whole script) */
   import EmblaCarousel from 'embla-carousel';
-  import { isMobile, BREAKPOINTS } from '../../utils/breakpoints';
+  import {
+    isMobile,
+    BREAKPOINTS,
+    setAttrIfChanged,
+    setHiddenIfChanged,
+    isEditableTarget,
+  } from '../../utils';
 
   const THUMBS_SCROLL_STEP = 4;
   const galleries = document.querySelectorAll<HTMLElement>('[data-gallery]');
@@ -128,6 +145,7 @@ const t = useTranslations(currentLang);
     const prevBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-thumbs-prev]');
     const nextBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-thumbs-next]');
     const fsCounter = galleryRoot.querySelector<HTMLElement>('[data-gallery-fs-counter]');
+    const fsCloseBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-fs-close]');
     const thumbSlides = Array.from(
       galleryRoot.querySelectorAll<HTMLElement>('[data-gallery-thumb-slide]')
     );
@@ -155,19 +173,6 @@ const t = useTranslations(currentLang);
         [BREAKPOINTS.mobile]: { axis: 'x' },
       },
     });
-
-    // Helper functions for DOM attributes
-    const setAttrIfChanged = (el: HTMLElement, attr: string, value: string) => {
-      if (el.getAttribute(attr) !== value) {
-        el.setAttribute(attr, value);
-      }
-    };
-
-    const setHiddenIfChanged = (el: HTMLElement, isHidden: boolean) => {
-      if (el.hidden !== isHidden) {
-        el.hidden = isHidden;
-      }
-    };
 
     // Update main stage arrow controls and counter
     const updateMainNav = () => {
@@ -281,6 +286,13 @@ const t = useTranslations(currentLang);
       }
     });
 
+    // Close fullscreen by clicking close button
+    if (fsCloseBtn) {
+      fsCloseBtn.addEventListener('click', () => {
+        setFullscreen(false);
+      });
+    }
+
     // Close fullscreen by clicking empty backdrop
     galleryRoot.addEventListener('click', (event) => {
       if (!isFullscreen) return;
@@ -318,16 +330,7 @@ const t = useTranslations(currentLang);
 
     // Consolidated keyboard navigation
     window.addEventListener('keydown', (event) => {
-      const target = event.target as HTMLElement | null;
-      if (
-        target &&
-        (target.tagName === 'INPUT' ||
-          target.tagName === 'TEXTAREA' ||
-          target.tagName === 'SELECT' ||
-          target.isContentEditable)
-      ) {
-        return;
-      }
+      if (isEditableTarget(event.target)) return;
 
       if (isFullscreen) {
         if (event.key === 'Escape') {
@@ -464,39 +467,27 @@ const t = useTranslations(currentLang);
     bindWheelScroll(stageCol, emblaMain, 1);
 
     // Grabbing cursor management (only when actively dragging)
-    let isMainPointerDown = false;
-    emblaMain.on('pointerDown', () => {
-      isMainPointerDown = true;
-    });
-    emblaMain.on('scroll', () => {
-      if (isMainPointerDown) {
-        document.documentElement.classList.add('is-dragging');
-      }
-    });
-    emblaMain.on('pointerUp', () => {
-      isMainPointerDown = false;
-      document.documentElement.classList.remove('is-dragging');
-    });
-    emblaMain.on('settle', () => {
-      document.documentElement.classList.remove('is-dragging');
-    });
+    const bindDragCursor = (embla: ReturnType<typeof EmblaCarousel>) => {
+      let isPointerDown = false;
+      embla.on('pointerDown', () => {
+        isPointerDown = true;
+      });
+      embla.on('scroll', () => {
+        if (isPointerDown) {
+          document.documentElement.classList.add('is-dragging');
+        }
+      });
+      embla.on('pointerUp', () => {
+        isPointerDown = false;
+        document.documentElement.classList.remove('is-dragging');
+      });
+      embla.on('settle', () => {
+        document.documentElement.classList.remove('is-dragging');
+      });
+    };
 
-    let isThumbsPointerDown = false;
-    emblaThumbs.on('pointerDown', () => {
-      isThumbsPointerDown = true;
-    });
-    emblaThumbs.on('scroll', () => {
-      if (isThumbsPointerDown) {
-        document.documentElement.classList.add('is-dragging');
-      }
-    });
-    emblaThumbs.on('pointerUp', () => {
-      isThumbsPointerDown = false;
-      document.documentElement.classList.remove('is-dragging');
-    });
-    emblaThumbs.on('settle', () => {
-      document.documentElement.classList.remove('is-dragging');
-    });
+    bindDragCursor(emblaMain);
+    bindDragCursor(emblaThumbs);
 
     // Embla event subscriptions
     emblaMain.on('init', updateMainNav);
