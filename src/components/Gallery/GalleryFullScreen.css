@@ -113,3 +113,13 @@
 }
 
 
+/* Normally if there is only 1 pic available we keep the same layout on the page for compatibility
+   (e.g. same gallery height). But in the fullscreen we can simplify that:
+*/
+.is-gallery-fullscreen .gallery:has(.gallery__item:only-child) .gallery__navigation {
+    display: none;
+}
+
+.is-gallery-fullscreen .gallery:has(.gallery__item:only-child) .gallery__counter {
+    display: none;
+}
