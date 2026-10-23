@@ -493,7 +493,7 @@ html.is-gallery-fullscreen .gallery__fs-controls {
 @media (1600px <= width) {
 
     .gallery__control--larger {
-        width: 48px;
+        width: 52px;
         height: 32px;
         margin-top: -14px;
         margin-bottom: -14px;
