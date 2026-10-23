@@ -67,14 +67,14 @@
         flex-grow: 1;
         min-width: 0;
     }
-        .gallery__strut {
+        .gallery__viewport {
             padding-top: var(--gallery-border); /* keep it outside 3/4 ratio */
             padding-left: var(--gallery-border); /* keep it outside 3/4 ratio */
             padding-right: var(--gallery-border); /* keep it outside 3/4 ratio */
             /* padding-bottom isn't needed because negative margin bottom beelow won't work */
             overflow: hidden;
         }
-            .gallery__viewport {
+            .gallery__strut {
                 position: relative;
                 aspect-ratio: 3 / 4; /* setting up height */
             }
@@ -154,6 +154,11 @@
    Mobile (< 740px)
    ========================================================================== */
 @media (width < 740px) {
+
+    .gallery {
+        --gallery-border: 3px;
+    }
+
     .gallery {
         flex-direction: column;
         gap: 10px;
@@ -201,7 +206,7 @@
     }
 
     .gallery__thumbnail {
-        width: calc((100vw - 2 * var(--container-padding) - 32px) /5);
+        width: calc((100% - 32px) / 5);
         border-width: 3px;
     }
 
@@ -211,13 +216,13 @@
         height: auto;
     }
 
-    .gallery__viewport {
+    .gallery__strut {
         height: auto;
         overflow: visible;
         cursor: grab;
     }
 
-    .gallery__viewport::before {
+    .gallery__strut::before {
         display: none;
     }
 
@@ -290,7 +295,7 @@ html.is-gallery-fullscreen .gallery {
     align-items: center;
 }
 
-html.is-gallery-fullscreen .gallery:has(.gallery__slide:only-child) .gallery__viewport {
+html.is-gallery-fullscreen .gallery:has(.gallery__slide:only-child) .gallery__strut {
     cursor: default;
 }
 
@@ -309,13 +314,13 @@ html.is-gallery-fullscreen .gallery__stage {
     aspect-ratio: 3 / 4;
 }
 
-html.is-gallery-fullscreen .gallery__viewport {
+html.is-gallery-fullscreen .gallery__strut {
     height: 100%;
     overflow: visible;
     cursor: grab;
 }
 
-html.is-gallery-fullscreen .gallery__viewport::before {
+html.is-gallery-fullscreen .gallery__strut::before {
     display: none;
 }
 
