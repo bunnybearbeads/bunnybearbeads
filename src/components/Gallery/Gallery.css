@@ -78,7 +78,7 @@
                 position: relative;
                 aspect-ratio: 3 / 4; /* setting up height */
             }
-                .gallery__stage-track {
+                .gallery__ribbon {
                     margin-top: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
                     margin-left: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
                     margin-right: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
@@ -111,48 +111,58 @@
 
 @media (1600px <= width) {
 
-    .gallery {
-        gap: 16px;
-    }
-
+.gallery {
+    gap: 16px;
+}
     .gallery__navigation {
         width: 98px;
     }
+        .gallery__nav-viewport {
 
-    .gallery__nav-ribbon {
-        gap: 16px;
+        }
+            .gallery__nav-ribbon {
+                gap: 16px;
+            }
+                .gallery__thumbnail {
+                    border-radius: 12px;
+                }
+
+
+                .gallery__thumbnail:hover,
+                .gallery__thumbnail:focus-within {
+
+                }
+
+                .gallery__thumbnail--current,
+                .gallery__thumbnail--current:hover {
+
+                }
+                    .gallery__thumb-image {
+
+                    }
+
+    .gallery__stage {
+
     }
+        .gallery__viewport {
 
-    .gallery__stage-track {
-        gap: 16px;
-    }
+        }
+            .gallery__strut {
 
-    .gallery__thumbnail {
-        border-radius: 12px;
-    }
+            }
+                .gallery__ribbon {
+                    gap: 16px;
+                }
+                    .gallery__slide {
 
+                    }
+                        .gallery__image {
 
-    html.is-gallery-fullscreen .gallery {
-        gap: 24px;
-    }
-
-    html.is-gallery-fullscreen .gallery__fs-controls {
-        width: 64px;
-    }
-
-    .gallery__fs-btn {
-        width: 58px;
-        height: 58px;
-    }
-
-    .gallery__fs-counter {
-        font-size: 14px;
-    }
+                        }
 }
 
-/* ==========================================================================
-   Mobile (< 740px)
-   ========================================================================== */
+
+
 @media (width < 740px) {
 
     .gallery {
@@ -164,91 +174,101 @@
         gap: 10px;
     }
 
-    .gallery__slide {
-        border-width: 3px;
-    }
-
-    .gallery__navigation {
-        order: 2;
-        display: block;
-        height: auto;
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-    }
-
-    .gallery__nav-viewport {
-        height: auto;
-        min-height: 0;
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-        overflow: visible;
-    }
-        .gallery__nav-viewport {
-            overflow: visible;
+        .gallery__navigation {
+            order: 2;
+            display: block;
+            height: auto;
+            width: auto;
         }
-            .gallery__nav-ribbon {
-
+            .gallery__nav-viewport {
+                width: auto;
+                height: auto;
+                min-height: 0;
+                max-width: auto;
+                min-width: 0;
+                overflow: visible;
             }
-                .gallery__thumbnail {
-
+                .gallery__nav-ribbon {
+                    display: flex;
+                    flex-direction: row;
+                    height: auto;
+                    gap: 8px;
                 }
+                    .gallery__thumbnail {
+                        width: calc((100% - 32px) / 5);
+                    }
+
+
+                    .gallery__thumbnail:hover,
+                    .gallery__thumbnail:focus-within {
+
+                    }
+
+                    .gallery__thumbnail--current,
+                    .gallery__thumbnail--current:hover {
+
+                    }
+                        .gallery__thumb-image {
+
+                        }
+
+        .gallery__stage {
+            order: 1;
+            width: 100%;
+            height: auto;
+        }
+            .gallery__viewport {
+                /*padding-top: var(--gallery-border); !* keep it outside 3/4 ratio *!*/
+                /*padding-left: var(--gallery-border); !* keep it outside 3/4 ratio *!*/
+                /*padding-right: var(--gallery-border); !* keep it outside 3/4 ratio *!*/
+                /* padding-bottom isn't needed because negative margin bottom beelow won't work */
+                overflow: visible;
+            }
+                .gallery__strut {
+                    /*position: relative;*/
+                    /*aspect-ratio: 3 / 4; !* setting up height *!*/
+                    height: auto;
+                    overflow: visible;
+                    cursor: grab;
+                }
+                    .gallery__ribbon {
+                        /*margin-top: calc(-1 * var(--gallery-border)); !* compensate padding on the gallery__wrap *!*/
+                        /*margin-left: calc(-1 * var(--gallery-border)); !* compensate padding on the gallery__wrap *!*/
+                        /*margin-right: calc(-1 * var(--gallery-border)); !* compensate padding on the gallery__wrap *!*/
+                        /* margin-bottom isn't needed because it just won't work, but we don't really need it (it's only necessary to shift it up) */
+                        /*display: flex;*/
+                        /*flex-direction: column;*/
+                        /*height: calc(100% + 2 * var(--gallery-border));*/
+                        /*gap: 12px;*/
+                        /*user-select: none;*/
+                        /*-webkit-touch-callout: none;*/
+                        flex-direction: row;
+                        height: auto;
+                        min-height: 0;
+                        gap: var(--container-padding);
+                    }
+                        .gallery__slide {
+                            /*flex: 0 0 100%;*/
+                            /*padding: var(--gallery-border); !* real white border (and it's inside a slide) *!*/
+                            /*background: #ffffff;*/
+                            /*border-radius: var(--radius-lg);*/
+                            /*overflow: hidden;*/
+                            /*cursor: pointer;*/
+                        }
+                            .gallery__image {
+                                /*vertical-align: top;*/
+                                /*width: 100%;*/
+                                /*height: 100%; !* 3:4 as set above *!*/
+                                /*object-fit: cover;*/
+                                /*display: block;*/
+                                /*background-color: var(--image-fallback);*/
+                                /*border-radius: calc(var(--radius-lg) - var(--gallery-border));*/
+                            }
 
     .gallery__control {
         display: none !important;
     }
-
-    .gallery__nav-ribbon {
-        flex-direction: row;
-        height: auto;
-        gap: 8px;
-    }
-
-    .gallery__thumbnail {
-        width: calc((100% - 32px) / 5);
-        border-width: 3px;
-    }
-
-    .gallery__stage {
-        order: 1;
-        width: 100%;
-        height: auto;
-    }
-
-    .gallery__strut {
-        height: auto;
-        overflow: visible;
-        cursor: grab;
-    }
-
-    .gallery__strut::before {
-        display: none;
-    }
-
-    .gallery__stage-track {
-        flex-direction: row;
-        height: auto;
-        min-height: 0;
-        gap: var(--container-padding);
-    }
 }
-
-
-/*@media (380px <= width < 420px) {*/
-/*    .gallery__thumbnail {*/
-/*        width: 76px;*/
-/*        flex-basis: 76px;*/
-/*    }*/
-/*}*/
-
-/*@media (width < 350px) {*/
-/*    .gallery__thumbnail {*/
-/*        width: 62px;*/
-/*        flex-basis: 62px;*/
-/*    }*/
-/*}*/
-
 
 
 
@@ -324,7 +344,7 @@ html.is-gallery-fullscreen .gallery__strut::before {
     display: none;
 }
 
-html.is-gallery-fullscreen .gallery__stage-track {
+html.is-gallery-fullscreen .gallery__ribbon {
     height: 100%;
     gap: 32px;
 }
@@ -394,6 +414,26 @@ html.is-gallery-fullscreen .gallery__fs-controls {
 }
 
 
+
+@media (1600px <= width) {
+
+    html.is-gallery-fullscreen .gallery {
+        gap: 24px;
+    }
+
+    html.is-gallery-fullscreen .gallery__fs-controls {
+        width: 64px;
+    }
+
+    .gallery__fs-btn {
+        width: 58px;
+        height: 58px;
+    }
+
+    .gallery__fs-counter {
+        font-size: 14px;
+    }
+}
 
 
 /* Arrows control */
