@@ -100,12 +100,3 @@
 }
 
 
-
-@media (1600px <= width) {
-
-    .is-gallery-fullscreen .gallery {
-        --gallery-fs-control: 58px;
-        --gallery-fs-gap: 16px;
-    }
-
-}
