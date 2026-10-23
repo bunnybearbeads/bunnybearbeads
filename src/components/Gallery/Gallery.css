@@ -62,7 +62,7 @@
 .gallery__stage {
   position: relative;
   width: 100%;
-  border-radius: var(--radius-lg, 22px);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background: #FAF7F2;
   box-shadow: var(--shadow-hover);
@@ -109,16 +109,16 @@
    ========================================================================== */
 @media (1600px <= width) {
   .gallery {
-    grid-template-columns: 84px 1fr;
+    grid-template-columns: 98px 1fr;
     gap: 16px;
   }
 
   .gallery__thumbs {
-    gap: 14px;
+    gap: 16px;
   }
 
   .gallery__thumb-btn {
-    border-radius: 13px;
+    border-radius: 12px;
   }
 
   .gallery__placeholder-icon {

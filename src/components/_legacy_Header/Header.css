@@ -142,7 +142,7 @@
   background: linear-gradient(180deg, rgba(248, 243, 237, 0.88) 0%, rgba(238, 229, 219, 0.82) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-radius: 11px;
+  border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 14px 34px rgba(80, 60, 45, 0.2);
 }
@@ -328,7 +328,7 @@
   }
 
   .site-header {
-    width: 1368px;
+    width: 1376px;
   }
 
   .header-top {
@@ -359,7 +359,6 @@
   .header-bottom {
     height: 82px;
     padding: 0 42px;
-    border-radius: 12px;
   }
 
   .header__logo {

@@ -105,7 +105,7 @@
   gap: 11px;
   background: white;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 9px;
+  border-radius: var(--radius-sm);
   padding: 11px 14px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -664,7 +664,7 @@
   flex-direction: column;
   background: white;
   border: 1px solid rgba(212, 163, 89, 0.25);
-  border-radius: 7px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
@@ -752,7 +752,7 @@
    ========================================================================== */
 @media (1600px <= width) {
   .product-detail-grid {
-    gap: 24px;
+    gap: 40px;
     margin-bottom: 66px;
   }
 
@@ -806,7 +806,6 @@
 
   .buy-option-card {
     gap: 13px;
-    border-radius: 11px;
     padding: 13px 18px;
   }
 
