@@ -306,8 +306,6 @@
                 }
                     .gallery__ribbon {
                         flex-direction: row;
-                        height: auto;
-                        min-height: 0;
                         gap: var(--container-padding);
                     }
                         .gallery__item {
