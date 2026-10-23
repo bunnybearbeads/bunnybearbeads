@@ -37,7 +37,6 @@
 
   --gradient-gold: linear-gradient(135deg, var(--color-brand-gold) 0%, var(--color-brand-gold-dark) 100%);
   --color-bg-base: #FAF7F2;
-  --gradient-bg-main: linear-gradient(135deg, #FAF7F2 0%, #F5EFE6 50%, #EAE0D5 100%);
 
   --glass-border: rgba(255, 255, 255, 0.9);
   --shadow-soft: 0 20px 40px rgba(44, 40, 37, 0.06);
@@ -68,17 +67,16 @@
 }
 
 html {
+  height: 100%;
   min-width: 1240px;
+  background-color: #F5EFE6;
 }
 
 body {
+  height: 100%;
   font-family: var(--font-sans);
-  background: var(--gradient-bg-main);
   color: var(--color-text-main);
   line-height: 1.65;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 main {
