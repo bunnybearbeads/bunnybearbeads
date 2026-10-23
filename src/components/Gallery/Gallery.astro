@@ -119,6 +119,50 @@ const hasImages = images.length > 0;
       </button>
     )}
   </div>
+
+  {hasImages && (
+    <div class="gallery__fs-controls" data-gallery-fs-controls>
+      <button
+        type="button"
+        class="gallery__fs-btn gallery__fs-btn--close"
+        data-gallery-fs-close
+        aria-label="Close fullscreen gallery"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="gallery__fs-nav-group">
+        <button
+          type="button"
+          class="gallery__fs-btn gallery__fs-btn--nav"
+          data-gallery-fs-prev
+          aria-label="Previous photo"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </button>
+
+        <span class="gallery__fs-counter" data-gallery-fs-counter>
+          1 / {images.length}
+        </span>
+
+        <button
+          type="button"
+          class="gallery__fs-btn gallery__fs-btn--nav"
+          data-gallery-fs-next
+          aria-label="Next photo"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  )}
 </div>
 
 <script>
@@ -133,11 +177,18 @@ const hasImages = images.length > 0;
     const mainNextBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-main-next]');
     const prevBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-thumbs-prev]');
     const nextBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-thumbs-next]');
+    const fsCloseBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-fs-close]');
+    const fsPrevBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-fs-prev]');
+    const fsNextBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-fs-next]');
+    const fsCounter = galleryRoot.querySelector<HTMLElement>('[data-gallery-fs-counter]');
     const thumbSlides = Array.from(
       galleryRoot.querySelectorAll<HTMLElement>('[data-gallery-thumb-slide]')
     );
 
     if (!mainNode || !thumbsNode || thumbSlides.length === 0) return;
+
+    let isFullscreen = false;
+    let savedScrollY = 0;
 
     const emblaMain = EmblaCarousel(mainNode, {
       loop: false,
@@ -159,22 +210,30 @@ const hasImages = images.length > 0;
     });
 
     const updateMainNav = () => {
-      if (!mainPrevBtn || !mainNextBtn) return;
-
       const canPrev = emblaMain.canScrollPrev();
       const canNext = emblaMain.canScrollNext();
       const isScrollable = canPrev || canNext;
 
-      if (!isScrollable) {
-        mainPrevBtn.hidden = true;
-        mainNextBtn.hidden = true;
-        return;
+      if (mainPrevBtn && mainNextBtn) {
+        if (!isScrollable) {
+          mainPrevBtn.hidden = true;
+          mainNextBtn.hidden = true;
+        } else {
+          mainPrevBtn.hidden = false;
+          mainNextBtn.hidden = false;
+          mainPrevBtn.disabled = !canPrev;
+          mainNextBtn.disabled = !canNext;
+        }
       }
 
-      mainPrevBtn.hidden = false;
-      mainNextBtn.hidden = false;
-      mainPrevBtn.disabled = !canPrev;
-      mainNextBtn.disabled = !canNext;
+      if (fsPrevBtn && fsNextBtn) {
+        fsPrevBtn.disabled = !canPrev;
+        fsNextBtn.disabled = !canNext;
+      }
+
+      if (fsCounter) {
+        fsCounter.textContent = `${emblaMain.selectedScrollSnap() + 1} / ${thumbSlides.length}`;
+      }
     };
 
     const updateThumbsNav = () => {
@@ -196,11 +255,11 @@ const hasImages = images.length > 0;
       nextBtn.disabled = !canNext;
     };
 
-    const syncSelectedThumb = () => {
+    const syncSelectedThumb = (jump = false) => {
       const selectedIndex = emblaMain.selectedScrollSnap();
       const maxSnap = Math.max(0, emblaThumbs.scrollSnapList().length - 1);
       const targetSnap = Math.max(0, Math.min(maxSnap, selectedIndex - 2));
-      emblaThumbs.scrollTo(targetSnap);
+      emblaThumbs.scrollTo(targetSnap, jump);
 
       thumbSlides.forEach((slide, idx) => {
         const isSelected = idx === selectedIndex;
@@ -219,6 +278,62 @@ const hasImages = images.length > 0;
       updateThumbsNav();
     };
 
+    const setFullscreen = (nextState: boolean) => {
+      if (nextState === isFullscreen) return;
+      if (nextState && window.innerWidth < 740) return;
+
+      const currentIndex = emblaMain.selectedScrollSnap();
+
+      if (nextState) {
+        savedScrollY = window.scrollY;
+        isFullscreen = true;
+        document.documentElement.classList.add('is-gallery-fullscreen');
+      } else {
+        isFullscreen = false;
+        document.documentElement.classList.remove('is-gallery-fullscreen');
+        window.scrollTo(0, savedScrollY);
+      }
+
+      emblaMain.reInit();
+      emblaThumbs.reInit();
+      emblaMain.scrollTo(currentIndex, true);
+      syncSelectedThumb(true);
+    };
+
+    mainNode.addEventListener('click', () => {
+      if (window.innerWidth < 740) return;
+      if (!isFullscreen) {
+        setFullscreen(true);
+      }
+    });
+
+    if (fsCloseBtn) {
+      fsCloseBtn.addEventListener('click', () => {
+        setFullscreen(false);
+      });
+    }
+
+    galleryRoot.addEventListener('click', (event) => {
+      if (!isFullscreen) return;
+      if (event.target === galleryRoot) {
+        setFullscreen(false);
+      }
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (!isFullscreen) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setFullscreen(false);
+      } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        emblaMain.scrollPrev();
+      } else if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        emblaMain.scrollNext();
+      }
+    });
+
     thumbSlides.forEach((slide, index) => {
       slide.addEventListener('click', () => {
         emblaMain.scrollTo(index);
@@ -233,6 +348,18 @@ const hasImages = images.length > 0;
 
     if (mainNextBtn) {
       mainNextBtn.addEventListener('click', () => {
+        emblaMain.scrollNext();
+      });
+    }
+
+    if (fsPrevBtn) {
+      fsPrevBtn.addEventListener('click', () => {
+        emblaMain.scrollPrev();
+      });
+    }
+
+    if (fsNextBtn) {
+      fsNextBtn.addEventListener('click', () => {
         emblaMain.scrollNext();
       });
     }
@@ -253,8 +380,8 @@ const hasImages = images.length > 0;
     }
 
     emblaMain.on('init', updateMainNav);
-    emblaMain.on('select', syncSelectedThumb);
-    emblaMain.on('reInit', syncSelectedThumb);
+    emblaMain.on('select', () => syncSelectedThumb(false));
+    emblaMain.on('reInit', () => syncSelectedThumb(false));
 
     emblaThumbs.on('init', updateThumbsNav);
     emblaThumbs.on('reInit', updateThumbsNav);
