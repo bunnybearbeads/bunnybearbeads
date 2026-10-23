@@ -69,6 +69,16 @@
 
 
 
+/* by default it's big as monitor version */
+.is-gallery-fullscreen .gallery__control {
+    width: 36px;
+    height: 24px;
+    border-radius: 12px;
+    margin-top: -10px;
+    margin-bottom: -10px;
+    font-size: 22px; /* chevron icon inside */
+}
+
 
 .is-gallery-fullscreen .gallery__control--larger {
     left: 100%;
