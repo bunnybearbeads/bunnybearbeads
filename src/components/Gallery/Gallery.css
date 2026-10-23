@@ -125,10 +125,18 @@
   transform: translate(-50%, 50%);
 }
 
+.gallery__thumbs-nav .material-icons {
+  font-size: 20px;
+}
+
 .gallery__stage-nav {
   width: 44px;
   height: 28px;
   border-radius: 14px;
+}
+
+.gallery__stage-nav .material-icons {
+  font-size: 22px;
 }
 
 /* ==========================================================================
