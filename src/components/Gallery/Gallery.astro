@@ -29,7 +29,6 @@ const { images = [], alt } = Astro.props;
       <div class="gallery__nav-ribbon" aria-label="Product thumbnails">
         {images.map((src, index) => (
           <button
-            type="button"
             class:list={[
               'gallery__thumbnail',
               { 'gallery__thumbnail--current': index === 0 },
@@ -38,6 +37,7 @@ const { images = [], alt } = Astro.props;
             aria-label={`${alt} — photo ${index + 1}`}
             aria-current={index === 0 ? 'true' : undefined}
             tabindex="-1"
+            type="button"
           >
             <img
               src={src}
@@ -51,11 +51,11 @@ const { images = [], alt } = Astro.props;
     </div>
 
     <button
-      type="button"
       class="gallery__control gallery__control--next"
       data-gallery-thumbs-next
       aria-label="Next thumbnails"
       tabindex="-1"
+      type="button"
       hidden
     >
       <Icon name="keyboard_arrow_down" />
@@ -64,10 +64,10 @@ const { images = [], alt } = Astro.props;
 
   <div class="gallery__stage" data-gallery-stage-col>
     <button
-      type="button"
       class="gallery__control gallery__control--stage gallery__control--prev"
       data-gallery-main-prev
       aria-label="Previous photo"
+      type="button"
       hidden
     >
       <Icon name="keyboard_arrow_up" />
@@ -79,9 +79,9 @@ const { images = [], alt } = Astro.props;
           {images.map((src, index) => (
             <div class="gallery__item">
               <img
+                class="gallery__image"
                 src={src}
                 alt={index === 0 ? alt : `${alt} — photo ${index + 1}`}
-                class="gallery__image"
                 fetchpriority={index === 0 ? 'high' : 'low'}
                 loading={index === 0 ? undefined : 'lazy'}
               />
@@ -92,10 +92,10 @@ const { images = [], alt } = Astro.props;
     </div>
 
     <button
-      type="button"
       class="gallery__control gallery__control--stage gallery__control--next"
       data-gallery-main-next
       aria-label="Next photo"
+      type="button"
       hidden
     >
       <Icon name="keyboard_arrow_down" />
