@@ -56,64 +56,58 @@
                         aspect-ratio: 3 / 4;
                         object-fit: cover;
                         background-color: var(--image-fallback);
-                        border-radius: calc(var(--radius-md) - var(--gallery-border) - 2px);
+                        border-radius: calc(var(--radius-md) - var(--gallery-border));
                     }
 
-
-
-/* ==========================================================================
-   Main Stage Carousel (3:4 Vertical Portrait Frame)
-   ========================================================================== */
-.gallery__stage {
-    position: relative;
-    flex-grow: 1;
-    min-width: 0;
-}
-    .gallery__strut {
-        padding-top: var(--gallery-border); /* keep it outside 3/4 ratio */
-        padding-left: var(--gallery-border); /* keep it outside 3/4 ratio */
-        padding-right: var(--gallery-border); /* keep it outside 3/4 ratio */
-        /* padding-bottom isn't needed because negative margin bottom beelow won't work */
-        overflow: hidden;
+    .gallery__stage {
+        position: relative;
+        flex-grow: 1;
+        min-width: 0;
     }
-        .gallery__viewport {
-            position: relative;
-            aspect-ratio: 3 / 4; /* setting up height */
+        .gallery__strut {
+            padding-top: var(--gallery-border); /* keep it outside 3/4 ratio */
+            padding-left: var(--gallery-border); /* keep it outside 3/4 ratio */
+            padding-right: var(--gallery-border); /* keep it outside 3/4 ratio */
+            /* padding-bottom isn't needed because negative margin bottom beelow won't work */
+            overflow: hidden;
         }
-            .gallery__stage-track {
-                margin-top: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
-                margin-left: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
-                margin-right: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
-                /* margin-bottom isn't needed because it just won't work, but we don't really need it (it's only necessary to shift it up) */
-                display: flex;
-                flex-direction: column;
-                height: calc(100% + 2 * var(--gallery-border));
-                gap: 12px;
-                user-select: none;
-                -webkit-touch-callout: none;
+            .gallery__viewport {
+                position: relative;
+                aspect-ratio: 3 / 4; /* setting up height */
             }
-                .gallery__slide {
-                    flex: 0 0 100%;
-                    padding: var(--gallery-border); /* real white border (and it's inside a slide) */
-                    background: #ffffff;
-                    border-radius: var(--radius-lg);
-                    overflow: hidden;
-                    cursor: pointer;
+                .gallery__stage-track {
+                    margin-top: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
+                    margin-left: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
+                    margin-right: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
+                    /* margin-bottom isn't needed because it just won't work, but we don't really need it (it's only necessary to shift it up) */
+                    display: flex;
+                    flex-direction: column;
+                    height: calc(100% + 2 * var(--gallery-border));
+                    gap: 12px;
+                    user-select: none;
+                    -webkit-touch-callout: none;
                 }
-                    .gallery__image {
-                        vertical-align: top;
-                        width: 100%;
-                        height: 100%; /* 3:4 as set above */
-                        object-fit: cover;
-                        display: block;
-                        background-color: var(--image-fallback);
-                        border-radius: calc(var(--radius-lg) - var(--gallery-border));
+                    .gallery__slide {
+                        flex: 0 0 100%;
+                        padding: var(--gallery-border); /* real white border (and it's inside a slide) */
+                        background: #ffffff;
+                        border-radius: var(--radius-lg);
+                        overflow: hidden;
+                        cursor: pointer;
                     }
+                        .gallery__image {
+                            vertical-align: top;
+                            width: 100%;
+                            height: 100%; /* 3:4 as set above */
+                            object-fit: cover;
+                            display: block;
+                            background-color: var(--image-fallback);
+                            border-radius: calc(var(--radius-lg) - var(--gallery-border));
+                        }
 
-/* ==========================================================================
-   Large Desktop (1600px+)
-   ========================================================================== */
+
 @media (1600px <= width) {
+
     .gallery {
         gap: 16px;
     }
