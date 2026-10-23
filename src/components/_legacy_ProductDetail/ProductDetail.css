@@ -1,7 +1,7 @@
 .product-detail-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 24px;
   align-items: flex-start;
   margin-bottom: 54px;
 }
