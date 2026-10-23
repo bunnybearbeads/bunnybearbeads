@@ -70,7 +70,6 @@
   aspect-ratio: 3 / 4;
   object-fit: cover;
   display: block;
-  pointer-events: none;
 }
 
 /* Up / Down Chevron Buttons for Vertical Thumbnails */
@@ -179,7 +178,6 @@
   aspect-ratio: 3 / 4;
   object-fit: cover;
   display: block;
-  pointer-events: none;
 }
 
 /* ==========================================================================
