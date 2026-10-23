@@ -406,10 +406,17 @@ html.is-gallery-fullscreen .gallery__fs-controls {
     gap: 10px;
   }
 
+  .gallery__stage-slide {
+    border-width: 3px;
+  }
+
   .gallery__thumbs-column {
     order: 2;
     height: auto;
     width: 100%;
+  }
+  .gallery__thumb-btn {
+    border-width: 3px;
   }
 
   .gallery__thumbs-viewport {
@@ -446,5 +453,20 @@ html.is-gallery-fullscreen .gallery__fs-controls {
     flex-direction: row;
     height: auto;
     gap: var(--container-padding);
+  }
+}
+
+
+@media (380px <= width < 420px) {
+  .gallery__thumb-item {
+    width: 76px;
+    flex-basis: 76px;
+  }
+}
+
+@media (width < 350px) {
+  .gallery__thumb-item {
+    width: 62px;
+    flex-basis: 62px;
   }
 }
