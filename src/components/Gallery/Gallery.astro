@@ -8,70 +8,65 @@ interface Props {
 }
 
 const { images = [], alt } = Astro.props;
-const hasMultipleImages = images.length > 1;
 ---
 
 <div class="gallery" data-gallery>
-  {hasMultipleImages && (
-    <div class="gallery__navigation" data-gallery-thumbs-col>
-      <button
-        type="button"
-        class="gallery__control gallery__control--prev"
-        data-gallery-thumbs-prev
-        aria-label="Previous thumbnails"
-        hidden
-      >
-        <Icon name="keyboard_arrow_up" />
-      </button>
+  <div class="gallery__navigation" data-gallery-thumbs-col>
+    <button
+      type="button"
+      class="gallery__control gallery__control--prev"
+      data-gallery-thumbs-prev
+      aria-label="Previous thumbnails"
+      hidden
+    >
+      <Icon name="keyboard_arrow_up" />
+    </button>
 
-      <div class="gallery__nav-viewport" data-gallery-thumbs>
-        <div class="gallery__nav-ribbon" aria-label="Product thumbnails">
-          {images.map((src, index) => (
-            <button
-              type="button"
-              class:list={[
-                'gallery__thumbnail',
-                { 'gallery__thumbnail--current': index === 0 },
-              ]}
-              data-gallery-thumb-slide
-              aria-label={`${alt} — photo ${index + 1}`}
-              aria-current={index === 0 ? 'true' : undefined}
-            >
-              <img
-                src={src}
-                alt={`${alt} — preview ${index + 1}`}
-                class="gallery__thumb-image"
-                loading={index >= 5 ? 'lazy' : undefined}
-              />
-            </button>
-          ))}
-        </div>
+    <div class="gallery__nav-viewport" data-gallery-thumbs>
+      <div class="gallery__nav-ribbon" aria-label="Product thumbnails">
+        {images.map((src, index) => (
+          <button
+            type="button"
+            class:list={[
+              'gallery__thumbnail',
+              { 'gallery__thumbnail--current': index === 0 },
+            ]}
+            data-gallery-thumb-slide
+            aria-label={`${alt} — photo ${index + 1}`}
+            aria-current={index === 0 ? 'true' : undefined}
+          >
+            <img
+              src={src}
+              alt={`${alt} — preview ${index + 1}`}
+              class="gallery__thumb-image"
+              loading={index >= 5 ? 'lazy' : undefined}
+            />
+          </button>
+        ))}
       </div>
-
-      <button
-        type="button"
-        class="gallery__control gallery__control--next"
-        data-gallery-thumbs-next
-        aria-label="Next thumbnails"
-        hidden
-      >
-        <Icon name="keyboard_arrow_down" />
-      </button>
     </div>
-  )}
+
+    <button
+      type="button"
+      class="gallery__control gallery__control--next"
+      data-gallery-thumbs-next
+      aria-label="Next thumbnails"
+      hidden
+    >
+      <Icon name="keyboard_arrow_down" />
+    </button>
+  </div>
 
   <div class="gallery__stage" data-gallery-stage-col>
-    {hasMultipleImages && (
-      <button
-        type="button"
-        class="gallery__control gallery__control--larger gallery__control--prev"
-        data-gallery-main-prev
-        aria-label="Previous photo"
-        hidden
-      >
-        <Icon name="keyboard_arrow_up" />
-      </button>
-    )}
+    <button
+      type="button"
+      class="gallery__control gallery__control--larger gallery__control--prev"
+      data-gallery-main-prev
+      aria-label="Previous photo"
+      hidden
+    >
+      <Icon name="keyboard_arrow_up" />
+    </button>
 
     <div class="gallery__strut">
       <div class="gallery__viewport" data-gallery-main>
@@ -91,17 +86,15 @@ const hasMultipleImages = images.length > 1;
       </div>
     </div>
 
-    {hasMultipleImages && (
-      <button
-        type="button"
-        class="gallery__control gallery__control--larger gallery__control--next"
-        data-gallery-main-next
-        aria-label="Next photo"
-        hidden
-      >
-        <Icon name="keyboard_arrow_down" />
-      </button>
-    )}
+    <button
+      type="button"
+      class="gallery__control gallery__control--larger gallery__control--next"
+      data-gallery-main-next
+      aria-label="Next photo"
+      hidden
+    >
+      <Icon name="keyboard_arrow_down" />
+    </button>
   </div>
 
   <div class="gallery__fs-controls" data-gallery-fs-controls>
@@ -114,31 +107,29 @@ const hasMultipleImages = images.length > 1;
       <Icon name="close" />
     </button>
 
-    {hasMultipleImages && (
-      <div class="gallery__fs-nav-group">
-        <button
-          type="button"
-          class="gallery__fs-btn gallery__fs-btn--nav"
-          data-gallery-fs-prev
-          aria-label="Previous photo"
-        >
-          <Icon name="keyboard_arrow_up" />
-        </button>
+    <div class="gallery__fs-nav-group">
+      <button
+        type="button"
+        class="gallery__fs-btn gallery__fs-btn--nav"
+        data-gallery-fs-prev
+        aria-label="Previous photo"
+      >
+        <Icon name="keyboard_arrow_up" />
+      </button>
 
-        <span class="gallery__fs-counter" data-gallery-fs-counter>
-          1 / {images.length}
-        </span>
+      <span class="gallery__fs-counter" data-gallery-fs-counter>
+        1 / {images.length}
+      </span>
 
-        <button
-          type="button"
-          class="gallery__fs-btn gallery__fs-btn--nav"
-          data-gallery-fs-next
-          aria-label="Next photo"
-        >
-          <Icon name="keyboard_arrow_down" />
-        </button>
-      </div>
-    )}
+      <button
+        type="button"
+        class="gallery__fs-btn gallery__fs-btn--nav"
+        data-gallery-fs-next
+        aria-label="Next photo"
+      >
+        <Icon name="keyboard_arrow_down" />
+      </button>
+    </div>
   </div>
 </div>
 
@@ -216,13 +207,13 @@ const hasMultipleImages = images.length > 1;
       }
     });
 
-    // If product has only 1 photo, do not initialize Embla carousels
-    if (!thumbsNode || thumbSlides.length <= 1) return;
+    if (!thumbsNode) return;
 
     const emblaMain = EmblaCarousel(mainNode, {
       loop: false,
       align: 'start',
       axis: 'y',
+      watchDrag: (embla) => embla.canScrollPrev() || embla.canScrollNext(),
       breakpoints: {
         '(max-width: 739px)': { axis: 'x' },
       },
@@ -233,8 +224,11 @@ const hasMultipleImages = images.length > 1;
       containScroll: 'trimSnaps',
       dragFree: true,
       axis: 'y',
+      watchDrag: (embla) => embla.canScrollPrev() || embla.canScrollNext(),
       breakpoints: {
-        '(max-width: 739px)': { axis: 'x' },
+        '(max-width: 739px)': {
+          axis: 'x',
+        },
       },
     });
 

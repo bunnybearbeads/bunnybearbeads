@@ -56,7 +56,7 @@
                         aspect-ratio: 3 / 4;
                         object-fit: cover;
                         background-color: var(--image-fallback);
-                        border-radius: calc(var(--radius-md) - var(--gallery-border));
+                        border-radius: calc(var(--radius-md) - var(--gallery-border) - 1px); /* -1px визуально лучше */
                     }
 
     .gallery__stage {
@@ -162,13 +162,19 @@
 
     .gallery__navigation {
         order: 2;
+        display: block;
         height: auto;
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
     }
 
     .gallery__nav-viewport {
         height: auto;
         min-height: 0;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
         overflow: visible;
     }
 
