@@ -236,7 +236,7 @@
                         gap: var(--container-padding);
                     }
                         .gallery__item {
-
+                            cursor: default;
                         }
                             .gallery__image {
 
