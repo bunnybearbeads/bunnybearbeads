@@ -1,4 +1,8 @@
 .gallery {
+    --gallery-border: 4px;
+}
+
+.gallery {
     display: flex;
     gap: 12px;
 }
@@ -141,52 +145,43 @@
     flex-grow: 1;
     min-width: 0;
 }
-    .gallery__viewport {
-        position: relative;
-        display: grid;
-        width: 100%;
-        min-width: 0;
+    .gallery__wrap {
+        padding: var(--gallery-border); /* keep it outside 3/4 ratio */
         overflow: hidden;
     }
+        .gallery__viewport {
+            position: relative;
+            aspect-ratio: 3 / 4; /* setting up height */
+        }
 
-    .gallery__viewport:active {
-        cursor: grabbing;
-    }
-        /* strut to preserve space for border around 3/4 image deeper inside */
-        .gallery__viewport::before {
-            content: '';
-            grid-area: 1 / 1;
-            box-sizing: content-box;
-            width: calc(100% - 8px);
-            padding: 4px;
-            aspect-ratio: 3 / 4;
-            pointer-events: none;
+        .gallery__viewport:active {
+            cursor: grabbing;
         }
             .gallery__stage-track {
-                grid-area: 1 / 1;
+                margin: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
                 display: flex;
                 flex-direction: column;
-                height: 0;
-                min-height: 100%;
+                height: calc(100% + 2 * var(--gallery-border));
                 gap: 12px;
                 user-select: none;
                 -webkit-touch-callout: none;
             }
                 .gallery__slide {
                     flex: 0 0 100%;
-                    width: 100%;
-                    min-width: 0;
-                    border: 4px solid #ffffff;
+                    padding: var(--gallery-border); /* real white border (and it's inside a slide) */
+                    background: #ffffff;
                     border-radius: var(--radius-lg);
                     overflow: hidden;
                     cursor: pointer;
                 }
                     .gallery__image {
+                        vertical-align: top;
                         width: 100%;
-                        aspect-ratio: 3 / 4;
+                        height: 100%; /* 3:4 as set above */
                         object-fit: cover;
                         display: block;
                         background-color: var(--image-fallback);
+                        border-radius: calc(var(--radius-lg) - var(--gallery-border));
                     }
 
 /* ==========================================================================

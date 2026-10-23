@@ -73,19 +73,21 @@ const hasMultipleImages = images.length > 1;
       </button>
     )}
 
-    <div class="gallery__viewport" data-gallery-main>
-      <div class="gallery__stage-track">
-        {images.map((src, index) => (
-          <div class="gallery__slide">
-            <img
-              src={src}
-              alt={index === 0 ? alt : `${alt} — photo ${index + 1}`}
-              class="gallery__image"
-              fetchpriority={index === 0 ? 'high' : 'low'}
-              loading={index === 0 ? undefined : 'lazy'}
-            />
-          </div>
-        ))}
+    <div class="gallery__wrap">
+      <div class="gallery__viewport" data-gallery-main>
+        <div class="gallery__stage-track">
+          {images.map((src, index) => (
+            <div class="gallery__slide">
+              <img
+                src={src}
+                alt={index === 0 ? alt : `${alt} — photo ${index + 1}`}
+                class="gallery__image"
+                fetchpriority={index === 0 ? 'high' : 'low'}
+                loading={index === 0 ? undefined : 'lazy'}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
 
