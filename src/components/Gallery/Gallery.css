@@ -90,7 +90,7 @@
             padding-top: var(--gallery-border); /* keep it outside 3/4 ratio */
             padding-left: var(--gallery-border); /* keep it outside 3/4 ratio */
             padding-right: var(--gallery-border); /* keep it outside 3/4 ratio */
-            /* padding-bottom isn't needed because negative margin bottom beelow won't work */
+            /* padding-bottom isn't needed because negative margin bottom below won't work */
             overflow: hidden;
         }
             .gallery__strut {
@@ -170,7 +170,7 @@
                         }
 
                         .gallery__full-screen-handler:hover {
-                            background-color: rgba(44 40 37 / 90%);
+                            background-color: rgb(44 40 37 / 90%);
                         }
 
                         /* expand clickable area */

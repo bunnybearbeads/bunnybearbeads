@@ -97,7 +97,7 @@
             background-color: var(--accent-gold);
             border-color: transparent;
             color: #ffffff;
-            box-shadow: 0 4px 14px rgba(42, 123, 136, 0.25);
+            box-shadow: 0 4px 14px rgb(42 123 136 / 25%);
         }
             /* expand clickable area */
             .gallery__close::before {
@@ -145,7 +145,7 @@
 
 
 .is-gallery-fullscreen .gallery__control--stage:hover:not(:disabled) {
-    box-shadow: 0 4px 14px rgba(42, 123, 136, 0.25);
+    box-shadow: 0 4px 14px rgb(42 123 136 / 25%);
 }
 
 
