@@ -3,13 +3,18 @@ import './Gallery.css';
 import './GalleryArrows.css';
 import './GalleryFullScreen.css';
 import Icon from '../Icon/Icon.astro';
+import { type SupportedLanguage } from '../../i18n/ui';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 interface Props {
   images: string[];
   alt: string;
+  lang?: SupportedLanguage;
 }
 
-const { images = [], alt } = Astro.props;
+const { images = [], alt, lang } = Astro.props;
+const currentLang = lang || getLangFromUrl(Astro.url);
+const t = useTranslations(currentLang);
 ---
 
 <div class="gallery" data-gallery>
@@ -17,7 +22,7 @@ const { images = [], alt } = Astro.props;
     <button
       class="gallery__control gallery__control--prev"
       data-gallery-thumbs-prev
-      aria-label="Previous thumbnails"
+      aria-label={t('gallery.thumbs_prev')}
       tabindex="-1"
       type="button"
       hidden
@@ -26,7 +31,7 @@ const { images = [], alt } = Astro.props;
     </button>
 
     <div class="gallery__nav-viewport" data-gallery-thumbs>
-      <div class="gallery__nav-ribbon" aria-label="Product thumbnails">
+      <div class="gallery__nav-ribbon" aria-label={t('gallery.thumbs_ribbon')}>
         {images.map((src, index) => (
           <button
             class:list={[
@@ -34,15 +39,15 @@ const { images = [], alt } = Astro.props;
               { 'gallery__thumbnail--current': index === 0 },
             ]}
             data-gallery-thumb-slide
-            aria-label={`${alt} — photo ${index + 1}`}
+            aria-label={`${alt} — ${t('gallery.photo')} ${index + 1}`}
             aria-current={index === 0 ? 'true' : undefined}
             tabindex="-1"
             type="button"
           >
             <img
-              src={src}
-              alt={`${alt} — preview ${index + 1}`}
               class="gallery__thumb-image"
+              src={src}
+              alt={`${alt} — ${t('gallery.preview')} ${index + 1}`}
               loading={index >= 5 ? 'lazy' : undefined}
             />
           </button>
@@ -53,7 +58,7 @@ const { images = [], alt } = Astro.props;
     <button
       class="gallery__control gallery__control--next"
       data-gallery-thumbs-next
-      aria-label="Next thumbnails"
+      aria-label={t('gallery.thumbs_next')}
       tabindex="-1"
       type="button"
       hidden
@@ -66,7 +71,7 @@ const { images = [], alt } = Astro.props;
     <button
       class="gallery__control gallery__control--stage gallery__control--prev"
       data-gallery-main-prev
-      aria-label="Previous photo"
+      aria-label={t('gallery.main_prev')}
       type="button"
       hidden
     >
@@ -81,7 +86,7 @@ const { images = [], alt } = Astro.props;
               <img
                 class="gallery__image"
                 src={src}
-                alt={index === 0 ? alt : `${alt} — photo ${index + 1}`}
+                alt={index === 0 ? alt : `${alt} — ${t('gallery.photo')} ${index + 1}`}
                 fetchpriority={index === 0 ? 'high' : 'low'}
                 loading={index === 0 ? undefined : 'lazy'}
               />
@@ -94,7 +99,7 @@ const { images = [], alt } = Astro.props;
     <button
       class="gallery__control gallery__control--stage gallery__control--next"
       data-gallery-main-next
-      aria-label="Next photo"
+      aria-label={t('gallery.main_next')}
       type="button"
       hidden
     >

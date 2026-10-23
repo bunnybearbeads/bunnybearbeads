@@ -18,7 +18,7 @@ const { product, productRaw, currentLang } = Astro.props;
     <div class="product__body">
       <div class="product__summary">
         <div class="product__gallery">
-          <Gallery images={product.images} alt={product.title} />
+          <Gallery images={product.images} alt={product.title} lang={currentLang} />
         </div>
         <div class="product__variants"></div>
       </div>

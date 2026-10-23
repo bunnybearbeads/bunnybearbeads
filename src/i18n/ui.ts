@@ -136,6 +136,15 @@ export const ui = {
     // Blog Article CTA
     'blog.explore_catalog': 'Explore Jewelry Catalog',
 
+    // Gallery
+    'gallery.thumbs_prev': 'Previous thumbnails',
+    'gallery.thumbs_next': 'Next thumbnails',
+    'gallery.thumbs_ribbon': 'Product thumbnails',
+    'gallery.main_prev': 'Previous photo',
+    'gallery.main_next': 'Next photo',
+    'gallery.photo': 'photo',
+    'gallery.preview': 'preview',
+
     // Footer
     'footer.copyright': '© 2026 BunnyBearBeads — Artisan Beadwork Workshop. Crafted with love 💖',
   },
@@ -249,6 +258,15 @@ export const ui = {
     // Blog Article CTA
     'blog.explore_catalog': 'Смотреть каталог изделий',
 
+    // Gallery
+    'gallery.thumbs_prev': 'Предыдущие миниатюры',
+    'gallery.thumbs_next': 'Следующие миниатюры',
+    'gallery.thumbs_ribbon': 'Миниатюры товара',
+    'gallery.main_prev': 'Предыдущее фото',
+    'gallery.main_next': 'Следующее фото',
+    'gallery.photo': 'фото',
+    'gallery.preview': 'превью',
+
     // Footer
     'footer.copyright': '© 2026 BunnyBearBeads — Мастерская авторского бисероплетения. Сделано с любовью 💖',
   },
@@ -361,6 +379,15 @@ export const ui = {
 
     // Blog Article CTA
     'blog.explore_catalog': 'Xem các mẫu trang sức',
+
+    // Gallery
+    'gallery.thumbs_prev': 'Hình thu nhỏ trước',
+    'gallery.thumbs_next': 'Hình thu nhỏ tiếp theo',
+    'gallery.thumbs_ribbon': 'Hình thu nhỏ sản phẩm',
+    'gallery.main_prev': 'Ảnh trước',
+    'gallery.main_next': 'Ảnh tiếp theo',
+    'gallery.photo': 'ảnh',
+    'gallery.preview': 'bản xem trước',
 
     // Footer
     'footer.copyright': '© 2026 BunnyBearBeads — Xưởng thủ công cườm nghệ thuật. Làm bằng cả trái tim 💖',
