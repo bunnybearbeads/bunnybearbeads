@@ -108,6 +108,10 @@
                             border-radius: calc(var(--radius-lg) - var(--gallery-border));
                         }
 
+    .gallery__counter {
+        display: none;
+    }
+
 
 @media (1600px <= width) {
 

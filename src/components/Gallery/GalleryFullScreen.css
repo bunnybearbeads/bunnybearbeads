@@ -2,13 +2,14 @@
     display: none !important;
 }
 
-.gallery {
-    --gallery-border: 4px;
+
+.is-gallery-fullscreen .gallery {
+    --galler-control: 58px;
 }
 
 .is-gallery-fullscreen .gallery {
     height: 100%;
-    overflow: hidden; /* cur carousel */
+    overflow: hidden; /* cut carousel */
     gap: 24px;
     align-items: center;
     justify-content: center;
@@ -50,66 +51,42 @@
 
                         }
 
+    .is-gallery-fullscreen .gallery__counter {
+        display: block;
+        width: var(--galler-control);
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-muted);
+        font-variant-numeric: tabular-nums;
+        user-select: none;
+        white-space: nowrap;
+        text-align: center;
+    }
 
 
 
 
-
-
-.gallery__fs-controls {
-    display: none;
-}
-
-.is-gallery-fullscreen .gallery__fs-controls {
-    flex-shrink: 0;
-    width: 64px;
-    display: grid;
-    grid-template-rows: 1fr auto 1fr;
-    align-items: start;
-    justify-items: center;
-    height: calc(100vh - 64px);
-}
-
-.gallery__fs-nav-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-}
-
-.gallery__fs-counter {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-muted);
-    font-variant-numeric: tabular-nums;
-    user-select: none;
-    white-space: nowrap;
-}
-
-.gallery__fs-btn {
-    width: 58px;
-    height: 58px;
+.is-gallery-fullscreen .gallery__control--larger {
+    left: 100%;
+    margin-left: 24px;
+    margin-right: 0;
+    right: auto;
+    width: var(--galler-control);
+    height: var(--galler-control);
+    box-shadow: none;
     border-radius: 50%;
-    border: 1px solid rgba(61, 46, 36, 0.14);
-    background: #ffffff;
-    color: var(--color-brand-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
 }
 
-.gallery__fs-btn:hover:not(:disabled) {
-    border-color: var(--accent-teal);
-    color: var(--accent-teal);
-    transform: translateY(-1px);
+.is-gallery-fullscreen .gallery__control--larger.gallery__control--prev {
+    top: auto;
+    bottom: 50%;
+    margin-bottom: 28px;
 }
 
-.gallery__fs-btn:disabled {
-    opacity: 0.3;
-    cursor: default;
+.is-gallery-fullscreen .gallery__control--larger.gallery__control--next {
+    bottom: auto;
+    top: 50%;
+    margin-top: 28px;
 }
-
 
 

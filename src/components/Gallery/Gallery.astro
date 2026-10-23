@@ -102,40 +102,9 @@ const { images = [], alt } = Astro.props;
     </button>
   </div>
 
-  <div class="gallery__fs-controls" data-gallery-fs-controls>
-    <button
-      type="button"
-      class="gallery__fs-btn gallery__fs-btn--close"
-      data-gallery-fs-close
-      aria-label="Close fullscreen gallery"
-    >
-      <Icon name="close" />
-    </button>
-
-    <div class="gallery__fs-nav-group">
-      <button
-        type="button"
-        class="gallery__fs-btn gallery__fs-btn--nav"
-        data-gallery-fs-prev
-        aria-label="Previous photo"
-      >
-        <Icon name="keyboard_arrow_up" />
-      </button>
-
-      <span class="gallery__fs-counter" data-gallery-fs-counter>
-        1 / {images.length}
-      </span>
-
-      <button
-        type="button"
-        class="gallery__fs-btn gallery__fs-btn--nav"
-        data-gallery-fs-next
-        aria-label="Next photo"
-      >
-        <Icon name="keyboard_arrow_down" />
-      </button>
-    </div>
-  </div>
+  <span class="gallery__counter" data-gallery-fs-counter>
+    1 / {images.length}
+  </span>
 </div>
 
 <script>
@@ -151,15 +120,12 @@ const { images = [], alt } = Astro.props;
     const mainNextBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-main-next]');
     const prevBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-thumbs-prev]');
     const nextBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-thumbs-next]');
-    const fsCloseBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-fs-close]');
-    const fsPrevBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-fs-prev]');
-    const fsNextBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-fs-next]');
     const fsCounter = galleryRoot.querySelector<HTMLElement>('[data-gallery-fs-counter]');
     const thumbSlides = Array.from(
       galleryRoot.querySelectorAll<HTMLElement>('[data-gallery-thumb-slide]')
     );
 
-    if (!mainNode || !fsCloseBtn) return;
+    if (!mainNode) return;
 
     let isFullscreen = false;
     let savedScrollY = 0;
@@ -197,10 +163,6 @@ const { images = [], alt } = Astro.props;
       if (!isFullscreen) {
         setFullscreen(true);
       }
-    });
-
-    fsCloseBtn.addEventListener('click', () => {
-      setFullscreen(false);
     });
 
     galleryRoot.addEventListener('click', (event) => {
@@ -298,10 +260,6 @@ const { images = [], alt } = Astro.props;
         }
       }
 
-      if (fsPrevBtn && fsNextBtn) {
-        if (fsPrevBtn.disabled !== !canPrev) fsPrevBtn.disabled = !canPrev;
-        if (fsNextBtn.disabled !== !canNext) fsNextBtn.disabled = !canNext;
-      }
 
       if (fsCounter) {
         const nextText = `${emblaMain.selectedScrollSnap() + 1} / ${thumbSlides.length}`;
@@ -421,17 +379,6 @@ const { images = [], alt } = Astro.props;
       });
     }
 
-    if (fsPrevBtn) {
-      fsPrevBtn.addEventListener('click', () => {
-        emblaMain.scrollPrev();
-      });
-    }
-
-    if (fsNextBtn) {
-      fsNextBtn.addEventListener('click', () => {
-        emblaMain.scrollNext();
-      });
-    }
 
     if (prevBtn) {
       prevBtn.addEventListener('click', () => {
