@@ -82,7 +82,10 @@
     min-width: 0;
 }
     .gallery__strut {
-        padding: var(--gallery-border); /* keep it outside 3/4 ratio */
+        padding-top: var(--gallery-border); /* keep it outside 3/4 ratio */
+        padding-left: var(--gallery-border); /* keep it outside 3/4 ratio */
+        padding-right: var(--gallery-border); /* keep it outside 3/4 ratio */
+        /* padding-bottom isn't needed because negative margin bottom beelow won't work */
         overflow: hidden;
     }
         .gallery__viewport {
@@ -90,7 +93,10 @@
             aspect-ratio: 3 / 4; /* setting up height */
         }
             .gallery__stage-track {
-                margin: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
+                margin-top: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
+                margin-left: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
+                margin-right: calc(-1 * var(--gallery-border)); /* compensate padding on the gallery__wrap */
+                /* margin-bottom isn't needed because it just won't work, but we don't really need it (it's only necessary to shift it up) */
                 display: flex;
                 flex-direction: column;
                 height: calc(100% + 2 * var(--gallery-border));
@@ -393,13 +399,13 @@ html.is-gallery-fullscreen .gallery__fs-controls {
     z-index: 3;
     left: 0;
     right: 0;
-    margin-left: auto;
-    margin-right: auto;
+    margin: -9px auto;
     width: 32px;
     height: 22px;
     border-radius: 11px;
     border: 1px solid #e4e2e0;
     background-color: #ffffff;
+    font-size: 20px; /* chevron icon inside */
     color: var(--color-brand-dark);
     display: flex;
     align-items: center;
@@ -422,7 +428,7 @@ html.is-gallery-fullscreen .gallery__fs-controls {
 }
 
 .gallery__control--prev {
-    top: -9px;
+    top: 0;
 }
 
 .gallery__control--next {
@@ -438,10 +444,7 @@ html.is-gallery-fullscreen .gallery__fs-controls {
         position: absolute;
         inset: -40%;
         border-radius: 100px;
-    }
 
-    .gallery__control .icon {
-        font-size: 20px;
     }
 
 @media (1600px <= width) {
@@ -450,7 +453,11 @@ html.is-gallery-fullscreen .gallery__fs-controls {
         width: 36px;
         height: 24px;
         border-radius: 12px;
+        margin-top: -10px;
+        margin-bottom: -10px;
+        font-size: 22px; /* chevron icon inside */
     }
+
 }
 
 
@@ -458,10 +465,9 @@ html.is-gallery-fullscreen .gallery__fs-controls {
     width: 44px;
     height: 28px;
     border-radius: 14px;
-}
-
-.gallery__control--larger .icon {
-    font-size: 22px;
+    margin-top: -12px;
+    margin-bottom: -12px;
+    font-size: 26px;
 }
 
 @media (1600px <= width) {
@@ -469,6 +475,9 @@ html.is-gallery-fullscreen .gallery__fs-controls {
     .gallery__control--larger {
         width: 48px;
         height: 32px;
+        margin-top: -14px;
+        margin-bottom: -14px;
         border-radius: 16px;
+        font-size: 28px;
     }
 }
