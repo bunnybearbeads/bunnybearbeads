@@ -1,5 +1,7 @@
 ---
 import './Gallery.css';
+import './GalleryArrows.css';
+import './GalleryFullScreen.css';
 import Icon from '../Icon/Icon.astro';
 
 interface Props {
@@ -162,6 +164,7 @@ const { images = [], alt } = Astro.props;
     let isFullscreen = false;
     let savedScrollY = 0;
     let onFullscreenChange: (() => void) | null = null;
+    const placeholder = document.createComment('gallery-placeholder');
 
     const setFullscreen = (nextState: boolean) => {
       if (nextState === isFullscreen) return;
@@ -170,9 +173,14 @@ const { images = [], alt } = Astro.props;
       if (nextState) {
         savedScrollY = window.scrollY;
         isFullscreen = true;
+        galleryRoot.before(placeholder);
+        document.body.appendChild(galleryRoot);
         document.documentElement.classList.add('is-gallery-fullscreen');
       } else {
         isFullscreen = false;
+        if (placeholder.parentNode) {
+          placeholder.replaceWith(galleryRoot);
+        }
         document.documentElement.classList.remove('is-gallery-fullscreen');
         window.scrollTo(0, savedScrollY);
       }
