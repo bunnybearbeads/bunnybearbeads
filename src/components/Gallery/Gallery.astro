@@ -400,7 +400,7 @@ const hasMultipleImages = images.length > 1;
       targetEl.addEventListener(
         'wheel',
         (event) => {
-          if (window.innerWidth < 740) return;
+          if (!isFullscreen || window.innerWidth < 740) return;
 
           const canPrev = embla.canScrollPrev();
           const canNext = embla.canScrollNext();
