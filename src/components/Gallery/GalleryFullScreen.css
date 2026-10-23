@@ -5,8 +5,9 @@
 
 .is-gallery-fullscreen .gallery {
     --gallery-fs-control: 58px;
-    --gallery-left-fs-gap: 12px;
-    --gallery-right-fs-gap: 18px;
+    --gallery-fs-left-gap: 12px;
+    --gallery-fs-right-gap: 18px;
+    --gallery-fs-padding: 16px;
 }
 
 .is-gallery-fullscreen .gallery {
@@ -17,15 +18,15 @@
     justify-content: center;
 }
     .is-gallery-fullscreen .gallery__navigation {
-        height: calc(100svh - 64px);
-        width: calc(98px + var(--gallery-left-fs-gap));
-        border-right: var(--gallery-left-fs-gap) solid transparent; /* border instead of gap so you can't click in between columns to close it (don't use padding because of absolute arrows inside) */
+        height: calc(100svh - 2 * var(--gallery-fs-padding));
+        width: calc(98px + var(--gallery-fs-left-gap));
+        border-right: var(--gallery-fs-left-gap) solid transparent; /* border instead of gap so you can't click in between columns to close it (don't use padding because of absolute arrows inside) */
     }
         .is-gallery-fullscreen .gallery__nav-viewport {
             overflow: visible;
         }
             .is-gallery-fullscreen .gallery__nav-ribbon {
-                gap: var(--gallery-left-fs-gap);
+                gap: var(--gallery-fs-left-gap);
             }
                 .is-gallery-fullscreen .gallery__thumbnail {
 
@@ -42,7 +43,7 @@
             overflow: visible;
         }
             .is-gallery-fullscreen .gallery__strut {
-                height: calc(100svh - 64px);
+                height: calc(100svh - 2 * var(--gallery-fs-padding));
             }
                 .is-gallery-fullscreen .gallery__ribbon {
                     height: 100%;
@@ -58,7 +59,7 @@
     .is-gallery-fullscreen .gallery__counter {
         display: block;
         width: var(--gallery-fs-control);
-        margin-left: var(--gallery-right-fs-gap);
+        margin-left: var(--gallery-fs-right-gap);
         font-size: 14px;
         font-weight: 600;
         color: var(--text-muted);
@@ -84,7 +85,7 @@
 /* stage controls */
 .is-gallery-fullscreen .gallery__control--stage {
     left: 100%;
-    margin-left: var(--gallery-right-fs-gap);
+    margin-left: var(--gallery-fs-right-gap);
     margin-right: 0;
     right: auto;
     width: var(--gallery-fs-control);
