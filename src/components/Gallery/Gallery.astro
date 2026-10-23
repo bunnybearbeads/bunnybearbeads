@@ -305,22 +305,25 @@ const items: MediaItem[] = images.map((item) => {
       syncVideoPlayback();
     };
 
-    // Sync video playback: autoplay active slide's video, pause others
+    // NOTE: In the HTML5 spec, calling video.pause() dispatches the 'pause' event asynchronously
+    // via the browser's task queue. Thus a simple boolean flag cannot be set and cleared synchronously.
+    // Instead, we track `isSlideChanging` during carousel transitions and verify slide index in the event.
+    let isSlideChanging = false;
+
+    // Sync video playback: resume video if user left it playing, pause in background when away
     const syncVideoPlayback = () => {
       const selectedIndex = emblaMain.selectedScrollSnap();
       const slides = emblaMain.slideNodes();
-      const mobile = isMobile();
       slides.forEach((slide, idx) => {
         const video = slide.querySelector<HTMLVideoElement>('video');
         if (video) {
           if (idx === selectedIndex) {
-            video.play().catch(() => {});
+            // Keep the exact state user left it in: if user stopped it, keep paused; otherwise play
+            if (video.dataset.userPaused !== 'true') {
+              video.play().catch(() => {});
+            }
           } else {
             video.pause();
-            // Reset mobile controls when sliding away so it starts clean on next view
-            if (mobile) {
-              video.controls = false;
-            }
           }
         }
       });
@@ -537,7 +540,13 @@ const items: MediaItem[] = images.map((item) => {
     updateVideoControlsForDevice();
     window.addEventListener('resize', updateVideoControlsForDevice);
 
-    // On mobile, tap on video dynamically reveals native controls on demand and pauses playback
+    // On mobile, videos initially start without `controls` to avoid iOS Safari rendering a heavy
+    // full-frame dark scrim overlay with large rewind/fast-forward buttons across the product.
+    // When the user taps the video:
+    // 1) We dynamically reveal native controls (`video.controls = true`).
+    // 2) We immediately pause playback (`video.pause()`) because the user's primary intent when tapping
+    //    a playing video is to pause it, not just reveal the interface.
+    // This allows the user to inspect the frame, scrub the timeline, or resume via the center Play button.
     videos.forEach((video) => {
       video.addEventListener('click', (event) => {
         if (!isMobile()) return;
@@ -546,6 +555,30 @@ const items: MediaItem[] = images.map((item) => {
           video.controls = true;
           video.pause();
         }
+      });
+    });
+
+    // Track user-initiated pause/play across all devices (persists paused state on navigation).
+    // IMPORTANT: video.pause() called during slide navigation is asynchronous in HTML5 and
+    // triggers a 'pause' event on the next task tick. To ensure background pauses are NOT mistaken
+    // for manual user pauses, we verify that:
+    // 1) The pause happened while this video was the active slide (videoSlideIndex === currentSlideIndex).
+    // 2) Embla is not actively transitioning/changing slides (!isSlideChanging).
+    videos.forEach((video) => {
+      const slide = video.closest('.gallery__item');
+      video.addEventListener('pause', () => {
+        const slides = emblaMain.slideNodes();
+        const videoSlideIndex = slide ? slides.indexOf(slide as HTMLElement) : -1;
+        const currentSlideIndex = emblaMain.selectedScrollSnap();
+
+        // Only mark as userPaused if paused while active slide and NOT during slide transition
+        if (!isSlideChanging && videoSlideIndex === currentSlideIndex) {
+          video.dataset.userPaused = 'true';
+        }
+      });
+
+      video.addEventListener('play', () => {
+        video.dataset.userPaused = 'false';
       });
     });
 
@@ -640,8 +673,20 @@ const items: MediaItem[] = images.map((item) => {
 
     // Embla event subscriptions
     emblaMain.on('init', updateMainNav);
-    emblaMain.on('select', () => syncSelectedThumb(false));
-    emblaMain.on('reInit', () => syncSelectedThumb(true));
+    emblaMain.on('select', () => {
+      isSlideChanging = true;
+      syncSelectedThumb(false);
+      window.setTimeout(() => {
+        isSlideChanging = false;
+      }, 50);
+    });
+    emblaMain.on('reInit', () => {
+      isSlideChanging = true;
+      syncSelectedThumb(true);
+      window.setTimeout(() => {
+        isSlideChanging = false;
+      }, 50);
+    });
 
     emblaThumbs.on('init', updateThumbsNav);
     emblaThumbs.on('reInit', updateThumbsNav);
