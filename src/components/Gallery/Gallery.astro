@@ -221,8 +221,8 @@ const hasImages = images.length > 0;
         } else {
           mainPrevBtn.hidden = false;
           mainNextBtn.hidden = false;
-          mainPrevBtn.disabled = !canPrev;
-          mainNextBtn.disabled = !canNext;
+          mainPrevBtn.setAttribute('aria-disabled', String(!canPrev));
+          mainNextBtn.setAttribute('aria-disabled', String(!canNext));
         }
       }
 
@@ -251,8 +251,8 @@ const hasImages = images.length > 0;
 
       prevBtn.hidden = false;
       nextBtn.hidden = false;
-      prevBtn.disabled = !canPrev;
-      nextBtn.disabled = !canNext;
+      prevBtn.setAttribute('aria-disabled', String(!canPrev));
+      nextBtn.setAttribute('aria-disabled', String(!canNext));
     };
 
     const syncSelectedThumb = (jump = false) => {
@@ -342,12 +342,14 @@ const hasImages = images.length > 0;
 
     if (mainPrevBtn) {
       mainPrevBtn.addEventListener('click', () => {
+        if (!emblaMain.canScrollPrev()) return;
         emblaMain.scrollPrev();
       });
     }
 
     if (mainNextBtn) {
       mainNextBtn.addEventListener('click', () => {
+        if (!emblaMain.canScrollNext()) return;
         emblaMain.scrollNext();
       });
     }
@@ -366,6 +368,7 @@ const hasImages = images.length > 0;
 
     if (prevBtn) {
       prevBtn.addEventListener('click', () => {
+        if (!emblaThumbs.canScrollPrev()) return;
         const target = Math.max(0, emblaThumbs.selectedScrollSnap() - 4);
         emblaThumbs.scrollTo(target);
       });
@@ -373,6 +376,7 @@ const hasImages = images.length > 0;
 
     if (nextBtn) {
       nextBtn.addEventListener('click', () => {
+        if (!emblaThumbs.canScrollNext()) return;
         const maxSnap = emblaThumbs.scrollSnapList().length - 1;
         const target = Math.min(maxSnap, emblaThumbs.selectedScrollSnap() + 4);
         emblaThumbs.scrollTo(target);

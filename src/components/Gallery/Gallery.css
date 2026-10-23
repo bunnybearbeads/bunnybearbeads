@@ -104,15 +104,15 @@
   display: none;
 }
 
-.gallery__thumbs-nav:hover:not(:disabled) {
+.gallery__thumbs-nav:hover:not([aria-disabled="true"]) {
   background: #ffffff;
   color: var(--accent-teal);
   box-shadow: 0 4px 14px rgba(42, 123, 136, 0.25);
 }
 
-.gallery__thumbs-nav:disabled {
-  opacity: 0;
-  pointer-events: none;
+.gallery__thumbs-nav[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: default;
 }
 
 .gallery__thumbs-nav--prev {
