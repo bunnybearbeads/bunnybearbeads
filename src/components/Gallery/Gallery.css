@@ -1,30 +1,24 @@
 .gallery {
     display: flex;
-    align-items: flex-start;
     gap: 12px;
 }
 
 /* Single photo (no carousel initialized) */
-.gallery:has(.gallery__stage-slide:only-child) .gallery__stage-column,
-.gallery:has(.gallery__stage-slide:only-child) .gallery__stage,
-.gallery:has(.gallery__stage-slide:only-child) .gallery__stage-track {
-    height: auto;
+.gallery:has(.gallery__slide:only-child) .gallery__viewport:active {
+    cursor: zoom-in;
 }
-
-/* ==========================================================================
-   Vertical Thumbnails Carousel (Ozon-style left column on Desktop)
-   ========================================================================== */
     .gallery__navigation {
         position: relative;
+        display: grid;
         flex-shrink: 0;
         min-width: 0;
         width: 86px;
-        height: 608px;
     }
         .gallery__nav-viewport {
             overflow: hidden;
             width: 100%;
-            height: 100%;
+            height: 0;
+            min-height: 100%;
         }
             .gallery__nav-ribbon {
                 display: flex;
@@ -34,7 +28,7 @@
                 user-select: none;
                 -webkit-touch-callout: none;
             }
-                .gallery__thumb {
+                .gallery__thumbnail {
                     flex-shrink: 0;
                     display: block;
                     width: 100%;
@@ -47,21 +41,22 @@
                     transition: border-color 0.2s ease, transform 0.2s ease;
                 }
 
-                .gallery__thumb:hover {
+                .gallery__thumbnail:hover {
                     border-color: rgba(42, 123, 136, 0.45);
                 }
 
-                .gallery__thumb--active {
+                .gallery__thumbnail--active {
                     border-color: var(--accent-gold);
                     background: #ffffff;
                 }
-
-.gallery__thumb-img {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    display: block;
-}
+                    .gallery__thumb-image {
+                        vertical-align: top;
+                        width: 100%;
+                        height: auto;
+                        aspect-ratio: 3 / 4;
+                        object-fit: cover;
+                        background-color: var(--image-fallback);
+                    }
 
 /* Up / Down Chevron Buttons for Vertical Thumbnails */
 .gallery__thumbs-nav {
@@ -134,51 +129,58 @@
 /* ==========================================================================
    Main Stage Carousel (3:4 Vertical Portrait Frame)
    ========================================================================== */
-.gallery__stage-column {
+.gallery__stage {
     position: relative;
     flex-grow: 1;
     min-width: 0;
-    height: 608px;
 }
+    .gallery__viewport {
+        position: relative;
+        display: grid;
+        width: 100%;
+        min-width: 0;
+        overflow: hidden;
+        cursor: zoom-in;
+    }
 
-.gallery__stage {
-    position: relative;
-    width: 100%;
-    min-width: 0;
-    height: 100%;
-    overflow: hidden;
-    cursor: zoom-in;
-}
-
-.gallery__stage:active {
-    cursor: grabbing;
-}
-
-.gallery__stage-track {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    gap: 12px;
-    user-select: none;
-    -webkit-touch-callout: none;
-}
-
-.gallery__stage-slide {
-    flex: 0 0 100%;
-    width: 100%;
-    min-width: 0;
-    border: 4px solid #ffffff;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    background: #FAF7F2;
-}
-
-.gallery__main-img {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    display: block;
-}
+    .gallery__viewport:active {
+        cursor: grabbing;
+    }
+        /* strut to preserve space for border around 3/4 image deeper inside */
+        .gallery__viewport::before {
+            content: '';
+            grid-area: 1 / 1;
+            box-sizing: content-box;
+            width: calc(100% - 8px);
+            padding: 4px;
+            aspect-ratio: 3 / 4;
+            pointer-events: none;
+        }
+            .gallery__stage-track {
+                grid-area: 1 / 1;
+                display: flex;
+                flex-direction: column;
+                height: 0;
+                min-height: 100%;
+                gap: 12px;
+                user-select: none;
+                -webkit-touch-callout: none;
+            }
+                .gallery__slide {
+                    flex: 0 0 100%;
+                    width: 100%;
+                    min-width: 0;
+                    border: 4px solid #ffffff;
+                    border-radius: var(--radius-lg);
+                    overflow: hidden;
+                    background: #FAF7F2;
+                }
+                    .gallery__image {
+                        width: 100%;
+                        aspect-ratio: 3 / 4;
+                        object-fit: cover;
+                        display: block;
+                    }
 
 /* ==========================================================================
    Fullscreen Clean Page Mode (Desktop)
@@ -223,17 +225,8 @@ html.is-gallery-fullscreen .gallery {
     align-items: center;
 }
 
-html.is-gallery-fullscreen .gallery:has(.gallery__stage-slide:only-child) .gallery__stage-column {
-    height: calc(100svh - 64px);
-}
-
-html.is-gallery-fullscreen .gallery:has(.gallery__stage-slide:only-child) .gallery__stage {
-    height: 100%;
+html.is-gallery-fullscreen .gallery:has(.gallery__slide:only-child) .gallery__viewport {
     cursor: default;
-}
-
-html.is-gallery-fullscreen .gallery:has(.gallery__stage-slide:only-child) .gallery__stage-track {
-    height: 100%;
 }
 
 html.is-gallery-fullscreen .gallery__navigation {
@@ -244,31 +237,37 @@ html.is-gallery-fullscreen .gallery__nav-viewport {
     overflow: visible;
 }
 
-html.is-gallery-fullscreen .gallery__stage-column {
+html.is-gallery-fullscreen .gallery__stage {
     flex-grow: 0;
     height: calc(100svh - 64px);
     width: auto;
     aspect-ratio: 3 / 4;
 }
 
-html.is-gallery-fullscreen .gallery__stage {
+html.is-gallery-fullscreen .gallery__viewport {
+    height: 100%;
     overflow: visible;
     cursor: grab;
 }
 
-html.is-gallery-fullscreen .gallery__stage:active {
+html.is-gallery-fullscreen .gallery__viewport::before {
+    display: none;
+}
+
+html.is-gallery-fullscreen .gallery__viewport:active {
     cursor: grabbing;
 }
 
 html.is-gallery-fullscreen .gallery__stage-track {
+    height: 100%;
     gap: 32px;
 }
 
-html.is-gallery-fullscreen .gallery__stage-slide {
+html.is-gallery-fullscreen .gallery__slide {
     height: 100%;
 }
 
-html.is-gallery-fullscreen .gallery__main-img {
+html.is-gallery-fullscreen .gallery__image {
     width: 100%;
     height: 100%;
 }
@@ -338,11 +337,6 @@ html.is-gallery-fullscreen .gallery__fs-controls {
 
     .gallery__navigation {
         width: 98px;
-        height: 704px;
-    }
-
-    .gallery__stage-column {
-        height: 704px;
     }
 
     .gallery__nav-ribbon {
@@ -353,7 +347,7 @@ html.is-gallery-fullscreen .gallery__fs-controls {
         gap: 16px;
     }
 
-    .gallery__thumb {
+    .gallery__thumbnail {
         border-radius: 12px;
     }
 
@@ -396,7 +390,7 @@ html.is-gallery-fullscreen .gallery__fs-controls {
         gap: 10px;
     }
 
-    .gallery__stage-slide {
+    .gallery__slide {
         border-width: 3px;
     }
 
@@ -407,6 +401,8 @@ html.is-gallery-fullscreen .gallery__fs-controls {
     }
 
     .gallery__nav-viewport {
+        height: auto;
+        min-height: 0;
         overflow: visible;
     }
 
@@ -420,41 +416,46 @@ html.is-gallery-fullscreen .gallery__fs-controls {
         gap: 8px;
     }
 
-    .gallery__thumb {
+    .gallery__thumbnail {
         width: 68px;
         flex: 0 0 68px;
         border-width: 3px;
     }
 
-    .gallery__stage-column {
+    .gallery__stage {
         order: 1;
         width: 100%;
         height: auto;
     }
 
-    .gallery__stage {
+    .gallery__viewport {
         height: auto;
         overflow: visible;
         cursor: grab;
     }
 
+    .gallery__viewport::before {
+        display: none;
+    }
+
     .gallery__stage-track {
         flex-direction: row;
         height: auto;
+        min-height: 0;
         gap: var(--container-padding);
     }
 }
 
 
 @media (380px <= width < 420px) {
-    .gallery__thumb {
+    .gallery__thumbnail {
         width: 76px;
         flex-basis: 76px;
     }
 }
 
 @media (width < 350px) {
-    .gallery__thumb {
+    .gallery__thumbnail {
         width: 62px;
         flex-basis: 62px;
     }

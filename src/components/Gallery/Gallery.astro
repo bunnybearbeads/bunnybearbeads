@@ -30,8 +30,8 @@ const hasMultipleImages = images.length > 1;
             <button
               type="button"
               class:list={[
-                'gallery__thumb',
-                { 'gallery__thumb--active': index === 0 },
+                'gallery__thumbnail',
+                { 'gallery__thumbnail--active': index === 0 },
               ]}
               data-gallery-thumb-slide
               aria-label={`${alt} — photo ${index + 1}`}
@@ -40,7 +40,7 @@ const hasMultipleImages = images.length > 1;
               <img
                 src={src}
                 alt={`${alt} — preview ${index + 1}`}
-                class="gallery__thumb-img"
+                class="gallery__thumb-image"
                 loading={index >= 5 ? 'lazy' : undefined}
               />
             </button>
@@ -60,7 +60,7 @@ const hasMultipleImages = images.length > 1;
     </div>
   )}
 
-  <div class="gallery__stage-column" data-gallery-stage-col>
+  <div class="gallery__stage" data-gallery-stage-col>
     {hasMultipleImages && (
       <button
         type="button"
@@ -73,14 +73,14 @@ const hasMultipleImages = images.length > 1;
       </button>
     )}
 
-    <div class="gallery__stage" data-gallery-main>
+    <div class="gallery__viewport" data-gallery-main>
       <div class="gallery__stage-track">
         {images.map((src, index) => (
-          <div class="gallery__stage-slide">
+          <div class="gallery__slide">
             <img
               src={src}
               alt={index === 0 ? alt : `${alt} — photo ${index + 1}`}
-              class="gallery__main-img"
+              class="gallery__image"
               fetchpriority={index === 0 ? 'high' : 'low'}
               loading={index === 0 ? undefined : 'lazy'}
             />
@@ -305,8 +305,8 @@ const hasMultipleImages = images.length > 1;
 
       thumbSlides.forEach((slide, idx) => {
         const isSelected = idx === selectedIndex;
-        if (slide.classList.contains('gallery__thumb--active') !== isSelected) {
-          slide.classList.toggle('gallery__thumb--active', isSelected);
+        if (slide.classList.contains('gallery__thumbnail--active') !== isSelected) {
+          slide.classList.toggle('gallery__thumbnail--active', isSelected);
         }
         if (isSelected) {
           setAttrIfChanged(slide, 'aria-current', 'true');
