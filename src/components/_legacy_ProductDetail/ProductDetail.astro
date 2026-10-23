@@ -31,16 +31,22 @@ function localizeDistrict(distStr: string = '') {
   if (d.includes('ben than') || d.includes('bến thành') || d.includes('ben thanh')) return t('geo.district.benthanh');
   return distStr;
 }
+const categoryId = productRaw.data.categoryId || 'bracelets';
 ---
 
 <div class="product-info-panel">
-  <div class="product-top-meta">
-        <a href={getLocalizedUrl('/catalog', currentLang)} class="back-link">
-          ← {t('catalog.back_to_catalog')}
-        </a>
-        <span class="product-top-sep" aria-hidden="true">•</span>
-        <span class="product-category">{product.category}</span>
-      </div>
+  <nav class="product-top-meta" aria-label="Breadcrumb">
+    <a href={getLocalizedUrl('/catalog', currentLang)} class="product-breadcrumb-link">
+      {t('catalog.breadcrumb')}
+    </a>
+    <span class="product-top-sep" aria-hidden="true">→</span>
+    <a
+      href={`${getLocalizedUrl('/catalog', currentLang)}?category=${categoryId}`}
+      class="product-breadcrumb-link product-category"
+    >
+      {product.category}
+    </a>
+  </nav>
       <h1>{product.title}</h1>
 
       {product.description && (
