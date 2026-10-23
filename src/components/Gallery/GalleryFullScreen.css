@@ -4,24 +4,27 @@
 
 
 .is-gallery-fullscreen .gallery {
-    --galler-control: 58px;
+    --gallery-fs-control: 58px;
+    --gallery-fs-gap: 12px;
 }
 
 .is-gallery-fullscreen .gallery {
     height: 100%;
     overflow: hidden; /* cut carousel */
-    gap: 24px;
+    gap: 0;
     align-items: center;
     justify-content: center;
 }
     .is-gallery-fullscreen .gallery__navigation {
         height: calc(100svh - 64px);
+        width: calc(98px + var(--gallery-fs-gap));
+        border-right: var(--gallery-fs-gap) solid transparent; /* border instead of gap so you can't click in between columns to close it (don't use padding because of absolute arrows inside) */
     }
         .is-gallery-fullscreen .gallery__nav-viewport {
             overflow: visible;
         }
             .is-gallery-fullscreen .gallery__nav-ribbon {
-                /*gap: 12px;*/
+                gap: var(--gallery-fs-gap);
             }
                 .is-gallery-fullscreen .gallery__thumbnail {
 
@@ -53,7 +56,8 @@
 
     .is-gallery-fullscreen .gallery__counter {
         display: block;
-        width: var(--galler-control);
+        width: var(--gallery-fs-control);
+        margin-left: var(--gallery-fs-gap);
         font-size: 14px;
         font-weight: 600;
         color: var(--text-muted);
@@ -68,14 +72,20 @@
 
 .is-gallery-fullscreen .gallery__control--larger {
     left: 100%;
-    margin-left: 24px;
+    margin-left: var(--gallery-fs-gap);
     margin-right: 0;
     right: auto;
-    width: var(--galler-control);
-    height: var(--galler-control);
+    width: var(--gallery-fs-control);
+    height: var(--gallery-fs-control);
     box-shadow: none;
     border-radius: 50%;
 }
+
+
+.is-gallery-fullscreen .gallery__control--larger:hover:not(:disabled) {
+    box-shadow: 0 4px 14px rgba(42, 123, 136, 0.25);
+}
+
 
 .is-gallery-fullscreen .gallery__control--larger.gallery__control--prev {
     top: auto;
@@ -90,3 +100,12 @@
 }
 
 
+
+@media (1600px <= width) {
+
+    .is-gallery-fullscreen .gallery {
+        --gallery-fs-control: 58px;
+        --gallery-fs-gap: 16px;
+    }
+
+}

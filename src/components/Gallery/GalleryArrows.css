@@ -23,7 +23,6 @@
     background-color: var(--accent-gold);
     border-color: transparent;
     color: #ffffff;
-    box-shadow: 0 4px 14px rgba(42, 123, 136, 0.25);
 }
 
 .gallery__control:disabled {
