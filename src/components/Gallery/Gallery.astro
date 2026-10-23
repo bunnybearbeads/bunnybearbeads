@@ -168,6 +168,7 @@ const hasImages = images.length > 0;
 <script>
   import EmblaCarousel from 'embla-carousel';
 
+  const THUMBS_SCROLL_STEP = 4;
   const galleries = document.querySelectorAll<HTMLElement>('[data-gallery]');
 
   galleries.forEach((galleryRoot) => {
@@ -209,6 +210,18 @@ const hasImages = images.length > 0;
       },
     });
 
+    const setAttrIfChanged = (el: HTMLElement, attr: string, value: string) => {
+      if (el.getAttribute(attr) !== value) {
+        el.setAttribute(attr, value);
+      }
+    };
+
+    const setHiddenIfChanged = (el: HTMLElement, isHidden: boolean) => {
+      if (el.hidden !== isHidden) {
+        el.hidden = isHidden;
+      }
+    };
+
     const updateMainNav = () => {
       const canPrev = emblaMain.canScrollPrev();
       const canNext = emblaMain.canScrollNext();
@@ -216,23 +229,26 @@ const hasImages = images.length > 0;
 
       if (mainPrevBtn && mainNextBtn) {
         if (!isScrollable) {
-          mainPrevBtn.hidden = true;
-          mainNextBtn.hidden = true;
+          setHiddenIfChanged(mainPrevBtn, true);
+          setHiddenIfChanged(mainNextBtn, true);
         } else {
-          mainPrevBtn.hidden = false;
-          mainNextBtn.hidden = false;
-          mainPrevBtn.setAttribute('aria-disabled', String(!canPrev));
-          mainNextBtn.setAttribute('aria-disabled', String(!canNext));
+          setHiddenIfChanged(mainPrevBtn, false);
+          setHiddenIfChanged(mainNextBtn, false);
+          setAttrIfChanged(mainPrevBtn, 'aria-disabled', String(!canPrev));
+          setAttrIfChanged(mainNextBtn, 'aria-disabled', String(!canNext));
         }
       }
 
       if (fsPrevBtn && fsNextBtn) {
-        fsPrevBtn.disabled = !canPrev;
-        fsNextBtn.disabled = !canNext;
+        if (fsPrevBtn.disabled !== !canPrev) fsPrevBtn.disabled = !canPrev;
+        if (fsNextBtn.disabled !== !canNext) fsNextBtn.disabled = !canNext;
       }
 
       if (fsCounter) {
-        fsCounter.textContent = `${emblaMain.selectedScrollSnap() + 1} / ${thumbSlides.length}`;
+        const nextText = `${emblaMain.selectedScrollSnap() + 1} / ${thumbSlides.length}`;
+        if (fsCounter.textContent !== nextText) {
+          fsCounter.textContent = nextText;
+        }
       }
     };
 
@@ -244,31 +260,35 @@ const hasImages = images.length > 0;
       const isScrollable = canPrev || canNext;
 
       if (!isScrollable) {
-        prevBtn.hidden = true;
-        nextBtn.hidden = true;
+        setHiddenIfChanged(prevBtn, true);
+        setHiddenIfChanged(nextBtn, true);
         return;
       }
 
-      prevBtn.hidden = false;
-      nextBtn.hidden = false;
-      prevBtn.setAttribute('aria-disabled', String(!canPrev));
-      nextBtn.setAttribute('aria-disabled', String(!canNext));
+      setHiddenIfChanged(prevBtn, false);
+      setHiddenIfChanged(nextBtn, false);
+      setAttrIfChanged(prevBtn, 'aria-disabled', String(!canPrev));
+      setAttrIfChanged(nextBtn, 'aria-disabled', String(!canNext));
     };
 
     const syncSelectedThumb = (jump = false) => {
       const selectedIndex = emblaMain.selectedScrollSnap();
       const maxSnap = Math.max(0, emblaThumbs.scrollSnapList().length - 1);
       const targetSnap = Math.max(0, Math.min(maxSnap, selectedIndex - 2));
-      emblaThumbs.scrollTo(targetSnap, jump);
+      if (jump || emblaThumbs.selectedScrollSnap() !== targetSnap) {
+        emblaThumbs.scrollTo(targetSnap, jump);
+      }
 
       thumbSlides.forEach((slide, idx) => {
         const isSelected = idx === selectedIndex;
-        slide.classList.toggle('gallery__thumb-item--active', isSelected);
+        if (slide.classList.contains('gallery__thumb-item--active') !== isSelected) {
+          slide.classList.toggle('gallery__thumb-item--active', isSelected);
+        }
         const btn = slide.querySelector('button');
         if (btn) {
           if (isSelected) {
-            btn.setAttribute('aria-current', 'true');
-          } else {
+            setAttrIfChanged(btn, 'aria-current', 'true');
+          } else if (btn.hasAttribute('aria-current')) {
             btn.removeAttribute('aria-current');
           }
         }
@@ -369,7 +389,7 @@ const hasImages = images.length > 0;
     if (prevBtn) {
       prevBtn.addEventListener('click', () => {
         if (!emblaThumbs.canScrollPrev()) return;
-        const target = Math.max(0, emblaThumbs.selectedScrollSnap() - 4);
+        const target = Math.max(0, emblaThumbs.selectedScrollSnap() - THUMBS_SCROLL_STEP);
         emblaThumbs.scrollTo(target);
       });
     }
@@ -378,7 +398,7 @@ const hasImages = images.length > 0;
       nextBtn.addEventListener('click', () => {
         if (!emblaThumbs.canScrollNext()) return;
         const maxSnap = emblaThumbs.scrollSnapList().length - 1;
-        const target = Math.min(maxSnap, emblaThumbs.selectedScrollSnap() + 4);
+        const target = Math.min(maxSnap, emblaThumbs.selectedScrollSnap() + THUMBS_SCROLL_STEP);
         emblaThumbs.scrollTo(target);
       });
     }
@@ -445,17 +465,16 @@ const hasImages = images.length > 0;
     const thumbsCol = galleryRoot.querySelector<HTMLElement>('[data-gallery-thumbs-col]') || thumbsNode;
     const stageCol = galleryRoot.querySelector<HTMLElement>('[data-gallery-stage-col]') || mainNode;
 
-    bindWheelScroll(thumbsCol, emblaThumbs, 1);
+    bindWheelScroll(thumbsCol, emblaThumbs, THUMBS_SCROLL_STEP);
     bindWheelScroll(stageCol, emblaMain, 1);
 
     emblaMain.on('init', updateMainNav);
     emblaMain.on('select', () => syncSelectedThumb(false));
-    emblaMain.on('reInit', () => syncSelectedThumb(false));
+    emblaMain.on('reInit', () => syncSelectedThumb(true));
 
     emblaThumbs.on('init', updateThumbsNav);
     emblaThumbs.on('reInit', updateThumbsNav);
     emblaThumbs.on('select', updateThumbsNav);
-    emblaThumbs.on('scroll', updateThumbsNav);
 
     updateMainNav();
     updateThumbsNav();

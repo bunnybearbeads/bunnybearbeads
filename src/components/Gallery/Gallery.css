@@ -269,6 +269,10 @@ html.is-gallery-fullscreen .gallery__stage:active {
   cursor: grabbing;
 }
 
+html.is-gallery-fullscreen .gallery__stage-track {
+  gap: 32px;
+}
+
 html.is-gallery-fullscreen .gallery__stage-slide {
   height: 100%;
 }
