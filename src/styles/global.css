@@ -9,7 +9,16 @@
   --accent-gold: #D4A359;
   --accent-rose: #D98284;
   --accent-teal: #2A7B88;
-  --accent-teal-light: #A3C2C7;
+  --accent-teal-10pct: #E8F1F2;
+  --accent-teal-20pct: #D1E3E5;
+  --accent-teal-30pct: #BBD5D9;
+  --accent-teal-40pct: #A4C7CC;
+  --accent-teal-50pct: #8DB9BF;
+  --accent-teal-60pct: #77ABB3;
+  --accent-teal-70pct: #609DA6;
+  --accent-teal-80pct: #4A8F99;
+  --accent-teal-90pct: #33818C;
+  --accent-teal-100pct: #2A7B88;
   --text-dark: #2C2825;
   --text-muted: #6B635B;
   --card-bg: rgba(255, 255, 255, 0.8);
@@ -45,7 +54,7 @@
   --image-fallback: #FAF7F2;
 
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
-  --transition-hover: 200ms ease;
+  --transition-hover: 100ms ease;
   --transition-show: 1200ms var(--ease-out-quint);
 }
 

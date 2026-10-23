@@ -16,7 +16,7 @@ const hasMultipleImages = images.length > 1;
     <div class="gallery__navigation" data-gallery-thumbs-col>
       <button
         type="button"
-        class="gallery__thumbs-control gallery__thumbs-control--prev"
+        class="gallery__control gallery__control--prev"
         data-gallery-thumbs-prev
         aria-label="Previous thumbnails"
         hidden
@@ -50,7 +50,7 @@ const hasMultipleImages = images.length > 1;
 
       <button
         type="button"
-        class="gallery__thumbs-control gallery__thumbs-control--next"
+        class="gallery__control gallery__control--next"
         data-gallery-thumbs-next
         aria-label="Next thumbnails"
         hidden
@@ -64,7 +64,7 @@ const hasMultipleImages = images.length > 1;
     {hasMultipleImages && (
       <button
         type="button"
-        class="gallery__thumbs-control gallery__stage-nav gallery__thumbs-control--prev"
+        class="gallery__control gallery__control--larger gallery__control--prev"
         data-gallery-main-prev
         aria-label="Previous photo"
         hidden
@@ -94,7 +94,7 @@ const hasMultipleImages = images.length > 1;
     {hasMultipleImages && (
       <button
         type="button"
-        class="gallery__thumbs-control gallery__stage-nav gallery__thumbs-control--next"
+        class="gallery__control gallery__control--larger gallery__control--next"
         data-gallery-main-next
         aria-label="Next photo"
         hidden
@@ -182,6 +182,9 @@ const hasMultipleImages = images.length > 1;
         document.documentElement.classList.remove('is-gallery-fullscreen');
         window.scrollTo(0, savedScrollY);
       }
+
+      mainNode.classList.remove('is-dragging');
+      if (thumbsNode) thumbsNode.classList.remove('is-dragging');
 
       if (onFullscreenChange) {
         onFullscreenChange();
@@ -449,6 +452,40 @@ const hasMultipleImages = images.length > 1;
 
     bindWheelScroll(thumbsCol, emblaThumbs, THUMBS_SCROLL_STEP);
     bindWheelScroll(stageCol, emblaMain, 1);
+
+    let isMainPointerDown = false;
+    emblaMain.on('pointerDown', () => {
+      isMainPointerDown = true;
+    });
+    emblaMain.on('scroll', () => {
+      if (isMainPointerDown) {
+        mainNode.classList.add('is-dragging');
+      }
+    });
+    emblaMain.on('pointerUp', () => {
+      isMainPointerDown = false;
+      mainNode.classList.remove('is-dragging');
+    });
+    emblaMain.on('settle', () => {
+      mainNode.classList.remove('is-dragging');
+    });
+
+    let isThumbsPointerDown = false;
+    emblaThumbs.on('pointerDown', () => {
+      isThumbsPointerDown = true;
+    });
+    emblaThumbs.on('scroll', () => {
+      if (isThumbsPointerDown) {
+        thumbsNode.classList.add('is-dragging');
+      }
+    });
+    emblaThumbs.on('pointerUp', () => {
+      isThumbsPointerDown = false;
+      thumbsNode.classList.remove('is-dragging');
+    });
+    emblaThumbs.on('settle', () => {
+      thumbsNode.classList.remove('is-dragging');
+    });
 
     emblaMain.on('init', updateMainNav);
     emblaMain.on('select', () => syncSelectedThumb(false));

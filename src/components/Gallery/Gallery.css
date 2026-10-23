@@ -11,6 +11,13 @@
 .gallery:has(.gallery__slide:only-child) .gallery__viewport:active {
     cursor: zoom-in;
 }
+
+.gallery__viewport.is-dragging,
+.gallery__viewport.is-dragging *,
+.gallery__nav-viewport.is-dragging,
+.gallery__nav-viewport.is-dragging * {
+    cursor: grabbing !important;
+}
     .gallery__navigation {
         position: relative;
         display: grid;
@@ -46,17 +53,13 @@
                 }
 
                 .gallery__thumbnail:hover {
-                    background-color: rgb(42 123 136 / 45%);
+                    background-color: var(--accent-gold);
                 }
 
                 .gallery__thumbnail--current,
                 .gallery__thumbnail--current:hover {
-                    background-color: var(--accent-gold);
+                    background-color: var(--accent-teal-70pct);
                     cursor: default;
-                }
-
-                .gallery__thumbnail:active {
-                    cursor: grabbing;
                 }
                     .gallery__thumb-image {
                         vertical-align: top;
@@ -67,75 +70,6 @@
                         background-color: var(--image-fallback);
                         border-radius: calc(var(--radius-md) - var(--gallery-border) - 2px);
                     }
-
-        /* Up / Down Chevron Buttons for Vertical Thumbnails */
-        .gallery__thumbs-control {
-            position: absolute;
-            z-index: 3;
-            left: 0;
-            right: 0;
-            margin-left: auto;
-            margin-right: auto;
-            width: 32px;
-            height: 22px;
-            border-radius: 11px;
-            border: 1px solid #e4e2e0;
-            background-color: #ffffff;
-            color: var(--color-brand-dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 3px 10px rgba(44 40 37 / 14%);
-            user-select: none;
-            cursor: pointer;
-        }
-
-        .gallery__thumbs-control:hover {
-            background-color: var(--accent-teal-light);
-            color: #ffffff;
-            box-shadow: 0 4px 14px rgba(42, 123, 136, 0.25);
-        }
-
-        .gallery__thumbs-control--prev {
-            top: -9px;
-        }
-
-        .gallery__thumbs-control--next {
-            bottom: -9px;
-        }
-
-        .gallery__thumbs-control[hidden] {
-            display: none;
-        }
-            /* expand clickable area */
-            .gallery__thumbs-control::before {
-                content: '';
-                position: absolute;
-                inset: -40%;
-                border-radius: 100px;
-            }
-
-            .gallery__thumbs-control .icon {
-                font-size: 20px;
-            }
-
-
-.gallery__thumbs-control:disabled {
-    opacity: 0.4;
-    cursor: default;
-}
-
-
-
-.gallery__stage-nav {
-    width: 44px;
-    height: 28px;
-    border-radius: 14px;
-}
-
-.gallery__stage-nav .icon {
-    font-size: 22px;
-}
 
 
 
@@ -172,10 +106,6 @@
                     overflow: hidden;
                     cursor: pointer;
                 }
-
-                .gallery__slide:active {
-                    cursor: grabbing;
-                }
                     .gallery__image {
                         vertical-align: top;
                         width: 100%;
@@ -210,17 +140,6 @@
         border-radius: 12px;
     }
 
-    .gallery__thumbs-control {
-        width: 36px;
-        height: 24px;
-        border-radius: 12px;
-    }
-
-    .gallery__stage-nav {
-        width: 48px;
-        height: 32px;
-        border-radius: 16px;
-    }
 
     html.is-gallery-fullscreen .gallery {
         gap: 24px;
@@ -265,7 +184,7 @@
         overflow: visible;
     }
 
-    .gallery__thumbs-control {
+    .gallery__control {
         display: none !important;
     }
 
@@ -395,10 +314,6 @@ html.is-gallery-fullscreen .gallery__viewport::before {
     display: none;
 }
 
-html.is-gallery-fullscreen .gallery__viewport:active {
-    cursor: grabbing;
-}
-
 html.is-gallery-fullscreen .gallery__stage-track {
     height: 100%;
     gap: 32px;
@@ -413,7 +328,7 @@ html.is-gallery-fullscreen .gallery__image {
     height: 100%;
 }
 
-html.is-gallery-fullscreen .gallery__stage-nav {
+html.is-gallery-fullscreen .gallery__control--larger {
     display: none !important;
 }
 
@@ -466,4 +381,94 @@ html.is-gallery-fullscreen .gallery__fs-controls {
 .gallery__fs-btn:disabled {
     opacity: 0.3;
     cursor: default;
+}
+
+
+
+
+/* Arrows control */
+
+.gallery__control {
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 32px;
+    height: 22px;
+    border-radius: 11px;
+    border: 1px solid #e4e2e0;
+    background-color: #ffffff;
+    color: var(--color-brand-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgba(44 40 37 / 14%);
+    user-select: none;
+    cursor: pointer;
+}
+
+.gallery__control:hover:not(:disabled) {
+    background-color: var(--accent-gold);
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(42, 123, 136, 0.25);
+}
+
+.gallery__control:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.gallery__control--prev {
+    top: -9px;
+}
+
+.gallery__control--next {
+    bottom: 0;
+}
+
+.gallery__control[hidden] {
+    display: none;
+}
+    /* expand clickable area */
+    .gallery__control::before {
+        content: '';
+        position: absolute;
+        inset: -40%;
+        border-radius: 100px;
+    }
+
+    .gallery__control .icon {
+        font-size: 20px;
+    }
+
+@media (1600px <= width) {
+
+    .gallery__control {
+        width: 36px;
+        height: 24px;
+        border-radius: 12px;
+    }
+}
+
+
+.gallery__control--larger {
+    width: 44px;
+    height: 28px;
+    border-radius: 14px;
+}
+
+.gallery__control--larger .icon {
+    font-size: 22px;
+}
+
+@media (1600px <= width) {
+
+    .gallery__control--larger {
+        width: 48px;
+        height: 32px;
+        border-radius: 16px;
+    }
 }
