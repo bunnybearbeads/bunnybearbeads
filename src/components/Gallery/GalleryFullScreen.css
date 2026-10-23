@@ -60,7 +60,7 @@
                             pointer-events: auto;
                         }
 
-                        .is-gallery-fullscreen .gallery__playback {
+                        .is-gallery-fullscreen .gallery__video-fs {
                             display: none !important;
                         }
 

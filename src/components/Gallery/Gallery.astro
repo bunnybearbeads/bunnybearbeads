@@ -128,15 +128,14 @@ const items: MediaItem[] = images.map((item) => {
                   preload="metadata"
                   data-gallery-video
                 />
+                <div class="gallery__video-click-area" data-gallery-video-click-area />
                 <button
-                  class="gallery__playback"
-                  data-gallery-video-toggle
-                  data-aria-play={t('gallery.play')}
-                  data-aria-pause={t('gallery.pause')}
-                  aria-label={t('gallery.pause')}
+                  class="gallery__video-fs"
+                  data-gallery-video-fs
+                  aria-label={t('gallery.fullscreen')}
                   type="button"
                 >
-                  <span class="icon" data-gallery-video-icon>pause</span>
+                  <Icon name="open_in_full" />
                 </button>
               ) : (
                 <img
@@ -310,6 +309,7 @@ const items: MediaItem[] = images.map((item) => {
     const syncVideoPlayback = () => {
       const selectedIndex = emblaMain.selectedScrollSnap();
       const slides = emblaMain.slideNodes();
+      const mobile = isMobile();
       slides.forEach((slide, idx) => {
         const video = slide.querySelector<HTMLVideoElement>('video');
         if (video) {
@@ -317,6 +317,10 @@ const items: MediaItem[] = images.map((item) => {
             video.play().catch(() => {});
           } else {
             video.pause();
+            // Reset mobile controls when sliding away so it starts clean on next view
+            if (mobile) {
+              video.controls = false;
+            }
           }
         }
       });
@@ -337,9 +341,6 @@ const items: MediaItem[] = images.map((item) => {
         galleryRoot.before(placeholder);
         document.body.appendChild(galleryRoot);
         document.documentElement.classList.add('is-gallery-fullscreen');
-        videos.forEach((video) => {
-          video.controls = true;
-        });
       } else {
         isFullscreen = false;
         if (placeholder.parentNode) {
@@ -347,9 +348,6 @@ const items: MediaItem[] = images.map((item) => {
         }
         document.documentElement.classList.remove('is-gallery-fullscreen');
         window.scrollTo(0, savedScrollY);
-        videos.forEach((video) => {
-          video.controls = false;
-        });
       }
 
       document.documentElement.classList.remove('is-dragging');
@@ -361,9 +359,11 @@ const items: MediaItem[] = images.map((item) => {
       syncSelectedThumb(true);
     };
 
-    // Open fullscreen by clicking main slide (desktop only)
-    mainNode.addEventListener('click', () => {
+    // Open fullscreen by clicking main slide (desktop only; ignore video clicks)
+    mainNode.addEventListener('click', (event) => {
       if (isMobile()) return;
+      const target = event.target as HTMLElement | null;
+      if (target && (target.closest('video') || target.tagName === 'VIDEO')) return;
       if (!isFullscreen) {
         setFullscreen(true);
       }
@@ -483,29 +483,35 @@ const items: MediaItem[] = images.map((item) => {
       });
     }
 
-    // Video play/pause toggle button in corner (non-fullscreen)
-    const videoToggles = Array.from(
-      galleryRoot.querySelectorAll<HTMLButtonElement>('[data-gallery-video-toggle]')
+    // Video fullscreen button in top-right corner
+    const videoFsBtns = Array.from(
+      galleryRoot.querySelectorAll<HTMLButtonElement>('[data-gallery-video-fs]')
     );
 
-    videoToggles.forEach((btn) => {
-      const item = btn.closest('.gallery__item');
+    videoFsBtns.forEach((btn) => {
+      btn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (!isFullscreen) {
+          setFullscreen(true);
+        }
+      });
+
+      btn.addEventListener('pointerdown', (event) => {
+        event.stopPropagation();
+      });
+    });
+
+    // Clicking video frame (outside bottom controls) toggles play/pause cleanly
+    const videoClickAreas = Array.from(
+      galleryRoot.querySelectorAll<HTMLElement>('[data-gallery-video-click-area]')
+    );
+
+    videoClickAreas.forEach((area) => {
+      const item = area.closest('.gallery__item');
       const video = item?.querySelector<HTMLVideoElement>('[data-gallery-video]');
       if (!video) return;
 
-      const iconEl = btn.querySelector<HTMLElement>('[data-gallery-video-icon]');
-      const tPlay = btn.dataset.ariaPlay || 'Play';
-      const tPause = btn.dataset.ariaPause || 'Pause';
-
-      const updateState = (isPaused: boolean) => {
-        if (iconEl) iconEl.textContent = isPaused ? 'play_arrow' : 'pause';
-        btn.setAttribute('aria-label', isPaused ? tPlay : tPause);
-      };
-
-      video.addEventListener('play', () => updateState(false));
-      video.addEventListener('pause', () => updateState(true));
-
-      btn.addEventListener('click', (event) => {
+      area.addEventListener('click', (event) => {
         event.stopPropagation();
         if (video.paused) {
           video.play().catch(() => {});
@@ -513,9 +519,33 @@ const items: MediaItem[] = images.map((item) => {
           video.pause();
         }
       });
+    });
 
-      btn.addEventListener('pointerdown', (event) => {
+    // Native controls on desktop only (avoids iOS Safari full-frame dark overlay with huge skip buttons)
+    const updateVideoControlsForDevice = () => {
+      const mobile = isMobile();
+      videos.forEach((video) => {
+        if (mobile) {
+          video.controls = false;
+          video.removeAttribute('controlslist');
+        } else {
+          video.controls = true;
+          video.setAttribute('controlslist', 'nofullscreen');
+        }
+      });
+    };
+    updateVideoControlsForDevice();
+    window.addEventListener('resize', updateVideoControlsForDevice);
+
+    // On mobile, tap on video dynamically reveals native controls on demand and pauses playback
+    videos.forEach((video) => {
+      video.addEventListener('click', (event) => {
+        if (!isMobile()) return;
         event.stopPropagation();
+        if (!video.controls) {
+          video.controls = true;
+          video.pause();
+        }
       });
     });
 

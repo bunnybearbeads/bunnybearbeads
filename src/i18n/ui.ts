@@ -146,6 +146,7 @@ export const ui = {
     'gallery.video': 'video',
     'gallery.preview': 'preview',
     'gallery.close': 'Close fullscreen gallery',
+    'gallery.fullscreen': 'Fullscreen',
     'gallery.play': 'Play video',
     'gallery.pause': 'Pause video',
 
@@ -272,6 +273,7 @@ export const ui = {
     'gallery.video': 'видео',
     'gallery.preview': 'превью',
     'gallery.close': 'Закрыть галерею',
+    'gallery.fullscreen': 'Во весь экран',
     'gallery.play': 'Воспроизвести видео',
     'gallery.pause': 'Приостановить видео',
 
@@ -398,6 +400,7 @@ export const ui = {
     'gallery.video': 'video',
     'gallery.preview': 'bản xem trước',
     'gallery.close': 'Đóng bộ sưu tập',
+    'gallery.fullscreen': 'Toàn màn hình',
     'gallery.play': 'Phát video',
     'gallery.pause': 'Tạm dừng video',
 
