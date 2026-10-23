@@ -113,6 +113,7 @@ const t = useTranslations(currentLang);
 </div>
 
 <script>
+  /* AI (whole script) */
   import EmblaCarousel from 'embla-carousel';
 
   const THUMBS_SCROLL_STEP = 4;
@@ -130,11 +131,117 @@ const t = useTranslations(currentLang);
       galleryRoot.querySelectorAll<HTMLElement>('[data-gallery-thumb-slide]')
     );
 
-    if (!mainNode) return;
+    if (!mainNode || !thumbsNode) return;
 
+    // Embla Carousels initialization
+    const emblaMain = EmblaCarousel(mainNode, {
+      loop: false,
+      align: 'start',
+      axis: 'y',
+      watchDrag: (embla) => embla.canScrollPrev() || embla.canScrollNext(),
+      breakpoints: {
+        '(max-width: 739px)': { axis: 'x' },
+      },
+    });
+
+    const emblaThumbs = EmblaCarousel(thumbsNode, {
+      align: 'start',
+      containScroll: 'trimSnaps',
+      dragFree: true,
+      axis: 'y',
+      watchDrag: (embla) => embla.canScrollPrev() || embla.canScrollNext(),
+      breakpoints: {
+        '(max-width: 739px)': { axis: 'x' },
+      },
+    });
+
+    // Helper functions for DOM attributes
+    const setAttrIfChanged = (el: HTMLElement, attr: string, value: string) => {
+      if (el.getAttribute(attr) !== value) {
+        el.setAttribute(attr, value);
+      }
+    };
+
+    const setHiddenIfChanged = (el: HTMLElement, isHidden: boolean) => {
+      if (el.hidden !== isHidden) {
+        el.hidden = isHidden;
+      }
+    };
+
+    // Update main stage arrow controls and counter
+    const updateMainNav = () => {
+      const canPrev = emblaMain.canScrollPrev();
+      const canNext = emblaMain.canScrollNext();
+      const isScrollable = canPrev || canNext;
+
+      if (mainPrevBtn && mainNextBtn) {
+        if (!isScrollable) {
+          setHiddenIfChanged(mainPrevBtn, true);
+          setHiddenIfChanged(mainNextBtn, true);
+        } else {
+          setHiddenIfChanged(mainPrevBtn, false);
+          setHiddenIfChanged(mainNextBtn, false);
+          if (mainPrevBtn.disabled !== !canPrev) mainPrevBtn.disabled = !canPrev;
+          if (mainNextBtn.disabled !== !canNext) mainNextBtn.disabled = !canNext;
+        }
+      }
+
+      if (fsCounter) {
+        const nextText = `${emblaMain.selectedScrollSnap() + 1} / ${thumbSlides.length}`;
+        if (fsCounter.textContent !== nextText) {
+          fsCounter.textContent = nextText;
+        }
+      }
+    };
+
+    // Update thumbnails ribbon arrow controls
+    const updateThumbsNav = () => {
+      if (!prevBtn || !nextBtn) return;
+
+      const canPrev = emblaThumbs.canScrollPrev();
+      const canNext = emblaThumbs.canScrollNext();
+      const isScrollable = canPrev || canNext;
+
+      if (!isScrollable) {
+        setHiddenIfChanged(prevBtn, true);
+        setHiddenIfChanged(nextBtn, true);
+        return;
+      }
+
+      setHiddenIfChanged(prevBtn, false);
+      setHiddenIfChanged(nextBtn, false);
+      if (prevBtn.disabled !== !canPrev) prevBtn.disabled = !canPrev;
+      if (nextBtn.disabled !== !canNext) nextBtn.disabled = !canNext;
+    };
+
+    // Keep active thumbnail in view and highlight it
+    const syncSelectedThumb = (jump = false) => {
+      const selectedIndex = emblaMain.selectedScrollSnap();
+      const maxSnap = Math.max(0, emblaThumbs.scrollSnapList().length - 1);
+      const targetSnap = Math.max(0, Math.min(maxSnap, selectedIndex - 2));
+      if (jump || emblaThumbs.selectedScrollSnap() !== targetSnap) {
+        emblaThumbs.scrollTo(targetSnap, jump);
+      }
+
+      thumbSlides.forEach((slide, idx) => {
+        const isSelected = idx === selectedIndex;
+        if (slide.classList.contains('gallery__thumbnail--current') !== isSelected) {
+          slide.classList.toggle('gallery__thumbnail--current', isSelected);
+        }
+        if (isSelected) {
+          setAttrIfChanged(slide, 'aria-current', 'true');
+        } else if (slide.hasAttribute('aria-current')) {
+          slide.removeAttribute('aria-current');
+        }
+      });
+
+      updateMainNav();
+      updateThumbsNav();
+    };
+
+    // Fullscreen mode state & handlers
     let isFullscreen = false;
     let savedScrollY = 0;
-    let onFullscreenChange: (() => void) | null = null;
     const placeholder = document.createComment('gallery-placeholder');
 
     const setFullscreen = (nextState: boolean) => {
@@ -158,11 +265,14 @@ const t = useTranslations(currentLang);
 
       document.documentElement.classList.remove('is-dragging');
 
-      if (onFullscreenChange) {
-        onFullscreenChange();
-      }
+      const currentIndex = emblaMain.selectedScrollSnap();
+      emblaMain.reInit();
+      emblaThumbs.reInit();
+      emblaMain.scrollTo(currentIndex, true);
+      syncSelectedThumb(true);
     };
 
+    // Open fullscreen by clicking main slide (desktop only)
     mainNode.addEventListener('click', () => {
       if (window.innerWidth < 740) return;
       if (!isFullscreen) {
@@ -170,6 +280,7 @@ const t = useTranslations(currentLang);
       }
     });
 
+    // Close fullscreen by clicking empty backdrop
     galleryRoot.addEventListener('click', (event) => {
       if (!isFullscreen) return;
       if (event.target === galleryRoot) {
@@ -177,14 +288,7 @@ const t = useTranslations(currentLang);
       }
     });
 
-    window.addEventListener('keydown', (event) => {
-      if (!isFullscreen) return;
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        setFullscreen(false);
-      }
-    });
-
+    // Gallery focus tracking (for Up/Down page navigation)
     let isGalleryFocused = false;
 
     window.addEventListener('click', (event) => {
@@ -211,120 +315,7 @@ const t = useTranslations(currentLang);
       }
     });
 
-    if (!thumbsNode) return;
-
-    const emblaMain = EmblaCarousel(mainNode, {
-      loop: false,
-      align: 'start',
-      axis: 'y',
-      watchDrag: (embla) => embla.canScrollPrev() || embla.canScrollNext(),
-      breakpoints: {
-        '(max-width: 739px)': { axis: 'x' },
-      },
-    });
-
-    const emblaThumbs = EmblaCarousel(thumbsNode, {
-      align: 'start',
-      containScroll: 'trimSnaps',
-      dragFree: true,
-      axis: 'y',
-      watchDrag: (embla) => embla.canScrollPrev() || embla.canScrollNext(),
-      breakpoints: {
-        '(max-width: 739px)': {
-          axis: 'x',
-        },
-      },
-    });
-
-    const setAttrIfChanged = (el: HTMLElement, attr: string, value: string) => {
-      if (el.getAttribute(attr) !== value) {
-        el.setAttribute(attr, value);
-      }
-    };
-
-    const setHiddenIfChanged = (el: HTMLElement, isHidden: boolean) => {
-      if (el.hidden !== isHidden) {
-        el.hidden = isHidden;
-      }
-    };
-
-    const updateMainNav = () => {
-      const canPrev = emblaMain.canScrollPrev();
-      const canNext = emblaMain.canScrollNext();
-      const isScrollable = canPrev || canNext;
-
-      if (mainPrevBtn && mainNextBtn) {
-        if (!isScrollable) {
-          setHiddenIfChanged(mainPrevBtn, true);
-          setHiddenIfChanged(mainNextBtn, true);
-        } else {
-          setHiddenIfChanged(mainPrevBtn, false);
-          setHiddenIfChanged(mainNextBtn, false);
-          if (mainPrevBtn.disabled !== !canPrev) mainPrevBtn.disabled = !canPrev;
-          if (mainNextBtn.disabled !== !canNext) mainNextBtn.disabled = !canNext;
-        }
-      }
-
-
-      if (fsCounter) {
-        const nextText = `${emblaMain.selectedScrollSnap() + 1} / ${thumbSlides.length}`;
-        if (fsCounter.textContent !== nextText) {
-          fsCounter.textContent = nextText;
-        }
-      }
-    };
-
-    const updateThumbsNav = () => {
-      if (!prevBtn || !nextBtn) return;
-
-      const canPrev = emblaThumbs.canScrollPrev();
-      const canNext = emblaThumbs.canScrollNext();
-      const isScrollable = canPrev || canNext;
-
-      if (!isScrollable) {
-        setHiddenIfChanged(prevBtn, true);
-        setHiddenIfChanged(nextBtn, true);
-        return;
-      }
-
-      setHiddenIfChanged(prevBtn, false);
-      setHiddenIfChanged(nextBtn, false);
-      if (prevBtn.disabled !== !canPrev) prevBtn.disabled = !canPrev;
-      if (nextBtn.disabled !== !canNext) nextBtn.disabled = !canNext;
-    };
-
-    const syncSelectedThumb = (jump = false) => {
-      const selectedIndex = emblaMain.selectedScrollSnap();
-      const maxSnap = Math.max(0, emblaThumbs.scrollSnapList().length - 1);
-      const targetSnap = Math.max(0, Math.min(maxSnap, selectedIndex - 2));
-      if (jump || emblaThumbs.selectedScrollSnap() !== targetSnap) {
-        emblaThumbs.scrollTo(targetSnap, jump);
-      }
-
-      thumbSlides.forEach((slide, idx) => {
-        const isSelected = idx === selectedIndex;
-        if (slide.classList.contains('gallery__thumbnail--current') !== isSelected) {
-          slide.classList.toggle('gallery__thumbnail--current', isSelected);
-        }
-        if (isSelected) {
-          setAttrIfChanged(slide, 'aria-current', 'true');
-        } else if (slide.hasAttribute('aria-current')) {
-          slide.removeAttribute('aria-current');
-        }
-      });
-
-      updateMainNav();
-      updateThumbsNav();
-    };
-
-    onFullscreenChange = () => {
-      const currentIndex = emblaMain.selectedScrollSnap();
-      emblaMain.reInit();
-      emblaThumbs.reInit();
-      emblaMain.scrollTo(currentIndex, true);
-      syncSelectedThumb(true);
-    };
-
+    // Consolidated keyboard navigation
     window.addEventListener('keydown', (event) => {
       const target = event.target as HTMLElement | null;
       if (
@@ -338,7 +329,10 @@ const t = useTranslations(currentLang);
       }
 
       if (isFullscreen) {
-        if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          setFullscreen(false);
+        } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
           event.preventDefault();
           emblaMain.scrollPrev();
         } else if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
@@ -366,12 +360,14 @@ const t = useTranslations(currentLang);
       }
     });
 
+    // Thumbnail click switches main photo
     thumbSlides.forEach((slide, index) => {
       slide.addEventListener('click', () => {
         emblaMain.scrollTo(index);
       });
     });
 
+    // Main stage prev/next buttons
     if (mainPrevBtn) {
       mainPrevBtn.addEventListener('click', () => {
         emblaMain.scrollPrev();
@@ -384,7 +380,7 @@ const t = useTranslations(currentLang);
       });
     }
 
-
+    // Thumbnail ribbon prev/next buttons
     if (prevBtn) {
       prevBtn.addEventListener('click', () => {
         const target = Math.max(0, emblaThumbs.selectedScrollSnap() - THUMBS_SCROLL_STEP);
@@ -400,6 +396,7 @@ const t = useTranslations(currentLang);
       });
     }
 
+    // Wheel scroll handler (fullscreen desktop only, with trackpad inertia debounce)
     const bindWheelScroll = (
       targetEl: HTMLElement,
       embla: ReturnType<typeof EmblaCarousel>,
@@ -465,6 +462,7 @@ const t = useTranslations(currentLang);
     bindWheelScroll(thumbsCol, emblaThumbs, THUMBS_SCROLL_STEP);
     bindWheelScroll(stageCol, emblaMain, 1);
 
+    // Grabbing cursor management (only when actively dragging)
     let isMainPointerDown = false;
     emblaMain.on('pointerDown', () => {
       isMainPointerDown = true;
@@ -499,6 +497,7 @@ const t = useTranslations(currentLang);
       document.documentElement.classList.remove('is-dragging');
     });
 
+    // Embla event subscriptions
     emblaMain.on('init', updateMainNav);
     emblaMain.on('select', () => syncSelectedThumb(false));
     emblaMain.on('reInit', () => syncSelectedThumb(true));
@@ -507,6 +506,7 @@ const t = useTranslations(currentLang);
     emblaThumbs.on('reInit', updateThumbsNav);
     emblaThumbs.on('select', updateThumbsNav);
 
+    // Initial state setup
     updateMainNav();
     updateThumbsNav();
   });
