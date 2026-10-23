@@ -1,0 +1,11 @@
+---
+import './Icon.css';
+
+interface Props {
+	name: string;
+}
+
+const { name } = Astro.props;
+---
+
+<span class="icon">{name}</span>

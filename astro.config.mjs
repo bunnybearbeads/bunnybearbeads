@@ -26,7 +26,7 @@ function materialIconsSubset() {
         await walk(distPath);
 
         const iconSet = new Set();
-        const iconTagRegex = /class=["'][^"']*\b(?:material-icons|material-symbols-outlined)\b[^"']*["'][^>]*>\s*([a-z0-9_]+)\s*</gi;
+        const iconTagRegex = /class=["'][^"']*\bicon\b[^"']*["'][^>]*>\s*([a-z0-9_]+)\s*</gi;
 
         for (const file of htmlFiles) {
           const content = await fs.readFile(file, 'utf8');
@@ -48,7 +48,7 @@ function materialIconsSubset() {
         for (const file of htmlFiles) {
           const content = await fs.readFile(file, 'utf8');
           const updated = content.replace(
-            /(https:\/\/fonts\.googleapis\.com\/css2\?family=Material\+Symbols\+Outlined:[^"']+?)(&display=block)/g,
+            /(https:\/\/fonts\.googleapis\.com\/css2\?family=Material\+Symbols\+Rounded:[^"']+?)(&display=block)/g,
             `$1&icon_names=${sortedIcons}$2`
           );
           if (updated !== content) {

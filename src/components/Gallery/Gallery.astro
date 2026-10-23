@@ -1,5 +1,6 @@
 ---
 import './Gallery.css';
+import Icon from '../Icon/Icon.astro';
 
 interface Props {
   images?: string[];
@@ -20,7 +21,7 @@ const hasImages = images.length > 0;
         aria-label="Previous thumbnails"
         hidden
       >
-        <span class="material-icons" aria-hidden="true">keyboard_arrow_up</span>
+        <Icon name="keyboard_arrow_up" />
       </button>
 
       <div class="gallery__thumbs-viewport" data-gallery-thumbs>
@@ -58,7 +59,7 @@ const hasImages = images.length > 0;
         aria-label="Next thumbnails"
         hidden
       >
-        <span class="material-icons" aria-hidden="true">keyboard_arrow_down</span>
+        <Icon name="keyboard_arrow_down" />
       </button>
     </div>
   )}
@@ -72,7 +73,7 @@ const hasImages = images.length > 0;
         aria-label="Previous photo"
         hidden
       >
-        <span class="material-icons" aria-hidden="true">keyboard_arrow_up</span>
+        <Icon name="keyboard_arrow_up" />
       </button>
     )}
 
@@ -107,7 +108,7 @@ const hasImages = images.length > 0;
         aria-label="Next photo"
         hidden
       >
-        <span class="material-icons" aria-hidden="true">keyboard_arrow_down</span>
+        <Icon name="keyboard_arrow_down" />
       </button>
     )}
   </div>
@@ -120,7 +121,7 @@ const hasImages = images.length > 0;
         data-gallery-fs-close
         aria-label="Close fullscreen gallery"
       >
-        <span class="material-icons" aria-hidden="true">close</span>
+        <Icon name="close" />
       </button>
 
       <div class="gallery__fs-nav-group">
@@ -130,7 +131,7 @@ const hasImages = images.length > 0;
           data-gallery-fs-prev
           aria-label="Previous photo"
         >
-          <span class="material-icons" aria-hidden="true">keyboard_arrow_up</span>
+          <Icon name="keyboard_arrow_up" />
         </button>
 
         <span class="gallery__fs-counter" data-gallery-fs-counter>
@@ -143,7 +144,7 @@ const hasImages = images.length > 0;
           data-gallery-fs-next
           aria-label="Next photo"
         >
-          <span class="material-icons" aria-hidden="true">keyboard_arrow_down</span>
+          <Icon name="keyboard_arrow_down" />
         </button>
       </div>
     </div>
