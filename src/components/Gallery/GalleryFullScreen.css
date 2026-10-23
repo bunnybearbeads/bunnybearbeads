@@ -48,7 +48,7 @@
                     height: 100%;
                     gap: 32px;
                 }
-                    .is-gallery-fullscreen .gallery__slide {
+                    .is-gallery-fullscreen .gallery__item {
                         cursor: default;
                     }
                         .is-gallery-fullscreen .gallery__image {

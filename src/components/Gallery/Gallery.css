@@ -90,7 +90,7 @@
                     user-select: none;
                     -webkit-touch-callout: none;
                 }
-                    .gallery__slide {
+                    .gallery__item {
                         flex: 0 0 100%;
                         padding: var(--gallery-border); /* real white border (and it's inside a slide) */
                         background: #ffffff;
@@ -157,7 +157,7 @@
                 .gallery__ribbon {
                     gap: 16px;
                 }
-                    .gallery__slide {
+                    .gallery__item {
 
                     }
                         .gallery__image {
@@ -235,7 +235,7 @@
                         min-height: 0;
                         gap: var(--container-padding);
                     }
-                        .gallery__slide {
+                        .gallery__item {
 
                         }
                             .gallery__image {
