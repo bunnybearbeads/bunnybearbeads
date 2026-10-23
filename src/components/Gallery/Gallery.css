@@ -1,18 +1,32 @@
 .gallery {
   display: grid;
-  grid-template-columns: 86px 1fr;
+  grid-template-columns: 86px minmax(0, 1fr);
   gap: 12px;
   align-items: start;
+  min-width: 0;
 }
 
 /* Fallback if there are no thumbnails (placeholder state) */
-.gallery:not(:has(.gallery__thumbs)) {
-  grid-template-columns: 1fr;
+.gallery:not(:has(.gallery__thumbs-column)) {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 /* ==========================================================================
-   Vertical Thumbnails Strip (Ozon-style left column)
+   Vertical Thumbnails Carousel (Ozon-style left column on Desktop)
    ========================================================================== */
+.gallery__thumbs-column {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  height: 608px;
+}
+
+.gallery__thumbs-viewport {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
 .gallery__thumbs {
   list-style: none;
   margin: 0;
@@ -20,10 +34,14 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  height: 100%;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .gallery__thumb-item {
   width: 100%;
+  flex: 0 0 auto;
 }
 
 .gallery__thumb-btn {
@@ -35,8 +53,7 @@
   border-radius: 10px;
   cursor: pointer;
   overflow: hidden;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 8px rgba(44, 40, 37, 0.06);
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
 .gallery__thumb-btn:hover {
@@ -46,7 +63,6 @@
 .gallery__thumb-item--active .gallery__thumb-btn {
   border-color: var(--accent-gold);
   background: #ffffff;
-  box-shadow: 0 4px 12px rgba(42, 123, 136, 0.18);
 }
 
 .gallery__thumb-img {
@@ -54,19 +70,108 @@
   aspect-ratio: 3 / 4;
   object-fit: cover;
   display: block;
+  pointer-events: none;
+}
+
+/* Up / Down Chevron Buttons for Vertical Thumbnails */
+.gallery__thumbs-nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: 32px;
+  height: 22px;
+  border-radius: 11px;
+  border: 1px solid rgba(61, 46, 36, 0.14);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--color-brand-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(44, 40, 37, 0.14);
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gallery__thumbs-nav::before {
+  content: '';
+  position: absolute;
+  inset: -100%;
+}
+
+.gallery__thumbs-nav[hidden] {
+  display: none;
+}
+
+.gallery__thumbs-nav:hover:not(:disabled) {
+  background: #ffffff;
+  color: var(--accent-teal);
+  box-shadow: 0 4px 14px rgba(42, 123, 136, 0.25);
+}
+
+.gallery__thumbs-nav:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gallery__thumbs-nav--prev {
+  top: 0;
+  transform: translate(-50%, -50%);
+}
+
+.gallery__thumbs-nav--next {
+  bottom: 0;
+  transform: translate(-50%, 50%);
+}
+
+.gallery__stage-nav {
+  width: 44px;
+  height: 28px;
+  border-radius: 14px;
 }
 
 /* ==========================================================================
-   Main Stage (3:4 Vertical Portrait Frame)
+   Main Stage Carousel (3:4 Vertical Portrait Frame)
    ========================================================================== */
+.gallery__stage-column {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  height: 608px;
+}
+
 .gallery__stage {
   position: relative;
   width: 100%;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.gallery__stage:active {
+  cursor: grabbing;
+}
+
+.gallery__stage-track {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 12px;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.gallery__stage-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  border: 4px solid #ffffff;
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: #FAF7F2;
-  box-shadow: var(--shadow-hover);
-  border: 4px solid #ffffff;
 }
 
 .gallery__main-img {
@@ -74,6 +179,7 @@
   aspect-ratio: 3 / 4;
   object-fit: cover;
   display: block;
+  pointer-events: none;
 }
 
 /* ==========================================================================
@@ -81,11 +187,14 @@
    ========================================================================== */
 .gallery__placeholder {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 3 / 4;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 4px solid #ffffff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
   background: linear-gradient(135deg, rgba(212, 163, 89, 0.16) 0%, rgba(42, 123, 136, 0.14) 100%);
   padding: 22px;
   text-align: center;
@@ -109,16 +218,37 @@
    ========================================================================== */
 @media (1600px <= width) {
   .gallery {
-    grid-template-columns: 98px 1fr;
+    grid-template-columns: 98px minmax(0, 1fr);
     gap: 16px;
+  }
+
+  .gallery__thumbs-column,
+  .gallery__stage-column {
+    height: 704px;
   }
 
   .gallery__thumbs {
     gap: 16px;
   }
 
+  .gallery__stage-track {
+    gap: 16px;
+  }
+
   .gallery__thumb-btn {
     border-radius: 12px;
+  }
+
+  .gallery__thumbs-nav {
+    width: 36px;
+    height: 24px;
+    border-radius: 12px;
+  }
+
+  .gallery__stage-nav {
+    width: 48px;
+    height: 32px;
+    border-radius: 16px;
   }
 
   .gallery__placeholder-icon {
@@ -136,23 +266,43 @@
    ========================================================================== */
 @media (width < 740px) {
   .gallery {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .gallery__thumbs-column {
+    order: 2;
+    height: auto;
+    width: 100%;
+  }
+
+  .gallery__thumbs-nav {
+    display: none !important;
   }
 
   .gallery__thumbs {
-    order: 2;
     flex-direction: row;
-    overflow-x: auto;
-    padding-bottom: 4px;
+    height: auto;
+    gap: 8px;
   }
 
   .gallery__thumb-item {
     width: 68px;
-    flex-shrink: 0;
+    flex: 0 0 68px;
+  }
+
+  .gallery__stage-column {
+    order: 1;
+    height: auto;
   }
 
   .gallery__stage {
-    order: 1;
+    height: auto;
+  }
+
+  .gallery__stage-track {
+    flex-direction: row;
+    height: auto;
+    gap: 10px;
   }
 }

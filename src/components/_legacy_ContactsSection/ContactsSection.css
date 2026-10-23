@@ -26,14 +26,12 @@
   text-decoration: none;
   color: var(--color-brand-dark);
   margin-bottom: 14px;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .contact-channel-item:hover {
   transform: translateY(-2px);
   border-color: var(--accent-gold);
-  box-shadow: var(--shadow-hover);
 }
 
 .channel-telegram-highlight {
@@ -76,11 +74,9 @@
 
 .telegram-direct-card {
   background: var(--card-bg);
-  backdrop-filter: blur(16px);
   border: 1px solid rgba(42, 123, 136, 0.25);
   border-radius: var(--radius-lg);
   padding: 36px 32px;
-  box-shadow: var(--shadow-soft);
   position: relative;
   overflow: hidden;
 }

@@ -19,7 +19,6 @@
   border-radius: var(--radius-md);
   overflow: hidden;
   margin-bottom: 28px;
-  box-shadow: var(--shadow-soft);
 }
 
 .blog-article-cover img {

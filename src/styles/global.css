@@ -112,12 +112,9 @@ h1, h2, h3, h4, .font-serif {
    ========================================================================== */
 .content-card {
   background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   padding: 42px;
-  box-shadow: var(--shadow-soft);
   margin-bottom: 54px;
 }
 
@@ -179,7 +176,6 @@ h1, h2, h3, h4, .font-serif {
   background: rgba(255, 255, 255, 0.8);
   color: var(--text-dark);
   border: 1px solid rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(8px);
 }
 
 .btn-secondary:hover {

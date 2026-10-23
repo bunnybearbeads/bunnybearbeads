@@ -428,6 +428,12 @@
     font-size: 22px;
   }
 
+  @media (width < 400px) {
+    .header__brand {
+      display: none;
+    }
+  }
+
   .header__categories {
     display: none;
   }

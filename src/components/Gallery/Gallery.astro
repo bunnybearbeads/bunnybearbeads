@@ -7,51 +7,261 @@ interface Props {
 }
 
 const { images = [], alt } = Astro.props;
-const mainImage = images[0];
-const hasThumbnails = images.length > 0;
+const hasImages = images.length > 0;
 ---
 
-<div class="gallery">
-  {hasThumbnails && (
-    <ul class="gallery__thumbs" aria-label="Product thumbnails">
-      {images.map((src, index) => (
-        <li
-          class:list={[
-            'gallery__thumb-item',
-            { 'gallery__thumb-item--active': index === 0 },
-          ]}
-        >
-          <button
-            type="button"
-            class="gallery__thumb-btn"
-            aria-label={`${alt} — photo ${index + 1}`}
-            aria-current={index === 0 ? 'true' : undefined}
-          >
-            <img
-              src={src}
-              alt={`${alt} — preview ${index + 1}`}
-              class="gallery__thumb-img"
-              loading={index >= 5 ? 'lazy' : undefined}
-            />
-          </button>
-        </li>
-      ))}
-    </ul>
+<div class="gallery" data-gallery>
+  {hasImages && (
+    <div class="gallery__thumbs-column" data-gallery-thumbs-col>
+      <button
+        type="button"
+        class="gallery__thumbs-nav gallery__thumbs-nav--prev"
+        data-gallery-thumbs-prev
+        aria-label="Previous thumbnails"
+        hidden
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+      </button>
+
+      <div class="gallery__thumbs-viewport" data-gallery-thumbs>
+        <ul class="gallery__thumbs" aria-label="Product thumbnails">
+          {images.map((src, index) => (
+            <li
+              class:list={[
+                'gallery__thumb-item',
+                { 'gallery__thumb-item--active': index === 0 },
+              ]}
+              data-gallery-thumb-slide
+            >
+              <button
+                type="button"
+                class="gallery__thumb-btn"
+                aria-label={`${alt} — photo ${index + 1}`}
+                aria-current={index === 0 ? 'true' : undefined}
+              >
+                <img
+                  src={src}
+                  alt={`${alt} — preview ${index + 1}`}
+                  class="gallery__thumb-img"
+                  loading={index >= 5 ? 'lazy' : undefined}
+                />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <button
+        type="button"
+        class="gallery__thumbs-nav gallery__thumbs-nav--next"
+        data-gallery-thumbs-next
+        aria-label="Next thumbnails"
+        hidden
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+    </div>
   )}
 
-  <div class="gallery__stage">
-    {mainImage ? (
-      <img
-        src={mainImage}
-        alt={alt}
-        class="gallery__main-img"
-        fetchpriority="high"
-      />
-    ) : (
-      <div class="gallery__placeholder">
-        <span class="gallery__placeholder-icon" aria-hidden="true">📿</span>
-        <span class="gallery__placeholder-caption">BunnyBearBeads Masterpiece</span>
-      </div>
+  <div class="gallery__stage-column">
+    {hasImages && (
+      <button
+        type="button"
+        class="gallery__thumbs-nav gallery__stage-nav gallery__thumbs-nav--prev"
+        data-gallery-main-prev
+        aria-label="Previous photo"
+        hidden
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+      </button>
+    )}
+
+    <div class="gallery__stage" data-gallery-main>
+      {hasImages ? (
+        <div class="gallery__stage-track">
+          {images.map((src, index) => (
+            <div class="gallery__stage-slide">
+              <img
+                src={src}
+                alt={index === 0 ? alt : `${alt} — photo ${index + 1}`}
+                class="gallery__main-img"
+                fetchpriority={index === 0 ? 'high' : 'low'}
+                loading={index === 0 ? undefined : 'lazy'}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="gallery__placeholder">
+          <span class="gallery__placeholder-icon" aria-hidden="true">📿</span>
+          <span class="gallery__placeholder-caption">BunnyBearBeads Masterpiece</span>
+        </div>
+      )}
+    </div>
+
+    {hasImages && (
+      <button
+        type="button"
+        class="gallery__thumbs-nav gallery__stage-nav gallery__thumbs-nav--next"
+        data-gallery-main-next
+        aria-label="Next photo"
+        hidden
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
     )}
   </div>
 </div>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+
+  const galleries = document.querySelectorAll<HTMLElement>('[data-gallery]');
+
+  galleries.forEach((galleryRoot) => {
+    const mainNode = galleryRoot.querySelector<HTMLElement>('[data-gallery-main]');
+    const thumbsNode = galleryRoot.querySelector<HTMLElement>('[data-gallery-thumbs]');
+    const mainPrevBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-main-prev]');
+    const mainNextBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-main-next]');
+    const prevBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-thumbs-prev]');
+    const nextBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-thumbs-next]');
+    const thumbSlides = Array.from(
+      galleryRoot.querySelectorAll<HTMLElement>('[data-gallery-thumb-slide]')
+    );
+
+    if (!mainNode || !thumbsNode || thumbSlides.length === 0) return;
+
+    const emblaMain = EmblaCarousel(mainNode, {
+      loop: false,
+      align: 'start',
+      axis: 'y',
+      breakpoints: {
+        '(max-width: 739px)': { axis: 'x' },
+      },
+    });
+
+    const emblaThumbs = EmblaCarousel(thumbsNode, {
+      align: 'start',
+      containScroll: 'trimSnaps',
+      dragFree: true,
+      axis: 'y',
+      breakpoints: {
+        '(max-width: 739px)': { axis: 'x' },
+      },
+    });
+
+    const updateMainNav = () => {
+      if (!mainPrevBtn || !mainNextBtn) return;
+
+      const canPrev = emblaMain.canScrollPrev();
+      const canNext = emblaMain.canScrollNext();
+      const isScrollable = canPrev || canNext;
+
+      if (!isScrollable) {
+        mainPrevBtn.hidden = true;
+        mainNextBtn.hidden = true;
+        return;
+      }
+
+      mainPrevBtn.hidden = false;
+      mainNextBtn.hidden = false;
+      mainPrevBtn.disabled = !canPrev;
+      mainNextBtn.disabled = !canNext;
+    };
+
+    const updateThumbsNav = () => {
+      if (!prevBtn || !nextBtn) return;
+
+      const canPrev = emblaThumbs.canScrollPrev();
+      const canNext = emblaThumbs.canScrollNext();
+      const isScrollable = canPrev || canNext;
+
+      if (!isScrollable) {
+        prevBtn.hidden = true;
+        nextBtn.hidden = true;
+        return;
+      }
+
+      prevBtn.hidden = false;
+      nextBtn.hidden = false;
+      prevBtn.disabled = !canPrev;
+      nextBtn.disabled = !canNext;
+    };
+
+    const syncSelectedThumb = () => {
+      const selectedIndex = emblaMain.selectedScrollSnap();
+      const maxSnap = Math.max(0, emblaThumbs.scrollSnapList().length - 1);
+      const targetSnap = Math.max(0, Math.min(maxSnap, selectedIndex - 2));
+      emblaThumbs.scrollTo(targetSnap);
+
+      thumbSlides.forEach((slide, idx) => {
+        const isSelected = idx === selectedIndex;
+        slide.classList.toggle('gallery__thumb-item--active', isSelected);
+        const btn = slide.querySelector('button');
+        if (btn) {
+          if (isSelected) {
+            btn.setAttribute('aria-current', 'true');
+          } else {
+            btn.removeAttribute('aria-current');
+          }
+        }
+      });
+
+      updateMainNav();
+      updateThumbsNav();
+    };
+
+    thumbSlides.forEach((slide, index) => {
+      slide.addEventListener('click', () => {
+        emblaMain.scrollTo(index);
+      });
+    });
+
+    if (mainPrevBtn) {
+      mainPrevBtn.addEventListener('click', () => {
+        emblaMain.scrollPrev();
+      });
+    }
+
+    if (mainNextBtn) {
+      mainNextBtn.addEventListener('click', () => {
+        emblaMain.scrollNext();
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        const target = Math.max(0, emblaThumbs.selectedScrollSnap() - 4);
+        emblaThumbs.scrollTo(target);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        const maxSnap = emblaThumbs.scrollSnapList().length - 1;
+        const target = Math.min(maxSnap, emblaThumbs.selectedScrollSnap() + 4);
+        emblaThumbs.scrollTo(target);
+      });
+    }
+
+    emblaMain.on('init', updateMainNav);
+    emblaMain.on('select', syncSelectedThumb);
+    emblaMain.on('reInit', syncSelectedThumb);
+
+    emblaThumbs.on('init', updateThumbsNav);
+    emblaThumbs.on('reInit', updateThumbsNav);
+    emblaThumbs.on('select', updateThumbsNav);
+    emblaThumbs.on('scroll', updateThumbsNav);
+
+    updateMainNav();
+    updateThumbsNav();
+  });
+</script>

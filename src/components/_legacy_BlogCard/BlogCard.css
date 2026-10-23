@@ -7,20 +7,16 @@
 
 .blog-card {
   background: var(--card-bg);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .blog-card:hover {
   transform: translateY(-6px);
-  box-shadow: var(--shadow-hover);
 }
 
 .blog-image {
