@@ -16,7 +16,7 @@ const hasMultipleImages = images.length > 1;
     <div class="gallery__navigation" data-gallery-thumbs-col>
       <button
         type="button"
-        class="gallery__thumbs-nav gallery__thumbs-nav--prev"
+        class="gallery__thumbs-control gallery__thumbs-control--prev"
         data-gallery-thumbs-prev
         aria-label="Previous thumbnails"
         hidden
@@ -50,7 +50,7 @@ const hasMultipleImages = images.length > 1;
 
       <button
         type="button"
-        class="gallery__thumbs-nav gallery__thumbs-nav--next"
+        class="gallery__thumbs-control gallery__thumbs-control--next"
         data-gallery-thumbs-next
         aria-label="Next thumbnails"
         hidden
@@ -64,7 +64,7 @@ const hasMultipleImages = images.length > 1;
     {hasMultipleImages && (
       <button
         type="button"
-        class="gallery__thumbs-nav gallery__stage-nav gallery__thumbs-nav--prev"
+        class="gallery__thumbs-control gallery__stage-nav gallery__thumbs-control--prev"
         data-gallery-main-prev
         aria-label="Previous photo"
         hidden
@@ -92,7 +92,7 @@ const hasMultipleImages = images.length > 1;
     {hasMultipleImages && (
       <button
         type="button"
-        class="gallery__thumbs-nav gallery__stage-nav gallery__thumbs-nav--next"
+        class="gallery__thumbs-control gallery__stage-nav gallery__thumbs-control--next"
         data-gallery-main-next
         aria-label="Next photo"
         hidden
@@ -258,8 +258,8 @@ const hasMultipleImages = images.length > 1;
         } else {
           setHiddenIfChanged(mainPrevBtn, false);
           setHiddenIfChanged(mainNextBtn, false);
-          setAttrIfChanged(mainPrevBtn, 'aria-disabled', String(!canPrev));
-          setAttrIfChanged(mainNextBtn, 'aria-disabled', String(!canNext));
+          if (mainPrevBtn.disabled !== !canPrev) mainPrevBtn.disabled = !canPrev;
+          if (mainNextBtn.disabled !== !canNext) mainNextBtn.disabled = !canNext;
         }
       }
 
@@ -291,8 +291,8 @@ const hasMultipleImages = images.length > 1;
 
       setHiddenIfChanged(prevBtn, false);
       setHiddenIfChanged(nextBtn, false);
-      setAttrIfChanged(prevBtn, 'aria-disabled', String(!canPrev));
-      setAttrIfChanged(nextBtn, 'aria-disabled', String(!canNext));
+      if (prevBtn.disabled !== !canPrev) prevBtn.disabled = !canPrev;
+      if (nextBtn.disabled !== !canNext) nextBtn.disabled = !canNext;
     };
 
     const syncSelectedThumb = (jump = false) => {
@@ -346,14 +346,12 @@ const hasMultipleImages = images.length > 1;
 
     if (mainPrevBtn) {
       mainPrevBtn.addEventListener('click', () => {
-        if (!emblaMain.canScrollPrev()) return;
         emblaMain.scrollPrev();
       });
     }
 
     if (mainNextBtn) {
       mainNextBtn.addEventListener('click', () => {
-        if (!emblaMain.canScrollNext()) return;
         emblaMain.scrollNext();
       });
     }
@@ -372,7 +370,6 @@ const hasMultipleImages = images.length > 1;
 
     if (prevBtn) {
       prevBtn.addEventListener('click', () => {
-        if (!emblaThumbs.canScrollPrev()) return;
         const target = Math.max(0, emblaThumbs.selectedScrollSnap() - THUMBS_SCROLL_STEP);
         emblaThumbs.scrollTo(target);
       });
@@ -380,7 +377,6 @@ const hasMultipleImages = images.length > 1;
 
     if (nextBtn) {
       nextBtn.addEventListener('click', () => {
-        if (!emblaThumbs.canScrollNext()) return;
         const maxSnap = emblaThumbs.scrollSnapList().length - 1;
         const target = Math.min(maxSnap, emblaThumbs.selectedScrollSnap() + THUMBS_SCROLL_STEP);
         emblaThumbs.scrollTo(target);
