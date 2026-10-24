@@ -1,27 +1,42 @@
-/* Spacer to preserve natural layout flow since header is fixed */
-.site-header-spacer {
-  display: block;
-  width: 100%;
-  height: 136px;
-  pointer-events: none;
-}
-
-/* Two-Level Header: Top Text Menu + Lower Floating Brand Bar */
+/* Two-Level Header: Top Text Menu + Lower Floating Brand Bar (Default: normal static in document flow) */
 .site-header-wrapper {
-  position: fixed;
-  top: 10px;
-  left: 0;
-  right: 0;
-  z-index: 100;
+  position: relative;
   width: 100%;
-  pointer-events: none;
-  will-change: transform;
+  padding-top: 10px;
+  margin-bottom: 32px;
 }
 
 .site-header {
   width: 1184px;
   margin: 0 auto;
+}
+
+/* ==========================================================================
+   Sticky Dynamic Modifier (.header--sticky / .site-header-wrapper--sticky)
+   Active ONLY when headerSticky is explicitly enabled
+   ========================================================================== */
+.site-header-wrapper--sticky {
+  position: fixed;
+  top: 10px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding-top: 0;
+  margin-bottom: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.site-header-wrapper--sticky .site-header {
   pointer-events: auto;
+}
+
+/* Spacer to preserve natural layout flow when header is fixed/sticky */
+.site-header-spacer {
+  display: block;
+  width: 100%;
+  height: 136px;
+  pointer-events: none;
 }
 
 /* ==========================================================================
@@ -334,12 +349,19 @@
    Large Desktop (1600px+)
    ========================================================================== */
 @media (1600px <= width) {
-  .site-header-spacer {
-    height: 186px;
+  .site-header-wrapper {
+    padding-top: 16px;
+    margin-bottom: 60px;
   }
 
-  .site-header-wrapper {
+  .site-header-wrapper--sticky {
     top: 16px;
+    padding-top: 0;
+    margin-bottom: 0;
+  }
+
+  .site-header-spacer {
+    height: 186px;
   }
 
   .site-header {
@@ -414,12 +436,19 @@
    Mobile (< 740px)
    ========================================================================== */
 @media (width < 740px) {
-  .site-header-spacer {
-    height: 94px;
+  .site-header-wrapper {
+    padding-top: 10px;
+    margin-bottom: 20px;
   }
 
-  .site-header-wrapper {
+  .site-header-wrapper--sticky {
     top: 10px;
+    padding-top: 0;
+    margin-bottom: 0;
+  }
+
+  .site-header-spacer {
+    height: 94px;
   }
 
   .site-header {

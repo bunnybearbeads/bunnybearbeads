@@ -6,10 +6,12 @@ import { getLangFromUrl, stripLangFromPath, useTranslations, useTranslatedPath }
 
 interface Props {
   currentLang?: SupportedLanguage;
+  headerSticky?: boolean;
 }
 
 const url = Astro.url;
 const currentLang = Astro.props.currentLang || getLangFromUrl(url);
+const headerSticky = Astro.props.headerSticky ?? false;
 const t = useTranslations(currentLang);
 const translatePath = useTranslatedPath(currentLang);
 
@@ -56,8 +58,14 @@ const categoryItems = [
 ];
 ---
 
-<div class="site-header-spacer" aria-hidden="true"></div>
-<header class="site-header-wrapper">
+{headerSticky && <div class="site-header-spacer" aria-hidden="true" />}
+<header
+  class:list={[
+    'site-header-wrapper',
+    { 'site-header-wrapper--sticky header--sticky': headerSticky },
+  ]}
+  data-sticky={headerSticky ? 'true' : undefined}
+>
   <div class="site-header">
     <!-- ====================================================================
          UPPER HEADER: Right-aligned clean text links + Language dropdown
@@ -281,100 +289,98 @@ const categoryItems = [
   }
 
   // 1:1 Dynamic Scroll-linked Pin & Sticky Header (Fixed position)
-  const headerWrapper = document.querySelector<HTMLElement>('.site-header-wrapper');
-  const spacer = document.querySelector<HTMLElement>('.site-header-spacer');
+  // Active ONLY when the sticky modifier (.site-header-wrapper--sticky) is enabled via headerSticky={true}
+  const stickyHeaderWrapper = document.querySelector<HTMLElement>('.site-header-wrapper--sticky[data-sticky="true"]');
 
-  const getHeaderHeight = () => {
-    if (!headerWrapper) return 140;
-    const style = window.getComputedStyle(headerWrapper);
-    const topOffset = parseFloat(style.top) || 10;
-    // Total distance needed to fully clear the header (height + top offset + medallion/shadow buffer)
-    return Math.ceil(headerWrapper.offsetHeight + topOffset + 24);
-  };
+  if (stickyHeaderWrapper) {
+    const spacer = document.querySelector<HTMLElement>('.site-header-spacer');
 
-  const syncSpacerHeight = () => {
-    if (spacer && headerWrapper) {
-      const style = window.getComputedStyle(headerWrapper);
-      const topOffset = parseFloat(style.top) || 0;
-      spacer.style.height = `${headerWrapper.offsetHeight + topOffset + 32}px`;
+    const getHeaderHeight = () => {
+      const style = window.getComputedStyle(stickyHeaderWrapper);
+      const topOffset = parseFloat(style.top) || 10;
+      // Total distance needed to fully clear the header (height + top offset + medallion/shadow buffer)
+      return Math.ceil(stickyHeaderWrapper.offsetHeight + topOffset + 24);
+    };
+
+    const syncSpacerHeight = () => {
+      if (spacer) {
+        const style = window.getComputedStyle(stickyHeaderWrapper);
+        const topOffset = parseFloat(style.top) || 0;
+        spacer.style.height = `${stickyHeaderWrapper.offsetHeight + topOffset + 32}px`;
+      }
+    };
+
+    syncSpacerHeight();
+
+    let totalH = getHeaderHeight();
+    let lastScrollY = Math.max(0, window.scrollY);
+    // If page loads mid-scroll, header starts waiting immediately above the top edge
+    let currentTranslateY = lastScrollY > 60 ? -totalH : 0;
+    let isTicking = false;
+
+    if (currentTranslateY !== 0) {
+      stickyHeaderWrapper.style.transform = `translate3d(0, ${currentTranslateY}px, 0)`;
     }
-  };
 
-  syncSpacerHeight();
+    const updateHeaderPosition = () => {
+      const currentScrollY = window.scrollY;
 
-  let totalH = getHeaderHeight();
-  let lastScrollY = Math.max(0, window.scrollY);
-  // If page loads mid-scroll, header starts waiting immediately above the top edge
-  let currentTranslateY = lastScrollY > 60 ? -totalH : 0;
-  let isTicking = false;
+      // Handle iOS/Safari bounce at top
+      if (currentScrollY <= 0) {
+        currentTranslateY = 0;
+        stickyHeaderWrapper.style.transform = '';
+        lastScrollY = 0;
+        return;
+      }
 
-  if (headerWrapper && currentTranslateY !== 0) {
-    headerWrapper.style.transform = `translate3d(0, ${currentTranslateY}px, 0)`;
+      const delta = currentScrollY - lastScrollY;
+      lastScrollY = currentScrollY;
+
+      // Handle iOS/Safari bottom bounce (don't scroll past bottom)
+      const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
+      if (maxScrollY > 0 && currentScrollY >= maxScrollY && delta > 0) {
+        return;
+      }
+
+      const isMenuOpen = mobileMenu?.classList.contains('open') || langWrapper?.classList.contains('open');
+      if (isMenuOpen) {
+        currentTranslateY = 0;
+        stickyHeaderWrapper.style.transform = '';
+        return;
+      }
+
+      // delta > 0: scrolling down -> header moves up relative to viewport at exact scroll speed
+      // delta < 0: scrolling up   -> header moves down into view at exact scroll speed
+      // Clamped between -totalH (waiting right above the screen) and 0 (fully visible and stuck)
+      currentTranslateY = Math.max(-totalH, Math.min(0, currentTranslateY - delta));
+      stickyHeaderWrapper.style.transform = `translate3d(0, ${currentTranslateY}px, 0)`;
+    };
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!isTicking) {
+          window.requestAnimationFrame(() => {
+            updateHeaderPosition();
+            isTicking = false;
+          });
+          isTicking = true;
+        }
+      },
+      { passive: true }
+    );
+
+    window.addEventListener(
+      'resize',
+      () => {
+        syncSpacerHeight();
+        totalH = getHeaderHeight();
+        currentTranslateY = Math.max(-totalH, Math.min(0, currentTranslateY));
+        if (window.scrollY > 0) {
+          stickyHeaderWrapper.style.transform = `translate3d(0, ${currentTranslateY}px, 0)`;
+        }
+      },
+      { passive: true }
+    );
   }
-
-  const updateHeaderPosition = () => {
-    const currentScrollY = window.scrollY;
-
-    // Handle iOS/Safari bounce at top
-    if (currentScrollY <= 0) {
-      currentTranslateY = 0;
-      if (headerWrapper) headerWrapper.style.transform = '';
-      lastScrollY = 0;
-      return;
-    }
-
-    const delta = currentScrollY - lastScrollY;
-    lastScrollY = currentScrollY;
-
-    // Handle iOS/Safari bottom bounce (don't scroll past bottom)
-    const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
-    if (maxScrollY > 0 && currentScrollY >= maxScrollY && delta > 0) {
-      return;
-    }
-
-    const isMenuOpen = mobileMenu?.classList.contains('open') || langWrapper?.classList.contains('open');
-    if (isMenuOpen) {
-      currentTranslateY = 0;
-      if (headerWrapper) headerWrapper.style.transform = '';
-      return;
-    }
-
-    totalH = getHeaderHeight();
-
-    // delta > 0: scrolling down -> header moves up relative to viewport at exact scroll speed
-    // delta < 0: scrolling up   -> header moves down into view at exact scroll speed
-    // Clamped between -totalH (waiting right above the screen) and 0 (fully visible and stuck)
-    currentTranslateY = Math.max(-totalH, Math.min(0, currentTranslateY - delta));
-
-    if (headerWrapper) {
-      headerWrapper.style.transform = `translate3d(0, ${currentTranslateY}px, 0)`;
-    }
-  };
-
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (!isTicking) {
-        window.requestAnimationFrame(() => {
-          updateHeaderPosition();
-          isTicking = false;
-        });
-        isTicking = true;
-      }
-    },
-    { passive: true }
-  );
-
-  window.addEventListener(
-    'resize',
-    () => {
-      syncSpacerHeight();
-      totalH = getHeaderHeight();
-      currentTranslateY = Math.max(-totalH, Math.min(0, currentTranslateY));
-      if (headerWrapper && window.scrollY > 0) {
-        headerWrapper.style.transform = `translate3d(0, ${currentTranslateY}px, 0)`;
-      }
-    },
-    { passive: true }
-  );
 </script>
