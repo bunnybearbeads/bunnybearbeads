@@ -2,6 +2,23 @@ import { defineConfig } from 'astro/config';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { generateMissingPosters } from './scripts/generate-posters.mjs';
+
+/**
+ * AI: Автоматическая генерация постеров (.jpg) для любых .mp4/.webm в каталоге товаров.
+ * Срабатывает на этапе настройки конфигурации (при `astro dev` и `astro build`).
+ * Создает .jpg рядом с видео, чтобы галерея использовала легковесные <img> в миниатюрах.
+ */
+function autoVideoPosters() {
+  return {
+    name: 'auto-video-posters',
+    hooks: {
+      'astro:config:setup': async ({ logger }) => {
+        await generateMissingPosters('./public/images/products', logger);
+      },
+    },
+  };
+}
 
 function materialIconsSubset() {
   return {
@@ -65,7 +82,7 @@ export default defineConfig({
   server: {
     host: true,
   },
-  integrations: [materialIconsSubset()],
+  integrations: [autoVideoPosters(), materialIconsSubset()],
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'vi', 'ru'],
