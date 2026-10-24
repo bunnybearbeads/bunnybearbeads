@@ -59,6 +59,17 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
         {Number(product.price).toLocaleString('vi-VN')} {product.currency || 'VND'}
       </div>
 
+      <!-- Crafter's Note Section -->
+      {product.crafterNote && (
+        <div class="crafter-note-section">
+          <div class="section-subtitle-badge">
+            <span class="badge-dot crafter-badge-dot"></span>
+            <span>{t('catalog.crafter_note_title')}</span>
+          </div>
+          <div class="crafter-note-body" set:html={product.crafterNote} />
+        </div>
+      )}
+
       <!-- Where to Buy section -->
       <div class="where-to-buy-section">
         <div class="section-subtitle-badge">
@@ -207,34 +218,6 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
           })()}
         </div>
       </div>
-
-      <!-- Crafter's Note Section -->
-      {product.crafterNote && (
-        <div class="crafter-note-section">
-          <div class="section-subtitle-badge">
-            <span class="badge-dot crafter-badge-dot"></span>
-            <span>{t('catalog.crafter_note_title')}</span>
-          </div>
-          <div class="crafter-note-card">
-            <div class="crafter-note-content-wrapper" id="crafter-note-wrapper">
-              <div class="crafter-note-body" set:html={product.crafterNote} />
-              <div class="crafter-note-fade" id="crafter-note-fade" aria-hidden="true"></div>
-            </div>
-            <div class="crafter-note-actions">
-              <button
-                type="button"
-                class="btn-expand-note"
-                id="btn-expand-crafter-note"
-                aria-expanded="false"
-                data-expand-text={t('catalog.expand')}
-                data-collapse-text={t('catalog.collapse')}
-              >
-                <span class="btn-expand-text">{t('catalog.expand')}</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <!-- Materials Section -->
       <div class="product-specs-section">
@@ -409,48 +392,5 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
       closeOnEsc: true,
       closeOnOverlay: true,
     });
-
-    const wrapper = document.getElementById('crafter-note-wrapper');
-    const btn = document.getElementById('btn-expand-crafter-note');
-    const fade = document.getElementById('crafter-note-fade');
-    const textSpan = btn?.querySelector('.btn-expand-text');
-
-    if (wrapper && btn) {
-      const checkOverflow = () => {
-        if (wrapper.classList.contains('is-expanded')) return;
-        const isOverflowing = wrapper.scrollHeight > 230;
-        if (!isOverflowing) {
-          btn.style.display = 'none';
-          if (fade) fade.style.display = 'none';
-        } else {
-          btn.style.display = 'inline-flex';
-          if (fade) fade.style.display = 'block';
-        }
-      };
-
-      checkOverflow();
-
-      const images = wrapper.querySelectorAll('img');
-      images.forEach((img) => {
-        if ((img as HTMLImageElement).complete) {
-          checkOverflow();
-        } else {
-          img.addEventListener('load', checkOverflow);
-        }
-      });
-
-      btn.addEventListener('click', () => {
-        const isExpanded = wrapper.classList.toggle('is-expanded');
-        btn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
-        if (textSpan) {
-          textSpan.textContent = isExpanded
-            ? btn.getAttribute('data-collapse-text') || 'Show less ↑'
-            : btn.getAttribute('data-expand-text') || 'Read more ↓';
-        }
-        if (!isExpanded) {
-          wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      });
-    }
   });
 </script>
