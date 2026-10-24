@@ -177,7 +177,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                       ) : item.isDalatLoc && !item.isDalatInStock ? (
                         <div class="dalat-remake-wrap">
                           <div class="dalat-title-row">
-                            <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
+                            <strong>{item.isDalatLoc ? t('geo.workshop.dalat') : `${localizeCity(loc.city)}${loc.location ? `, ${localizeDistrict(loc.location)}` : ''}`}</strong>
                             <span class="stock-quantity-pill stock-sold-pill">
                               <strong>{t('catalog.sold_out')}</strong>
                             </span>
@@ -186,7 +186,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                           <div class="dalat-remake-time-text">{t('catalog.craft_time')}</div>
                         </div>
                       ) : (
-                        <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
+                        <strong>{item.isDalatLoc ? t('geo.workshop.dalat') : `${localizeCity(loc.city)}${loc.location ? `, ${localizeDistrict(loc.location)}` : ''}`}</strong>
                       )}
                     </div>
                     <div class="buy-option-meta">
