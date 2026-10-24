@@ -1,3 +1,28 @@
+/**
+ * AI: Полноэкранный просмотр галереи на базе PhotoSwipe v5.
+ *
+ * Ключевые архитектурные принципы работы с видео:
+ *
+ * 1. ЧИСТЫЙ СТАРТ НА МОБИЛЬНЫХ УСТРОЙСТВАХ (iOS Safari / Android):
+ *    - Видео в лайтбоксе изначально открывается без нативных контролов (`controls = false`),
+ *      чтобы Safari не перекрывал кадр темной подложкой с гигантскими кнопками перемотки.
+ *    - По первому тапу контролы отображаются (`video.controls = true`), видео ставится на паузу
+ *      (`video.pause()`) и помечается как `userPaused = true`.
+ *
+ * 2. СОХРАНЕНИЕ ПАМЯТИ СКВОЗЬ ВИРТУАЛИЗАЦИЮ DOM В PHOTOSWIPE:
+ *    - PhotoSwipe v5 динамически удаляет DOM-элементы слайдов при свайпе дальше чем на 1–2 шага.
+ *      При возвращении на слайд элемент создаётся заново из HTML-строки.
+ *    - Чтобы состояние не сбрасывалось, `userPaused`, `hasControls` и `currentTime` хранятся не в DOM,
+ *      а в персистентной карте `pswpVideoStates = new Map<number, VideoPlaybackState>()` по индексу слайда.
+ *    - В HTML-шаблоне видео отсутствует атрибут `autoplay` — воспроизведением управляет исключительно JS:
+ *      - Если `userPaused === false` — при возвращении на слайд видео продолжает играть.
+ *      - Если `userPaused === true` — видео остаётся на паузе на той же секунде `currentTime`.
+ *
+ * 3. БЕСШОВНАЯ ДВУСТОРОННЯЯ СИНХРОНИЗАЦИЯ СО СТРАНИЦЕЙ:
+ *    - При открытии PhotoSwipe подхватывает статус и точный `currentTime` видео со страницы.
+ *    - При закрытии лайтбокса актуальные статусы и время возвращаются обратно в карусель страницы.
+ */
+
 import PhotoSwipe from 'photoswipe';
 import type { EmblaCarouselType } from 'embla-carousel';
 import { isMobile } from '../../utils';
@@ -176,7 +201,7 @@ export function openPhotoSwipe({
       }
     });
 
-    // Apply controls according to state
+    // Применяем нативные контролы: на смартфонах скрыты до первого тапа, на десктопе активны сразу
     if (state.hasControls) {
       video.controls = true;
       video.setAttribute('controlslist', 'nofullscreen');
@@ -185,10 +210,11 @@ export function openPhotoSwipe({
       video.removeAttribute('controlslist');
     }
 
-    // Toggle play/pause or controls on video click
+    // Обработка клика/тапа по видео
     let wasPausedOnPointerDown = false;
     let pointerDownPos = { x: 0, y: 0 };
 
+    // Фиксируем реальный статус паузы до того, как браузер отработает свой нативный клик
     video.addEventListener('pointerdown', (event) => {
       if (isMobile()) return;
       pointerDownPos = { x: event.clientX, y: event.clientY };
@@ -199,6 +225,7 @@ export function openPhotoSwipe({
       event.stopPropagation();
       const currentState = pswpVideoStates.get(slideIdx);
 
+      // На смартфонах первый тап: показываем нативные контролы и ставим на паузу
       if (isMobile()) {
         if (currentState && !currentState.hasControls) {
           currentState.hasControls = true;
@@ -209,18 +236,17 @@ export function openPhotoSwipe({
         return;
       }
 
-      // If user dragged/swiped slides across the video, ignore click
+      // Если пользователь перелистывал слайды свайпом по видео, клик игнорируется
       const moveDistance = Math.hypot(
         event.clientX - pointerDownPos.x,
         event.clientY - pointerDownPos.y
       );
       if (moveDistance > 6) return;
 
-      // On desktop, clicking video body (outside bottom control bar) toggles playback
+      // На десктопе клик по телу видео (выше полосы нативных контролов) переключает воспроизведение/паузу
       const rect = video.getBoundingClientRect();
       const isControlsBar = event.clientY >= rect.bottom - 56;
       if (!isControlsBar) {
-        // Use state recorded at pointerdown before browser's internal click-to-play fired
         if (wasPausedOnPointerDown) {
           video.play().catch(() => {});
         } else {
@@ -229,13 +255,13 @@ export function openPhotoSwipe({
       }
     });
 
-    // Track user-initiated pause in PhotoSwipe
+    // Отслеживание осознанной паузы пользователем в PhotoSwipe.
+    // Фоновые остановки при свайпе на соседний слайд или при закрытии лайтбокса НЕ меняют флаг userPaused.
     video.addEventListener('pause', () => {
       const currentState = pswpVideoStates.get(slideIdx);
       if (currentState) {
         currentState.currentTime = video.currentTime;
       }
-      // ONLY count as user pause if this video is currently the active slide
       if (pswp.currIndex === slideIdx && !pswp.isDestroying) {
         if (currentState) {
           currentState.userPaused = true;
@@ -243,6 +269,7 @@ export function openPhotoSwipe({
       }
     });
 
+    // Сброс флага паузы при явном возобновлении воспроизведения пользователем
     video.addEventListener('play', () => {
       if (pswp.currIndex === slideIdx) {
         const currentState = pswpVideoStates.get(slideIdx);
@@ -251,6 +278,15 @@ export function openPhotoSwipe({
         }
       }
     });
+
+    // Если видео добавлено для текущего активного слайда — сразу применяем автостарт (важно при прямом открытии на видео)
+    if (slideIdx === pswp.currIndex) {
+      if (!state.userPaused) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    }
   });
 
   // Sync video playback: auto-play active video if not user-paused; pause non-active videos
@@ -300,6 +336,10 @@ export function openPhotoSwipe({
   });
 
   pswp.on('afterInit', () => {
+    syncPswpVideoPlayback();
+  });
+
+  pswp.on('openingAnimationEnd', () => {
     syncPswpVideoPlayback();
   });
 

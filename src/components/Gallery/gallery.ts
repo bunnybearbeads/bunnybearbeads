@@ -1,3 +1,30 @@
+/**
+ * AI: Встроенная галерея карточки товара (Embla Carousel).
+ *
+ * Ключевые архитектурные принципы работы с видео:
+ *
+ * 1. ЧИСТЫЙ СТАРТ НА МОБИЛЬНЫХ УСТРОЙСТВАХ (iOS Safari / Android):
+ *    - По умолчанию на смартфонах видео запускается без нативных контролов (`controls = false`).
+ *      Это сделано намеренно: в iOS Safari наличие `controls` вызывает отрисовку тяжелого
+ *      полупрозрачного черного оверлея во весь кадр с огромными кнопками перемотки по центру,
+ *      которые перекрывают изображение ювелирного изделия.
+ *    - При первом тапе пользователя по видео мы динамически включаем контролы (`video.controls = true`),
+ *      сразу же ставим видео на паузу (`video.pause()`) и помечаем как осознанную паузу пользователя (`userPaused = true`).
+ *      Это даёт пользователю возможность изучить детали кадра, подвигать таймлайн или продолжить просмотр.
+ *
+ * 2. ПАМЯТЬ СОСТОЯНИЯ ПОЛЬЗОВАТЕЛЯ И АСИНХРОННОСТЬ HTML5 ПАУЗЫ:
+ *    - Когда пользователь уходит со слайда с видео, карусель принудительно останавливает его в фоне (`video.pause()`).
+ *    - В спецификации HTML5 вызов `video.pause()` обрабатывается асинхронно в очереди задач браузера.
+ *      Чтобы фоновое глушение не считалось за осознанную паузу пользователя, обработчик `pause` проверяет:
+ *      `videoSlideIndex === currentSlideIndex && !isPhotoSwipeOpen && !document.querySelector('.pswp--open')`.
+ *    - Если пользователь просто листал слайды дальше — при возвращении на слайд видео продолжается автоматически.
+ *    - Если пользователь сам нажал паузу на активном слайде — при возвращении видео остаётся на паузе.
+ *
+ * 3. СОХРАНЕНИЕ ВРЕМЕНИ ВОСПРОИЗВЕДЕНИЯ (`currentTime`):
+ *    - Позиция видео непрерывно сохраняется, чтобы при возвращении к слайду или переходе в полноэкранный
+ *      PhotoSwipe видео продолжалось ровно с той секунды, на которой пользователь остановился, без сброса на 0:00.
+ */
+
 import EmblaCarousel from 'embla-carousel';
 import {
   isMobile,
@@ -298,7 +325,7 @@ export function initGallery(galleryRoot: HTMLElement): void {
     });
   });
 
-  // Native controls on desktop only
+  // На десктопе контролы включены сразу; на смартфонах контролы скрыты до первого тапа (избегаем темного оверлея iOS Safari)
   const updateVideoControlsForDevice = () => {
     const mobile = isMobile();
     videos.forEach((video) => {
@@ -320,7 +347,7 @@ export function initGallery(galleryRoot: HTMLElement): void {
   updateVideoControlsForDevice();
   window.addEventListener('resize', updateVideoControlsForDevice);
 
-  // Video interaction and playback tracking
+  // Обработка взаимодействия с видео и отслеживание пользовательского состояния
   videos.forEach((video) => {
     const slide = video.closest('.gallery__item');
     const videoSlideIndex = slide ? pageSlideNodes.indexOf(slide as HTMLElement) : -1;
@@ -328,6 +355,7 @@ export function initGallery(galleryRoot: HTMLElement): void {
     let wasPausedOnPointerDown = false;
     let pointerDownPos = { x: 0, y: 0 };
 
+    // Запоминаем состояние паузы до того, как сработает нативное действие клика браузера
     video.addEventListener('pointerdown', (event) => {
       if (isMobile()) return;
       pointerDownPos = { x: event.clientX, y: event.clientY };
@@ -338,6 +366,7 @@ export function initGallery(galleryRoot: HTMLElement): void {
       event.stopPropagation();
       const state = pageVideoStates.get(videoSlideIndex);
 
+      // На мобильных первый тап: 1) показывает контролы, 2) ставит видео на паузу, 3) сохраняет userPaused = true
       if (isMobile()) {
         if (state && !state.hasControls) {
           state.hasControls = true;
@@ -348,14 +377,14 @@ export function initGallery(galleryRoot: HTMLElement): void {
         return;
       }
 
-      // If user dragged/swiped carousel across the video, ignore click
+      // Если пользователь тянул/свайпал карусель через видео, не переключаем паузу
       const moveDistance = Math.hypot(
         event.clientX - pointerDownPos.x,
         event.clientY - pointerDownPos.y
       );
       if (moveDistance > 6) return;
 
-      // On desktop, clicking video body (outside bottom control bar) toggles playback
+      // На десктопе клик по телу видео (выше нижней полосы контролов) переключает play/pause
       const rect = video.getBoundingClientRect();
       const isControlsBar = event.clientY >= rect.bottom - 56;
       if (!isControlsBar) {
@@ -374,7 +403,8 @@ export function initGallery(galleryRoot: HTMLElement): void {
       }
     });
 
-    // Track user-initiated pause/play on active slide
+    // Отслеживание осознанной паузы пользователем на активном слайде.
+    // Фоновые остановки при смене слайда или открытии лайтбокса НЕ выставляют userPaused: true.
     video.addEventListener('pause', () => {
       const currentSlideIndex = emblaMain.selectedScrollSnap();
       if (
@@ -390,6 +420,7 @@ export function initGallery(galleryRoot: HTMLElement): void {
       }
     });
 
+    // Если пользователь вручную запустил видео, сбрасываем флаг паузы
     video.addEventListener('play', () => {
       const currentSlideIndex = emblaMain.selectedScrollSnap();
       if (videoSlideIndex === currentSlideIndex) {
