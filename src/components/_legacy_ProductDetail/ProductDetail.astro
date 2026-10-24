@@ -102,27 +102,23 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
             const isDalatInStock = dalatOffline ? (dalatOffline.quantity !== undefined && dalatOffline.quantity > 0) : false;
             const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'Lâm Viên', quantity: 0 };
 
-            const items: any[] = [];
-
-            if (dalatLoc) {
-              items.push({ kind: 'offline', loc: dalatLoc, isDalatLoc: true, isDalatInStock });
-            }
-
-            if (hasOnline) {
-              items.push({
-                kind: 'delivery',
+            const deliveryOptions = hasOnline ? [
+              {
                 icon: '🛵',
                 title: t('catalog.delivery_dalat_title'),
                 sub: isDalatInStock ? t('catalog.delivery_dalat_sub') : t('catalog.delivery_dalat_sub_remake'),
-                nestedClass: dalatLoc ? 'nested-delivery nested-first' : undefined,
-              });
-              items.push({
-                kind: 'delivery',
+              },
+              {
                 icon: '📦',
                 title: t('catalog.delivery_vn_title'),
                 sub: isDalatInStock ? t('catalog.delivery_vn_sub') : t('catalog.delivery_vn_sub_remake'),
-                nestedClass: dalatLoc ? 'nested-delivery nested-last' : undefined,
-              });
+              },
+            ] : [];
+
+            const items: any[] = [];
+
+            if (dalatLoc) {
+              items.push({ kind: 'offline', loc: dalatLoc, isDalatLoc: true, isDalatInStock, subOptions: deliveryOptions });
             }
 
             otherOffline.forEach((loc: any) => {
@@ -130,25 +126,6 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
             });
 
             return items.map((item: any) => {
-              if (item.kind === 'delivery') {
-                return (
-                  <div class:list={['buy-option-card', 'online', 'delivery', item.nestedClass]}>
-                    <div class="buy-option-icon">{item.icon}</div>
-                    <div class="buy-option-content">
-                      <div class="buy-option-title">
-                        <div class="delivery-text-wrap">
-                          <strong>{item.title}</strong>
-                          <span class="buy-option-delivery-sub">{item.sub}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <span class="stock-type-tag online delivery">
-                      {t('catalog.delivery_badge')}
-                    </span>
-                  </div>
-                );
-              }
-
               const loc = item.loc;
               const isOfflineCheckup = loc.type === 'offline' && loc.lastCheckedAt;
               const modalTarget = isOfflineCheckup
@@ -169,100 +146,81 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                   tabindex={modalTarget ? 0 : undefined}
                   title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
                 >
-                  <div class="buy-option-icon">📍</div>
-                  <div class="buy-option-content">
-                    <div class="buy-option-title">
-                      {loc.location && loc.location.includes('магазин') ? (
-                        (() => {
-                          const parts = loc.location.split('магазин');
-                          const rawDistrict = parts[0].replace(/,\s*$/, '').trim();
-                          const district = localizeDistrict(rawDistrict);
-                          const shop = parts[1] ? parts[1].trim() : '';
-                          return (
-                            <>
-                              <strong>{localizeCity(loc.city)}{district ? `, ${district}` : ''}</strong>, {t('catalog.shop_word')} <strong>{shop}</strong>
-                            </>
-                          );
-                        })()
-                      ) : item.isDalatLoc && !item.isDalatInStock ? (
-                        <div class="dalat-remake-wrap">
-                          <div class="dalat-title-row">
-                            <span>{t('geo.workshop_in')} <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong></span>
-                            <span class="stock-quantity-pill stock-sold-pill">
-                              <strong>{t('catalog.sold_out')}</strong>
-                            </span>
+                  <div class="buy-option-main">
+                    <div class="buy-option-icon">📍</div>
+                    <div class="buy-option-content">
+                      <div class="buy-option-title">
+                        {loc.location && loc.location.includes('магазин') ? (
+                          (() => {
+                            const parts = loc.location.split('магазин');
+                            const rawDistrict = parts[0].replace(/,\s*$/, '').trim();
+                            const district = localizeDistrict(rawDistrict);
+                            const shop = parts[1] ? parts[1].trim() : '';
+                            return (
+                              <>
+                                <strong>{localizeCity(loc.city)}{district ? `, ${district}` : ''}</strong>, {t('catalog.shop_word')} <strong>{shop}</strong>
+                              </>
+                            );
+                          })()
+                        ) : item.isDalatLoc && !item.isDalatInStock ? (
+                          <div class="dalat-remake-wrap">
+                            <div class="dalat-title-row">
+                              <span>{t('geo.workshop_in')} <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong></span>
+                              <span class="stock-quantity-pill stock-sold-pill">
+                                <strong>{t('catalog.sold_out')}</strong>
+                              </span>
+                            </div>
+                            <div class="dalat-remake-craft-text">{t('catalog.craft_remake')}</div>
+                            <div class="dalat-remake-time-text">{t('catalog.craft_time')}</div>
                           </div>
-                          <div class="dalat-remake-craft-text">{t('catalog.craft_remake')}</div>
-                          <div class="dalat-remake-time-text">{t('catalog.craft_time')}</div>
-                        </div>
-                      ) : (
-                        item.isDalatLoc ? (
-                          <span>{t('geo.workshop_in')} <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong></span>
                         ) : (
-                          <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
-                        )
-                      )}
-                    </div>
-                    {loc.quantity !== undefined && (loc.lastCheckedAt || !item.isDalatLoc || item.isDalatInStock) && (
-                      <div class="buy-option-meta">
-                        {loc.lastCheckedAt ? (
-                          <span class="stock-quantity-pill stock-quantity-pill--clickable">
-                            <strong>{loc.quantity} {t('catalog.pcs')}</strong>
-                            <span class="audit-prep"> {t('catalog.as_of')} </span>
-                            <span class="audit-date">{formatAuditDate(loc.lastCheckedAt, currentLang)}</span>
-                            <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
-                          </span>
-                        ) : (
-                          <span class="stock-quantity-pill">
-                            <strong>{loc.quantity} {t('catalog.pcs')}</strong>
-                            <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
-                          </span>
+                          item.isDalatLoc ? (
+                            <span>{t('geo.workshop_in')} <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong></span>
+                          ) : (
+                            <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
+                          )
                         )}
                       </div>
-                    )}
+                      {loc.quantity !== undefined && (loc.lastCheckedAt || !item.isDalatLoc || item.isDalatInStock) && (
+                        <div class="buy-option-meta">
+                          {loc.lastCheckedAt ? (
+                            <span class="stock-quantity-pill stock-quantity-pill--clickable">
+                              <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                              <span class="audit-prep"> {t('catalog.as_of')} </span>
+                              <span class="audit-date">{formatAuditDate(loc.lastCheckedAt, currentLang)}</span>
+                              <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
+                            </span>
+                          ) : (
+                            <span class="stock-quantity-pill">
+                              <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                              <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <span class:list={['stock-type-tag', loc.type === 'offline' ? 'in-person' : loc.type]}>
+                      {loc.type === 'offline' ? t('catalog.offline_badge') : t('catalog.delivery_badge')}
+                    </span>
                   </div>
-                  <span class:list={['stock-type-tag', loc.type === 'offline' ? 'in-person' : loc.type]}>
-                    {loc.type === 'offline' ? t('catalog.offline_badge') : t('catalog.delivery_badge')}
-                  </span>
+                  {item.subOptions && item.subOptions.length > 0 && (
+                    <div class="buy-suboptions-box">
+                      {item.subOptions.map((sub: any) => (
+                        <div class="buy-suboption-item">
+                          <span class="buy-suboption-icon">{sub.icon}</span>
+                          <div class="buy-suboption-text">
+                            <span class="buy-suboption-title">{sub.title}</span>
+                            <span class="buy-suboption-bullet">·</span>
+                            <span class="buy-suboption-sub">{sub.sub}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               );
             });
           })()}
-        </div>
-      </div>
-
-      <!-- Materials Section -->
-      <div class="product-specs-section">
-        <strong class="specs-heading">
-          {t('catalog.materials_label')}
-        </strong>
-        {productRaw.data.materialsHtml ? (
-          <div class="materials-html-content" set:html={productRaw.data.materialsHtml} />
-        ) : product.materials && product.materials.length > 0 ? (
-          <div class="materials-tags">
-            {product.materials.map((mat: string) => (
-              <span class="material-tag">{mat}</span>
-            ))}
-          </div>
-        ) : null}
-      </div>
-
-      <!-- Credits Section -->
-      <div class="product-specs-section credits-section">
-        <strong class="specs-heading">
-          {t('catalog.credits')}
-        </strong>
-        <div class="credits-box">
-          <div class="credit-row">
-            <span class="credit-label">{t('catalog.crafted_by')}:</span>
-            <strong class="credit-val brand-craft">BunnyBearBeads</strong>
-          </div>
-          {productRaw.data.designedBy && (
-            <div class="credit-row">
-              <span class="credit-label">{t('catalog.designed_by')}:</span>
-              <span class="credit-val" set:html={productRaw.data.designedBy} />
-            </div>
-          )}
         </div>
       </div>
 

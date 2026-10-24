@@ -102,9 +102,8 @@
 
 .buy-option-card {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 11px;
+  flex-direction: column;
+  gap: 0;
   background: white;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: var(--radius-sm);
@@ -125,51 +124,63 @@
   transform: translateY(-1px);
 }
 
-.buy-option-card.nested-delivery {
-  margin-left: 25px;
-  position: relative;
+.buy-option-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 11px;
+  width: 100%;
 }
 
-.buy-option-card.nested-delivery.nested-first::after {
-  content: '';
-  position: absolute;
-  left: -16px;
-  top: -10px;
-  bottom: -10px;
-  width: 2px;
-  background: rgba(2, 132, 199, 0.3);
-  transition: background-color 0.2s ease;
-}
-
-.buy-option-card.nested-delivery.nested-first::before {
-  content: '';
-  position: absolute;
-  left: -16px;
-  top: 50%;
-  width: 16px;
-  height: 2px;
-  background: rgba(2, 132, 199, 0.3);
-  transition: background-color 0.2s ease;
-}
-
-.buy-option-card.nested-delivery.nested-last::before {
-  content: '';
-  position: absolute;
-  left: -16px;
-  top: -10px;
-  height: calc(50% + 10px);
-  width: 16px;
-  border-left: 2px solid rgba(2, 132, 199, 0.3);
-  border-bottom: 2px solid rgba(2, 132, 199, 0.3);
-  border-bottom-left-radius: 7px;
+.buy-suboptions-box {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: #FAF8F5;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   box-sizing: border-box;
-  transition: border-color 0.2s ease;
 }
 
-.buy-option-card.nested-delivery:hover::before,
-.buy-option-card.nested-delivery.nested-first:hover::after {
-  background-color: #0284C7;
-  border-color: #0284C7;
+.buy-suboption-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--color-brand-dark);
+}
+
+.buy-suboption-icon {
+  font-size: 14.5px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.buy-suboption-text {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.buy-suboption-title {
+  font-weight: 600;
+  color: var(--color-brand-dark);
+  font-size: 12px;
+}
+
+.buy-suboption-bullet {
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 11px;
+  margin: 0 1px;
+}
+
+.buy-suboption-sub {
+  color: var(--text-muted);
+  font-size: 11.5px;
 }
 
 .buy-option-icon {

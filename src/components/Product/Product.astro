@@ -3,6 +3,7 @@ import './Product.css';
 import Gallery from '../Gallery/Gallery.astro';
 import ProductDetail from '../_legacy_ProductDetail/ProductDetail.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
+import { useTranslations } from '../../i18n/utils';
 
 interface Props {
   product: any;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const { product, productRaw, currentLang } = Astro.props;
+const t = useTranslations(currentLang);
 ---
 
 <div class="product">
@@ -20,6 +22,45 @@ const { product, productRaw, currentLang } = Astro.props;
         <div class="product__gallery">
           <Gallery images={product.images} alt={product.title} lang={currentLang} />
           <div class="product__variants"></div>
+        </div>
+
+        <div class="product__specs-col">
+          <!-- Materials Section -->
+          {(productRaw.data.materialsHtml || (product.materials && product.materials.length > 0)) && (
+            <div class="product-specs-section">
+              <strong class="specs-heading">
+                {t('catalog.materials_label')}
+              </strong>
+              {productRaw.data.materialsHtml ? (
+                <div class="materials-html-content" set:html={productRaw.data.materialsHtml} />
+              ) : (
+                <div class="materials-tags">
+                  {product.materials.map((mat: string) => (
+                    <span class="material-tag">{mat}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          <!-- Credits Section -->
+          <div class="product-specs-section credits-section">
+            <strong class="specs-heading">
+              {t('catalog.credits')}
+            </strong>
+            <div class="credits-box">
+              <div class="credit-row">
+                <span class="credit-label">{t('catalog.crafted_by')}:</span>
+                <strong class="credit-val brand-craft">BunnyBearBeads</strong>
+              </div>
+              {productRaw.data.designedBy && (
+                <div class="credit-row">
+                  <span class="credit-label">{t('catalog.designed_by')}:</span>
+                  <span class="credit-val" set:html={productRaw.data.designedBy} />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
