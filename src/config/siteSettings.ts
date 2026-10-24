@@ -96,16 +96,16 @@ export function getCourierScheduleText(lang: 'ru' | 'en' | 'vi') {
   const { openHour, closeHour } = siteSettings.studio;
   if (lang === 'en') {
     return {
-      today: `today before ${formatTime12(closeHour)}`,
-      morning: `today ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
-      tomorrow: `tomorrow ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
+      today: `Today before ${formatTime12(closeHour)}`,
+      morning: `Today ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
+      tomorrow: `Tomorrow ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
     };
   }
   if (lang === 'vi') {
     return {
-      today: `hôm nay trước ${formatTime24(closeHour)}`,
-      morning: `hôm nay ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
-      tomorrow: `ngày mai ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
+      today: `Hôm nay trước ${formatTime24(closeHour)}`,
+      morning: `Hôm nay ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
+      tomorrow: `Ngày mai ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
     };
   }
   // ru
@@ -143,13 +143,13 @@ export function getPickupScheduleText(lang: 'ru' | 'en' | 'vi') {
 export function getPartnerShopHoursText(lang: 'ru' | 'en' | 'vi'): string {
   const { openHour, closeHour } = siteSettings.partnerShops;
   if (lang === 'en') {
-    return `${formatTime12(openHour)} – ${formatTime12(closeHour)}`;
+    return `Any day ${formatTime12(openHour)} – ${formatTime12(closeHour)}`;
   }
   if (lang === 'vi') {
-    return `${formatTime24(openHour)} – ${formatTime24(closeHour)}`;
+    return `Mỗi ngày ${formatTime24(openHour)} – ${formatTime24(closeHour)}`;
   }
   // ru
-  return `С\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`;
+  return `В\u00A0любой день с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`;
 }
 
 export function getPaymentSuffixText(lang: 'ru' | 'en' | 'vi') {
