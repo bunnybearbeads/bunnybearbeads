@@ -108,7 +108,7 @@ export function openPhotoSwipe({
   const pswp = new PhotoSwipe({
     dataSource,
     index: initialIndex,
-    bgOpacity: 0.95,
+    bgOpacity: 0.85,
     wheelToZoom: true,
     closeOnVerticalDrag: true,
   });
