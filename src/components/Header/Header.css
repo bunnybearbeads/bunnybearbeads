@@ -1,16 +1,27 @@
+/* Spacer to preserve natural layout flow since header is fixed */
+.site-header-spacer {
+  display: block;
+  width: 100%;
+  height: 136px;
+  pointer-events: none;
+}
+
 /* Two-Level Header: Top Text Menu + Lower Floating Brand Bar */
 .site-header-wrapper {
-  position: sticky;
+  position: fixed;
   top: 10px;
+  left: 0;
+  right: 0;
   z-index: 100;
   width: 100%;
-  margin-bottom: 32px;
+  pointer-events: none;
   will-change: transform;
 }
 
 .site-header {
   width: 1184px;
   margin: 0 auto;
+  pointer-events: auto;
 }
 
 /* ==========================================================================
@@ -323,9 +334,12 @@
    Large Desktop (1600px+)
    ========================================================================== */
 @media (1600px <= width) {
+  .site-header-spacer {
+    height: 186px;
+  }
+
   .site-header-wrapper {
     top: 16px;
-    margin-bottom: 60px;
   }
 
   .site-header {
@@ -400,9 +414,12 @@
    Mobile (< 740px)
    ========================================================================== */
 @media (width < 740px) {
+  .site-header-spacer {
+    height: 94px;
+  }
+
   .site-header-wrapper {
     top: 10px;
-    margin-bottom: 20px;
   }
 
   .site-header {
