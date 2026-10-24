@@ -14,7 +14,7 @@ interface Props {
 
 const url = Astro.url;
 const currentLang = Astro.props.lang || getLangFromUrl(url);
-const headerSticky = Astro.props.headerSticky ?? true;
+const headerSticky = Astro.props.headerSticky ?? false;
 const t = useTranslations(currentLang);
 
 const title = Astro.props.title || t('site.title');
