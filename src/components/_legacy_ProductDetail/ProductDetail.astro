@@ -1,10 +1,11 @@
 ---
 import './ProductDetail.css';
-import Icon from '../Icon/Icon.astro';
 import '../Icon/Icon.css';
 import { type SupportedLanguage } from '../../i18n/ui';
-import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
+import { getLocalizedUrl, useTranslations, formatAuditRelativeDate } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
+import RemakePill from './RemakePill.astro';
+import PartnerModals from './PartnerModals.astro';
 
 interface Props {
   product: any;
@@ -16,7 +17,7 @@ const { product, productRaw, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 
 const ngayMaiLoc = productRaw.data.stockLocations?.find(
-  (l: any) => l.city?.toLowerCase().includes('da nang') || l.location?.includes('NGÀY MAI')
+  (l: any) => l.shop === 'NGÀY MAI' || l.city?.toLowerCase().includes('da nang') || l.location?.includes('NGÀY MAI')
 );
 
 function localizeCity(cityStr: string = '') {
@@ -34,18 +35,19 @@ function localizeDistrict(distStr: string = '') {
   if (d.includes('ben than') || d.includes('bến thành') || d.includes('ben thanh')) return t('geo.district.benthanh');
   return distStr;
 }
-
-function formatAuditDate(dateStr?: string, lang: string = 'en') {
-  if (!dateStr) return '';
-  try {
-    const d = new Date(`${dateStr}T00:00:00Z`);
-    if (isNaN(d.getTime())) return dateStr;
-    return new Intl.DateTimeFormat(lang, { month: 'long', day: 'numeric', timeZone: 'UTC' }).format(d);
-  } catch {
-    return dateStr;
-  }
-}
 const categoryId = productRaw.data.categoryId || 'bracelets';
+
+const stockLocations = productRaw.data.stockLocations || [];
+const dalatOffline = stockLocations.find(
+  (l: any) => l.type === 'offline' && l.city?.toLowerCase().includes('da lat')
+);
+const otherOffline = stockLocations.filter(
+  (l: any) => l.type === 'offline' && !l.city?.toLowerCase().includes('da lat')
+);
+const hasOnline = stockLocations.some((l: any) => l.type === 'online') || stockLocations.length === 0;
+
+const isDalatInStock = dalatOffline ? (dalatOffline.quantity !== undefined && dalatOffline.quantity > 0) : false;
+const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'Lâm Viên', quantity: 0 };
 ---
 
 <div class="product-info-panel">
@@ -61,495 +63,253 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
       {product.category}
     </a>
   </nav>
-      <h1>{product.title}</h1>
+  <h1>{product.title}</h1>
 
-      {product.description && (
-        <p class="product-description-text">
-          {product.description}
-        </p>
-      )}
+  {product.description && (
+    <p class="product-description-text">
+      {product.description}
+    </p>
+  )}
 
-      <div class="product-price-large">
-        {Number(product.price).toLocaleString('vi-VN')} {product.currency || 'VND'}
-      </div>
+  <div class="product-price-large">
+    {Number(product.price).toLocaleString('vi-VN')} {product.currency || 'VND'}
+  </div>
 
-      <!-- Where to Buy section -->
-      <div class="where-to-buy-section">
-        <div class="section-subtitle-badge">
-          <span class="badge-dot"></span>
-          <span>{t('catalog.where_to_buy')}</span>
-        </div>
+  <!-- Where to Buy section -->
+  <div class="where-to-buy-section">
+    <div class="section-subtitle-badge">
+      <span class="badge-dot"></span>
+      <span>{t('catalog.where_to_buy')}</span>
+    </div>
 
-        {(() => {
-          const stockLocations = productRaw.data.stockLocations || [];
-          const dalatOffline = stockLocations.find(
-            (l: any) => l.type === 'offline' && l.city?.toLowerCase().includes('da lat')
-          );
-          const otherOffline = stockLocations.filter(
-            (l: any) => l.type === 'offline' && !l.city?.toLowerCase().includes('da lat')
-          );
-          const hasOnline = stockLocations.some((l: any) => l.type === 'online') || stockLocations.length === 0;
-
-          const isDalatInStock = dalatOffline ? (dalatOffline.quantity !== undefined && dalatOffline.quantity > 0) : false;
-          const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'Lâm Viên', quantity: 0 };
-
-          return (
-            <div
-              class="where-to-buy-content"
-              data-schedule-open={siteSettings.studio.openHour}
-              data-schedule-cutoff={siteSettings.studio.cutoffHour}
-              data-schedule-close={siteSettings.studio.closeHour}
-            >
-              {/* Delivery Options */}
-              {hasOnline && (
-                <div class="delivery-block">
-                  <div class="buy-option-card buy-option-card--highlight">
-                    <div class="buy-option-main">
-                      <div class="buy-option-icon">📦</div>
-                      <div class="buy-option-content">
-                        <div class="buy-option-title">
-                          <strong class="delivery-title-strong">{t('catalog.delivery_vn_title')}</strong>
-                          <span class="delivery-subnote">
-                            <span class="subnote-item">{t('catalog.free')}</span>
-                            <span class="subnote-item" set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')} />
-                            <span class="subnote-item subnote-item--payment">
-                              <span class="icon">payments</span>
-                              <span class="icon">qr_code</span>
-                              <span>{t('catalog.pay_on_receipt')}</span>
-                            </span>
-                          </span>
-                        </div>
-                        <div class="buy-option-meta">
-                          {isDalatInStock ? (
-                            <span class="stock-quantity-pill">
-                              <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
-                              <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
-                            </span>
-                          ) : (
-                            <span class="stock-quantity-pill stock-remake-pill">
-                              <strong class="remake-pill-status">{t('catalog.remake_pill_label')}</strong>
-                              <span class="remake-pill-sep">·</span>
-                              <span class="remake-pill-action">
-                                {currentLang === 'ru' && (
-                                  <>
-                                    Повтор <span class="remake-prep-hide">за </span><span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;дня</span>
-                                  </>
-                                )}
-                                {currentLang === 'en' && (
-                                  <>
-                                    Remake <span class="remake-prep-hide">in </span><span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;days</span>
-                                  </>
-                                )}
-                                {currentLang === 'vi' && (
-                                  <>
-                                    Nhận làm <span class="remake-prep-hide">trong </span><span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;ngày</span>
-                                  </>
-                                )}
-                              </span>
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="buy-option-card">
-                    <div class="buy-option-main">
-                      <div class="buy-option-icon">🛵</div>
-                      <div class="buy-option-content">
-                        <div class="buy-option-title">
-                          <strong>{t('catalog.delivery_dalat_title')}</strong>
-                          <span class="delivery-subnote">
-                            <span class="subnote-item">{t('catalog.free')}</span>
-                            {isDalatInStock ? (
-                              <span
-                                class="subnote-item dalat-dynamic-cutoff-text"
-                                data-text-today={t('catalog.delivery_dalat_sub_today')}
-                                data-text-morning={t('catalog.delivery_dalat_sub_morning')}
-                                data-text-tomorrow={t('catalog.delivery_dalat_sub_tomorrow')}
-                                set:html={t('catalog.delivery_dalat_sub_today')}
-                              />
-                            ) : (
-                              <span class="subnote-item" set:html={t('catalog.delivery_dalat_sub_remake')} />
-                            )}
-                            <span class="subnote-item subnote-item--payment">
-                              <span class="icon">payments</span>
-                              <span class="icon">qr_code</span>
-                              <span>{t('catalog.pay_on_receipt')}</span>
-                            </span>
-                          </span>
-                        </div>
-                        <div class="buy-option-meta">
-                          {isDalatInStock ? (
-                            <span class="stock-quantity-pill">
-                              <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
-                              <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
-                            </span>
-                          ) : (
-                            <span class="stock-quantity-pill stock-remake-pill">
-                              <strong class="remake-pill-status">{t('catalog.remake_pill_label')}</strong>
-                              <span class="remake-pill-sep">·</span>
-                              <span class="remake-pill-action">
-                                {currentLang === 'ru' && (
-                                  <>
-                                    Повтор <span class="remake-prep-hide">за </span><span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;дня</span>
-                                  </>
-                                )}
-                                {currentLang === 'en' && (
-                                  <>
-                                    Remake <span class="remake-prep-hide">in </span><span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;days</span>
-                                  </>
-                                )}
-                                {currentLang === 'vi' && (
-                                  <>
-                                    Nhận làm <span class="remake-prep-hide">trong </span><span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;ngày</span>
-                                  </>
-                                )}
-                              </span>
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+    <div
+      class="where-to-buy-content"
+      data-schedule-open={siteSettings.studio.openHour}
+      data-schedule-cutoff={siteSettings.studio.cutoffHour}
+      data-schedule-close={siteSettings.studio.closeHour}
+    >
+      {/* Delivery Options */}
+      {hasOnline && (
+        <div class="delivery-block">
+          <div class="buy-option-card buy-option-card--highlight">
+            <div class="buy-option-main">
+              <div class="buy-option-icon">📦</div>
+              <div class="buy-option-content">
+                <div class="buy-option-title">
+                  <strong class="delivery-title-strong">{t('catalog.delivery_vn_title')}</strong>
+                  <span class="delivery-subnote">
+                    <span class="subnote-item">{t('catalog.free')}</span>
+                    <span class="subnote-item" set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')} />
+                    <span class="subnote-item subnote-item--payment">
+                      <span class="icon">payments</span>
+                      <span class="icon">qr_code</span>
+                      <span>{t('catalog.pay_on_receipt')}</span>
+                    </span>
+                  </span>
                 </div>
-              )}
-
-              {/* In-Person Showcases & Pickup */}
-              <div class="showcases-block">
-                <div class="section-subtitle-badge">
-                  <span class="badge-dot"></span>
-                  <span>{t('catalog.showcase_title')}</span>
-                </div>
-
-                <div class="buy-options-list">
-                  {/* Da Lat Studio */}
-                  <div class="buy-option-card in-person">
-                    <div class="buy-option-main">
-                      <div class="buy-option-icon">🏠</div>
-                      <div class="buy-option-content">
-                        <div class="buy-option-title">
-                          <div><strong>{localizeCity(dalatLoc.city)}{dalatLoc.location ? `, ${localizeDistrict(dalatLoc.location)}` : ''}</strong> — {t('geo.pickup_at_workshop_suffix')}</div>
-                          <span class="delivery-subnote">
-                            {isDalatInStock ? (
-                              <span
-                                class="subnote-item dalat-dynamic-cutoff-text"
-                                data-text-today={t('catalog.pickup_dalat_sub_today')}
-                                data-text-morning={t('catalog.pickup_dalat_sub_morning')}
-                                data-text-tomorrow={t('catalog.pickup_dalat_sub_tomorrow')}
-                                set:html={t('catalog.pickup_dalat_sub_today')}
-                              />
-                            ) : (
-                              <span class="subnote-item" set:html={t('catalog.pickup_dalat_sub_remake')} />
-                            )}
-                            <span class="subnote-item subnote-item--payment">
-                              <span class="icon">payments</span>
-                              <span class="icon">qr_code</span>
-                              <span>{t('catalog.pay_on_pickup')}</span>
-                            </span>
-                          </span>
-                        </div>
-                        <div class="buy-option-meta">
-                          {isDalatInStock ? (
-                            <span class="stock-quantity-pill">
-                              <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
-                              <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
-                            </span>
-                          ) : (
-                            <span class="stock-quantity-pill stock-remake-pill">
-                              <strong class="remake-pill-status">{t('catalog.remake_pill_label')}</strong>
-                              <span class="remake-pill-sep">·</span>
-                              <span class="remake-pill-action">
-                                {currentLang === 'ru' && (
-                                  <>
-                                    Повтор <span class="remake-prep-hide">за </span><span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;дня</span>
-                                  </>
-                                )}
-                                {currentLang === 'en' && (
-                                  <>
-                                    Remake <span class="remake-prep-hide">in </span><span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;days</span>
-                                  </>
-                                )}
-                                {currentLang === 'vi' && (
-                                  <>
-                                    Nhận làm <span class="remake-prep-hide">trong </span><span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;ngày</span>
-                                  </>
-                                )}
-                              </span>
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Partner Shops */}
-                  {otherOffline.map((loc: any) => {
-                    const isOfflineCheckup = loc.lastCheckedAt;
-                    const modalTarget = isOfflineCheckup
-                      ? (loc.city.toLowerCase().includes('da nang') || (loc.location && loc.location.includes('NGÀY MAI'))
-                          ? '#modal-checkup-ngaymai'
-                          : '#modal-checkup-catfood')
-                      : undefined;
-
-                    return (
-                      <div
-                        class:list={[
-                          'buy-option-card',
-                          'in-person',
-                          modalTarget && 'buy-option-card--clickable',
-                        ]}
-                        data-hystmodal={modalTarget}
-                        role={modalTarget ? 'button' : undefined}
-                        tabindex={modalTarget ? 0 : undefined}
-                        title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
-                      >
-                        <div class="buy-option-main">
-                          <div class="buy-option-icon">📍</div>
-                          <div class="buy-option-content">
-                            <div class="buy-option-title">
-                              <div>
-                                {loc.location && loc.location.includes('магазин') ? (
-                                  (() => {
-                                    const parts = loc.location.split('магазин');
-                                    const rawDistrict = parts[0].replace(/,\s*$/, '').trim();
-                                    const district = localizeDistrict(rawDistrict);
-                                    const shop = parts[1] ? parts[1].trim() : '';
-                                    return (
-                                      <>
-                                        <strong>{localizeCity(loc.city)}{district ? `, ${district}` : ''}</strong> — {t('catalog.on_showcase_at')} <strong>{shop}</strong>
-                                      </>
-                                    );
-                                  })()
-                                ) : (
-                                  <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
-                                )}
-                              </div>
-                              <span class="delivery-subnote">
-                                <span class="subnote-item" set:html={t('catalog.shop_working_hours')} />
-                                <span class="subnote-item subnote-item--payment">
-                                  <span class="icon">payments</span>
-                                  <span class="icon">qr_code</span>
-                                  <span class="icon">credit_card</span>
-                                  <span>{t('catalog.pay_at_checkout')}</span>
-                                </span>
-                              </span>
-                            </div>
-                            {loc.quantity !== undefined && (
-                              <div class="buy-option-meta">
-                                {loc.lastCheckedAt ? (
-                                  <span class="stock-quantity-pill stock-quantity-pill--clickable">
-                                    <strong>{loc.quantity} {t('catalog.pcs')}</strong>
-                                    <span class="audit-prep"> {t('catalog.as_of')} </span>
-                                    <span class="audit-date">{formatAuditDate(loc.lastCheckedAt, currentLang)}</span>
-                                    <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
-                                  </span>
-                                ) : (
-                                  <span class="stock-quantity-pill">
-                                    <strong>{loc.quantity} {t('catalog.pcs')}</strong>
-                                    <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
-                                  </span>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
+                <div class="buy-option-meta">
+                  {isDalatInStock ? (
+                    <span class="stock-quantity-pill">
+                      <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
+                      <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
+                    </span>
+                  ) : (
+                    <RemakePill currentLang={currentLang} />
+                  )}
                 </div>
               </div>
             </div>
-          );
-        })()}
-      </div>
-
-      <!-- Crafter's Note Section -->
-      {product.crafterNote && (
-          <div class="crafter-note-section">
-              <div class="section-subtitle-badge">
-                  <span class="badge-dot crafter-badge-dot"></span>
-                  <span>{t('catalog.crafter_note_title')}</span>
-              </div>
-              <div class="crafter-note-body" set:html={product.crafterNote} />
           </div>
+
+          <div class="buy-option-card">
+            <div class="buy-option-main">
+              <div class="buy-option-icon">🛵</div>
+              <div class="buy-option-content">
+                <div class="buy-option-title">
+                  <strong>{t('catalog.delivery_dalat_title')}</strong>
+                  <span class="delivery-subnote">
+                    <span class="subnote-item">{t('catalog.free')}</span>
+                    {isDalatInStock ? (
+                      <span
+                        class="subnote-item dalat-dynamic-cutoff-text"
+                        data-text-today={t('catalog.delivery_dalat_sub_today')}
+                        data-text-morning={t('catalog.delivery_dalat_sub_morning')}
+                        data-text-tomorrow={t('catalog.delivery_dalat_sub_tomorrow')}
+                        set:html={t('catalog.delivery_dalat_sub_today')}
+                      />
+                    ) : (
+                      <span class="subnote-item" set:html={t('catalog.delivery_dalat_sub_remake')} />
+                    )}
+                    <span class="subnote-item subnote-item--payment">
+                      <span class="icon">payments</span>
+                      <span class="icon">qr_code</span>
+                      <span>{t('catalog.pay_on_receipt')}</span>
+                    </span>
+                  </span>
+                </div>
+                <div class="buy-option-meta">
+                  {isDalatInStock ? (
+                    <span class="stock-quantity-pill">
+                      <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
+                      <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
+                    </span>
+                  ) : (
+                    <RemakePill currentLang={currentLang} />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
-      <div class="cta-buttons product-cta-buttons">
-        <a
-          href="https://t.me/bunnybearbeads"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-primary btn-lg"
-        >
-          <span>✈️</span> {t('catalog.order_piece')} (Telegram)
-        </a>
-      </div>
-</div>
-
-<!-- Modal: NGÀY MAI (Da Nang) -->
-<div class="hystmodal" id="modal-checkup-ngaymai" aria-hidden="true">
-  <div class="hystmodal__wrap">
-    <div class="hystmodal__window checkup-modal-window" role="dialog" aria-modal="true" aria-labelledby="modal-nm-title">
-      <button data-hystclose class="hystmodal__close" aria-label={t('catalog.modal.close')}>✕</button>
-
-      <div class="modal-badge-tag">
-        <span>📍</span>
-        <span>{localizeCity('Da Nang')} • NGÀY MAI</span>
-      </div>
-
-      <h3 id="modal-nm-title" class="modal-headline">
-        {t('catalog.modal.title')}
-      </h3>
-
-      <div class="modal-body-content">
-        <p class="modal-lead">
-          {t('catalog.modal.nm_p1')}
-        </p>
-        <p>
-          {t('catalog.modal.nm_p2')}
-        </p>
-        <p set:html={t('catalog.modal.nm_p2_sub').replace('{item}', `<strong>«${product.title}»</strong>`)} />
-        <p class="modal-highlight">
-          {t('catalog.modal.nm_p3')}
-        </p>
-      </div>
-
-      <div class="modal-stock-photo-card">
-        <div class="stock-photo-header">
-          <span class="stock-photo-icon">📸</span>
-          <strong class="stock-photo-heading">{t('catalog.modal.stock_photo_title')} {formatAuditDate(ngayMaiLoc?.lastCheckedAt || '2026-10-04', currentLang)}</strong>
+      {/* In-Person Showcases & Pickup */}
+      <div class="showcases-block">
+        <div class="section-subtitle-badge">
+          <span class="badge-dot"></span>
+          <span>{t('catalog.showcase_title')}</span>
         </div>
-        <a
-          href="/images/stock/ngay-mai-showcase.jpg"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="stock-photo-frame"
-          title={t('catalog.modal.photo_zoom_hint')}
-        >
-          <img
-            src="/images/stock/ngay-mai-showcase.jpg"
-            alt={`Витрина с украшениями в NGÀY MAI (${ngayMaiLoc?.lastCheckedAt || '2026-10-04'})`}
-            class="stock-photo-image"
-            loading="lazy"
-          />
-          <span class="stock-photo-zoom-tag">🔍 {t('catalog.modal.photo_zoom_badge')}</span>
-        </a>
-      </div>
 
-      <div class="modal-hours">
-        <span class="modal-hours-icon">🕒</span>
-        <span>{t('catalog.modal.nm_hours')}</span>
-      </div>
+        <div class="buy-options-list">
+          {/* Da Lat Studio */}
+          <div class="buy-option-card in-person">
+            <div class="buy-option-main">
+              <div class="buy-option-icon">🏠</div>
+              <div class="buy-option-content">
+                <div class="buy-option-title">
+                  <div><strong>{localizeCity(dalatLoc.city)}{(dalatLoc.district || dalatLoc.location) ? `, ${localizeDistrict(dalatLoc.district || dalatLoc.location)}` : ''}</strong> — {t('geo.pickup_at_workshop_suffix')}</div>
+                  <span class="delivery-subnote">
+                    {isDalatInStock ? (
+                      <span
+                        class="subnote-item dalat-dynamic-cutoff-text"
+                        data-text-today={t('catalog.pickup_dalat_sub_today')}
+                        data-text-morning={t('catalog.pickup_dalat_sub_morning')}
+                        data-text-tomorrow={t('catalog.pickup_dalat_sub_tomorrow')}
+                        set:html={t('catalog.pickup_dalat_sub_today')}
+                      />
+                    ) : (
+                      <span class="subnote-item" set:html={t('catalog.pickup_dalat_sub_remake')} />
+                    )}
+                    <span class="subnote-item subnote-item--payment">
+                      <span class="icon">payments</span>
+                      <span class="icon">qr_code</span>
+                      <span>{t('catalog.pay_on_pickup')}</span>
+                    </span>
+                  </span>
+                </div>
+                <div class="buy-option-meta">
+                  {isDalatInStock ? (
+                    <span class="stock-quantity-pill">
+                      <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
+                      <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
+                    </span>
+                  ) : (
+                    <RemakePill currentLang={currentLang} />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
 
-      <div class="modal-footer-actions">
-        <a
-          href="https://maps.app.goo.gl/9ZpC4aK4fGzW5c8r7"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-maps-link"
-        >
-          <span>🗺️</span>
-          <strong>{t('catalog.modal.nm_maps')}</strong>
-          <span>↗</span>
-        </a>
+          {/* Partner Shops */}
+          {otherOffline.map((loc: any) => {
+            const isOfflineCheckup = loc.lastCheckedAt;
+            const modalTarget = isOfflineCheckup
+              ? (loc.shop === 'NGÀY MAI' || loc.city.toLowerCase().includes('da nang') || (loc.location && loc.location.includes('NGÀY MAI'))
+                  ? '#modal-checkup-ngaymai'
+                  : '#modal-checkup-catfood')
+              : undefined;
+
+            return (
+              <div
+                class:list={[
+                  'buy-option-card',
+                  'in-person',
+                  modalTarget && 'buy-option-card--clickable',
+                ]}
+                data-hystmodal={modalTarget}
+                role={modalTarget ? 'button' : undefined}
+                tabindex={modalTarget ? 0 : undefined}
+                title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
+              >
+                <div class="buy-option-main">
+                  <div class="buy-option-icon">📍</div>
+                  <div class="buy-option-content">
+                    <div class="buy-option-title">
+                      <div>
+                        {loc.shop ? (
+                          <>
+                            <strong>{localizeCity(loc.city)}{loc.district ? `, ${localizeDistrict(loc.district)}` : ''}</strong> — {t('catalog.on_showcase_at')} <strong>{loc.shop}</strong>
+                          </>
+                        ) : (
+                          <strong>{localizeCity(loc.city)}{(loc.district || loc.location) ? `, ${localizeDistrict(loc.district || loc.location)}` : ''}</strong>
+                        )}
+                      </div>
+                      <span class="delivery-subnote">
+                        <span class="subnote-item" set:html={t('catalog.shop_working_hours')} />
+                        <span class="subnote-item subnote-item--payment">
+                          <span class="icon">payments</span>
+                          <span class="icon">qr_code</span>
+                          <span class="icon">credit_card</span>
+                          <span>{t('catalog.pay_at_checkout')}</span>
+                        </span>
+                      </span>
+                    </div>
+                    {loc.quantity !== undefined && (
+                      <div class="buy-option-meta">
+                        {loc.lastCheckedAt ? (
+                          <span class="stock-quantity-pill stock-quantity-pill--clickable">
+                            <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                            <span class="audit-sep">·</span>
+                            <span class="audit-date" data-audit-date={loc.lastCheckedAt}>{formatAuditRelativeDate(loc.lastCheckedAt, currentLang)}</span>
+                            <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
+                          </span>
+                        ) : (
+                          <span class="stock-quantity-pill">
+                            <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                            <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal: Cat Food (Ho Chi Minh City) -->
-<div class="hystmodal" id="modal-checkup-catfood" aria-hidden="true">
-  <div class="hystmodal__wrap">
-    <div class="hystmodal__window checkup-modal-window" role="dialog" aria-modal="true" aria-labelledby="modal-cf-title">
-      <button data-hystclose class="hystmodal__close" aria-label={t('catalog.modal.close')}>✕</button>
-
-      <div class="modal-badge-tag">
-        <span>📍</span>
-        <span>{localizeCity('Ho Chi Minh')} • Cat Food</span>
+  <!-- Crafter's Note Section -->
+  {product.crafterNote && (
+    <div class="crafter-note-section">
+      <div class="section-subtitle-badge">
+        <span class="badge-dot crafter-badge-dot"></span>
+        <span>{t('catalog.crafter_note_title')}</span>
       </div>
-
-      <h3 id="modal-cf-title" class="modal-headline">
-        {t('catalog.modal.title')}
-      </h3>
-
-      <div class="modal-body-content">
-        <p class="modal-lead">
-          {t('catalog.modal.catfood_p1')}
-        </p>
-        <p>
-          {t('catalog.modal.catfood_p2')}
-        </p>
-        <p class="modal-highlight">
-          {t('catalog.modal.catfood_p3')}
-        </p>
-      </div>
-
-      <div class="modal-footer-actions">
-        <a
-          href="https://maps.google.com/?q=Cat+Food+Shop+Ben+Thanh+Ho+Chi+Minh+City"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-maps-link"
-        >
-          <span>🗺️</span>
-          <strong>{t('catalog.modal.catfood_maps')}</strong>
-          <span>↗</span>
-        </a>
-      </div>
+      <div class="crafter-note-body" set:html={product.crafterNote} />
     </div>
+  )}
+
+  <div class="cta-buttons product-cta-buttons">
+    <a
+      href="https://t.me/bunnybearbeads"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn btn-primary btn-lg"
+    >
+      <span>✈️</span> {t('catalog.order_piece')} (Telegram)
+    </a>
   </div>
 </div>
 
-<script>
-  import HystModal from 'hystmodal';
-  import 'hystmodal/css';
+<PartnerModals
+  product={product}
+  currentLang={currentLang}
+  ngayMaiLoc={ngayMaiLoc}
+  localizeCity={localizeCity}
+/>
 
-  function updateDalatCutoffs() {
-    try {
-      const scheduleWrap = document.querySelector('[data-schedule-cutoff]');
-      const openHour = scheduleWrap ? parseInt(scheduleWrap.getAttribute('data-schedule-open') || '10', 10) : 10;
-      const cutoffHour = scheduleWrap ? parseInt(scheduleWrap.getAttribute('data-schedule-cutoff') || '19', 10) : 19;
-
-      const vnHour = parseInt(
-        new Intl.DateTimeFormat('en-US', {
-          timeZone: 'Asia/Ho_Chi_Minh',
-          hour: 'numeric',
-          hour12: false
-        }).format(new Date()),
-        10
-      );
-
-      document.querySelectorAll('.dalat-dynamic-cutoff-text').forEach((el) => {
-        if (vnHour >= cutoffHour) {
-          const tomorrowText = el.getAttribute('data-text-tomorrow');
-          if (tomorrowText) el.innerHTML = tomorrowText;
-        } else if (vnHour < openHour && el.hasAttribute('data-text-morning')) {
-          const morningText = el.getAttribute('data-text-morning');
-          if (morningText) el.innerHTML = morningText;
-        } else {
-          const todayText = el.getAttribute('data-text-today');
-          if (todayText) el.innerHTML = todayText;
-        }
-      });
-    } catch {
-      // Fallback: keep static default
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updateDalatCutoffs);
-  } else {
-    updateDalatCutoffs();
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    new HystModal({
-      linkAttributeName: 'data-hystmodal',
-      catchFocus: true,
-      waitTransitions: true,
-      closeOnEsc: true,
-      closeOnOverlay: true,
-    });
-  });
-</script>
+<script src="./productDetail.client.ts"></script>

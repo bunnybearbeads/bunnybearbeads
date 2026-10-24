@@ -96,3 +96,40 @@ export function localize<T>(obj: T, lang: SupportedLanguage = defaultLang): any 
 
   return obj;
 }
+
+/**
+ * Formats an ISO date string (e.g. "2026-10-04") into a localized relative audit string
+ * (e.g. "проверено 5 дней назад", "checked 5 days ago", "kiểm tra 5 ngày trước").
+ */
+export function formatAuditRelativeDate(
+  dateStr?: string,
+  lang: SupportedLanguage = defaultLang,
+  now: Date = new Date()
+): string {
+  if (!dateStr) return '';
+  try {
+    const target = new Date(`${dateStr}T00:00:00Z`);
+    if (isNaN(target.getTime())) return dateStr;
+
+    const utcNow = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+    const utcTarget = Date.UTC(target.getUTCFullYear(), target.getUTCMonth(), target.getUTCDate());
+    const diffDays = Math.round((utcTarget - utcNow) / (1000 * 60 * 60 * 24));
+
+    const rtf = new Intl.RelativeTimeFormat(lang, { numeric: 'always' });
+    const relativePart =
+      diffDays >= 0
+        ? lang === 'ru'
+          ? 'сегодня'
+          : lang === 'vi'
+            ? 'hôm nay'
+            : 'today'
+        : rtf.format(diffDays, 'day');
+
+    if (lang === 'ru') return `проверено ${relativePart}`;
+    if (lang === 'vi') return `kiểm tra ${relativePart}`;
+    return `checked ${relativePart}`;
+  } catch {
+    return dateStr;
+  }
+}
+

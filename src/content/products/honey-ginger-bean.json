@@ -34,8 +34,8 @@
     {
       "type": "offline",
       "city": "Da Lat",
-      "location": "Lâm Viên",
-      "quantity": 2
+      "quantity": 2,
+      "district": "Lam Vien"
     },
     {
       "type": "online",

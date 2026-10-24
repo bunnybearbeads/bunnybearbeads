@@ -34,16 +34,18 @@
     {
       "type": "offline",
       "city": "Da Nang",
-      "location": "My an, магазин NGÀY MAI",
       "quantity": 1,
-      "lastCheckedAt": "2026-10-04"
+      "lastCheckedAt": "2026-10-04",
+      "district": "My An",
+      "shop": "NGÀY MAI"
     },
     {
       "type": "offline",
       "city": "Ho Chi Minh",
-      "location": "Ben Than, магазин Cat Food",
       "quantity": 1,
-      "lastCheckedAt": "2026-10-02"
+      "lastCheckedAt": "2026-10-02",
+      "district": "Ben Thanh",
+      "shop": "Cat Food"
     },
     {
       "type": "online",

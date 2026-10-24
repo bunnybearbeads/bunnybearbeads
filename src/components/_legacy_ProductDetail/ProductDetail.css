@@ -320,10 +320,8 @@
   border: 1px solid rgba(180, 83, 9, 0.25);
 }
 
-.stock-quantity-pill .audit-prep {
-  font-weight: 400;
-  opacity: 0.85;
-  margin: 0;
+.stock-quantity-pill .audit-sep {
+  opacity: 0.6;
 }
 
 .stock-quantity-pill .stock-pill-suffix {
@@ -331,7 +329,7 @@
 }
 
 .stock-quantity-pill .audit-date {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 

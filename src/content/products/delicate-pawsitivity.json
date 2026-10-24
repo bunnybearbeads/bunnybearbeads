@@ -34,15 +34,16 @@
     {
       "type": "offline",
       "city": "Da Lat",
-      "location": "Lâm Viên",
-      "quantity": 1
+      "quantity": 1,
+      "district": "Lam Vien"
     },
     {
       "type": "offline",
       "city": "Da Nang",
-      "location": "My an, магазин NGÀY MAI",
       "quantity": 2,
-      "lastCheckedAt": "2026-10-05"
+      "lastCheckedAt": "2026-10-05",
+      "district": "My An",
+      "shop": "NGÀY MAI"
     },
     {
       "type": "online",

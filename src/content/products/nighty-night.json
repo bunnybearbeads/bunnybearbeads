@@ -34,9 +34,10 @@
     {
       "type": "offline",
       "city": "Ho Chi Minh",
-      "location": "Ben Than, магазин Cat Food",
       "quantity": 1,
-      "lastCheckedAt": "2026-10-06"
+      "lastCheckedAt": "2026-10-06",
+      "district": "Ben Thanh",
+      "shop": "Cat Food"
     },
     {
       "type": "online",
