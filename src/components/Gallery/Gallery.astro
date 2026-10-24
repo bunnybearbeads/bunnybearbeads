@@ -128,7 +128,6 @@ const items: MediaItem[] = images.map((item) => {
                   preload="metadata"
                   data-gallery-video
                 />
-                <div class="gallery__video-click-area" data-gallery-video-click-area />
                 <button
                   class="gallery__full-screen-handler"
                   data-gallery-video-fs
@@ -279,53 +278,96 @@ const items: MediaItem[] = images.map((item) => {
 
       updateMainNav();
       updateThumbsNav();
-      syncVideoPlayback();
+      syncPageVideoPlayback();
     };
 
-    // NOTE: In the HTML5 spec, calling video.pause() dispatches the 'pause' event asynchronously
-    // via the browser's task queue. Thus a simple boolean flag cannot be set and cleared synchronously.
-    // Instead, we track `isSlideChanging` during carousel transitions and verify slide index in the event.
-    let isSlideChanging = false;
+    interface VideoPlaybackState {
+      userPaused: boolean;
+      hasControls: boolean;
+      currentTime: number;
+    }
 
-    // Sync video playback: resume video if user left it playing, pause in background when away
-    const syncVideoPlayback = () => {
+    // Persistent state memory for page videos by slide index
+    const pageVideoStates = new Map<number, VideoPlaybackState>();
+    let isPhotoSwipeOpen = false;
+
+    const pageSlideNodes = emblaMain.slideNodes();
+    pageSlideNodes.forEach((slide, idx) => {
+      if (slide.querySelector('video')) {
+        pageVideoStates.set(idx, {
+          userPaused: false,
+          hasControls: !isMobile(),
+          currentTime: 0,
+        });
+      }
+    });
+
+    // Sync page video playback: auto-play active video if not user-paused; pause background videos
+    const syncPageVideoPlayback = () => {
       const selectedIndex = emblaMain.selectedScrollSnap();
-      const slides = emblaMain.slideNodes();
-      slides.forEach((slide, idx) => {
+      const currentSlides = emblaMain.slideNodes();
+
+      currentSlides.forEach((slide, idx) => {
         const video = slide.querySelector<HTMLVideoElement>('video');
-        if (video) {
-          if (idx === selectedIndex) {
-            // Keep the exact state user left it in: if user stopped it, keep paused; otherwise play
-            if (video.dataset.userPaused !== 'true') {
-              video.play().catch(() => {});
-            }
+        if (!video) return;
+
+        let state = pageVideoStates.get(idx);
+        if (!state) {
+          state = { userPaused: false, hasControls: !isMobile() };
+          pageVideoStates.set(idx, state);
+        }
+
+        if (idx === selectedIndex) {
+          if (!state.userPaused) {
+            video.play().catch(() => {});
           } else {
             video.pause();
           }
+        } else {
+          video.pause();
         }
       });
     };
 
     // PhotoSwipe Lightbox initialization
     const openPhotoSwipe = (initialIndex: number) => {
-      const slides = emblaMain.slideNodes();
+      isPhotoSwipeOpen = true;
+      const currentSlides = emblaMain.slideNodes();
       const mobile = isMobile();
-      const dataSource = slides.map((slide) => {
+
+      // Persistent state memory for PhotoSwipe videos by slide index
+      const pswpVideoStates = new Map<number, VideoPlaybackState>();
+
+      const dataSource = currentSlides.map((slide, idx) => {
         const video = slide.querySelector<HTMLVideoElement>('video');
         if (video) {
           const videoSrc = video.currentSrc || video.src;
           const poster = video.poster || '';
+
+          // Inherit initial state and playback position from page video
+          const pageState = pageVideoStates.get(idx);
+          const isPlayingOnPage = !video.paused && !video.ended;
+          // If the user was watching the video on the page, continue playing in PhotoSwipe!
+          const userPaused = isPlayingOnPage ? false : (pageState ? pageState.userPaused : false);
+          const currentTime = video.currentTime || (pageState ? pageState.currentTime : 0);
+
+          pswpVideoStates.set(idx, {
+            userPaused,
+            hasControls: pageState ? pageState.hasControls : !mobile,
+            currentTime,
+          });
+
           return {
             html: `
               <div class="pswp-video-container">
                 <video
                   src="${videoSrc}"
                   poster="${poster}"
-                  autoplay
                   loop
                   muted
                   playsinline
-                  ${mobile ? '' : 'controls controlslist="nofullscreen"'}
+                  preload="auto"
+                  data-slide-index="${idx}"
                 ></video>
               </div>
             `,
@@ -345,12 +387,8 @@ const items: MediaItem[] = images.map((item) => {
         };
       });
 
-      // Pause page videos while lightbox is active (mark isSlideChanging so not counted as user manual pause)
-      isSlideChanging = true;
+      // Pause page videos while lightbox is active
       videos.forEach((v) => v.pause());
-      window.setTimeout(() => {
-        isSlideChanging = false;
-      }, 50);
 
       const pswp = new PhotoSwipe({
         dataSource,
@@ -374,61 +412,176 @@ const items: MediaItem[] = images.map((item) => {
         }
       });
 
-      let isPswpSlideChanging = false;
+      // Prevent PhotoSwipe from blocking native pointer events on video controls
+      pswp.addFilter('preventPointerEvent', (prevent, e) => {
+        const target = e.target as HTMLElement | null;
+        if (target?.closest('video')) {
+          return false;
+        }
+        return prevent;
+      });
+
+      // Prevent PhotoSwipe slide dragging when interacting with video controls
+      pswp.on('pointerDown', (e) => {
+        const target = e.originalEvent?.target as HTMLElement | null;
+        const video = target?.closest('video');
+        if (video) {
+          const rect = video.getBoundingClientRect();
+          const isControlsBar = e.originalEvent.clientY >= rect.bottom - 56;
+          if (isControlsBar) {
+            e.preventDefault();
+          }
+        }
+      });
+
+      // Prevent zooming when clicking/double-tapping video
+      pswp.on('doubleTapAction', (e) => {
+        const target = e.originalEvent?.target as HTMLElement | null;
+        if (target?.closest('video')) {
+          e.preventDefault();
+        }
+      });
 
       // Setup video controls and user pause tracking in PhotoSwipe
       pswp.on('contentAppend', ({ content }) => {
         const video = content.element?.querySelector<HTMLVideoElement>('video');
         if (!video) return;
 
-        if (mobile) {
-          video.controls = false;
-          video.removeAttribute('controlslist');
-        } else {
-          video.controls = true;
-          video.setAttribute('controlslist', 'nofullscreen');
+        const slideIdx = content.index;
+        video.dataset.slideIndex = String(slideIdx);
+
+        let state = pswpVideoStates.get(slideIdx);
+        if (!state) {
+          const pageState = pageVideoStates.get(slideIdx);
+          state = {
+            userPaused: pageState ? pageState.userPaused : false,
+            hasControls: pageState ? pageState.hasControls : !mobile,
+            currentTime: pageState ? pageState.currentTime : 0,
+          };
+          pswpVideoStates.set(slideIdx, state);
         }
 
-        // On mobile, tap on video adds controls and pauses playback
+        // Restore saved playback time so video is not reset to 0:00 when returning to slide
+        const targetTime = state.currentTime;
+        if (targetTime > 0) {
+          const restoreTime = () => {
+            try {
+              if (Math.abs(video.currentTime - targetTime) > 0.3) {
+                video.currentTime = targetTime;
+              }
+            } catch {}
+          };
+          if (video.readyState >= 1) {
+            restoreTime();
+          } else {
+            video.addEventListener('loadedmetadata', restoreTime, { once: true });
+          }
+        }
+
+        // Continuously track video playback position in PhotoSwipe
+        video.addEventListener('timeupdate', () => {
+          const currentState = pswpVideoStates.get(slideIdx);
+          if (currentState) {
+            currentState.currentTime = video.currentTime;
+          }
+        });
+
+        // Apply controls according to state
+        if (state.hasControls) {
+          video.controls = true;
+          video.setAttribute('controlslist', 'nofullscreen');
+        } else {
+          video.controls = false;
+          video.removeAttribute('controlslist');
+        }
+
+        // Toggle play/pause or controls on video click
+        let wasPausedOnPointerDown = false;
+        let pointerDownPos = { x: 0, y: 0 };
+
+        video.addEventListener('pointerdown', (event) => {
+          if (isMobile()) return;
+          pointerDownPos = { x: event.clientX, y: event.clientY };
+          wasPausedOnPointerDown = video.paused;
+        });
+
         video.addEventListener('click', (event) => {
-          if (!isMobile()) return;
           event.stopPropagation();
-          if (!video.controls) {
-            video.controls = true;
-            video.pause();
+          const currentState = pswpVideoStates.get(slideIdx);
+
+          if (isMobile()) {
+            if (currentState && !currentState.hasControls) {
+              currentState.hasControls = true;
+              currentState.userPaused = true;
+              video.controls = true;
+              video.pause();
+            }
+            return;
+          }
+
+          // If user dragged/swiped slides across the video, ignore click
+          const moveDistance = Math.hypot(
+            event.clientX - pointerDownPos.x,
+            event.clientY - pointerDownPos.y
+          );
+          if (moveDistance > 6) return;
+
+          // On desktop, clicking video body (outside bottom control bar) toggles playback
+          const rect = video.getBoundingClientRect();
+          const isControlsBar = event.clientY >= rect.bottom - 56;
+          if (!isControlsBar) {
+            // Use state recorded at pointerdown before browser's internal click-to-play fired
+            if (wasPausedOnPointerDown) {
+              video.play().catch(() => {});
+            } else {
+              video.pause();
+            }
           }
         });
 
         // Track user-initiated pause in PhotoSwipe
         video.addEventListener('pause', () => {
-          const itemEl = video.closest('.pswp__item');
-          const isActive =
-            itemEl?.classList.contains('pswp__item--active') ||
-            content === pswp.currSlide?.content;
-          if (isActive && !isPswpSlideChanging) {
-            video.dataset.userPaused = 'true';
+          const currentState = pswpVideoStates.get(slideIdx);
+          if (currentState) {
+            currentState.currentTime = video.currentTime;
+          }
+          // ONLY count as user pause if this video is currently the active slide
+          if (pswp.currIndex === slideIdx && !pswp.isDestroying) {
+            if (currentState) {
+              currentState.userPaused = true;
+            }
           }
         });
 
         video.addEventListener('play', () => {
-          video.dataset.userPaused = 'false';
+          if (pswp.currIndex === slideIdx) {
+            const currentState = pswpVideoStates.get(slideIdx);
+            if (currentState) {
+              currentState.userPaused = false;
+            }
+          }
         });
       });
 
       // Sync video playback: auto-play active video if not user-paused; pause non-active videos
       const syncPswpVideoPlayback = () => {
         if (!pswp.element) return;
+        const currentIdx = pswp.currIndex;
         const pswpVideos = pswp.element.querySelectorAll<HTMLVideoElement>('video');
-        pswpVideos.forEach((video) => {
-          const itemEl = video.closest('.pswp__item');
-          const isActive =
-            itemEl?.classList.contains('pswp__item--active') ||
-            (pswp.currSlide?.content?.element &&
-              video.closest('.pswp__content') === pswp.currSlide.content.element);
 
-          if (isActive) {
-            if (video.dataset.userPaused !== 'true') {
+        pswpVideos.forEach((video) => {
+          const slideIdx = Number(video.dataset.slideIndex);
+          let state = pswpVideoStates.get(slideIdx);
+          if (!state) {
+            state = { userPaused: false, hasControls: !mobile, currentTime: 0 };
+            pswpVideoStates.set(slideIdx, state);
+          }
+
+          if (slideIdx === currentIdx) {
+            if (!state.userPaused) {
               video.play().catch(() => {});
+            } else {
+              video.pause();
             }
           } else {
             video.pause();
@@ -437,11 +590,7 @@ const items: MediaItem[] = images.map((item) => {
       };
 
       pswp.on('change', () => {
-        isPswpSlideChanging = true;
         syncPswpVideoPlayback();
-        window.setTimeout(() => {
-          isPswpSlideChanging = false;
-        }, 80);
       });
 
       pswp.on('contentActivate', () => {
@@ -451,6 +600,11 @@ const items: MediaItem[] = images.map((item) => {
       pswp.on('contentDeactivate', ({ content }) => {
         const video = content.element?.querySelector<HTMLVideoElement>('video');
         if (video) {
+          const slideIdx = Number(video.dataset.slideIndex);
+          const currentState = pswpVideoStates.get(slideIdx);
+          if (currentState) {
+            currentState.currentTime = video.currentTime;
+          }
           video.pause();
         }
       });
@@ -461,13 +615,39 @@ const items: MediaItem[] = images.map((item) => {
 
       // Sync carousel slide when closing lightbox
       pswp.on('close', () => {
+        isPhotoSwipeOpen = false;
+        // Sync states back to page
+        pswpVideoStates.forEach((state, idx) => {
+          const pageState = pageVideoStates.get(idx);
+          if (pageState) {
+            pageState.userPaused = state.userPaused;
+            pageState.hasControls = state.hasControls;
+            pageState.currentTime = state.currentTime;
+          }
+        });
+
         const container = pswp.element;
-        container?.querySelectorAll<HTMLVideoElement>('video').forEach((v) => v.pause());
+        container?.querySelectorAll<HTMLVideoElement>('video').forEach((v) => {
+          const slideIdx = Number(v.dataset.slideIndex);
+          const state = pswpVideoStates.get(slideIdx);
+          if (state) state.currentTime = v.currentTime;
+          v.pause();
+        });
 
         const targetIndex = pswp.currIndex;
         emblaMain.scrollTo(targetIndex, true);
         syncSelectedThumb(true);
-        syncVideoPlayback();
+
+        // Sync currentTime and state to active page video
+        const activeSlide = emblaMain.slideNodes()[targetIndex];
+        const activePageVideo = activeSlide?.querySelector<HTMLVideoElement>('video');
+        const activePageState = pageVideoStates.get(targetIndex);
+        if (activePageVideo && activePageState && activePageState.currentTime > 0) {
+          try {
+            activePageVideo.currentTime = activePageState.currentTime;
+          } catch {}
+        }
+        syncPageVideoPlayback();
       });
 
       pswp.init();
@@ -601,81 +781,104 @@ const items: MediaItem[] = images.map((item) => {
       });
     });
 
-    // Clicking video frame (outside bottom controls) toggles play/pause cleanly
-    const videoClickAreas = Array.from(
-      galleryRoot.querySelectorAll<HTMLElement>('[data-gallery-video-click-area]')
-    );
-
-    videoClickAreas.forEach((area) => {
-      const item = area.closest('.gallery__item');
-      const video = item?.querySelector<HTMLVideoElement>('[data-gallery-video]');
-      if (!video) return;
-
-      area.addEventListener('click', (event) => {
-        event.stopPropagation();
-        if (video.paused) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      });
-    });
-
     // Native controls on desktop only (avoids iOS Safari full-frame dark overlay with huge skip buttons)
     const updateVideoControlsForDevice = () => {
       const mobile = isMobile();
       videos.forEach((video) => {
+        const slide = video.closest('.gallery__item');
+        const videoSlideIndex = slide ? pageSlideNodes.indexOf(slide as HTMLElement) : -1;
+        const state = pageVideoStates.get(videoSlideIndex);
+
         if (mobile) {
-          video.controls = false;
-          video.removeAttribute('controlslist');
+          const showControls = state ? state.hasControls : false;
+          video.controls = showControls;
+          if (!showControls) video.removeAttribute('controlslist');
         } else {
           video.controls = true;
           video.setAttribute('controlslist', 'nofullscreen');
+          if (state) state.hasControls = true;
         }
       });
     };
     updateVideoControlsForDevice();
     window.addEventListener('resize', updateVideoControlsForDevice);
 
-    // On mobile, videos initially start without `controls` to avoid iOS Safari rendering a heavy
-    // full-frame dark scrim overlay with large rewind/fast-forward buttons across the product.
-    // When the user taps the video:
-    // 1) We dynamically reveal native controls (`video.controls = true`).
-    // 2) We immediately pause playback (`video.pause()`) because the user's primary intent when tapping
-    //    a playing video is to pause it, not just reveal the interface.
-    // This allows the user to inspect the frame, scrub the timeline, or resume via the center Play button.
-    videos.forEach((video) => {
-      video.addEventListener('click', (event) => {
-        if (!isMobile()) return;
-        event.stopPropagation();
-        if (!video.controls) {
-          video.controls = true;
-          video.pause();
-        }
-      });
-    });
-
-    // Track user-initiated pause/play across all devices (persists paused state on navigation).
-    // IMPORTANT: video.pause() called during slide navigation is asynchronous in HTML5 and
-    // triggers a 'pause' event on the next task tick. To ensure background pauses are NOT mistaken
-    // for manual user pauses, we verify that:
-    // 1) The pause happened while this video was the active slide (videoSlideIndex === currentSlideIndex).
-    // 2) Embla is not actively transitioning/changing slides (!isSlideChanging).
+    // Video interaction and playback tracking
     videos.forEach((video) => {
       const slide = video.closest('.gallery__item');
-      video.addEventListener('pause', () => {
-        const slides = emblaMain.slideNodes();
-        const videoSlideIndex = slide ? slides.indexOf(slide as HTMLElement) : -1;
-        const currentSlideIndex = emblaMain.selectedScrollSnap();
+      const videoSlideIndex = slide ? pageSlideNodes.indexOf(slide as HTMLElement) : -1;
 
-        // Only mark as userPaused if paused while active slide and NOT during slide transition
-        if (!isSlideChanging && videoSlideIndex === currentSlideIndex) {
-          video.dataset.userPaused = 'true';
+      let wasPausedOnPointerDown = false;
+      let pointerDownPos = { x: 0, y: 0 };
+
+      video.addEventListener('pointerdown', (event) => {
+        if (isMobile()) return;
+        pointerDownPos = { x: event.clientX, y: event.clientY };
+        wasPausedOnPointerDown = video.paused;
+      });
+
+      video.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const state = pageVideoStates.get(videoSlideIndex);
+
+        if (isMobile()) {
+          if (state && !state.hasControls) {
+            state.hasControls = true;
+            state.userPaused = true;
+            video.controls = true;
+            video.pause();
+          }
+          return;
+        }
+
+        // If user dragged/swiped carousel across the video, ignore click
+        const moveDistance = Math.hypot(
+          event.clientX - pointerDownPos.x,
+          event.clientY - pointerDownPos.y
+        );
+        if (moveDistance > 6) return;
+
+        // On desktop, clicking video body (outside bottom control bar) toggles playback
+        const rect = video.getBoundingClientRect();
+        const isControlsBar = event.clientY >= rect.bottom - 56;
+        if (!isControlsBar) {
+          if (wasPausedOnPointerDown) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        }
+      });
+
+      video.addEventListener('timeupdate', () => {
+        const state = pageVideoStates.get(videoSlideIndex);
+        if (state) {
+          state.currentTime = video.currentTime;
+        }
+      });
+
+      // Track user-initiated pause/play on active slide
+      video.addEventListener('pause', () => {
+        const currentSlideIndex = emblaMain.selectedScrollSnap();
+        if (
+          videoSlideIndex === currentSlideIndex &&
+          !isPhotoSwipeOpen &&
+          !document.querySelector('.pswp--open')
+        ) {
+          const state = pageVideoStates.get(videoSlideIndex);
+          if (state) {
+            state.userPaused = true;
+            state.currentTime = video.currentTime;
+          }
         }
       });
 
       video.addEventListener('play', () => {
-        video.dataset.userPaused = 'false';
+        const currentSlideIndex = emblaMain.selectedScrollSnap();
+        if (videoSlideIndex === currentSlideIndex) {
+          const state = pageVideoStates.get(videoSlideIndex);
+          if (state) state.userPaused = false;
+        }
       });
     });
 
@@ -705,18 +908,12 @@ const items: MediaItem[] = images.map((item) => {
     // Embla event subscriptions
     emblaMain.on('init', updateMainNav);
     emblaMain.on('select', () => {
-      isSlideChanging = true;
       syncSelectedThumb(false);
-      window.setTimeout(() => {
-        isSlideChanging = false;
-      }, 50);
+      syncPageVideoPlayback();
     });
     emblaMain.on('reInit', () => {
-      isSlideChanging = true;
       syncSelectedThumb(true);
-      window.setTimeout(() => {
-        isSlideChanging = false;
-      }, 50);
+      syncPageVideoPlayback();
     });
 
     emblaThumbs.on('init', updateThumbsNav);
@@ -726,6 +923,6 @@ const items: MediaItem[] = images.map((item) => {
     // Initial state setup
     updateMainNav();
     updateThumbsNav();
-    syncVideoPlayback();
+    syncPageVideoPlayback();
   });
 </script>

@@ -130,21 +130,11 @@
 
                         .gallery__image--video {
                             pointer-events: auto;
-                            cursor: default;
+                            cursor: pointer;
                         }
 
                         .gallery__image--video::-webkit-media-controls-fullscreen-button {
                             display: none !important;
-                        }
-
-                        .gallery__video-click-area {
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            right: 0;
-                            bottom: 64px;
-                            z-index: 1;
-                            cursor: pointer;
                         }
 
                         .gallery__full-screen-handler {
@@ -337,10 +327,6 @@
                                 font-size: 16px;
                             }
 
-                            .gallery__video-click-area {
-                                display: none;
-                            }
-
     @media (440px <= width) {
         .gallery__stage {
             overflow: hidden; /* otherwise it looks weird */
@@ -364,4 +350,6 @@
     width: auto;
     height: auto;
     object-fit: contain;
+    cursor: pointer;
+    outline: none;
 }
