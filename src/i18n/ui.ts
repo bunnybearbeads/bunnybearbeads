@@ -68,7 +68,7 @@ export const ui = {
     'catalog.pcs': 'pcs',
     'catalog.remake_order': 'Request a remake',
     'catalog.offline_at': 'In person at',
-    'catalog.shop_word': 'shop',
+    'catalog.shop_word': 'partner shop',
     'catalog.offline_badge': 'In person',
     'catalog.online_badge': 'Online Store',
     'catalog.delivery_badge': 'Delivery',
@@ -86,7 +86,8 @@ export const ui = {
     'catalog.expand': 'Read more ↓',
     'catalog.collapse': 'Show less ↑',
     'catalog.last_checked': 'Stock checked',
-    'catalog.as_of': 'as of',
+    'catalog.as_of': 'in stock as of',
+    'catalog.in_stock_suffix': 'in stock',
     'catalog.weekly_audit_hint': 'Weekly stock verification — click for details',
 
     // Geo locations
@@ -96,7 +97,8 @@ export const ui = {
     'geo.district.lamvien': 'Lam Vien',
     'geo.district.myan': 'My An',
     'geo.district.benthanh': 'Ben Thanh',
-    'geo.workshop.dalat': 'Workshop in Da Lat, Lam Vien',
+    'geo.workshop_in': 'Studio in',
+    'geo.workshop.dalat': 'Studio in Da Lat, Lam Vien',
     'catalog.modal.title': 'How Partner Store Stock Works',
     'catalog.modal.nm_p1': 'NGÀY MAI is a physical artisan craft shop in Da Nang. Among jewelry with natural stones, leather goods, ceramics, and woodwork, you will find my humble showcase.',
     'catalog.modal.nm_p2': 'Once a week we sync up, and I update stock availability on this website you are currently browsing. That explains the date.',
@@ -152,7 +154,7 @@ export const ui = {
     'gallery.pause': 'Pause video',
 
     // Footer
-    'footer.copyright': '© 2026 BunnyBearBeads — Artisan Beadwork Workshop. Crafted with love 💖',
+    'footer.copyright': '© 2026 BunnyBearBeads — Artisan Beadwork Studio. Crafted with love 💖',
   },
   ru: {
     // Top Bar Links
@@ -196,7 +198,7 @@ export const ui = {
     'catalog.pcs': 'шт',
     'catalog.remake_order': 'Заказать к ремейку',
     'catalog.offline_at': 'Очно в',
-    'catalog.shop_word': 'магазин',
+    'catalog.shop_word': 'партнёрский магазин',
     'catalog.offline_badge': 'Очно',
     'catalog.online_badge': 'Онлайн',
     'catalog.delivery_badge': 'Доставка',
@@ -214,7 +216,9 @@ export const ui = {
     'catalog.expand': 'Читать полностью ↓',
     'catalog.collapse': 'Свернуть ↑',
     'catalog.last_checked': 'Проверено',
-    'catalog.as_of': 'на',
+    'catalog.as_of': 'в наличии на',
+    'catalog.as_of_singular': 'в наличии на',
+    'catalog.in_stock_suffix': 'в наличии',
     'catalog.weekly_audit_hint': 'Еженедельный чекап наличия — нажмите, чтобы узнать подробнее',
 
     // Geo locations
@@ -224,6 +228,7 @@ export const ui = {
     'geo.district.lamvien': 'Ламвьен',
     'geo.district.myan': 'Ми Ан',
     'geo.district.benthanh': 'Бен Тхань',
+    'geo.workshop_in': 'Мастерская в',
     'geo.workshop.dalat': 'Мастерская в Далат, Ламвьен',
     'catalog.modal.title': 'Как устроено наличие в магазинах',
     'catalog.modal.nm_p1': '«NGÀY MAI» — физический магазин ремесленных изделий в Дананге. Среди украшений с натуральными камнями, аксессуаров из кожи, керамики и дерева расположилась и моя скромная витрина.',
@@ -324,7 +329,7 @@ export const ui = {
     'catalog.pcs': 'cái',
     'catalog.remake_order': 'Đặt làm lại (Remake)',
     'catalog.offline_at': 'Trực tiếp tại',
-    'catalog.shop_word': 'cửa hàng',
+    'catalog.shop_word': 'cửa hàng đối tác',
     'catalog.offline_badge': 'Trực tiếp',
     'catalog.online_badge': 'Trực tuyến',
     'catalog.delivery_badge': 'Giao hàng',
@@ -342,7 +347,8 @@ export const ui = {
     'catalog.expand': 'Xem thêm ↓',
     'catalog.collapse': 'Thu gọn ↑',
     'catalog.last_checked': 'Đã kiểm tra',
-    'catalog.as_of': 'tính đến ngày',
+    'catalog.as_of': 'có sẵn từ',
+    'catalog.in_stock_suffix': 'có sẵn',
     'catalog.weekly_audit_hint': 'Kiểm kê định kỳ mỗi tuần — bấm để xem chi tiết',
 
     // Geo locations
@@ -352,6 +358,7 @@ export const ui = {
     'geo.district.lamvien': 'Lâm Viên',
     'geo.district.myan': 'Mỹ An',
     'geo.district.benthanh': 'Bến Thành',
+    'geo.workshop_in': 'Xưởng tại',
     'geo.workshop.dalat': 'Xưởng tại Đà Lạt, Lâm Viên',
     'catalog.modal.title': 'Về Tình Trạng Hàng Tại Cửa Hàng Đối Tác',
     'catalog.modal.nm_p1': '«NGÀY MAI» là cửa hàng thủ công trực tiếp (offline) tại Đà Nẵng, nơi trưng bày quầy hàng nhỏ xinh của mình cùng với nhiều nghệ nhân độc lập khác.',

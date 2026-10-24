@@ -31,6 +31,17 @@ function localizeDistrict(distStr: string = '') {
   if (d.includes('ben than') || d.includes('bến thành') || d.includes('ben thanh')) return t('geo.district.benthanh');
   return distStr;
 }
+
+function formatAuditDate(dateStr?: string, lang: string = 'en') {
+  if (!dateStr) return '';
+  try {
+    const d = new Date(`${dateStr}T00:00:00Z`);
+    if (isNaN(d.getTime())) return dateStr;
+    return new Intl.DateTimeFormat(lang, { month: 'long', day: 'numeric', timeZone: 'UTC' }).format(d);
+  } catch {
+    return dateStr;
+  }
+}
 const categoryId = productRaw.data.categoryId || 'bracelets';
 ---
 
@@ -121,7 +132,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
             return items.map((item: any) => {
               if (item.kind === 'delivery') {
                 return (
-                  <div class:list={['buy-option-card', 'online', item.nestedClass]}>
+                  <div class:list={['buy-option-card', 'online', 'delivery', item.nestedClass]}>
                     <div class="buy-option-icon">{item.icon}</div>
                     <div class="buy-option-content">
                       <div class="buy-option-title">
@@ -131,8 +142,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                         </div>
                       </div>
                     </div>
-                    <span class="stock-type-tag online">
-                      <span class="tag-status-indicator"></span>
+                    <span class="stock-type-tag online delivery">
                       {t('catalog.delivery_badge')}
                     </span>
                   </div>
@@ -151,7 +161,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                 <div
                   class:list={[
                     'buy-option-card',
-                    loc.type,
+                    loc.type === 'offline' ? 'in-person' : loc.type,
                     modalTarget && 'buy-option-card--clickable',
                   ]}
                   data-hystmodal={modalTarget}
@@ -177,7 +187,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                       ) : item.isDalatLoc && !item.isDalatInStock ? (
                         <div class="dalat-remake-wrap">
                           <div class="dalat-title-row">
-                            <strong>{item.isDalatLoc ? t('geo.workshop.dalat') : `${localizeCity(loc.city)}${loc.location ? `, ${localizeDistrict(loc.location)}` : ''}`}</strong>
+                            <span>{t('geo.workshop_in')} <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong></span>
                             <span class="stock-quantity-pill stock-sold-pill">
                               <strong>{t('catalog.sold_out')}</strong>
                             </span>
@@ -186,30 +196,32 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                           <div class="dalat-remake-time-text">{t('catalog.craft_time')}</div>
                         </div>
                       ) : (
-                        <strong>{item.isDalatLoc ? t('geo.workshop.dalat') : `${localizeCity(loc.city)}${loc.location ? `, ${localizeDistrict(loc.location)}` : ''}`}</strong>
-                      )}
-                    </div>
-                    <div class="buy-option-meta">
-                      {loc.quantity !== undefined && (
-                        loc.lastCheckedAt ? (
-                          <span class="stock-quantity-pill stock-quantity-pill--clickable">
-                            <strong>{loc.quantity} {t('catalog.pcs')}</strong>
-                            <span class="audit-prep"> {t('catalog.as_of')} </span>
-                            <span class="audit-date">{loc.lastCheckedAt}</span>
-                            <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
-                          </span>
+                        item.isDalatLoc ? (
+                          <span>{t('geo.workshop_in')} <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong></span>
                         ) : (
-                          (!item.isDalatLoc || item.isDalatInStock) && (
-                            <span class="stock-quantity-pill">
-                              <strong>{loc.quantity} {t('catalog.pcs')}</strong>
-                            </span>
-                          )
+                          <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
                         )
                       )}
                     </div>
+                    {loc.quantity !== undefined && (loc.lastCheckedAt || !item.isDalatLoc || item.isDalatInStock) && (
+                      <div class="buy-option-meta">
+                        {loc.lastCheckedAt ? (
+                          <span class="stock-quantity-pill stock-quantity-pill--clickable">
+                            <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                            <span class="audit-prep"> {t('catalog.as_of')} </span>
+                            <span class="audit-date">{formatAuditDate(loc.lastCheckedAt, currentLang)}</span>
+                            <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
+                          </span>
+                        ) : (
+                          <span class="stock-quantity-pill">
+                            <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                            <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </div>
-                  <span class:list={['stock-type-tag', loc.type]}>
-                    <span class="tag-status-indicator"></span>
+                  <span class:list={['stock-type-tag', loc.type === 'offline' ? 'in-person' : loc.type]}>
                     {loc.type === 'offline' ? t('catalog.offline_badge') : t('catalog.delivery_badge')}
                   </span>
                 </div>
@@ -297,7 +309,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
       <div class="modal-stock-photo-card">
         <div class="stock-photo-header">
           <span class="stock-photo-icon">📸</span>
-          <strong class="stock-photo-heading">{t('catalog.modal.stock_photo_title')} {ngayMaiLoc?.lastCheckedAt || '2026-10-04'}</strong>
+          <strong class="stock-photo-heading">{t('catalog.modal.stock_photo_title')} {formatAuditDate(ngayMaiLoc?.lastCheckedAt || '2026-10-04', currentLang)}</strong>
         </div>
         <a
           href="/images/stock/ngay-mai-showcase.jpg"
