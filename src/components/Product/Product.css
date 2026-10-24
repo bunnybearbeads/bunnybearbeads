@@ -8,6 +8,13 @@
   gap: 24px;
   align-items: start;
 }
+  .product__summary {
+    height: 100%;
+  }
+    .product__sticky-part {
+      position: sticky;
+      top: 40px;
+    }
 
 .product__summary,
 .product__gallery,
