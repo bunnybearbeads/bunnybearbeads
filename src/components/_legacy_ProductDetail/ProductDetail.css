@@ -159,11 +159,33 @@
 }
 
 .delivery-subnote {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   font-size: 13px;
   font-weight: 400;
   line-height: 1.4;
   color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.subnote-item {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.subnote-item:not(:last-child)::after {
+  content: "·";
+  margin: 0 7px;
+  color: var(--text-muted);
+  opacity: 0.65;
+}
+
+.subnote-item--payment {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .delivery-subnote .icon {
@@ -188,6 +210,23 @@
   background: #FEF2F2;
   color: #991B1B;
   border: 1px solid rgba(220, 38, 38, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.remake-pill-status {
+  font-weight: 700;
+}
+
+.remake-pill-sep {
+  opacity: 0.6;
+  margin: 0 1px;
+}
+
+.remake-pill-action {
+  font-weight: 400;
+  white-space: nowrap;
 }
 
 .buy-option-icon {
@@ -814,6 +853,35 @@
     font-size: 28px;
   }
 
+  .buy-option-main {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .delivery-subnote {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    margin-top: 5px;
+  }
+
+  .subnote-item {
+    white-space: normal;
+  }
+
+  .subnote-item:not(:last-child)::after {
+    display: none;
+  }
+
+  .subnote-item::before {
+    content: "•";
+    margin-right: 6px;
+    font-size: 11px;
+    line-height: 1;
+    color: var(--text-muted);
+    opacity: 0.7;
+  }
+
   .buy-option-card.nested-delivery {
     margin-left: 18px;
   }
@@ -827,5 +895,27 @@
 
   .buy-option-card.nested-delivery.nested-first::after {
     width: 2px;
+  }
+}
+
+@media (width < 400px) {
+  .remake-verb-hide {
+    display: none;
+  }
+  .remake-word {
+    text-transform: capitalize;
+  }
+}
+
+@media (width < 360px) {
+  .remake-prep-hide {
+    display: none;
+  }
+}
+
+@media (width < 330px) {
+  .remake-pill-status,
+  .remake-pill-sep {
+    display: none;
   }
 }

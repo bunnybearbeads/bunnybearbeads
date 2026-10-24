@@ -110,10 +110,13 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                         <div class="buy-option-title">
                           <strong class="delivery-title-strong">{t('catalog.delivery_vn_title')}</strong>
                           <span class="delivery-subnote">
-                            <span set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')} />  ·  &#8203;
-                            <span class="icon">payments</span>
-                            <span class="icon">qr_code</span>
-                            <span>{t('catalog.pay_on_receipt')}</span>
+                            <span class="subnote-item">{t('catalog.free')}</span>
+                            <span class="subnote-item" set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')} />
+                            <span class="subnote-item subnote-item--payment">
+                              <span class="icon">payments</span>
+                              <span class="icon">qr_code</span>
+                              <span>{t('catalog.pay_on_receipt')}</span>
+                            </span>
                           </span>
                         </div>
                         <div class="buy-option-meta">
@@ -124,8 +127,32 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                             </span>
                           ) : (
                             <span class="stock-quantity-pill stock-remake-pill">
-                              <strong>{t('catalog.remake_pill_label')}</strong>
-                              <span class="stock-pill-suffix">{t('catalog.remake_pill_suffix')}</span>
+                              <strong class="remake-pill-status">{t('catalog.remake_pill_label')}</strong>
+                              <span class="remake-pill-sep">·</span>
+                              <span class="remake-pill-action">
+                                {currentLang === 'ru' && (
+                                  <>
+                                    <span class="remake-verb-hide">Сплету </span>
+                                    <span class="remake-word">повтор </span>
+                                    <span class="remake-prep-hide">за </span>
+                                    <span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;дня</span>
+                                  </>
+                                )}
+                                {currentLang === 'en' && (
+                                  <>
+                                    <span class="remake-verb-hide">Remake </span>
+                                    <span class="remake-prep-hide">in </span>
+                                    <span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;days</span>
+                                  </>
+                                )}
+                                {currentLang === 'vi' && (
+                                  <>
+                                    <span class="remake-verb-hide">Nhận làm </span>
+                                    <span class="remake-prep-hide">trong </span>
+                                    <span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;ngày</span>
+                                  </>
+                                )}
+                              </span>
                             </span>
                           )}
                         </div>
@@ -140,20 +167,23 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                         <div class="buy-option-title">
                           <strong>{t('catalog.delivery_dalat_title')}</strong>
                           <span class="delivery-subnote">
+                            <span class="subnote-item">{t('catalog.free')}</span>
                             {isDalatInStock ? (
                               <span
-                                class="dalat-dynamic-cutoff-text"
+                                class="subnote-item dalat-dynamic-cutoff-text"
                                 data-text-today={t('catalog.delivery_dalat_sub_today')}
                                 data-text-morning={t('catalog.delivery_dalat_sub_morning')}
                                 data-text-tomorrow={t('catalog.delivery_dalat_sub_tomorrow')}
                                 set:html={t('catalog.delivery_dalat_sub_today')}
                               />
                             ) : (
-                              <span set:html={t('catalog.delivery_dalat_sub_remake')} />
-                            )}  ·  &#8203;
-                            <span class="icon">payments</span>
-                            <span class="icon">qr_code</span>
-                            <span>{t('catalog.pay_on_receipt')}</span>
+                              <span class="subnote-item" set:html={t('catalog.delivery_dalat_sub_remake')} />
+                            )}
+                            <span class="subnote-item subnote-item--payment">
+                              <span class="icon">payments</span>
+                              <span class="icon">qr_code</span>
+                              <span>{t('catalog.pay_on_receipt')}</span>
+                            </span>
                           </span>
                         </div>
                         <div class="buy-option-meta">
@@ -164,8 +194,32 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                             </span>
                           ) : (
                             <span class="stock-quantity-pill stock-remake-pill">
-                              <strong>{t('catalog.remake_pill_label')}</strong>
-                              <span class="stock-pill-suffix">{t('catalog.remake_pill_suffix')}</span>
+                              <strong class="remake-pill-status">{t('catalog.remake_pill_label')}</strong>
+                              <span class="remake-pill-sep">·</span>
+                              <span class="remake-pill-action">
+                                {currentLang === 'ru' && (
+                                  <>
+                                    <span class="remake-verb-hide">Сплету </span>
+                                    <span class="remake-word">повтор </span>
+                                    <span class="remake-prep-hide">за </span>
+                                    <span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;дня</span>
+                                  </>
+                                )}
+                                {currentLang === 'en' && (
+                                  <>
+                                    <span class="remake-verb-hide">Remake </span>
+                                    <span class="remake-prep-hide">in </span>
+                                    <span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;days</span>
+                                  </>
+                                )}
+                                {currentLang === 'vi' && (
+                                  <>
+                                    <span class="remake-verb-hide">Nhận làm </span>
+                                    <span class="remake-prep-hide">trong </span>
+                                    <span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;ngày</span>
+                                  </>
+                                )}
+                              </span>
                             </span>
                           )}
                         </div>
@@ -193,18 +247,20 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                           <span class="delivery-subnote">
                             {isDalatInStock ? (
                               <span
-                                class="dalat-dynamic-cutoff-text"
+                                class="subnote-item dalat-dynamic-cutoff-text"
                                 data-text-today={t('catalog.pickup_dalat_sub_today')}
                                 data-text-morning={t('catalog.pickup_dalat_sub_morning')}
                                 data-text-tomorrow={t('catalog.pickup_dalat_sub_tomorrow')}
                                 set:html={t('catalog.pickup_dalat_sub_today')}
                               />
                             ) : (
-                              <span set:html={t('catalog.pickup_dalat_sub_remake')} />
-                            )}  ·  &#8203;
-                            <span class="icon">payments</span>
-                            <span class="icon">qr_code</span>
-                            <span>{t('catalog.pay_on_pickup')}</span>
+                              <span class="subnote-item" set:html={t('catalog.pickup_dalat_sub_remake')} />
+                            )}
+                            <span class="subnote-item subnote-item--payment">
+                              <span class="icon">payments</span>
+                              <span class="icon">qr_code</span>
+                              <span>{t('catalog.pay_on_pickup')}</span>
+                            </span>
                           </span>
                         </div>
                         <div class="buy-option-meta">
@@ -215,8 +271,32 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                             </span>
                           ) : (
                             <span class="stock-quantity-pill stock-remake-pill">
-                              <strong>{t('catalog.remake_pill_label')}</strong>
-                              <span class="stock-pill-suffix">{t('catalog.remake_pill_suffix')}</span>
+                              <strong class="remake-pill-status">{t('catalog.remake_pill_label')}</strong>
+                              <span class="remake-pill-sep">·</span>
+                              <span class="remake-pill-action">
+                                {currentLang === 'ru' && (
+                                  <>
+                                    <span class="remake-verb-hide">Сплету </span>
+                                    <span class="remake-word">повтор </span>
+                                    <span class="remake-prep-hide">за </span>
+                                    <span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;дня</span>
+                                  </>
+                                )}
+                                {currentLang === 'en' && (
+                                  <>
+                                    <span class="remake-verb-hide">Remake </span>
+                                    <span class="remake-prep-hide">in </span>
+                                    <span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;days</span>
+                                  </>
+                                )}
+                                {currentLang === 'vi' && (
+                                  <>
+                                    <span class="remake-verb-hide">Nhận làm </span>
+                                    <span class="remake-prep-hide">trong </span>
+                                    <span class="remake-time">{siteSettings.fulfillment.remakeDays}&nbsp;ngày</span>
+                                  </>
+                                )}
+                              </span>
                             </span>
                           )}
                         </div>
@@ -267,11 +347,13 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                                 )}
                               </div>
                               <span class="delivery-subnote">
-                                <span set:html={t('catalog.shop_working_hours')} />  ·  &#8203;
-                                <span class="icon">payments</span>
-                                <span class="icon">qr_code</span>
-                                <span class="icon">credit_card</span>
-                                <span>{t('catalog.pay_at_checkout')}</span>
+                                <span class="subnote-item" set:html={t('catalog.shop_working_hours')} />
+                                <span class="subnote-item subnote-item--payment">
+                                  <span class="icon">payments</span>
+                                  <span class="icon">qr_code</span>
+                                  <span class="icon">credit_card</span>
+                                  <span>{t('catalog.pay_at_checkout')}</span>
+                                </span>
                               </span>
                             </div>
                             {loc.quantity !== undefined && (

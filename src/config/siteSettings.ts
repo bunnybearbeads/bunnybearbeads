@@ -96,23 +96,23 @@ export function getCourierScheduleText(lang: 'ru' | 'en' | 'vi') {
   const { openHour, closeHour } = siteSettings.studio;
   if (lang === 'en') {
     return {
-      today: `Free\u00A0\u00A0·\u00A0\u00A0\u200Btoday before ${formatTime12(closeHour)}`,
-      morning: `Free\u00A0\u00A0·\u00A0\u00A0\u200Btoday ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
-      tomorrow: `Free\u00A0\u00A0·\u00A0\u00A0\u200Btomorrow ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
+      today: `today before ${formatTime12(closeHour)}`,
+      morning: `today ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
+      tomorrow: `tomorrow ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
     };
   }
   if (lang === 'vi') {
     return {
-      today: `Miễn phí\u00A0\u00A0·\u00A0\u00A0\u200Bhôm nay trước ${formatTime24(closeHour)}`,
-      morning: `Miễn phí\u00A0\u00A0·\u00A0\u00A0\u200Bhôm nay ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
-      tomorrow: `Miễn phí\u00A0\u00A0·\u00A0\u00A0\u200Bngày mai ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
+      today: `hôm nay trước ${formatTime24(closeHour)}`,
+      morning: `hôm nay ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
+      tomorrow: `ngày mai ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
     };
   }
   // ru
   return {
-    today: `Бесплатно\u00A0\u00A0·\u00A0\u00A0\u200Bсегодня до\u00A0${formatTime24(closeHour)}`,
-    morning: `Бесплатно\u00A0\u00A0·\u00A0\u00A0\u200Bсегодня с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
-    tomorrow: `Бесплатно\u00A0\u00A0·\u00A0\u00A0\u200Bзавтра с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
+    today: `сегодня до\u00A0${formatTime24(closeHour)}`,
+    morning: `сегодня с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
+    tomorrow: `завтра с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
   };
 }
 
@@ -205,18 +205,18 @@ export function getDeliveryVietnamSubnote(lang: 'ru' | 'en' | 'vi', isRemake: bo
   const { vietnamShippingDays } = siteSettings.fulfillment;
   if (lang === 'en') {
     return isRemake
-      ? `Free\u00A0\u00A0·\u00A0\u00A0\u200B${vietnamShippingDays}\u00A0days upon completion`
-      : `Free\u00A0\u00A0·\u00A0\u00A0\u200B${vietnamShippingDays}\u00A0days`;
+      ? `${vietnamShippingDays}\u00A0days upon completion`
+      : `${vietnamShippingDays}\u00A0days`;
   }
   if (lang === 'vi') {
     return isRemake
-      ? `Miễn phí\u00A0\u00A0·\u00A0\u00A0\u200B${vietnamShippingDays}\u00A0ngày sau khi hoàn thành`
-      : `Miễn phí\u00A0\u00A0·\u00A0\u00A0\u200B${vietnamShippingDays}\u00A0ngày`;
+      ? `${vietnamShippingDays}\u00A0ngày sau khi hoàn thành`
+      : `${vietnamShippingDays}\u00A0ngày`;
   }
   // ru
   return isRemake
-    ? `Бесплатно\u00A0\u00A0·\u00A0\u00A0\u200B${vietnamShippingDays}\u00A0дня по\u00A0окончанию работ`
-    : `Бесплатно\u00A0\u00A0·\u00A0\u00A0\u200B${vietnamShippingDays}\u00A0дня`;
+    ? `${vietnamShippingDays}\u00A0дня по\u00A0окончанию работ`
+    : `${vietnamShippingDays}\u00A0дня`;
 }
 
 export function getRemakeStockPillText(lang: 'ru' | 'en' | 'vi') {
