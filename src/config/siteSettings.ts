@@ -151,3 +151,68 @@ export function getPartnerShopHoursText(lang: 'ru' | 'en' | 'vi'): string {
   // ru
   return `Часы работы: с ${formatTime24(openHour)} до ${formatTime24(closeHour)} без обеда и выходных`;
 }
+
+export function getPaymentNotesText(lang: 'ru' | 'en' | 'vi') {
+  if (lang === 'en') {
+    return {
+      delivery: 'Payment on delivery: cash or VietQR to courier',
+      courier: 'Payment on delivery: cash or VietQR to courier',
+      pickup: 'Payment upon pickup: cash or VietQR',
+      shop: 'Payment at checkout: cash, VietQR, or international card (+3%)',
+    };
+  }
+  if (lang === 'vi') {
+    return {
+      delivery: 'Thanh toán khi nhận: tiền mặt hoặc VietQR cho shipper',
+      courier: 'Thanh toán khi nhận: tiền mặt hoặc VietQR cho shipper',
+      pickup: 'Thanh toán khi nhận: tiền mặt hoặc VietQR',
+      shop: 'Thanh toán tại quầy: tiền mặt, VietQR hoặc thẻ quốc tế (+3%)',
+    };
+  }
+  // ru
+  return {
+    delivery: 'Оплата при получении: наличными или VietQR курьеру',
+    courier: 'Оплата при получении: наличными или VietQR курьеру',
+    pickup: 'Оплата при встрече: наличными или VietQR',
+    shop: 'Оплата на кассе: наличными, VietQR или международной картой (+3%)',
+  };
+}
+
+export function getDeliveryVietnamSubnote(lang: 'ru' | 'en' | 'vi', isRemake: boolean): string {
+  const { vietnamShippingDays } = siteSettings.fulfillment;
+  if (lang === 'en') {
+    return isRemake
+      ? `Free · ${vietnamShippingDays} days upon completion · Dispatched from Da Lat`
+      : `Free · ${vietnamShippingDays} days · Dispatched from Da Lat`;
+  }
+  if (lang === 'vi') {
+    return isRemake
+      ? `Miễn phí · ${vietnamShippingDays} ngày sau khi hoàn thành · Gửi từ Đà Lạt`
+      : `Miễn phí · ${vietnamShippingDays} ngày · Gửi từ Đà Lạt`;
+  }
+  // ru
+  return isRemake
+    ? `Бесплатно · ${vietnamShippingDays} дня по окончанию работ · Отправка из Далата`
+    : `Бесплатно · ${vietnamShippingDays} дня · Отправка из Далата`;
+}
+
+export function getRemakeStockPillText(lang: 'ru' | 'en' | 'vi') {
+  const { remakeDays } = siteSettings.fulfillment;
+  if (lang === 'en') {
+    return {
+      label: 'Out of stock',
+      suffix: `· Remake in ${remakeDays} days`,
+    };
+  }
+  if (lang === 'vi') {
+    return {
+      label: 'Tạm hết hàng',
+      suffix: `· Làm lại trong ${remakeDays} ngày`,
+    };
+  }
+  // ru
+  return {
+    label: 'Нет в наличии',
+    suffix: `· Сплету повтор за ${remakeDays} дня`,
+  };
+}

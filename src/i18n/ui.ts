@@ -29,19 +29,34 @@ import {
   getCourierScheduleText,
   getPickupScheduleText,
   getPartnerShopHoursText,
+  getPaymentNotesText,
+  getDeliveryVietnamSubnote,
+  getRemakeStockPillText,
 } from '../config/siteSettings';
 
 const courierEN = getCourierScheduleText('en');
 const pickupEN = getPickupScheduleText('en');
 const shopHoursEN = getPartnerShopHoursText('en');
+const paymentEN = getPaymentNotesText('en');
+const deliveryVnReadyEN = getDeliveryVietnamSubnote('en', false);
+const deliveryVnRemakeEN = getDeliveryVietnamSubnote('en', true);
+const remakePillEN = getRemakeStockPillText('en');
 
 const courierRU = getCourierScheduleText('ru');
 const pickupRU = getPickupScheduleText('ru');
 const shopHoursRU = getPartnerShopHoursText('ru');
+const paymentRU = getPaymentNotesText('ru');
+const deliveryVnReadyRU = getDeliveryVietnamSubnote('ru', false);
+const deliveryVnRemakeRU = getDeliveryVietnamSubnote('ru', true);
+const remakePillRU = getRemakeStockPillText('ru');
 
 const courierVI = getCourierScheduleText('vi');
 const pickupVI = getPickupScheduleText('vi');
 const shopHoursVI = getPartnerShopHoursText('vi');
+const paymentVI = getPaymentNotesText('vi');
+const deliveryVnReadyVI = getDeliveryVietnamSubnote('vi', false);
+const deliveryVnRemakeVI = getDeliveryVietnamSubnote('vi', true);
+const remakePillVI = getRemakeStockPillText('vi');
 
 export const ui = {
   en: {
@@ -103,6 +118,10 @@ export const ui = {
     'catalog.pickup_dalat_sub_tomorrow': pickupEN.tomorrow,
     'catalog.pickup_dalat_sub_remake': 'Upon completion',
     'catalog.shop_working_hours': shopHoursEN,
+    'catalog.delivery_payment_note': paymentEN.delivery,
+    'catalog.courier_payment_note': paymentEN.courier,
+    'catalog.pickup_payment_note': paymentEN.pickup,
+    'catalog.shop_payment_note': paymentEN.shop,
     'catalog.delivery_vn_title': 'Delivery across Vietnam',
     'catalog.delivery_vn_sub': 'free, 1–3 days',
     'catalog.delivery_vn_sub_remake': '1–3 days upon completion',
@@ -113,7 +132,10 @@ export const ui = {
     'catalog.showcase_title': 'In-Person Showcases & Pickup',
     'catalog.delivery_hero_badge_ready': 'Free · 1–3 days',
     'catalog.delivery_hero_badge_remake': 'Free · 2–4 days',
-    'catalog.delivery_from_dalat': 'Free · 1–3 days · Dispatched from Da Lat',
+    'catalog.delivery_from_dalat': deliveryVnReadyEN,
+    'catalog.delivery_from_dalat_remake': deliveryVnRemakeEN,
+    'catalog.remake_pill_label': remakePillEN.label,
+    'catalog.remake_pill_suffix': remakePillEN.suffix,
     'catalog.ready_to_ship': 'ready to ship',
     'catalog.craft_remake_dalat': 'Happy to craft a remake in Da Lat studio',
     'catalog.courier_dalat_today': 'Free same-day courier available within Da Lat',
@@ -254,6 +276,10 @@ export const ui = {
     'catalog.pickup_dalat_sub_tomorrow': pickupRU.tomorrow,
     'catalog.pickup_dalat_sub_remake': 'В день готовности',
     'catalog.shop_working_hours': shopHoursRU,
+    'catalog.delivery_payment_note': paymentRU.delivery,
+    'catalog.courier_payment_note': paymentRU.courier,
+    'catalog.pickup_payment_note': paymentRU.pickup,
+    'catalog.shop_payment_note': paymentRU.shop,
     'catalog.delivery_vn_title': 'Доставка по Вьетнаму',
     'catalog.delivery_vn_sub': 'бесплатно, 1–3 дня',
     'catalog.delivery_vn_sub_remake': '1–3 дня по окончанию работ',
@@ -264,7 +290,10 @@ export const ui = {
     'catalog.showcase_title': 'Наличие на витринах и самовывоз',
     'catalog.delivery_hero_badge_ready': 'Бесплатно · 1–3 дня',
     'catalog.delivery_hero_badge_remake': 'Бесплатно · Срок 2–4 дня',
-    'catalog.delivery_from_dalat': 'Бесплатно · 1–3 дня · Отправка из Далата',
+    'catalog.delivery_from_dalat': deliveryVnReadyRU,
+    'catalog.delivery_from_dalat_remake': deliveryVnRemakeRU,
+    'catalog.remake_pill_label': remakePillRU.label,
+    'catalog.remake_pill_suffix': remakePillRU.suffix,
     'catalog.ready_to_ship': 'готовы к отправке',
     'catalog.craft_remake_dalat': 'С удовольствием сплету повтор в студии в Далате',
     'catalog.courier_dalat_today': 'По Далату доступен бесплатный курьер в день заказа',
@@ -406,6 +435,10 @@ export const ui = {
     'catalog.pickup_dalat_sub_tomorrow': pickupVI.tomorrow,
     'catalog.pickup_dalat_sub_remake': 'Khi hoàn thành',
     'catalog.shop_working_hours': shopHoursVI,
+    'catalog.delivery_payment_note': paymentVI.delivery,
+    'catalog.courier_payment_note': paymentVI.courier,
+    'catalog.pickup_payment_note': paymentVI.pickup,
+    'catalog.shop_payment_note': paymentVI.shop,
     'catalog.delivery_vn_title': 'Giao hàng toàn Việt Nam',
     'catalog.delivery_vn_sub': 'miễn phí, 1–3 ngày',
     'catalog.delivery_vn_sub_remake': '1–3 ngày sau khi hoàn thành',
@@ -416,7 +449,10 @@ export const ui = {
     'catalog.showcase_title': 'Xem trực tiếp & nhận tại chỗ',
     'catalog.delivery_hero_badge_ready': 'Miễn phí · 1–3 ngày',
     'catalog.delivery_hero_badge_remake': 'Miễn phí · 2–4 ngày',
-    'catalog.delivery_from_dalat': 'Miễn phí · 1–3 ngày · Gửi từ Đà Lạt',
+    'catalog.delivery_from_dalat': deliveryVnReadyVI,
+    'catalog.delivery_from_dalat_remake': deliveryVnRemakeVI,
+    'catalog.remake_pill_label': remakePillVI.label,
+    'catalog.remake_pill_suffix': remakePillVI.suffix,
     'catalog.ready_to_ship': 'sẵn sàng gửi',
     'catalog.craft_remake_dalat': 'Sẵn sàng làm lại theo yêu cầu tại studio Đà Lạt',
     'catalog.courier_dalat_today': 'Giao hỏa tốc miễn phí tại Đà Lạt ngay trong ngày',

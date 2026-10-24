@@ -118,7 +118,10 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                       <div class="buy-option-content">
                         <div class="buy-option-title">
                           <strong class="delivery-title-strong">{t('catalog.delivery_vn_title')}</strong>
-                          <span class="delivery-subnote">{t('catalog.delivery_from_dalat')}</span>
+                          <span class="delivery-subnote">
+                            {isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')}
+                          </span>
+                          <span class="delivery-subnote delivery-payment-note">{t('catalog.delivery_payment_note')}</span>
                         </div>
                         <div class="buy-option-meta">
                           {isDalatInStock ? (
@@ -128,8 +131,8 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                             </span>
                           ) : (
                             <span class="stock-quantity-pill stock-remake-pill">
-                              <strong>{t('catalog.craft_remake')}</strong>
-                              <span class="stock-pill-suffix">· {t('catalog.craft_time')}</span>
+                              <strong>{t('catalog.remake_pill_label')}</strong>
+                              <span class="stock-pill-suffix">{t('catalog.remake_pill_suffix')}</span>
                             </span>
                           )}
                         </div>
@@ -157,6 +160,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                               {t('catalog.delivery_dalat_sub_remake')}
                             </span>
                           )}
+                          <span class="delivery-subnote delivery-payment-note">{t('catalog.courier_payment_note')}</span>
                         </div>
                         <div class="buy-option-meta">
                           {isDalatInStock ? (
@@ -166,8 +170,8 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                             </span>
                           ) : (
                             <span class="stock-quantity-pill stock-remake-pill">
-                              <strong>{t('catalog.craft_remake')}</strong>
-                              <span class="stock-pill-suffix">· {t('catalog.craft_time')}</span>
+                              <strong>{t('catalog.remake_pill_label')}</strong>
+                              <span class="stock-pill-suffix">{t('catalog.remake_pill_suffix')}</span>
                             </span>
                           )}
                         </div>
@@ -206,6 +210,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                               {t('catalog.pickup_dalat_sub_remake')}
                             </span>
                           )}
+                          <span class="delivery-subnote delivery-payment-note">{t('catalog.pickup_payment_note')}</span>
                         </div>
                         <div class="buy-option-meta">
                           {isDalatInStock ? (
@@ -215,8 +220,8 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                             </span>
                           ) : (
                             <span class="stock-quantity-pill stock-remake-pill">
-                              <strong>{t('catalog.craft_remake')}</strong>
-                              <span class="stock-pill-suffix">· {t('catalog.craft_time')}</span>
+                              <strong>{t('catalog.remake_pill_label')}</strong>
+                              <span class="stock-pill-suffix">{t('catalog.remake_pill_suffix')}</span>
                             </span>
                           )}
                         </div>
@@ -268,6 +273,9 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                               </div>
                               <span class="delivery-subnote">
                                 {t('catalog.shop_working_hours')}
+                              </span>
+                              <span class="delivery-subnote delivery-payment-note">
+                                {t('catalog.shop_payment_note')}
                               </span>
                             </div>
                             {loc.quantity !== undefined && (
