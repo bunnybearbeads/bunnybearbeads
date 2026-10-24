@@ -854,15 +854,8 @@
   }
 
   .buy-option-main {
-    flex-wrap: wrap;
+    flex-direction: column;
     align-items: flex-start;
-  }
-
-  @media (width < 400px) {
-    .buy-option-main {
-      flex-direction: column;
-      align-items: flex-start;
-    }
   }
 
   .delivery-subnote {
@@ -905,17 +898,20 @@
   }
 }
 
-@media (width < 400px) {
-  .remake-verb-hide {
+@media (width < 390px) {
+  :lang(vi) .remake-prep-hide {
     display: none;
   }
-  .remake-word {
-    text-transform: capitalize;
+}
+
+@media (width < 370px) {
+  :lang(ru) .remake-prep-hide {
+    display: none;
   }
 }
 
 @media (width < 350px) {
-  .remake-prep-hide {
+  :lang(en) .remake-prep-hide {
     display: none;
   }
 }
