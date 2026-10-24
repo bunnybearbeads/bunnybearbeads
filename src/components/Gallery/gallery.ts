@@ -23,6 +23,13 @@
  * 3. СОХРАНЕНИЕ ВРЕМЕНИ ВОСПРОИЗВЕДЕНИЯ (`currentTime`):
  *    - Позиция видео непрерывно сохраняется, чтобы при возвращении к слайду или переходе в полноэкранный
  *      PhotoSwipe видео продолжалось ровно с той секунды, на которой пользователь остановился, без сброса на 0:00.
+ *
+ * 4. БЛОКИРОВКА СВАЙПА КАРУСЕЛИ ПРИ ПЕРЕМОТКЕ ТАЙМЛАЙНА (watchDrag):
+ *    - На смартфонах Embla Carousel листает слайды по горизонтали (`axis: 'x'`).
+ *    - Нативная полоса управления видео (включая бегунок таймлайна) также перематывается жестом по горизонтали.
+ *    - Чтобы перемещение бегунка пальцем не вызывало перелистывание карусели на следующий слайд,
+ *      в `watchDrag` мы проверяем координаты тача: если касание приходится на нижнюю область контролов видео
+ *      (`clientY >= rect.bottom - 60`), свайп карусели блокируется, отдавая управление нативному плееру.
  */
 
 import EmblaCarousel from 'embla-carousel';
@@ -57,7 +64,38 @@ export function initGallery(galleryRoot: HTMLElement): void {
     loop: false,
     align: 'start',
     axis: 'y',
-    watchDrag: (embla) => embla.canScrollPrev() || embla.canScrollNext(),
+    watchDrag: (embla, event) => {
+      if (!embla.canScrollPrev() && !embla.canScrollNext()) return false;
+      if (!event) return true;
+
+      const target = event.target as HTMLElement | null;
+      if (!target) return true;
+
+      // Не листаем карусель при взаимодействии с кнопкой фуллскрина
+      if (target.closest('[data-gallery-video-fs]')) return false;
+
+      // При взаимодействии с нижней панелью контролов видео (бегунок таймлайна, кнопка play)
+      // отключаем жест свайпа карусели, чтобы пользователь мог плавно перематывать видео пальцем
+      const slide = target.closest('.gallery__item');
+      const video = slide ? slide.querySelector<HTMLVideoElement>('video') : null;
+      if (video && video.controls) {
+        const touch = 'touches' in event && event.touches.length > 0 ? event.touches[0] : null;
+        const clientY = touch
+          ? touch.clientY
+          : 'clientY' in event
+            ? (event as MouseEvent).clientY
+            : undefined;
+
+        if (clientY !== undefined) {
+          const rect = video.getBoundingClientRect();
+          if (clientY >= rect.bottom - 60 && clientY <= rect.bottom + 20) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    },
     breakpoints: {
       [BREAKPOINTS.mobile]: { axis: 'x' },
     },
@@ -321,6 +359,12 @@ export function initGallery(galleryRoot: HTMLElement): void {
     });
 
     btn.addEventListener('pointerdown', (event) => {
+      event.stopPropagation();
+    });
+    btn.addEventListener('touchstart', (event) => {
+      event.stopPropagation();
+    });
+    btn.addEventListener('mousedown', (event) => {
       event.stopPropagation();
     });
   });
