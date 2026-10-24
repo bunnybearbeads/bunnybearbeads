@@ -858,6 +858,13 @@
     align-items: flex-start;
   }
 
+  @media (width < 400px) {
+    .buy-option-main {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
   .delivery-subnote {
     flex-direction: column;
     align-items: flex-start;
@@ -907,15 +914,9 @@
   }
 }
 
-@media (width < 360px) {
+@media (width < 350px) {
   .remake-prep-hide {
     display: none;
   }
 }
 
-@media (width < 330px) {
-  .remake-pill-status,
-  .remake-pill-sep {
-    display: none;
-  }
-}
