@@ -2,6 +2,7 @@
 import './ProductDetail.css';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
+import { siteSettings } from '../../config/siteSettings';
 
 interface Props {
   product: any;
@@ -102,42 +103,75 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
           const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'Lâm Viên', quantity: 0 };
 
           return (
-            <div class="where-to-buy-content">
-              {/* Top Hero Delivery Card */}
+            <div
+              class="where-to-buy-content"
+              data-schedule-open={siteSettings.studio.openHour}
+              data-schedule-cutoff={siteSettings.studio.cutoffHour}
+              data-schedule-close={siteSettings.studio.closeHour}
+            >
+              {/* Delivery Options */}
               {hasOnline && (
-                <div class="hero-delivery-card">
-                  <div class="hero-delivery-header">
-                    <div class="hero-delivery-title-wrap">
-                      <span class="hero-delivery-icon">📦</span>
-                      <strong class="hero-delivery-title">{t('catalog.delivery_vn_title')}</strong>
+                <div class="delivery-block">
+                  <div class="buy-option-card buy-option-card--highlight">
+                    <div class="buy-option-main">
+                      <div class="buy-option-icon">📦</div>
+                      <div class="buy-option-content">
+                        <div class="buy-option-title">
+                          <strong class="delivery-title-strong">{t('catalog.delivery_vn_title')}</strong>
+                          <span class="delivery-subnote">{t('catalog.delivery_from_dalat')}</span>
+                        </div>
+                        <div class="buy-option-meta">
+                          {isDalatInStock ? (
+                            <span class="stock-quantity-pill">
+                              <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
+                              <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
+                            </span>
+                          ) : (
+                            <span class="stock-quantity-pill stock-remake-pill">
+                              <strong>{t('catalog.craft_remake')}</strong>
+                              <span class="stock-pill-suffix">· {t('catalog.craft_time')}</span>
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                    <span class:list={['hero-delivery-badge', isDalatInStock ? 'badge-ready' : 'badge-remake']}>
-                      {isDalatInStock ? t('catalog.delivery_hero_badge_ready') : t('catalog.delivery_hero_badge_remake')}
-                    </span>
                   </div>
 
-                  <div class="hero-delivery-body">
-                    {isDalatInStock ? (
-                      <div class="hero-delivery-status-row">
-                        <span class="hero-status-icon">🏠</span>
-                        <span class="hero-status-text">
-                          {t('catalog.delivery_from_dalat')} • <strong>{dalatLoc.quantity} {t('catalog.pcs')} {t('catalog.ready_to_ship')}</strong>
-                        </span>
+                  <div class="buy-option-card">
+                    <div class="buy-option-main">
+                      <div class="buy-option-icon">🛵</div>
+                      <div class="buy-option-content">
+                        <div class="buy-option-title">
+                          <strong>{t('catalog.delivery_dalat_title')}</strong>
+                          {isDalatInStock ? (
+                            <span
+                              class="delivery-subnote dalat-dynamic-cutoff-subnote"
+                              data-text-today={t('catalog.delivery_dalat_sub_today')}
+                              data-text-morning={t('catalog.delivery_dalat_sub_morning')}
+                              data-text-tomorrow={t('catalog.delivery_dalat_sub_tomorrow')}
+                            >
+                              {t('catalog.delivery_dalat_sub_today')}
+                            </span>
+                          ) : (
+                            <span class="delivery-subnote">
+                              {t('catalog.delivery_dalat_sub_remake')}
+                            </span>
+                          )}
+                        </div>
+                        <div class="buy-option-meta">
+                          {isDalatInStock ? (
+                            <span class="stock-quantity-pill">
+                              <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
+                              <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
+                            </span>
+                          ) : (
+                            <span class="stock-quantity-pill stock-remake-pill">
+                              <strong>{t('catalog.craft_remake')}</strong>
+                              <span class="stock-pill-suffix">· {t('catalog.craft_time')}</span>
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    ) : (
-                      <div class="hero-delivery-status-row hero-remake-row">
-                        <span class="hero-status-icon">✨</span>
-                        <span class="hero-status-text">
-                          {t('catalog.craft_remake_dalat')} • <strong>{t('catalog.craft_time')}</strong>
-                        </span>
-                      </div>
-                    )}
-
-                    <div class="hero-delivery-courier-row">
-                      <span class="hero-courier-icon">🛵</span>
-                      <span class="hero-courier-text">
-                        {isDalatInStock ? t('catalog.courier_dalat_today') : t('catalog.courier_dalat_completion')}
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -145,8 +179,8 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
 
               {/* In-Person Showcases & Pickup */}
               <div class="showcases-block">
-                <div class="showcases-heading-label">
-                  <span>📍</span>
+                <div class="section-subtitle-badge">
+                  <span class="badge-dot"></span>
                   <span>{t('catalog.showcase_title')}</span>
                 </div>
 
@@ -157,7 +191,21 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                       <div class="buy-option-icon">🏠</div>
                       <div class="buy-option-content">
                         <div class="buy-option-title">
-                          <span>{t('geo.workshop_in')} <strong>{localizeCity(dalatLoc.city)}{dalatLoc.location ? `, ${localizeDistrict(dalatLoc.location)}` : ''}</strong></span>
+                          <div><strong>{localizeCity(dalatLoc.city)}{dalatLoc.location ? `, ${localizeDistrict(dalatLoc.location)}` : ''}</strong> — {t('geo.pickup_at_workshop_suffix')}</div>
+                          {isDalatInStock ? (
+                            <span
+                              class="delivery-subnote dalat-dynamic-cutoff-subnote"
+                              data-text-today={t('catalog.pickup_dalat_sub_today')}
+                              data-text-morning={t('catalog.pickup_dalat_sub_morning')}
+                              data-text-tomorrow={t('catalog.pickup_dalat_sub_tomorrow')}
+                            >
+                              {t('catalog.pickup_dalat_sub_today')}
+                            </span>
+                          ) : (
+                            <span class="delivery-subnote">
+                              {t('catalog.pickup_dalat_sub_remake')}
+                            </span>
+                          )}
                         </div>
                         <div class="buy-option-meta">
                           {isDalatInStock ? (
@@ -173,9 +221,6 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                           )}
                         </div>
                       </div>
-                      <span class="stock-type-tag in-person pickup">
-                        {t('catalog.pickup_badge')}
-                      </span>
                     </div>
                   </div>
 
@@ -204,21 +249,26 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                           <div class="buy-option-icon">📍</div>
                           <div class="buy-option-content">
                             <div class="buy-option-title">
-                              {loc.location && loc.location.includes('магазин') ? (
-                                (() => {
-                                  const parts = loc.location.split('магазин');
-                                  const rawDistrict = parts[0].replace(/,\s*$/, '').trim();
-                                  const district = localizeDistrict(rawDistrict);
-                                  const shop = parts[1] ? parts[1].trim() : '';
-                                  return (
-                                    <>
-                                      <strong>{localizeCity(loc.city)}{district ? `, ${district}` : ''}</strong>, {t('catalog.shop_word')} <strong>{shop}</strong>
-                                    </>
-                                  );
-                                })()
-                              ) : (
-                                <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
-                              )}
+                              <div>
+                                {loc.location && loc.location.includes('магазин') ? (
+                                  (() => {
+                                    const parts = loc.location.split('магазин');
+                                    const rawDistrict = parts[0].replace(/,\s*$/, '').trim();
+                                    const district = localizeDistrict(rawDistrict);
+                                    const shop = parts[1] ? parts[1].trim() : '';
+                                    return (
+                                      <>
+                                        <strong>{localizeCity(loc.city)}{district ? `, ${district}` : ''}</strong>, {t('catalog.on_showcase_at')} <strong>{shop}</strong>
+                                      </>
+                                    );
+                                  })()
+                                ) : (
+                                  <strong>{localizeCity(loc.city)}{loc.location ? `, ${localizeDistrict(loc.location)}` : ''}</strong>
+                                )}
+                              </div>
+                              <span class="delivery-subnote">
+                                {t('catalog.shop_working_hours')}
+                              </span>
                             </div>
                             {loc.quantity !== undefined && (
                               <div class="buy-option-meta">
@@ -238,9 +288,6 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                               </div>
                             )}
                           </div>
-                          <span class="stock-type-tag in-person showcase">
-                            {t('catalog.showcase_badge')}
-                          </span>
                         </div>
                       </div>
                     );
@@ -381,6 +428,44 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
 <script>
   import HystModal from 'hystmodal';
   import 'hystmodal/css';
+
+  function updateDalatCutoffs() {
+    try {
+      const scheduleWrap = document.querySelector('[data-schedule-cutoff]');
+      const openHour = scheduleWrap ? parseInt(scheduleWrap.getAttribute('data-schedule-open') || '10', 10) : 10;
+      const cutoffHour = scheduleWrap ? parseInt(scheduleWrap.getAttribute('data-schedule-cutoff') || '19', 10) : 19;
+
+      const vnHour = parseInt(
+        new Intl.DateTimeFormat('en-US', {
+          timeZone: 'Asia/Ho_Chi_Minh',
+          hour: 'numeric',
+          hour12: false
+        }).format(new Date()),
+        10
+      );
+
+      document.querySelectorAll('.dalat-dynamic-cutoff-subnote').forEach((el) => {
+        if (vnHour >= cutoffHour) {
+          const tomorrowText = el.getAttribute('data-text-tomorrow');
+          if (tomorrowText) el.textContent = tomorrowText;
+        } else if (vnHour < openHour && el.hasAttribute('data-text-morning')) {
+          const morningText = el.getAttribute('data-text-morning');
+          if (morningText) el.textContent = morningText;
+        } else {
+          const todayText = el.getAttribute('data-text-today');
+          if (todayText) el.textContent = todayText;
+        }
+      });
+    } catch {
+      // Fallback: keep static default
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateDalatCutoffs);
+  } else {
+    updateDalatCutoffs();
+  }
 
   document.addEventListener('DOMContentLoaded', () => {
     new HystModal({

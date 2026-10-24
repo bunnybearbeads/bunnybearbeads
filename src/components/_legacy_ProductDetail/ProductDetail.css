@@ -138,117 +138,38 @@
   gap: 13px;
 }
 
-.hero-delivery-card {
-  background: linear-gradient(135deg, rgba(2, 132, 199, 0.07) 0%, rgba(42, 123, 136, 0.05) 100%);
-  border: 1.5px solid rgba(2, 132, 199, 0.25);
-  border-radius: var(--radius-sm);
-  padding: 13px 15px;
+.delivery-block {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  gap: 9px;
 }
 
-.hero-delivery-card:hover {
+.buy-option-card--highlight {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.07) 0%, rgba(42, 123, 136, 0.05) 100%);
+  border: 1.5px solid rgba(2, 132, 199, 0.25);
+}
+
+.buy-option-card--highlight:hover {
   border-color: #0284C7;
   box-shadow: 0 2px 8px rgba(2, 132, 199, 0.1);
 }
 
-.hero-delivery-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.hero-delivery-title-wrap {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.hero-delivery-icon {
-  font-size: 18px;
-  line-height: 1;
-}
-
-.hero-delivery-title {
-  font-size: 14px;
-  font-weight: 700;
+.delivery-title-strong {
   color: #0369A1;
-  letter-spacing: 0.1px;
 }
 
-.hero-delivery-badge {
+.delivery-subnote {
+  display: block;
   font-size: 11.5px;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 12px;
-  letter-spacing: 0.2px;
-  white-space: nowrap;
-}
-
-.hero-delivery-badge.badge-ready {
-  background: #E0F2FE;
-  color: #0369A1;
-  border: 1px solid rgba(3, 105, 161, 0.25);
-}
-
-.hero-delivery-badge.badge-remake {
-  background: #FEF3C7;
-  color: #92400E;
-  border: 1px solid rgba(180, 83, 9, 0.25);
-}
-
-.hero-delivery-body {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding-left: 25px;
-}
-
-.hero-delivery-status-row,
-.hero-delivery-courier-row {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  font-size: 12.5px;
-  line-height: 1.4;
-  color: var(--color-brand-dark);
-}
-
-.hero-status-icon,
-.hero-courier-icon {
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-.hero-remake-row {
-  color: #92400E;
-}
-
-.hero-delivery-courier-row {
   color: var(--text-muted);
-  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.3;
 }
 
 .showcases-block {
   display: flex;
   flex-direction: column;
-  gap: 7px;
-  margin-top: 3px;
-}
-
-.showcases-heading-label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-muted);
-  padding-left: 2px;
+  margin-top: 8px;
 }
 
 .stock-remake-pill {
@@ -362,35 +283,7 @@
   font-weight: 600;
 }
 
-.stock-type-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 11px;
-  border-radius: 18px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-  user-select: none;
-  pointer-events: none;
-}
 
-.stock-type-tag.in-person,
-.stock-type-tag.pickup,
-.stock-type-tag.showcase,
-.stock-type-tag.offline {
-  background: #ECFDF5;
-  color: #047857;
-  border: 1px solid rgba(4, 120, 87, 0.25);
-}
-
-.stock-type-tag.online,
-.stock-type-tag.delivery {
-  background: #F0F9FF;
-  color: #0369A1;
-  border: 1px solid rgba(3, 105, 161, 0.25);
-}
 
 .product-specs-section {
   margin-top: 22px;
@@ -820,28 +713,14 @@
     height: 9px;
   }
 
-  .buy-options-list {
+  .buy-options-list,
+  .delivery-block {
     gap: 11px;
   }
 
   .buy-option-card {
     gap: 13px;
     padding: 13px 18px;
-  }
-
-  .buy-option-card.nested-delivery {
-    margin-left: 31px;
-  }
-
-  .buy-option-card.nested-delivery.nested-first::after,
-  .buy-option-card.nested-delivery.nested-first::before,
-  .buy-option-card.nested-delivery.nested-last::before {
-    left: -20px;
-    width: 20px;
-  }
-
-  .buy-option-card.nested-delivery.nested-first::after {
-    width: 2px;
   }
 
   .buy-option-icon {
@@ -864,11 +743,6 @@
   .stock-quantity-pill {
     font-size: 14.5px;
     padding: 5px 13px;
-  }
-
-  .stock-type-tag {
-    padding: 5px 13px;
-    font-size: 13px;
   }
 
   .product-specs-section {

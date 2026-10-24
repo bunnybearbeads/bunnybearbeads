@@ -25,6 +25,24 @@ export const languages = {
 export type SupportedLanguage = keyof typeof languages;
 export const defaultLang: SupportedLanguage = 'en';
 
+import {
+  getCourierScheduleText,
+  getPickupScheduleText,
+  getPartnerShopHoursText,
+} from '../config/siteSettings';
+
+const courierEN = getCourierScheduleText('en');
+const pickupEN = getPickupScheduleText('en');
+const shopHoursEN = getPartnerShopHoursText('en');
+
+const courierRU = getCourierScheduleText('ru');
+const pickupRU = getPickupScheduleText('ru');
+const shopHoursRU = getPartnerShopHoursText('ru');
+
+const courierVI = getCourierScheduleText('vi');
+const pickupVI = getPickupScheduleText('vi');
+const shopHoursVI = getPartnerShopHoursText('vi');
+
 export const ui = {
   en: {
     // Top Bar Links
@@ -61,7 +79,7 @@ export const ui = {
     'catalog.materials_label': 'Materials & Specs',
     'catalog.breadcrumb': 'Catalog',
     'catalog.back_to_catalog': 'Back to Catalog',
-    'catalog.where_to_buy': 'Where to Buy',
+    'catalog.where_to_buy': 'Delivery',
     'catalog.credits': 'Credits',
     'catalog.crafted_by': 'Crafted by',
     'catalog.designed_by': 'Designed by',
@@ -76,8 +94,16 @@ export const ui = {
     'catalog.delivery_badge': 'Delivery',
     'catalog.delivery_dalat_title': 'Courier in Da Lat',
     'catalog.delivery_dalat_sub': 'free, same-day delivery',
-    'catalog.delivery_dalat_sub_remake': 'free, on completion day',
-    'catalog.delivery_vn_title': 'Shipping across Vietnam',
+    'catalog.delivery_dalat_sub_today': courierEN.today,
+    'catalog.delivery_dalat_sub_morning': courierEN.morning,
+    'catalog.delivery_dalat_sub_tomorrow': courierEN.tomorrow,
+    'catalog.delivery_dalat_sub_remake': 'Free — upon completion',
+    'catalog.pickup_dalat_sub_today': pickupEN.today,
+    'catalog.pickup_dalat_sub_morning': pickupEN.morning,
+    'catalog.pickup_dalat_sub_tomorrow': pickupEN.tomorrow,
+    'catalog.pickup_dalat_sub_remake': 'Upon completion',
+    'catalog.shop_working_hours': shopHoursEN,
+    'catalog.delivery_vn_title': 'Delivery across Vietnam',
     'catalog.delivery_vn_sub': 'free, 1–3 days',
     'catalog.delivery_vn_sub_remake': '1–3 days upon completion',
     'catalog.sold_out': 'Out of stock',
@@ -87,7 +113,7 @@ export const ui = {
     'catalog.showcase_title': 'In-Person Showcases & Pickup',
     'catalog.delivery_hero_badge_ready': 'Free · 1–3 days',
     'catalog.delivery_hero_badge_remake': 'Free · 2–4 days',
-    'catalog.delivery_from_dalat': 'Dispatched from Da Lat studio',
+    'catalog.delivery_from_dalat': 'Free · 1–3 days · Dispatched from Da Lat',
     'catalog.ready_to_ship': 'ready to ship',
     'catalog.craft_remake_dalat': 'Happy to craft a remake in Da Lat studio',
     'catalog.courier_dalat_today': 'Free same-day courier available within Da Lat',
@@ -108,6 +134,9 @@ export const ui = {
     'geo.district.myan': 'My An',
     'geo.district.benthanh': 'Ben Thanh',
     'geo.workshop_in': 'Studio in',
+    'geo.pickup_at_workshop': 'Pickup from studio in',
+    'geo.pickup_at_workshop_suffix': 'pickup from studio',
+    'catalog.on_showcase_at': 'on showcase at',
     'geo.workshop.dalat': 'Studio in Da Lat, Lam Vien',
     'catalog.modal.title': 'How Partner Store Stock Works',
     'catalog.modal.nm_p1': 'NGÀY MAI is a physical artisan craft shop in Da Nang. Among jewelry with natural stones, leather goods, ceramics, and woodwork, you will find my humble showcase.',
@@ -201,7 +230,7 @@ export const ui = {
     'catalog.materials_label': 'Характеристики и материалы',
     'catalog.breadcrumb': 'Каталог',
     'catalog.back_to_catalog': 'Назад в каталог',
-    'catalog.where_to_buy': 'Где купить',
+    'catalog.where_to_buy': 'Доставка',
     'catalog.credits': 'Credits',
     'catalog.crafted_by': 'Crafted by',
     'catalog.designed_by': 'Designed by',
@@ -216,8 +245,16 @@ export const ui = {
     'catalog.delivery_badge': 'Доставка',
     'catalog.delivery_dalat_title': 'Курьер по Далату',
     'catalog.delivery_dalat_sub': 'бесплатно, в день заказа',
-    'catalog.delivery_dalat_sub_remake': 'бесплатно, в день окончания работ',
-    'catalog.delivery_vn_title': 'Пересылка по Вьетнаму',
+    'catalog.delivery_dalat_sub_today': courierRU.today,
+    'catalog.delivery_dalat_sub_morning': courierRU.morning,
+    'catalog.delivery_dalat_sub_tomorrow': courierRU.tomorrow,
+    'catalog.delivery_dalat_sub_remake': 'Бесплатно — в день готовности',
+    'catalog.pickup_dalat_sub_today': pickupRU.today,
+    'catalog.pickup_dalat_sub_morning': pickupRU.morning,
+    'catalog.pickup_dalat_sub_tomorrow': pickupRU.tomorrow,
+    'catalog.pickup_dalat_sub_remake': 'В день готовности',
+    'catalog.shop_working_hours': shopHoursRU,
+    'catalog.delivery_vn_title': 'Доставка по Вьетнаму',
     'catalog.delivery_vn_sub': 'бесплатно, 1–3 дня',
     'catalog.delivery_vn_sub_remake': '1–3 дня по окончанию работ',
     'catalog.sold_out': 'Нет в наличии',
@@ -227,7 +264,7 @@ export const ui = {
     'catalog.showcase_title': 'Наличие на витринах и самовывоз',
     'catalog.delivery_hero_badge_ready': 'Бесплатно · 1–3 дня',
     'catalog.delivery_hero_badge_remake': 'Бесплатно · Срок 2–4 дня',
-    'catalog.delivery_from_dalat': 'Отправка из студии в Далате',
+    'catalog.delivery_from_dalat': 'Бесплатно · 1–3 дня · Отправка из Далата',
     'catalog.ready_to_ship': 'готовы к отправке',
     'catalog.craft_remake_dalat': 'С удовольствием сплету повтор в студии в Далате',
     'catalog.courier_dalat_today': 'По Далату доступен бесплатный курьер в день заказа',
@@ -249,6 +286,9 @@ export const ui = {
     'geo.district.myan': 'Ми Ан',
     'geo.district.benthanh': 'Бен Тхань',
     'geo.workshop_in': 'Мастерская в',
+    'geo.pickup_at_workshop': 'Самовывоз из мастерской в',
+    'geo.pickup_at_workshop_suffix': 'самовывоз из мастерской',
+    'catalog.on_showcase_at': 'на витрине в',
     'geo.workshop.dalat': 'Мастерская в Далат, Ламвьен',
     'catalog.modal.title': 'Как устроено наличие в магазинах',
     'catalog.modal.nm_p1': '«NGÀY MAI» — физический магазин ремесленных изделий в Дананге. Среди украшений с натуральными камнями, аксессуаров из кожи, керамики и дерева расположилась и моя скромная витрина.',
@@ -342,7 +382,7 @@ export const ui = {
     'catalog.materials_label': 'Chất liệu & Thông số',
     'catalog.breadcrumb': 'Danh mục',
     'catalog.back_to_catalog': 'Quay lại danh mục',
-    'catalog.where_to_buy': 'Điểm Bán & Mua Hàng',
+    'catalog.where_to_buy': 'Giao hàng',
     'catalog.credits': 'Credits',
     'catalog.crafted_by': 'Crafted by',
     'catalog.designed_by': 'Designed by',
@@ -357,8 +397,16 @@ export const ui = {
     'catalog.delivery_badge': 'Giao hàng',
     'catalog.delivery_dalat_title': 'Giao hàng hỏa tốc tại Đà Lạt',
     'catalog.delivery_dalat_sub': 'miễn phí, trong ngày',
-    'catalog.delivery_dalat_sub_remake': 'miễn phí, vào ngày hoàn thành',
-    'catalog.delivery_vn_title': 'Chuyển phát toàn quốc',
+    'catalog.delivery_dalat_sub_today': courierVI.today,
+    'catalog.delivery_dalat_sub_morning': courierVI.morning,
+    'catalog.delivery_dalat_sub_tomorrow': courierVI.tomorrow,
+    'catalog.delivery_dalat_sub_remake': 'Miễn phí — khi hoàn thành',
+    'catalog.pickup_dalat_sub_today': pickupVI.today,
+    'catalog.pickup_dalat_sub_morning': pickupVI.morning,
+    'catalog.pickup_dalat_sub_tomorrow': pickupVI.tomorrow,
+    'catalog.pickup_dalat_sub_remake': 'Khi hoàn thành',
+    'catalog.shop_working_hours': shopHoursVI,
+    'catalog.delivery_vn_title': 'Giao hàng toàn Việt Nam',
     'catalog.delivery_vn_sub': 'miễn phí, 1–3 ngày',
     'catalog.delivery_vn_sub_remake': '1–3 ngày sau khi hoàn thành',
     'catalog.sold_out': 'Tạm hết hàng',
@@ -368,7 +416,7 @@ export const ui = {
     'catalog.showcase_title': 'Xem trực tiếp & nhận tại chỗ',
     'catalog.delivery_hero_badge_ready': 'Miễn phí · 1–3 ngày',
     'catalog.delivery_hero_badge_remake': 'Miễn phí · 2–4 ngày',
-    'catalog.delivery_from_dalat': 'Gửi từ studio tại Đà Lạt',
+    'catalog.delivery_from_dalat': 'Miễn phí · 1–3 ngày · Gửi từ Đà Lạt',
     'catalog.ready_to_ship': 'sẵn sàng gửi',
     'catalog.craft_remake_dalat': 'Sẵn sàng làm lại theo yêu cầu tại studio Đà Lạt',
     'catalog.courier_dalat_today': 'Giao hỏa tốc miễn phí tại Đà Lạt ngay trong ngày',
@@ -389,6 +437,9 @@ export const ui = {
     'geo.district.myan': 'Mỹ An',
     'geo.district.benthanh': 'Bến Thành',
     'geo.workshop_in': 'Xưởng tại',
+    'geo.pickup_at_workshop': 'Nhận tại studio ở',
+    'geo.pickup_at_workshop_suffix': 'nhận tại studio',
+    'catalog.on_showcase_at': 'trên quầy tại',
     'geo.workshop.dalat': 'Xưởng tại Đà Lạt, Lâm Viên',
     'catalog.modal.title': 'Về Tình Trạng Hàng Tại Cửa Hàng Đối Tác',
     'catalog.modal.nm_p1': '«NGÀY MAI» là cửa hàng thủ công trực tiếp (offline) tại Đà Nẵng, nơi trưng bày quầy hàng nhỏ xinh của mình cùng với nhiều nghệ nhân độc lập khác.',
