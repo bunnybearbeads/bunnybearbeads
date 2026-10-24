@@ -3,9 +3,10 @@ import './Icon.css';
 
 interface Props {
 	name: string;
+	class?: string;
 }
 
-const { name } = Astro.props;
+const { name, class: className } = Astro.props;
 ---
 
-<span class="icon">{name}</span>
+<span class:list={['icon', className]}>{name}</span>

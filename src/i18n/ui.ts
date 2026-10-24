@@ -30,6 +30,7 @@ import {
   getPickupScheduleText,
   getPartnerShopHoursText,
   getPaymentNotesText,
+  getPaymentSuffixText,
   getDeliveryVietnamSubnote,
   getRemakeStockPillText,
 } from '../config/siteSettings';
@@ -38,6 +39,7 @@ const courierEN = getCourierScheduleText('en');
 const pickupEN = getPickupScheduleText('en');
 const shopHoursEN = getPartnerShopHoursText('en');
 const paymentEN = getPaymentNotesText('en');
+const paymentSuffixEN = getPaymentSuffixText('en');
 const deliveryVnReadyEN = getDeliveryVietnamSubnote('en', false);
 const deliveryVnRemakeEN = getDeliveryVietnamSubnote('en', true);
 const remakePillEN = getRemakeStockPillText('en');
@@ -46,6 +48,7 @@ const courierRU = getCourierScheduleText('ru');
 const pickupRU = getPickupScheduleText('ru');
 const shopHoursRU = getPartnerShopHoursText('ru');
 const paymentRU = getPaymentNotesText('ru');
+const paymentSuffixRU = getPaymentSuffixText('ru');
 const deliveryVnReadyRU = getDeliveryVietnamSubnote('ru', false);
 const deliveryVnRemakeRU = getDeliveryVietnamSubnote('ru', true);
 const remakePillRU = getRemakeStockPillText('ru');
@@ -54,6 +57,7 @@ const courierVI = getCourierScheduleText('vi');
 const pickupVI = getPickupScheduleText('vi');
 const shopHoursVI = getPartnerShopHoursText('vi');
 const paymentVI = getPaymentNotesText('vi');
+const paymentSuffixVI = getPaymentSuffixText('vi');
 const deliveryVnReadyVI = getDeliveryVietnamSubnote('vi', false);
 const deliveryVnRemakeVI = getDeliveryVietnamSubnote('vi', true);
 const remakePillVI = getRemakeStockPillText('vi');
@@ -122,6 +126,9 @@ export const ui = {
     'catalog.courier_payment_note': paymentEN.courier,
     'catalog.pickup_payment_note': paymentEN.pickup,
     'catalog.shop_payment_note': paymentEN.shop,
+    'catalog.pay_on_receipt': paymentSuffixEN.receipt,
+    'catalog.pay_on_pickup': paymentSuffixEN.pickup,
+    'catalog.pay_at_checkout': paymentSuffixEN.checkout,
     'catalog.delivery_vn_title': 'Delivery across Vietnam',
     'catalog.delivery_vn_sub': 'free, 1–3 days',
     'catalog.delivery_vn_sub_remake': '1–3 days upon completion',
@@ -168,7 +175,7 @@ export const ui = {
     'catalog.modal.stock_photo_title': 'Showcase stock photo as of',
     'catalog.modal.photo_zoom_hint': 'Click to open full size photo',
     'catalog.modal.photo_zoom_badge': 'Zoom in',
-    'catalog.modal.nm_hours': 'Open daily: 8:00 AM – 8:00 PM (no breaks)',
+    'catalog.modal.nm_hours': '8:00 AM – 8:00 PM',
     'catalog.modal.nm_maps': 'View NGÀY MAI on Google Maps',
     'catalog.modal.catfood_p1': 'Cat Food is a cozy concept store in Ho Chi Minh City featuring my humble showcase of handmade beadwork.',
     'catalog.modal.catfood_p2': 'Once a week, we conduct a mutual stock checkup and update availability.',
@@ -280,6 +287,9 @@ export const ui = {
     'catalog.courier_payment_note': paymentRU.courier,
     'catalog.pickup_payment_note': paymentRU.pickup,
     'catalog.shop_payment_note': paymentRU.shop,
+    'catalog.pay_on_receipt': paymentSuffixRU.receipt,
+    'catalog.pay_on_pickup': paymentSuffixRU.pickup,
+    'catalog.pay_at_checkout': paymentSuffixRU.checkout,
     'catalog.delivery_vn_title': 'Доставка по Вьетнаму',
     'catalog.delivery_vn_sub': 'бесплатно, 1–3 дня',
     'catalog.delivery_vn_sub_remake': '1–3 дня по окончанию работ',
@@ -327,7 +337,7 @@ export const ui = {
     'catalog.modal.stock_photo_title': 'Фото наличия от',
     'catalog.modal.photo_zoom_hint': 'Нажмите, чтобы открыть фото в полном размере',
     'catalog.modal.photo_zoom_badge': 'Увеличить',
-    'catalog.modal.nm_hours': 'С 8:00 до 20:00 без обеда и выходных',
+    'catalog.modal.nm_hours': 'С 8:00 до 20:00',
     'catalog.modal.nm_maps': 'Открыть NGÀY MAI на Google Картах',
     'catalog.modal.catfood_p1': 'Cat Food — очень уютный концепт-стор в Хошимине, где среди других авторских вещей живёт и моя скромная витрина.',
     'catalog.modal.catfood_p2': 'Раз в неделю мы бережно сверяем часы и обновляем данные о наличии.',
@@ -439,6 +449,9 @@ export const ui = {
     'catalog.courier_payment_note': paymentVI.courier,
     'catalog.pickup_payment_note': paymentVI.pickup,
     'catalog.shop_payment_note': paymentVI.shop,
+    'catalog.pay_on_receipt': paymentSuffixVI.receipt,
+    'catalog.pay_on_pickup': paymentSuffixVI.pickup,
+    'catalog.pay_at_checkout': paymentSuffixVI.checkout,
     'catalog.delivery_vn_title': 'Giao hàng toàn Việt Nam',
     'catalog.delivery_vn_sub': 'miễn phí, 1–3 ngày',
     'catalog.delivery_vn_sub_remake': '1–3 ngày sau khi hoàn thành',
@@ -485,7 +498,7 @@ export const ui = {
     'catalog.modal.stock_photo_title': 'Ảnh chụp kệ hàng ngày',
     'catalog.modal.photo_zoom_hint': 'Nhấp để xem ảnh kích thước đầy đủ',
     'catalog.modal.photo_zoom_badge': 'Phóng to',
-    'catalog.modal.nm_hours': 'Mở cửa từ 8:00 đến 20:00 hàng ngày (không nghỉ trưa)',
+    'catalog.modal.nm_hours': '8:00 – 20:00',
     'catalog.modal.nm_maps': 'Mở NGÀY MAI trên Google Maps',
     'catalog.modal.catfood_p1': 'Cat Food là concept store xinh xắn tại TP. Hồ Chí Minh có quầy trưng bày các sản phẩm thủ công của chúng mình.',
     'catalog.modal.catfood_p2': 'Mỗi tuần chúng mình đều đối soát kiểm kê để cập nhật tình trạng có sẵn.',
