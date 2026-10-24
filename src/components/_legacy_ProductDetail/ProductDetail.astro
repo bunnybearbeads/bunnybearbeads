@@ -73,17 +73,6 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
         {Number(product.price).toLocaleString('vi-VN')} {product.currency || 'VND'}
       </div>
 
-      <!-- Crafter's Note Section -->
-      {product.crafterNote && (
-        <div class="crafter-note-section">
-          <div class="section-subtitle-badge">
-            <span class="badge-dot crafter-badge-dot"></span>
-            <span>{t('catalog.crafter_note_title')}</span>
-          </div>
-          <div class="crafter-note-body" set:html={product.crafterNote} />
-        </div>
-      )}
-
       <!-- Where to Buy section -->
       <div class="where-to-buy-section">
         <div class="section-subtitle-badge">
@@ -121,8 +110,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                         <div class="buy-option-title">
                           <strong class="delivery-title-strong">{t('catalog.delivery_vn_title')}</strong>
                           <span class="delivery-subnote">
-                            <span>{isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')}</span>
-                            <span class="subnote-sep">·</span>
+                            <span set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')} />  ·  &#8203;
                             <span class="icon">payments</span>
                             <span class="icon">qr_code</span>
                             <span>{t('catalog.pay_on_receipt')}</span>
@@ -158,13 +146,11 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                                 data-text-today={t('catalog.delivery_dalat_sub_today')}
                                 data-text-morning={t('catalog.delivery_dalat_sub_morning')}
                                 data-text-tomorrow={t('catalog.delivery_dalat_sub_tomorrow')}
-                              >
-                                {t('catalog.delivery_dalat_sub_today')}
-                              </span>
+                                set:html={t('catalog.delivery_dalat_sub_today')}
+                              />
                             ) : (
-                              <span>{t('catalog.delivery_dalat_sub_remake')}</span>
-                            )}
-                            <span class="subnote-sep">·</span>
+                              <span set:html={t('catalog.delivery_dalat_sub_remake')} />
+                            )}  ·  &#8203;
                             <span class="icon">payments</span>
                             <span class="icon">qr_code</span>
                             <span>{t('catalog.pay_on_receipt')}</span>
@@ -211,13 +197,11 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                                 data-text-today={t('catalog.pickup_dalat_sub_today')}
                                 data-text-morning={t('catalog.pickup_dalat_sub_morning')}
                                 data-text-tomorrow={t('catalog.pickup_dalat_sub_tomorrow')}
-                              >
-                                {t('catalog.pickup_dalat_sub_today')}
-                              </span>
+                                set:html={t('catalog.pickup_dalat_sub_today')}
+                              />
                             ) : (
-                              <span>{t('catalog.pickup_dalat_sub_remake')}</span>
-                            )}
-                            <span class="subnote-sep">·</span>
+                              <span set:html={t('catalog.pickup_dalat_sub_remake')} />
+                            )}  ·  &#8203;
                             <span class="icon">payments</span>
                             <span class="icon">qr_code</span>
                             <span>{t('catalog.pay_on_pickup')}</span>
@@ -283,8 +267,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
                                 )}
                               </div>
                               <span class="delivery-subnote">
-                                <span>{t('catalog.shop_working_hours')}</span>
-                                <span class="subnote-sep">·</span>
+                                <span set:html={t('catalog.shop_working_hours')} />  ·  &#8203;
                                 <span class="icon">payments</span>
                                 <span class="icon">qr_code</span>
                                 <span class="icon">credit_card</span>
@@ -319,6 +302,17 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
           );
         })()}
       </div>
+
+      <!-- Crafter's Note Section -->
+      {product.crafterNote && (
+          <div class="crafter-note-section">
+              <div class="section-subtitle-badge">
+                  <span class="badge-dot crafter-badge-dot"></span>
+                  <span>{t('catalog.crafter_note_title')}</span>
+              </div>
+              <div class="crafter-note-body" set:html={product.crafterNote} />
+          </div>
+      )}
 
       <div class="cta-buttons product-cta-buttons">
         <a
@@ -468,13 +462,13 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
       document.querySelectorAll('.dalat-dynamic-cutoff-text').forEach((el) => {
         if (vnHour >= cutoffHour) {
           const tomorrowText = el.getAttribute('data-text-tomorrow');
-          if (tomorrowText) el.textContent = tomorrowText;
+          if (tomorrowText) el.innerHTML = tomorrowText;
         } else if (vnHour < openHour && el.hasAttribute('data-text-morning')) {
           const morningText = el.getAttribute('data-text-morning');
-          if (morningText) el.textContent = morningText;
+          if (morningText) el.innerHTML = morningText;
         } else {
           const todayText = el.getAttribute('data-text-today');
-          if (todayText) el.textContent = todayText;
+          if (todayText) el.innerHTML = todayText;
         }
       });
     } catch {
