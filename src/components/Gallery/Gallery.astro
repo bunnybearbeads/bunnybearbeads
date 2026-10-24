@@ -1,7 +1,7 @@
 ---
 import './Gallery.css';
 import './GalleryArrows.css';
-import './GalleryFullScreen.css';
+import 'photoswipe/style.css';
 import Icon from '../Icon/Icon.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
@@ -162,26 +162,12 @@ const items: MediaItem[] = images.map((item) => {
       <Icon name="keyboard_arrow_down" />
     </button>
   </div>
-
-  <div class="gallery__fs-panel">
-    <button
-      class="gallery__close"
-      data-gallery-fs-close
-      aria-label={t('gallery.close')}
-      type="button"
-    >
-      <Icon name="close" />
-    </button>
-    <div class="gallery__counter" data-gallery-fs-counter>
-      1 / {items.length}
-    </div>
-  </div>
-
 </div>
 
 <script>
   /* AI (whole script) */
   import EmblaCarousel from 'embla-carousel';
+  import PhotoSwipe from 'photoswipe';
   import {
     isMobile,
     BREAKPOINTS,
@@ -200,8 +186,6 @@ const items: MediaItem[] = images.map((item) => {
     const mainNextBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-main-next]');
     const prevBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-thumbs-prev]');
     const nextBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-thumbs-next]');
-    const fsCounter = galleryRoot.querySelector<HTMLElement>('[data-gallery-fs-counter]');
-    const fsCloseBtn = galleryRoot.querySelector<HTMLButtonElement>('[data-gallery-fs-close]');
     const videos = Array.from(
       galleryRoot.querySelectorAll<HTMLVideoElement>('[data-gallery-video]')
     );
@@ -248,13 +232,6 @@ const items: MediaItem[] = images.map((item) => {
           setHiddenIfChanged(mainNextBtn, false);
           if (mainPrevBtn.disabled !== !canPrev) mainPrevBtn.disabled = !canPrev;
           if (mainNextBtn.disabled !== !canNext) mainNextBtn.disabled = !canNext;
-        }
-      }
-
-      if (fsCounter) {
-        const nextText = `${emblaMain.selectedScrollSnap() + 1} / ${thumbSlides.length}`;
-        if (fsCounter.textContent !== nextText) {
-          fsCounter.textContent = nextText;
         }
       }
     };
@@ -329,61 +306,99 @@ const items: MediaItem[] = images.map((item) => {
       });
     };
 
-    // Fullscreen mode state & handlers
-    let isFullscreen = false;
-    let savedScrollY = 0;
-    const placeholder = document.createComment('gallery-placeholder');
-
-    const setFullscreen = (nextState: boolean) => {
-      if (nextState === isFullscreen) return;
-      if (nextState && isMobile()) return;
-
-      if (nextState) {
-        savedScrollY = window.scrollY;
-        isFullscreen = true;
-        galleryRoot.before(placeholder);
-        document.body.appendChild(galleryRoot);
-        document.documentElement.classList.add('is-gallery-fullscreen');
-      } else {
-        isFullscreen = false;
-        if (placeholder.parentNode) {
-          placeholder.replaceWith(galleryRoot);
+    // PhotoSwipe Lightbox initialization
+    const openPhotoSwipe = (initialIndex: number) => {
+      const slides = emblaMain.slideNodes();
+      const dataSource = slides.map((slide) => {
+        const video = slide.querySelector<HTMLVideoElement>('video');
+        if (video) {
+          const videoSrc = video.currentSrc || video.src;
+          const poster = video.poster || '';
+          return {
+            html: `
+              <div class="pswp-video-container">
+                <video src="${videoSrc}" poster="${poster}" controls autoplay playsinline loop></video>
+              </div>
+            `,
+            element: video,
+          };
         }
-        document.documentElement.classList.remove('is-gallery-fullscreen');
-        window.scrollTo(0, savedScrollY);
-      }
 
-      document.documentElement.classList.remove('is-dragging');
+        const img = slide.querySelector<HTMLImageElement>('img.gallery__image');
+        const imgSrc = img?.currentSrc || img?.src || '';
+        return {
+          src: imgSrc,
+          width: img?.naturalWidth || 1200,
+          height: img?.naturalHeight || 1600,
+          alt: img?.alt || '',
+          msrc: img?.src || imgSrc,
+          element: img || undefined,
+        };
+      });
 
-      const currentIndex = emblaMain.selectedScrollSnap();
-      emblaMain.reInit();
-      emblaThumbs.reInit();
-      emblaMain.scrollTo(currentIndex, true);
-      syncSelectedThumb(true);
+      // Pause page videos while lightbox is active
+      videos.forEach((v) => v.pause());
+
+      const pswp = new PhotoSwipe({
+        dataSource,
+        index: initialIndex,
+        bgOpacity: 0.95,
+        wheelToZoom: true,
+        closeOnVerticalDrag: true,
+      });
+
+      // Enable ArrowUp/ArrowDown navigation inside PhotoSwipe (next/prev)
+      pswp.on('keydown', (e) => {
+        const key = e.originalEvent?.key;
+        if (key === 'ArrowDown') {
+          e.preventDefault();
+          e.originalEvent.preventDefault();
+          pswp.next();
+        } else if (key === 'ArrowUp') {
+          e.preventDefault();
+          e.originalEvent.preventDefault();
+          pswp.prev();
+        }
+      });
+
+      // Pause video when navigating to another slide in lightbox
+      pswp.on('change', () => {
+        const container = pswp.element;
+        container?.querySelectorAll<HTMLVideoElement>('video').forEach((v) => {
+          const itemEl = v.closest('.pswp__item');
+          if (!itemEl?.classList.contains('pswp__item--active')) {
+            v.pause();
+          }
+        });
+      });
+
+      // Sync carousel slide when closing lightbox
+      pswp.on('close', () => {
+        const container = pswp.element;
+        container?.querySelectorAll<HTMLVideoElement>('video').forEach((v) => v.pause());
+
+        const targetIndex = pswp.currIndex;
+        emblaMain.scrollTo(targetIndex, true);
+        syncSelectedThumb(true);
+        syncVideoPlayback();
+      });
+
+      pswp.init();
     };
 
-    // Open fullscreen by clicking main slide (desktop only; ignore video clicks)
+    // Open PhotoSwipe by clicking main slide (ignore direct video clicks)
     mainNode.addEventListener('click', (event) => {
-      if (isMobile()) return;
       const target = event.target as HTMLElement | null;
-      if (target && (target.closest('video') || target.tagName === 'VIDEO')) return;
-      if (!isFullscreen) {
-        setFullscreen(true);
-      }
-    });
+      if (!target) return;
+      if (target.closest('video') || target.tagName === 'VIDEO') return;
 
-    // Close fullscreen by clicking close button
-    if (fsCloseBtn) {
-      fsCloseBtn.addEventListener('click', () => {
-        setFullscreen(false);
-      });
-    }
+      const slide = target.closest('.gallery__item');
+      if (!slide) return;
 
-    // Close fullscreen by clicking empty backdrop
-    galleryRoot.addEventListener('click', (event) => {
-      if (!isFullscreen) return;
-      if (event.target === galleryRoot) {
-        setFullscreen(false);
+      const slides = emblaMain.slideNodes();
+      const index = slides.indexOf(slide as HTMLElement);
+      if (index !== -1) {
+        openPhotoSwipe(index);
       }
     });
 
@@ -397,9 +412,7 @@ const items: MediaItem[] = images.map((item) => {
     window.addEventListener(
       'scroll',
       () => {
-        if (!isFullscreen) {
-          isGalleryFocused = false;
-        }
+        isGalleryFocused = false;
       },
       { passive: true }
     );
@@ -414,25 +427,19 @@ const items: MediaItem[] = images.map((item) => {
       }
     });
 
-    // Consolidated keyboard navigation
+    // Keyboard navigation for embedded gallery (blocked in modals, PhotoSwipe, and form inputs)
     window.addEventListener('keydown', (event) => {
-      if (isEditableTarget(event.target)) return;
-
-      if (isFullscreen) {
-        if (event.key === 'Escape') {
-          event.preventDefault();
-          setFullscreen(false);
-        } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
-          event.preventDefault();
-          emblaMain.scrollPrev();
-        } else if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
-          event.preventDefault();
-          emblaMain.scrollNext();
-        }
+      if (
+        isEditableTarget(event.target) ||
+        isEditableTarget(document.activeElement) ||
+        document.querySelector('.pswp--open') ||
+        document.documentElement.classList.contains('hystmodal__opened') ||
+        document.querySelector('.hystmodal--active') ||
+        document.querySelector('dialog[open]')
+      ) {
         return;
       }
 
-      // Embedded gallery on page
       if (event.key === 'ArrowLeft') {
         event.preventDefault();
         emblaMain.scrollPrev();
@@ -486,7 +493,7 @@ const items: MediaItem[] = images.map((item) => {
       });
     }
 
-    // Video fullscreen button in top-right corner
+    // Video fullscreen button in top-right corner opens PhotoSwipe
     const videoFsBtns = Array.from(
       galleryRoot.querySelectorAll<HTMLButtonElement>('[data-gallery-video-fs]')
     );
@@ -494,8 +501,11 @@ const items: MediaItem[] = images.map((item) => {
     videoFsBtns.forEach((btn) => {
       btn.addEventListener('click', (event) => {
         event.stopPropagation();
-        if (!isFullscreen) {
-          setFullscreen(true);
+        const slide = btn.closest('.gallery__item');
+        const slides = emblaMain.slideNodes();
+        const index = slide ? slides.indexOf(slide as HTMLElement) : -1;
+        if (index !== -1) {
+          openPhotoSwipe(index);
         }
       });
 
@@ -581,72 +591,6 @@ const items: MediaItem[] = images.map((item) => {
         video.dataset.userPaused = 'false';
       });
     });
-
-    // Wheel scroll handler (fullscreen desktop only, with trackpad inertia debounce)
-    const bindWheelScroll = (
-      targetEl: HTMLElement,
-      embla: ReturnType<typeof EmblaCarousel>,
-      stepCount = 1
-    ) => {
-      let isWheelLocked = false;
-      let lastTriggerTime = 0;
-      let prevAbsDelta = 0;
-      let unlockTimer: number | undefined;
-
-      targetEl.addEventListener(
-        'wheel',
-        (event) => {
-          if (!isFullscreen || isMobile()) return;
-
-          const canPrev = embla.canScrollPrev();
-          const canNext = embla.canScrollNext();
-          if (!canPrev && !canNext) return;
-
-          event.preventDefault();
-
-          const absDelta = Math.abs(event.deltaY);
-          const now = performance.now();
-
-          window.clearTimeout(unlockTimer);
-          unlockTimer = window.setTimeout(() => {
-            isWheelLocked = false;
-            prevAbsDelta = 0;
-          }, 80);
-
-          // Unlock early if user initiates a new finger flick during trackpad inertia decay
-          if (
-            isWheelLocked &&
-            now - lastTriggerTime > 220 &&
-            absDelta > prevAbsDelta * 1.6 &&
-            absDelta > 16
-          ) {
-            isWheelLocked = false;
-          }
-          prevAbsDelta = absDelta;
-
-          if (isWheelLocked || absDelta < 6) return;
-          if ((event.deltaY < 0 && !canPrev) || (event.deltaY > 0 && !canNext)) return;
-
-          isWheelLocked = true;
-          lastTriggerTime = now;
-
-          const direction = event.deltaY > 0 ? 1 : -1;
-          const maxSnap = embla.scrollSnapList().length - 1;
-          const target = Math.max(
-            0,
-            Math.min(maxSnap, embla.selectedScrollSnap() + direction * stepCount)
-          );
-          embla.scrollTo(target);
-        },
-        { passive: false }
-      );
-    };
-
-    const thumbsCol = galleryRoot.querySelector<HTMLElement>('[data-gallery-thumbs-col]') || thumbsNode;
-    const stageCol = galleryRoot.querySelector<HTMLElement>('[data-gallery-stage-col]') || mainNode;
-
-    bindWheelScroll(thumbsCol, emblaThumbs, THUMBS_SCROLL_STEP);
-    bindWheelScroll(stageCol, emblaMain, 1);
 
     // Grabbing cursor management (only when actively dragging)
     const bindDragCursor = (embla: ReturnType<typeof EmblaCarousel>) => {
