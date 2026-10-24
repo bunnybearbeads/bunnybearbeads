@@ -309,6 +309,7 @@ const items: MediaItem[] = images.map((item) => {
     // PhotoSwipe Lightbox initialization
     const openPhotoSwipe = (initialIndex: number) => {
       const slides = emblaMain.slideNodes();
+      const mobile = isMobile();
       const dataSource = slides.map((slide) => {
         const video = slide.querySelector<HTMLVideoElement>('video');
         if (video) {
@@ -317,7 +318,15 @@ const items: MediaItem[] = images.map((item) => {
           return {
             html: `
               <div class="pswp-video-container">
-                <video src="${videoSrc}" poster="${poster}" controls autoplay playsinline loop></video>
+                <video
+                  src="${videoSrc}"
+                  poster="${poster}"
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                  ${mobile ? '' : 'controls controlslist="nofullscreen"'}
+                ></video>
               </div>
             `,
             element: video,
@@ -336,8 +345,12 @@ const items: MediaItem[] = images.map((item) => {
         };
       });
 
-      // Pause page videos while lightbox is active
+      // Pause page videos while lightbox is active (mark isSlideChanging so not counted as user manual pause)
+      isSlideChanging = true;
       videos.forEach((v) => v.pause());
+      window.setTimeout(() => {
+        isSlideChanging = false;
+      }, 50);
 
       const pswp = new PhotoSwipe({
         dataSource,
@@ -361,15 +374,89 @@ const items: MediaItem[] = images.map((item) => {
         }
       });
 
-      // Pause video when navigating to another slide in lightbox
-      pswp.on('change', () => {
-        const container = pswp.element;
-        container?.querySelectorAll<HTMLVideoElement>('video').forEach((v) => {
-          const itemEl = v.closest('.pswp__item');
-          if (!itemEl?.classList.contains('pswp__item--active')) {
-            v.pause();
+      let isPswpSlideChanging = false;
+
+      // Setup video controls and user pause tracking in PhotoSwipe
+      pswp.on('contentAppend', ({ content }) => {
+        const video = content.element?.querySelector<HTMLVideoElement>('video');
+        if (!video) return;
+
+        if (mobile) {
+          video.controls = false;
+          video.removeAttribute('controlslist');
+        } else {
+          video.controls = true;
+          video.setAttribute('controlslist', 'nofullscreen');
+        }
+
+        // On mobile, tap on video adds controls and pauses playback
+        video.addEventListener('click', (event) => {
+          if (!isMobile()) return;
+          event.stopPropagation();
+          if (!video.controls) {
+            video.controls = true;
+            video.pause();
           }
         });
+
+        // Track user-initiated pause in PhotoSwipe
+        video.addEventListener('pause', () => {
+          const itemEl = video.closest('.pswp__item');
+          const isActive =
+            itemEl?.classList.contains('pswp__item--active') ||
+            content === pswp.currSlide?.content;
+          if (isActive && !isPswpSlideChanging) {
+            video.dataset.userPaused = 'true';
+          }
+        });
+
+        video.addEventListener('play', () => {
+          video.dataset.userPaused = 'false';
+        });
+      });
+
+      // Sync video playback: auto-play active video if not user-paused; pause non-active videos
+      const syncPswpVideoPlayback = () => {
+        if (!pswp.element) return;
+        const pswpVideos = pswp.element.querySelectorAll<HTMLVideoElement>('video');
+        pswpVideos.forEach((video) => {
+          const itemEl = video.closest('.pswp__item');
+          const isActive =
+            itemEl?.classList.contains('pswp__item--active') ||
+            (pswp.currSlide?.content?.element &&
+              video.closest('.pswp__content') === pswp.currSlide.content.element);
+
+          if (isActive) {
+            if (video.dataset.userPaused !== 'true') {
+              video.play().catch(() => {});
+            }
+          } else {
+            video.pause();
+          }
+        });
+      };
+
+      pswp.on('change', () => {
+        isPswpSlideChanging = true;
+        syncPswpVideoPlayback();
+        window.setTimeout(() => {
+          isPswpSlideChanging = false;
+        }, 80);
+      });
+
+      pswp.on('contentActivate', () => {
+        syncPswpVideoPlayback();
+      });
+
+      pswp.on('contentDeactivate', ({ content }) => {
+        const video = content.element?.querySelector<HTMLVideoElement>('video');
+        if (video) {
+          video.pause();
+        }
+      });
+
+      pswp.on('afterInit', () => {
+        syncPswpVideoPlayback();
       });
 
       // Sync carousel slide when closing lightbox
