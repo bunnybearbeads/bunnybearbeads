@@ -278,4 +278,88 @@ const categoryItems = [
       }
     });
   }
+
+  // 1:1 Scroll-linked Pin & Sticky Header
+  const headerWrapper = document.querySelector<HTMLElement>('.site-header-wrapper');
+
+  const getHeaderHeight = () => {
+    if (!headerWrapper) return 140;
+    const style = window.getComputedStyle(headerWrapper);
+    const topOffset = parseFloat(style.top) || 10;
+    // Total height needed to completely clear the viewport (height + top offset + medallion/shadow buffer)
+    return Math.ceil(headerWrapper.offsetHeight + topOffset + 24);
+  };
+
+  let totalH = getHeaderHeight();
+  let lastScrollY = Math.max(0, window.scrollY);
+  // If starting mid-page, header waits just above the screen edge; if at top, it starts at 0
+  let currentTranslateY = lastScrollY > 60 ? -totalH : 0;
+  let isTicking = false;
+
+  if (headerWrapper && currentTranslateY !== 0) {
+    headerWrapper.style.transform = `translate3d(0, ${currentTranslateY}px, 0)`;
+  }
+
+  const updateHeaderPosition = () => {
+    const rawScrollY = window.scrollY;
+    const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
+    // Clamp to prevent iOS/macOS rubber-band bounce from throwing off translation
+    const currentScrollY = Math.max(0, Math.min(rawScrollY, maxScrollY > 0 ? maxScrollY : rawScrollY));
+
+    const isMenuOpen = mobileMenu?.classList.contains('open') || langWrapper?.classList.contains('open');
+    if (isMenuOpen) {
+      currentTranslateY = 0;
+      if (headerWrapper) headerWrapper.style.transform = '';
+      lastScrollY = currentScrollY;
+      return;
+    }
+
+    // At the very top of the page, header is in its natural unshifted position
+    if (currentScrollY <= 0) {
+      currentTranslateY = 0;
+      if (headerWrapper) headerWrapper.style.transform = '';
+      lastScrollY = 0;
+      return;
+    }
+
+    const delta = currentScrollY - lastScrollY;
+    totalH = getHeaderHeight();
+
+    // delta > 0: scrolling down -> header moves up relative to viewport at exact scroll speed
+    // delta < 0: scrolling up   -> header moves down into view at exact scroll speed
+    // Clamped between -totalH (hidden right above the screen) and 0 (fully visible and stuck)
+    currentTranslateY = Math.max(-totalH, Math.min(0, currentTranslateY - delta));
+
+    if (headerWrapper) {
+      headerWrapper.style.transform = `translate3d(0, ${currentTranslateY}px, 0)`;
+    }
+
+    lastScrollY = currentScrollY;
+  };
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!isTicking) {
+        window.requestAnimationFrame(() => {
+          updateHeaderPosition();
+          isTicking = false;
+        });
+        isTicking = true;
+      }
+    },
+    { passive: true }
+  );
+
+  window.addEventListener(
+    'resize',
+    () => {
+      totalH = getHeaderHeight();
+      currentTranslateY = Math.max(-totalH, Math.min(0, currentTranslateY));
+      if (headerWrapper && window.scrollY > 0) {
+        headerWrapper.style.transform = `translate3d(0, ${currentTranslateY}px, 0)`;
+      }
+    },
+    { passive: true }
+  );
 </script>
