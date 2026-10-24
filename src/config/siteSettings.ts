@@ -96,23 +96,23 @@ export function getCourierScheduleText(lang: 'ru' | 'en' | 'vi') {
   const { openHour, closeHour } = siteSettings.studio;
   if (lang === 'en') {
     return {
-      today: `Free — today before ${formatTime12(closeHour)}`,
-      morning: `Free — today ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
-      tomorrow: `Free — tomorrow ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
+      today: `Free · today before ${formatTime12(closeHour)}`,
+      morning: `Free · today ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
+      tomorrow: `Free · tomorrow ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
     };
   }
   if (lang === 'vi') {
     return {
-      today: `Miễn phí — hôm nay trước ${formatTime24(closeHour)}`,
-      morning: `Miễn phí — hôm nay ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
-      tomorrow: `Miễn phí — ngày mai ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
+      today: `Miễn phí · hôm nay trước ${formatTime24(closeHour)}`,
+      morning: `Miễn phí · hôm nay ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
+      tomorrow: `Miễn phí · ngày mai ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
     };
   }
   // ru
   return {
-    today: `Бесплатно — сегодня до ${formatTime24(closeHour)}`,
-    morning: `Бесплатно — сегодня с ${formatTime24(openHour)} до ${formatTime24(closeHour)}`,
-    tomorrow: `Бесплатно — завтра с ${formatTime24(openHour)} до ${formatTime24(closeHour)}`,
+    today: `Бесплатно · сегодня до ${formatTime24(closeHour)}`,
+    morning: `Бесплатно · сегодня с ${formatTime24(openHour)} до ${formatTime24(closeHour)}`,
+    tomorrow: `Бесплатно · завтра с ${formatTime24(openHour)} до ${formatTime24(closeHour)}`,
   };
 }
 
@@ -143,38 +143,38 @@ export function getPickupScheduleText(lang: 'ru' | 'en' | 'vi') {
 export function getPartnerShopHoursText(lang: 'ru' | 'en' | 'vi'): string {
   const { openHour, closeHour } = siteSettings.partnerShops;
   if (lang === 'en') {
-    return `Open daily: ${formatTime12(openHour)} – ${formatTime12(closeHour)} (no breaks)`;
+    return `${formatTime12(openHour)} – ${formatTime12(closeHour)} daily (no breaks)`;
   }
   if (lang === 'vi') {
-    return `Giờ mở cửa: ${formatTime24(openHour)} – ${formatTime24(closeHour)} hàng ngày (không nghỉ trưa)`;
+    return `${formatTime24(openHour)} – ${formatTime24(closeHour)} hàng ngày (không nghỉ trưa)`;
   }
   // ru
-  return `Часы работы: с ${formatTime24(openHour)} до ${formatTime24(closeHour)} без обеда и выходных`;
+  return `С ${formatTime24(openHour)} до ${formatTime24(closeHour)} без обеда и выходных`;
 }
 
 export function getPaymentNotesText(lang: 'ru' | 'en' | 'vi') {
   if (lang === 'en') {
     return {
-      delivery: 'Payment on delivery: cash or VietQR to courier',
-      courier: 'Payment on delivery: cash or VietQR to courier',
-      pickup: 'Payment upon pickup: cash or VietQR',
-      shop: 'Payment at checkout: cash, VietQR, or international card (+3%)',
+      delivery: 'Payment on delivery: cash or QR to courier',
+      courier: 'Payment on delivery: cash or QR to courier',
+      pickup: 'Cash or QR',
+      shop: 'Payment at checkout: cash, QR, or international card (+3%)',
     };
   }
   if (lang === 'vi') {
     return {
-      delivery: 'Thanh toán khi nhận: tiền mặt hoặc VietQR cho shipper',
-      courier: 'Thanh toán khi nhận: tiền mặt hoặc VietQR cho shipper',
-      pickup: 'Thanh toán khi nhận: tiền mặt hoặc VietQR',
-      shop: 'Thanh toán tại quầy: tiền mặt, VietQR hoặc thẻ quốc tế (+3%)',
+      delivery: 'Thanh toán khi nhận: tiền mặt hoặc QR cho shipper',
+      courier: 'Thanh toán khi nhận: tiền mặt hoặc QR cho shipper',
+      pickup: 'Tiền mặt hoặc QR',
+      shop: 'Thanh toán tại quầy: tiền mặt, QR hoặc thẻ quốc tế (+3%)',
     };
   }
   // ru
   return {
-    delivery: 'Оплата при получении: наличными или VietQR курьеру',
-    courier: 'Оплата при получении: наличными или VietQR курьеру',
-    pickup: 'Оплата при встрече: наличными или VietQR',
-    shop: 'Оплата на кассе: наличными, VietQR или международной картой (+3%)',
+    delivery: 'Оплата при получении: наличными или QR курьеру',
+    courier: 'Оплата при получении: наличными или QR курьеру',
+    pickup: 'Наличными или QR',
+    shop: 'Оплата на кассе: наличными, QR или международной картой (+3%)',
   };
 }
 
@@ -182,18 +182,18 @@ export function getDeliveryVietnamSubnote(lang: 'ru' | 'en' | 'vi', isRemake: bo
   const { vietnamShippingDays } = siteSettings.fulfillment;
   if (lang === 'en') {
     return isRemake
-      ? `Free · ${vietnamShippingDays} days upon completion · Dispatched from Da Lat`
-      : `Free · ${vietnamShippingDays} days · Dispatched from Da Lat`;
+      ? `Free · ${vietnamShippingDays} days upon completion · From Da Lat`
+      : `Free · ${vietnamShippingDays} days · From Da Lat`;
   }
   if (lang === 'vi') {
     return isRemake
-      ? `Miễn phí · ${vietnamShippingDays} ngày sau khi hoàn thành · Gửi từ Đà Lạt`
-      : `Miễn phí · ${vietnamShippingDays} ngày · Gửi từ Đà Lạt`;
+      ? `Miễn phí · ${vietnamShippingDays} ngày sau khi hoàn thành · Từ Đà Lạt`
+      : `Miễn phí · ${vietnamShippingDays} ngày · Từ Đà Lạt`;
   }
   // ru
   return isRemake
-    ? `Бесплатно · ${vietnamShippingDays} дня по окончанию работ · Отправка из Далата`
-    : `Бесплатно · ${vietnamShippingDays} дня · Отправка из Далата`;
+    ? `Бесплатно · ${vietnamShippingDays} дня по окончанию работ · Из Далата`
+    : `Бесплатно · ${vietnamShippingDays} дня · Из Далата`;
 }
 
 export function getRemakeStockPillText(lang: 'ru' | 'en' | 'vi') {
