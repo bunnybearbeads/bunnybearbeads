@@ -238,19 +238,19 @@
 
 
 @media (width < 450px) {
-    :lang(vi) .remake-prep-hide {
+    :lang(vi) .option__preposition {
         display: none;
     }
 }
 
 @media (width < 370px) {
-    :lang(ru) .remake-prep-hide {
+    :lang(ru) .option__preposition {
         display: none;
     }
 }
 
 @media (width < 340px) {
-    :lang(en) .remake-prep-hide {
+    :lang(en) .option__preposition {
         display: none;
     }
 }
