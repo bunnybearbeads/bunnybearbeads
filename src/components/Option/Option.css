@@ -112,7 +112,8 @@
             }
 
 
-@media (1600px <= width) {
+@media (1600px <= width),
+       (380px <= width < 740px) {
 
     .option {
         padding: 20px 20px 20px 56px;
@@ -174,16 +175,13 @@
         }
 
         .option__title {
-            font-size: 17px;
-            line-height: 22px;
+
         }
 
     .option__notes {
         flex-direction: column;
         align-items: flex-start;
         gap: 3px;
-        font-size: 15px;
-        line-height: 20px;
     }
         .option__note-item {
             white-space: normal;

@@ -539,8 +539,13 @@
    Mobile (< 740px)
    ========================================================================== */
 @media (width < 740px) {
+
+  .product__details {
+
+  }
+
   .product-info-panel {
-    padding: 24px 20px;
+    padding: 24px var(--container-padding);
   }
 
   .product-info-panel h1 {
