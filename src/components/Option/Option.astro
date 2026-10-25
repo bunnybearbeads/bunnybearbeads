@@ -1,0 +1,25 @@
+---
+import './Option.css';
+
+interface Props {
+  icon: string;
+  class?: string;
+}
+
+const { icon, class: className, ...rest } = Astro.props;
+---
+
+<div class:list={['option', className]} {...rest}>
+  <div class="option__icon">
+    {icon}
+  </div>
+  <div class="option__title">
+    <slot name="title" />
+  </div>
+  {Astro.slots.has('subnote') && (
+    <div class="option__subnote">
+      <slot name="subnote" />
+    </div>
+  )}
+  <slot />
+</div>

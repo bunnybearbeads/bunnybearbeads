@@ -8,6 +8,7 @@ import { LOCATIONS, getLocation } from '../../config/locations';
 import RemakePill from './RemakePill.astro';
 import PartnerModals from './PartnerModals.astro';
 import DottedTitle from '../DottedTitle/DottedTitle.astro';
+import Option from '../Option/Option.astro';
 
 interface Props {
   product: any;
@@ -71,67 +72,61 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
       {/* Delivery Options */}
       {hasOnline && (
         <div class="delivery-block">
-          <div class="buy-option-card">
-            <div class="buy-option-main">
-              <div class="buy-option-icon">📦</div>
-              <div class="buy-option-content">
-                <div class="buy-option-title">{t('catalog.delivery_vn_title')}</div>
-                <span class="delivery-subnote">
-                  <span class="subnote-item">{t('catalog.free')}</span>
-                  <span class="subnote-item" set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')} />
-                  <span class="subnote-item">
-                    <span class="icon">payments</span>
-                    <span class="icon">qr_code</span>
-                    {t('catalog.pay_on_receipt')}
-                  </span>
-                </span>
-                {isDalatInStock ? (
-                  <span class="stock-quantity-pill">
-                    <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
-                    <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
-                  </span>
-                ) : (
-                  <RemakePill currentLang={currentLang} />
-                )}
-              </div>
-            </div>
-          </div>
+          <Option icon="📦" class="option--delivery">
+            <Fragment slot="title">
+              {t('catalog.delivery_vn_title')}
+            </Fragment>
+            <Fragment slot="subnote">
+              <span class="subnote-item">{t('catalog.free')}</span>
+              <span class="subnote-item" set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')} />
+              <span class="subnote-item">
+                <span class="icon">payments</span>
+                <span class="icon">qr_code</span>
+                {t('catalog.pay_on_receipt')}
+              </span>
+            </Fragment>
+            {isDalatInStock ? (
+              <span class="stock-quantity-pill">
+                <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
+                <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
+              </span>
+            ) : (
+              <RemakePill currentLang={currentLang} />
+            )}
+          </Option>
 
-          <div class="buy-option-card">
-            <div class="buy-option-main">
-              <div class="buy-option-icon">🛵</div>
-              <div class="buy-option-content">
-                <div class="buy-option-title">{t('catalog.delivery_dalat_title')}</div>
-                <span class="delivery-subnote">
-                  <span class="subnote-item">{t('catalog.free')}</span>
-                  {isDalatInStock ? (
-                    <span
-                      class="subnote-item dalat-dynamic-cutoff-text"
-                      data-text-today={t('catalog.delivery_dalat_sub_today')}
-                      data-text-morning={t('catalog.delivery_dalat_sub_morning')}
-                      data-text-tomorrow={t('catalog.delivery_dalat_sub_tomorrow')}
-                      set:html={t('catalog.delivery_dalat_sub_today')}
-                    />
-                  ) : (
-                    <span class="subnote-item" set:html={t('catalog.delivery_dalat_sub_remake')} />
-                  )}
-                  <span class="subnote-item">
-                    <span class="icon">payments</span>
-                    <span class="icon">qr_code</span>
-                    {t('catalog.pay_on_receipt')}
-                  </span>
-                </span>
-                {isDalatInStock ? (
-                  <span class="stock-quantity-pill">
-                    <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
-                    <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
-                  </span>
-                ) : (
-                  <RemakePill currentLang={currentLang} />
-                )}
-              </div>
-            </div>
-          </div>
+          <Option icon="🛵" class="option--delivery">
+            <Fragment slot="title">
+              {t('catalog.delivery_dalat_title')}
+            </Fragment>
+            <Fragment slot="subnote">
+              <span class="subnote-item">{t('catalog.free')}</span>
+              {isDalatInStock ? (
+                <span
+                  class="subnote-item dalat-dynamic-cutoff-text"
+                  data-text-today={t('catalog.delivery_dalat_sub_today')}
+                  data-text-morning={t('catalog.delivery_dalat_sub_morning')}
+                  data-text-tomorrow={t('catalog.delivery_dalat_sub_tomorrow')}
+                  set:html={t('catalog.delivery_dalat_sub_today')}
+                />
+              ) : (
+                <span class="subnote-item" set:html={t('catalog.delivery_dalat_sub_remake')} />
+              )}
+              <span class="subnote-item">
+                <span class="icon">payments</span>
+                <span class="icon">qr_code</span>
+                {t('catalog.pay_on_receipt')}
+              </span>
+            </Fragment>
+            {isDalatInStock ? (
+              <span class="stock-quantity-pill">
+                <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
+                <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
+              </span>
+            ) : (
+              <RemakePill currentLang={currentLang} />
+            )}
+          </Option>
         </div>
       )}
 
@@ -139,44 +134,39 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
       <div class="showcases-block">
         <DottedTitle as="h2">{t('catalog.showcase_title')}</DottedTitle>
 
-        <div class="buy-options-list">
+        <div class="options-list">
           {/* Da Lat Studio */}
-          <div class="buy-option-card">
-            <div class="buy-option-main">
-              <div class="buy-option-icon">🏠</div>
-              <div class="buy-option-content">
-                <div class="buy-option-title">
-                  <strong>{t(dalatLoc.meta.cityKey)}{dalatLoc.meta.districtKey ? `, ${t(dalatLoc.meta.districtKey)}` : ''}</strong> — {t('geo.pickup_at_workshop_suffix')}
-                </div>
-                <span class="delivery-subnote">
-                  {isDalatInStock ? (
-                    <span
-                      class="subnote-item dalat-dynamic-cutoff-text"
-                      data-text-today={t('catalog.pickup_dalat_sub_today')}
-                      data-text-morning={t('catalog.pickup_dalat_sub_morning')}
-                      data-text-tomorrow={t('catalog.pickup_dalat_sub_tomorrow')}
-                      set:html={t('catalog.pickup_dalat_sub_today')}
-                    />
-                  ) : (
-                    <span class="subnote-item" set:html={t('catalog.pickup_dalat_sub_remake')} />
-                  )}
-                  <span class="subnote-item">
-                    <span class="icon">payments</span>
-                    <span class="icon">qr_code</span>
-                    {t('catalog.pay_on_pickup')}
-                  </span>
-                </span>
-                {isDalatInStock ? (
-                  <span class="stock-quantity-pill">
-                    <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
-                    <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
-                  </span>
-                ) : (
-                  <RemakePill currentLang={currentLang} />
-                )}
-              </div>
-            </div>
-          </div>
+          <Option icon="🏠">
+            <Fragment slot="title">
+              <strong>{t(dalatLoc.meta.cityKey)}{dalatLoc.meta.districtKey ? `, ${t(dalatLoc.meta.districtKey)}` : ''}</strong> — {t('geo.pickup_at_workshop_suffix')}
+            </Fragment>
+            <Fragment slot="subnote">
+              {isDalatInStock ? (
+                <span
+                  class="subnote-item dalat-dynamic-cutoff-text"
+                  data-text-today={t('catalog.pickup_dalat_sub_today')}
+                  data-text-morning={t('catalog.pickup_dalat_sub_morning')}
+                  data-text-tomorrow={t('catalog.pickup_dalat_sub_tomorrow')}
+                  set:html={t('catalog.pickup_dalat_sub_today')}
+                />
+              ) : (
+                <span class="subnote-item" set:html={t('catalog.pickup_dalat_sub_remake')} />
+              )}
+              <span class="subnote-item">
+                <span class="icon">payments</span>
+                <span class="icon">qr_code</span>
+                {t('catalog.pay_on_pickup')}
+              </span>
+            </Fragment>
+            {isDalatInStock ? (
+              <span class="stock-quantity-pill">
+                <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
+                <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
+              </span>
+            ) : (
+              <RemakePill currentLang={currentLang} />
+            )}
+          </Option>
 
           {/* Partner Shops */}
           {otherOffline.map((loc: any) => {
@@ -184,46 +174,41 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
             const modalTarget = isOfflineCheckup ? `#${loc.meta.modalId}` : undefined;
 
             return (
-              <div class="buy-option-card">
-                <div class="buy-option-main">
-                  <div class="buy-option-icon">📍</div>
-                  <div class="buy-option-content">
-                    <div class="buy-option-title">
-                      <strong>{t(loc.meta.cityKey)}{loc.meta.districtKey ? `, ${t(loc.meta.districtKey)}` : ''}</strong> — {t('catalog.on_showcase_at')} <strong>{loc.meta.shop}</strong>
-                    </div>
-                    <span class="delivery-subnote">
-                      <span class="subnote-item" set:html={t('catalog.shop_working_hours')} />
-                      <span class="subnote-item">
-                        <span class="icon">payments</span>
-                        <span class="icon">qr_code</span>
-                        <span class="icon">credit_card</span>
-                        {t('catalog.pay_at_checkout')}
-                      </span>
+              <Option icon="📍">
+                <Fragment slot="title">
+                  <strong>{t(loc.meta.cityKey)}{loc.meta.districtKey ? `, ${t(loc.meta.districtKey)}` : ''}</strong> — {t('catalog.on_showcase_at')} <strong>{loc.meta.shop}</strong>
+                </Fragment>
+                <Fragment slot="subnote">
+                  <span class="subnote-item" set:html={t('catalog.shop_working_hours')} />
+                  <span class="subnote-item">
+                    <span class="icon">payments</span>
+                    <span class="icon">qr_code</span>
+                    <span class="icon">credit_card</span>
+                    {t('catalog.pay_at_checkout')}
+                  </span>
+                </Fragment>
+                {loc.quantity !== undefined && (
+                  loc.lastCheckedAt ? (
+                    <span
+                      class="stock-quantity-pill stock-quantity-pill--clickable"
+                      data-hystmodal={modalTarget}
+                      role={modalTarget ? 'button' : undefined}
+                      tabindex={modalTarget ? 0 : undefined}
+                      title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
+                    >
+                      <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                      <span class="audit-sep">·</span>
+                      <span class="audit-date" data-audit-date={loc.lastCheckedAt}>{formatAuditRelativeDate(loc.lastCheckedAt, currentLang)}</span>
+                      <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
                     </span>
-                    {loc.quantity !== undefined && (
-                      loc.lastCheckedAt ? (
-                        <span
-                          class="stock-quantity-pill stock-quantity-pill--clickable"
-                          data-hystmodal={modalTarget}
-                          role={modalTarget ? 'button' : undefined}
-                          tabindex={modalTarget ? 0 : undefined}
-                          title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
-                        >
-                          <strong>{loc.quantity} {t('catalog.pcs')}</strong>
-                          <span class="audit-sep">·</span>
-                          <span class="audit-date" data-audit-date={loc.lastCheckedAt}>{formatAuditRelativeDate(loc.lastCheckedAt, currentLang)}</span>
-                          <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
-                        </span>
-                      ) : (
-                        <span class="stock-quantity-pill">
-                          <strong>{loc.quantity} {t('catalog.pcs')}</strong>
-                          <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
-                        </span>
-                      )
-                    )}
-                  </div>
-                </div>
-              </div>
+                  ) : (
+                    <span class="stock-quantity-pill">
+                      <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                      <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
+                    </span>
+                  )
+                )}
+              </Option>
             );
           })}
         </div>

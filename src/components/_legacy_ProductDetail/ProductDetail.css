@@ -74,71 +74,20 @@
   margin-bottom: 25px;
 }
 
-.buy-options-list,
+.options-list,
 .delivery-block {
   display: flex;
   flex-direction: column;
   background: white;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid #EBEBEB;
   border-radius: var(--radius-sm);
   overflow: hidden;
-}
-
-.buy-option-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  background: transparent;
-  padding: 12px 14px;
-}
-
-.buy-option-card + .buy-option-card {
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.buy-option-main {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 11px;
-  width: 100%;
 }
 
 .where-to-buy-content {
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.delivery-subnote {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.4;
-  color: var(--text-muted);
-}
-
-.subnote-item {
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.subnote-item:not(:last-child)::after {
-  content: "·";
-  margin: 0 7px;
-  color: var(--text-muted);
-  opacity: 0.65;
-}
-
-
-.delivery-subnote .icon {
-  font-size: 16px;
-  line-height: 16px;
-  vertical-align: middle;
-  margin-right: 3px;
 }
 
 .showcases-block {
@@ -168,33 +117,6 @@
 .remake-pill-action {
   font-weight: 400;
   white-space: nowrap;
-}
-
-.buy-option-icon {
-  font-size: 18px;
-  line-height: 1;
-}
-
-.buy-option-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
-}
-
-.buy-option-title {
-  font-size: 13px;
-  line-height: 1.35;
-  color: var(--color-brand-dark);
-}
-
-.delivery-block .buy-option-title {
-  font-weight: 700;
-}
-
-.buy-option-title strong {
-  font-weight: 700;
 }
 
 .stock-quantity-pill {
@@ -638,22 +560,6 @@
     margin-bottom: 31px;
   }
 
-  .buy-option-card {
-    padding: 13px 18px;
-  }
-
-  .buy-option-icon {
-    font-size: 22px;
-  }
-
-  .buy-option-title {
-    font-size: 15.5px;
-  }
-
-  .delivery-subnote {
-    font-size: 14px;
-  }
-
   .stock-quantity-pill {
     font-size: 14.5px;
     padding: 5px 13px;
@@ -724,36 +630,6 @@
   .product-info-panel h1 {
     font-size: 28px;
   }
-
-  .buy-option-main {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .delivery-subnote {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3px;
-    margin-top: 5px;
-  }
-
-  .subnote-item {
-    white-space: normal;
-  }
-
-  .subnote-item:not(:last-child)::after {
-    display: none;
-  }
-
-  .subnote-item::before {
-    content: "•";
-    margin-right: 6px;
-    font-size: 11px;
-    line-height: 1;
-    color: var(--text-muted);
-    opacity: 0.7;
-  }
-
 }
 
 @media (width < 390px) {
