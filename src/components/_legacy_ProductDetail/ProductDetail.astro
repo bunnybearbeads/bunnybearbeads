@@ -87,16 +87,14 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                     </span>
                   </span>
                 </div>
-                <div class="buy-option-meta">
-                  {isDalatInStock ? (
-                    <span class="stock-quantity-pill">
-                      <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
-                      <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
-                    </span>
-                  ) : (
-                    <RemakePill currentLang={currentLang} />
-                  )}
-                </div>
+                {isDalatInStock ? (
+                  <span class="stock-quantity-pill">
+                    <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
+                    <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
+                  </span>
+                ) : (
+                  <RemakePill currentLang={currentLang} />
+                )}
               </div>
             </div>
           </div>
@@ -127,16 +125,14 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                     </span>
                   </span>
                 </div>
-                <div class="buy-option-meta">
-                  {isDalatInStock ? (
-                    <span class="stock-quantity-pill">
-                      <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
-                      <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
-                    </span>
-                  ) : (
-                    <RemakePill currentLang={currentLang} />
-                  )}
-                </div>
+                {isDalatInStock ? (
+                  <span class="stock-quantity-pill">
+                    <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
+                    <span class="stock-pill-suffix">{t('catalog.ready_to_ship')}</span>
+                  </span>
+                ) : (
+                  <RemakePill currentLang={currentLang} />
+                )}
               </div>
             </div>
           </div>
@@ -174,16 +170,14 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                     </span>
                   </span>
                 </div>
-                <div class="buy-option-meta">
-                  {isDalatInStock ? (
-                    <span class="stock-quantity-pill">
-                      <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
-                      <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
-                    </span>
-                  ) : (
-                    <RemakePill currentLang={currentLang} />
-                  )}
-                </div>
+                {isDalatInStock ? (
+                  <span class="stock-quantity-pill">
+                    <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
+                    <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
+                  </span>
+                ) : (
+                  <RemakePill currentLang={currentLang} />
+                )}
               </div>
             </div>
           </div>
@@ -213,30 +207,25 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                       </span>
                     </div>
                     {loc.quantity !== undefined && (
-                      <div
-                        class:list={[
-                          'buy-option-meta',
-                          modalTarget && 'buy-option-meta--clickable',
-                        ]}
-                        data-hystmodal={modalTarget}
-                        role={modalTarget ? 'button' : undefined}
-                        tabindex={modalTarget ? 0 : undefined}
-                        title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
-                      >
-                        {loc.lastCheckedAt ? (
-                          <span class="stock-quantity-pill stock-quantity-pill--clickable">
-                            <strong>{loc.quantity} {t('catalog.pcs')}</strong>
-                            <span class="audit-sep">·</span>
-                            <span class="audit-date" data-audit-date={loc.lastCheckedAt}>{formatAuditRelativeDate(loc.lastCheckedAt, currentLang)}</span>
-                            <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
-                          </span>
-                        ) : (
-                          <span class="stock-quantity-pill">
-                            <strong>{loc.quantity} {t('catalog.pcs')}</strong>
-                            <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
-                          </span>
-                        )}
-                      </div>
+                      loc.lastCheckedAt ? (
+                        <span
+                          class="stock-quantity-pill stock-quantity-pill--clickable"
+                          data-hystmodal={modalTarget}
+                          role={modalTarget ? 'button' : undefined}
+                          tabindex={modalTarget ? 0 : undefined}
+                          title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
+                        >
+                          <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                          <span class="audit-sep">·</span>
+                          <span class="audit-date" data-audit-date={loc.lastCheckedAt}>{formatAuditRelativeDate(loc.lastCheckedAt, currentLang)}</span>
+                          <span class="pill-info-icon" aria-hidden="true">ℹ️</span>
+                        </span>
+                      ) : (
+                        <span class="stock-quantity-pill">
+                          <strong>{loc.quantity} {t('catalog.pcs')}</strong>
+                          <span class="stock-pill-suffix">{t('catalog.in_stock_suffix')}</span>
+                        </span>
+                      )
                     )}
                   </div>
                 </div>

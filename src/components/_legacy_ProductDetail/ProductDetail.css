@@ -229,28 +229,6 @@
   line-height: 1.35;
 }
 
-.buy-option-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  flex-wrap: wrap;
-}
-
-.buy-option-meta:empty {
-  display: none;
-}
-
-.buy-option-meta--clickable {
-  cursor: pointer;
-}
-
-.buy-option-meta--clickable:hover .stock-quantity-pill--clickable {
-  background: rgba(42, 123, 136, 0.22);
-  border-color: var(--accent-teal);
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(42, 123, 136, 0.15);
-}
-
 .stock-quantity-pill {
   font-size: 12.5px;
   padding: 4px 11px;
