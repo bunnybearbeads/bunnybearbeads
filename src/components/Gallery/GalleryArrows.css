@@ -25,6 +25,10 @@
     color: #ffffff;
 }
 
+.gallery__control:active {
+    transform: translateY(1px);
+}
+
 .gallery__control:disabled {
     opacity: 20%;
     cursor: default;
