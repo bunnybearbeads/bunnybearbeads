@@ -80,10 +80,10 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                   <span class="delivery-subnote">
                     <span class="subnote-item">{t('catalog.free')}</span>
                     <span class="subnote-item" set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')} />
-                    <span class="subnote-item subnote-item--payment">
+                    <span class="subnote-item">
                       <span class="icon">payments</span>
                       <span class="icon">qr_code</span>
-                      <span>{t('catalog.pay_on_receipt')}</span>
+                      {t('catalog.pay_on_receipt')}
                     </span>
                   </span>
                 </div>
@@ -120,10 +120,10 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                     ) : (
                       <span class="subnote-item" set:html={t('catalog.delivery_dalat_sub_remake')} />
                     )}
-                    <span class="subnote-item subnote-item--payment">
+                    <span class="subnote-item">
                       <span class="icon">payments</span>
                       <span class="icon">qr_code</span>
-                      <span>{t('catalog.pay_on_receipt')}</span>
+                      {t('catalog.pay_on_receipt')}
                     </span>
                   </span>
                 </div>
@@ -167,10 +167,10 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                     ) : (
                       <span class="subnote-item" set:html={t('catalog.pickup_dalat_sub_remake')} />
                     )}
-                    <span class="subnote-item subnote-item--payment">
+                    <span class="subnote-item">
                       <span class="icon">payments</span>
                       <span class="icon">qr_code</span>
-                      <span>{t('catalog.pay_on_pickup')}</span>
+                      {t('catalog.pay_on_pickup')}
                     </span>
                   </span>
                 </div>
@@ -214,11 +214,11 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                       </div>
                       <span class="delivery-subnote">
                         <span class="subnote-item" set:html={t('catalog.shop_working_hours')} />
-                        <span class="subnote-item subnote-item--payment">
+                        <span class="subnote-item">
                           <span class="icon">payments</span>
                           <span class="icon">qr_code</span>
                           <span class="icon">credit_card</span>
-                          <span>{t('catalog.pay_at_checkout')}</span>
+                          {t('catalog.pay_at_checkout')}
                         </span>
                       </span>
                     </div>
