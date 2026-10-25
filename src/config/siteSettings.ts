@@ -110,9 +110,9 @@ export function getCourierScheduleText(lang: 'ru' | 'en' | 'vi') {
   }
   // ru
   return {
-    today: `сегодня до\u00A0${formatTime24(closeHour)}`,
-    morning: `сегодня с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
-    tomorrow: `завтра с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
+    today: `Сегодня до\u00A0${formatTime24(closeHour)}`,
+    morning: `Сегодня с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
+    tomorrow: `Завтра с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
   };
 }
 

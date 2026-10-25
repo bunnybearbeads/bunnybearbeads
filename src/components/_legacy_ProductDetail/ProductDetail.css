@@ -813,20 +813,6 @@
     opacity: 0.7;
   }
 
-  .buy-option-card.nested-delivery {
-    margin-left: 18px;
-  }
-
-  .buy-option-card.nested-delivery.nested-first::after,
-  .buy-option-card.nested-delivery.nested-first::before,
-  .buy-option-card.nested-delivery.nested-last::before {
-    left: -12px;
-    width: 12px;
-  }
-
-  .buy-option-card.nested-delivery.nested-first::after {
-    width: 2px;
-  }
 }
 
 @media (width < 390px) {
