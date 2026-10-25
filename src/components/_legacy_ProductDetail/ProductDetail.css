@@ -88,20 +88,6 @@
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: var(--radius-sm);
   padding: 11px 14px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.buy-option-card:hover {
-  border-color: var(--accent-gold);
-}
-
-.buy-option-card--clickable {
-  cursor: pointer;
-}
-
-.buy-option-card--clickable:hover {
-  border-color: var(--accent-gold);
-  transform: translateY(-1px);
 }
 
 .buy-option-main {
@@ -127,11 +113,6 @@
 .buy-option-card--highlight {
   background: linear-gradient(135deg, rgba(2, 132, 199, 0.07) 0%, rgba(42, 123, 136, 0.05) 100%);
   border: 1.5px solid rgba(2, 132, 199, 0.25);
-}
-
-.buy-option-card--highlight:hover {
-  border-color: #0284C7;
-  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.1);
 }
 
 .delivery-title-strong {
@@ -266,6 +247,17 @@
 
 .buy-option-meta:empty {
   display: none;
+}
+
+.buy-option-meta--clickable {
+  cursor: pointer;
+}
+
+.buy-option-meta--clickable:hover .stock-quantity-pill--clickable {
+  background: rgba(42, 123, 136, 0.22);
+  border-color: var(--accent-teal);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(42, 123, 136, 0.15);
 }
 
 .stock-quantity-pill {

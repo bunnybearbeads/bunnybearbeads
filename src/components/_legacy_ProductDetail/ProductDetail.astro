@@ -194,17 +194,7 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
             const modalTarget = isOfflineCheckup ? `#${loc.meta.modalId}` : undefined;
 
             return (
-              <div
-                class:list={[
-                  'buy-option-card',
-                  'in-person',
-                  modalTarget && 'buy-option-card--clickable',
-                ]}
-                data-hystmodal={modalTarget}
-                role={modalTarget ? 'button' : undefined}
-                tabindex={modalTarget ? 0 : undefined}
-                title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
-              >
+              <div class="buy-option-card in-person">
                 <div class="buy-option-main">
                   <div class="buy-option-icon">📍</div>
                   <div class="buy-option-content">
@@ -223,7 +213,16 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                       </span>
                     </div>
                     {loc.quantity !== undefined && (
-                      <div class="buy-option-meta">
+                      <div
+                        class:list={[
+                          'buy-option-meta',
+                          modalTarget && 'buy-option-meta--clickable',
+                        ]}
+                        data-hystmodal={modalTarget}
+                        role={modalTarget ? 'button' : undefined}
+                        tabindex={modalTarget ? 0 : undefined}
+                        title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
+                      >
                         {loc.lastCheckedAt ? (
                           <span class="stock-quantity-pill stock-quantity-pill--clickable">
                             <strong>{loc.quantity} {t('catalog.pcs')}</strong>
