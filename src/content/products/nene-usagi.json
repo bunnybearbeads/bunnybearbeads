@@ -32,9 +32,7 @@
   "designedBy": "<a href=\"https://www.etsy.com\" target=\"_blank\" rel=\"noopener noreferrer\">RenovatiobyLuciela</a> (Etsy)",
   "stockLocations": [
     {
-      "type": "online",
-      "city": "Da Lat",
-      "note": "Бесплатная доставка по Вьетнаму"
+      "locationId": "online"
     }
   ],
   "badge": {

@@ -32,9 +32,7 @@
   "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
   "stockLocations": [
     {
-      "type": "online",
-      "city": "Da Lat",
-      "note": "Бесплатная доставка по Вьетнаму"
+      "locationId": "online"
     }
   ]
 }

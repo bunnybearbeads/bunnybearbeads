@@ -32,25 +32,17 @@
   "designedBy": "<span>Бижутерия Лапками</span>",
   "stockLocations": [
     {
-      "type": "offline",
-      "city": "Da Nang",
+      "locationId": "ngay-mai",
       "quantity": 1,
-      "lastCheckedAt": "2026-10-04",
-      "district": "My An",
-      "shop": "NGÀY MAI"
+      "lastCheckedAt": "2026-10-04"
     },
     {
-      "type": "offline",
-      "city": "Ho Chi Minh",
+      "locationId": "cat-food",
       "quantity": 1,
-      "lastCheckedAt": "2026-10-02",
-      "district": "Ben Thanh",
-      "shop": "Cat Food"
+      "lastCheckedAt": "2026-10-02"
     },
     {
-      "type": "online",
-      "city": "Da Lat",
-      "note": "Бесплатная доставка по Вьетнаму"
+      "locationId": "online"
     }
   ]
 }

@@ -32,31 +32,21 @@
   "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
   "stockLocations": [
     {
-      "type": "offline",
-      "city": "Da Lat",
-      "quantity": 3,
-      "district": "Lam Vien"
+      "locationId": "dalat",
+      "quantity": 3
     },
     {
-      "type": "offline",
-      "city": "Da Nang",
+      "locationId": "ngay-mai",
       "quantity": 1,
-      "lastCheckedAt": "2026-10-03",
-      "district": "My An",
-      "shop": "NGÀY MAI"
+      "lastCheckedAt": "2026-10-03"
     },
     {
-      "type": "offline",
-      "city": "Ho Chi Minh",
+      "locationId": "cat-food",
       "quantity": 1,
-      "lastCheckedAt": "2026-10-01",
-      "district": "Ben Thanh",
-      "shop": "Cat Food"
+      "lastCheckedAt": "2026-10-01"
     },
     {
-      "type": "online",
-      "city": "Da Lat",
-      "note": "Бесплатная доставка по Вьетнаму"
+      "locationId": "online"
     }
   ]
 }

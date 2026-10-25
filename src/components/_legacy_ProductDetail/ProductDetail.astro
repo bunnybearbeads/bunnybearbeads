@@ -4,8 +4,10 @@ import '../Icon/Icon.css';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations, formatAuditRelativeDate } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
+import { LOCATIONS, getLocation } from '../../config/locations';
 import RemakePill from './RemakePill.astro';
 import PartnerModals from './PartnerModals.astro';
+import DottedTitle from '../DottedTitle/DottedTitle.astro';
 
 interface Props {
   product: any;
@@ -15,39 +17,20 @@ interface Props {
 
 const { product, productRaw, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
-
-const ngayMaiLoc = productRaw.data.stockLocations?.find(
-  (l: any) => l.shop === 'NGÀY MAI' || l.city?.toLowerCase().includes('da nang') || l.location?.includes('NGÀY MAI')
-);
-
-function localizeCity(cityStr: string = '') {
-  const c = cityStr.toLowerCase();
-  if (c.includes('da lat')) return t('geo.city.dalat');
-  if (c.includes('da nang')) return t('geo.city.danang');
-  if (c.includes('ho chi minh')) return t('geo.city.hcm');
-  return cityStr;
-}
-
-function localizeDistrict(distStr: string = '') {
-  const d = distStr.toLowerCase();
-  if (d.includes('lâm viên') || d.includes('lam vien')) return t('geo.district.lamvien');
-  if (d.includes('my an') || d.includes('mỹ an')) return t('geo.district.myan');
-  if (d.includes('ben than') || d.includes('bến thành') || d.includes('ben thanh')) return t('geo.district.benthanh');
-  return distStr;
-}
 const categoryId = productRaw.data.categoryId || 'bracelets';
 
-const stockLocations = productRaw.data.stockLocations || [];
-const dalatOffline = stockLocations.find(
-  (l: any) => l.type === 'offline' && l.city?.toLowerCase().includes('da lat')
-);
-const otherOffline = stockLocations.filter(
-  (l: any) => l.type === 'offline' && !l.city?.toLowerCase().includes('da lat')
-);
-const hasOnline = stockLocations.some((l: any) => l.type === 'online') || stockLocations.length === 0;
+const rawStock = productRaw.data.stockLocations || [];
+const stockLocations = rawStock.map((sl: any) => ({
+  ...sl,
+  meta: getLocation(sl.locationId) || LOCATIONS.dalat,
+}));
+
+const dalatOffline = stockLocations.find((l: any) => l.meta.id === 'dalat');
+const otherOffline = stockLocations.filter((l: any) => l.meta.type === 'partner');
+const hasOnline = stockLocations.some((l: any) => l.meta.type === 'online') || stockLocations.length === 0;
 
 const isDalatInStock = dalatOffline ? (dalatOffline.quantity !== undefined && dalatOffline.quantity > 0) : false;
-const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'Lâm Viên', quantity: 0 };
+const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCATIONS.dalat };
 ---
 
 <div class="product-info-panel">
@@ -77,10 +60,7 @@ const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'L
 
   <!-- Where to Buy section -->
   <div class="where-to-buy-section">
-    <div class="section-subtitle-badge">
-      <span class="badge-dot"></span>
-      <span>{t('catalog.where_to_buy')}</span>
-    </div>
+    <DottedTitle as="h2">{t('catalog.where_to_buy')}</DottedTitle>
 
     <div
       class="where-to-buy-content"
@@ -165,10 +145,7 @@ const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'L
 
       {/* In-Person Showcases & Pickup */}
       <div class="showcases-block">
-        <div class="section-subtitle-badge">
-          <span class="badge-dot"></span>
-          <span>{t('catalog.showcase_title')}</span>
-        </div>
+        <DottedTitle as="h2">{t('catalog.showcase_title')}</DottedTitle>
 
         <div class="buy-options-list">
           {/* Da Lat Studio */}
@@ -177,7 +154,7 @@ const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'L
               <div class="buy-option-icon">🏠</div>
               <div class="buy-option-content">
                 <div class="buy-option-title">
-                  <div><strong>{localizeCity(dalatLoc.city)}{(dalatLoc.district || dalatLoc.location) ? `, ${localizeDistrict(dalatLoc.district || dalatLoc.location)}` : ''}</strong> — {t('geo.pickup_at_workshop_suffix')}</div>
+                  <div><strong>{t(dalatLoc.meta.cityKey)}{dalatLoc.meta.districtKey ? `, ${t(dalatLoc.meta.districtKey)}` : ''}</strong> — {t('geo.pickup_at_workshop_suffix')}</div>
                   <span class="delivery-subnote">
                     {isDalatInStock ? (
                       <span
@@ -213,12 +190,8 @@ const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'L
 
           {/* Partner Shops */}
           {otherOffline.map((loc: any) => {
-            const isOfflineCheckup = loc.lastCheckedAt;
-            const modalTarget = isOfflineCheckup
-              ? (loc.shop === 'NGÀY MAI' || loc.city.toLowerCase().includes('da nang') || (loc.location && loc.location.includes('NGÀY MAI'))
-                  ? '#modal-checkup-ngaymai'
-                  : '#modal-checkup-catfood')
-              : undefined;
+            const isOfflineCheckup = Boolean(loc.lastCheckedAt);
+            const modalTarget = isOfflineCheckup ? `#${loc.meta.modalId}` : undefined;
 
             return (
               <div
@@ -237,13 +210,7 @@ const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'L
                   <div class="buy-option-content">
                     <div class="buy-option-title">
                       <div>
-                        {loc.shop ? (
-                          <>
-                            <strong>{localizeCity(loc.city)}{loc.district ? `, ${localizeDistrict(loc.district)}` : ''}</strong> — {t('catalog.on_showcase_at')} <strong>{loc.shop}</strong>
-                          </>
-                        ) : (
-                          <strong>{localizeCity(loc.city)}{(loc.district || loc.location) ? `, ${localizeDistrict(loc.district || loc.location)}` : ''}</strong>
-                        )}
+                        <strong>{t(loc.meta.cityKey)}{loc.meta.districtKey ? `, ${t(loc.meta.districtKey)}` : ''}</strong> — {t('catalog.on_showcase_at')} <strong>{loc.meta.shop}</strong>
                       </div>
                       <span class="delivery-subnote">
                         <span class="subnote-item" set:html={t('catalog.shop_working_hours')} />
@@ -285,10 +252,7 @@ const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'L
   <!-- Crafter's Note Section -->
   {product.crafterNote && (
     <div class="crafter-note-section">
-      <div class="section-subtitle-badge">
-        <span class="badge-dot crafter-badge-dot"></span>
-        <span>{t('catalog.crafter_note_title')}</span>
-      </div>
+      <DottedTitle>{t('catalog.crafter_note_title')}</DottedTitle>
       <div class="crafter-note-body" set:html={product.crafterNote} />
     </div>
   )}
@@ -308,8 +272,7 @@ const dalatLoc = dalatOffline || { type: 'offline', city: 'Da Lat', location: 'L
 <PartnerModals
   product={product}
   currentLang={currentLang}
-  ngayMaiLoc={ngayMaiLoc}
-  localizeCity={localizeCity}
+  stockLocations={rawStock}
 />
 
 <script src="./productDetail.client.ts"></script>

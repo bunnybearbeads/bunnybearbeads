@@ -31,15 +31,11 @@
   "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
   "stockLocations": [
     {
-      "type": "offline",
-      "city": "Da Lat",
-      "quantity": 2,
-      "district": "Lam Vien"
+      "locationId": "dalat",
+      "quantity": 2
     },
     {
-      "type": "online",
-      "city": "Da Lat",
-      "note": "Бесплатная доставка по Вьетнаму"
+      "locationId": "online"
     }
   ],
   "badge": {

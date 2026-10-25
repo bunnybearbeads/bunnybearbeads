@@ -32,9 +32,7 @@
   "designedBy": "<span>Бижутерия Лапками</span>",
   "stockLocations": [
     {
-      "type": "online",
-      "city": "Da Lat",
-      "note": "Бесплатная доставка по Вьетнаму"
+      "locationId": "online"
     }
   ]
 }

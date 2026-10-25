@@ -50,15 +50,11 @@
   "designedBy": "BunnyBearBeads",
   "stockLocations": [
     {
-      "type": "offline",
-      "city": "Da Lat",
-      "quantity": 0,
-      "district": "Lam Vien"
+      "locationId": "dalat",
+      "quantity": 0
     },
     {
-      "type": "online",
-      "city": "Da Lat",
-      "note": "Бесплатная доставка по Вьетнаму"
+      "locationId": "online"
     }
   ],
   "badge": {

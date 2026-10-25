@@ -32,23 +32,16 @@
   "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
   "stockLocations": [
     {
-      "type": "offline",
-      "city": "Da Lat",
-      "quantity": 1,
-      "district": "Lam Vien"
+      "locationId": "dalat",
+      "quantity": 1
     },
     {
-      "type": "offline",
-      "city": "Da Nang",
+      "locationId": "ngay-mai",
       "quantity": 2,
-      "lastCheckedAt": "2026-10-05",
-      "district": "My An",
-      "shop": "NGÀY MAI"
+      "lastCheckedAt": "2026-10-05"
     },
     {
-      "type": "online",
-      "city": "Da Lat",
-      "note": "Бесплатная доставка по Вьетнаму"
+      "locationId": "online"
     }
   ]
 }

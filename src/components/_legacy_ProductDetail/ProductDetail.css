@@ -74,26 +74,6 @@
   margin-bottom: 25px;
 }
 
-.section-subtitle-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--color-brand-dark);
-  margin-bottom: 12px;
-}
-
-.badge-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent-teal);
-  display: inline-block;
-}
-
 .buy-options-list {
   display: flex;
   flex-direction: column;
@@ -627,10 +607,6 @@
   margin-bottom: 25px;
 }
 
-.crafter-badge-dot {
-  background: #d4a373;
-}
-
 .crafter-note-body {
   font-size: 13.5px;
   line-height: 1.75;
@@ -741,16 +717,6 @@
 
   .where-to-buy-section {
     margin-bottom: 31px;
-  }
-
-  .section-subtitle-badge {
-    font-size: 14.5px;
-    margin-bottom: 16px;
-  }
-
-  .badge-dot {
-    width: 9px;
-    height: 9px;
   }
 
   .buy-options-list,

@@ -8,14 +8,9 @@ const localizedString = z.object({
 });
 
 const stockLocationSchema = z.object({
-  type: z.enum(['offline', 'online']),
-  city: z.string(),
-  district: z.string().optional(),
-  shop: z.string().optional(),
-  location: z.string().optional(),
+  locationId: z.enum(['online', 'dalat', 'ngay-mai', 'cat-food']),
   quantity: z.number().optional(),
   lastCheckedAt: z.string().optional(),
-  note: z.string().optional(),
 });
 
 const mediaItemSchema = z.union([

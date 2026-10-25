@@ -1,0 +1,18 @@
+---
+import './DottedTitle.css';
+
+interface Props {
+  as?: 'div' | 'h2' | 'h3' | 'h4' | 'span' | 'p';
+  class?: string;
+}
+
+const {
+  as: Tag = 'div',
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<Tag class:list={['dotted-title', className]} {...rest}>
+    <slot/>
+</Tag>

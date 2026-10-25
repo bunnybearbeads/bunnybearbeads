@@ -1,133 +1,98 @@
 ---
 import { type SupportedLanguage } from '../../i18n/ui';
 import { useTranslations, formatAuditRelativeDate } from '../../i18n/utils';
+import { PARTNER_LOCATIONS } from '../../config/locations';
 
 interface Props {
   product: any;
   currentLang: SupportedLanguage;
-  ngayMaiLoc?: any;
-  localizeCity: (cityStr?: string) => string;
+  stockLocations?: any[];
 }
 
-const { product, currentLang, ngayMaiLoc, localizeCity } = Astro.props;
+const { product, currentLang, stockLocations = [] } = Astro.props;
 const t = useTranslations(currentLang);
 ---
 
-<!-- Modal: NGÀY MAI (Da Nang) -->
-<div class="hystmodal" id="modal-checkup-ngaymai" aria-hidden="true">
-  <div class="hystmodal__wrap">
-    <div class="hystmodal__window checkup-modal-window" role="dialog" aria-modal="true" aria-labelledby="modal-nm-title">
-      <button data-hystclose class="hystmodal__close" aria-label={t('catalog.modal.close')}>✕</button>
+{PARTNER_LOCATIONS.map((loc) => {
+  const stockLoc = stockLocations.find((sl: any) => sl.locationId === loc.id);
+  const city = loc.cityKey ? t(loc.cityKey) : '';
 
-      <div class="modal-badge-tag">
-        <span>📍</span>
-        <span>{localizeCity('Da Nang')} • NGÀY MAI</span>
-      </div>
+  return (
+    <div class="hystmodal" id={loc.modalId} aria-hidden="true">
+      <div class="hystmodal__wrap">
+        <div class="hystmodal__window checkup-modal-window" role="dialog" aria-modal="true" aria-labelledby={`${loc.modalId}-title`}>
+          <button data-hystclose class="hystmodal__close" aria-label={t('catalog.modal.close')}>✕</button>
 
-      <h3 id="modal-nm-title" class="modal-headline">
-        {t('catalog.modal.title')}
-      </h3>
+          <div class="modal-badge-tag">
+            <span>📍</span>
+            <span>{city} • {loc.shop}</span>
+          </div>
 
-      <div class="modal-body-content">
-        <p class="modal-lead">
-          {t('catalog.modal.nm_p1')}
-        </p>
-        <p>
-          {t('catalog.modal.nm_p2')}
-        </p>
-        <p set:html={t('catalog.modal.nm_p2_sub').replace('{item}', `<strong>«${product.title}»</strong>`)} />
-        <p class="modal-highlight">
-          {t('catalog.modal.nm_p3')}
-        </p>
-      </div>
+          <h3 id={`${loc.modalId}-title`} class="modal-headline">
+            {t('catalog.modal.title')}
+          </h3>
 
-      <div class="modal-stock-photo-card">
-        <div class="stock-photo-header">
-          <span class="stock-photo-icon">📸</span>
-          <strong class="stock-photo-heading">
-            {t('catalog.modal.stock_photo_title')}
-            <span class="audit-date" data-audit-date={ngayMaiLoc?.lastCheckedAt || '2026-10-04'}>
-              {formatAuditRelativeDate(ngayMaiLoc?.lastCheckedAt || '2026-10-04', currentLang)}
-            </span>
-          </strong>
+          <div class="modal-body-content">
+            {loc.modalLeadKey && <p class="modal-lead">{t(loc.modalLeadKey)}</p>}
+            {loc.modalBodyKey && <p>{t(loc.modalBodyKey)}</p>}
+            {loc.modalBodySubKey && (
+              <p set:html={t(loc.modalBodySubKey).replace('{item}', `<strong>«${product.title}»</strong>`)} />
+            )}
+            {loc.modalHighlightKey && <p class="modal-highlight">{t(loc.modalHighlightKey)}</p>}
+          </div>
+
+          {loc.photoUrl && (
+            <div class="modal-stock-photo-card">
+              <div class="stock-photo-header">
+                <span class="stock-photo-icon">📸</span>
+                <strong class="stock-photo-heading">
+                  {t('catalog.modal.stock_photo_title')}
+                  <span class="audit-date" data-audit-date={stockLoc?.lastCheckedAt || '2026-10-04'}>
+                    {formatAuditRelativeDate(stockLoc?.lastCheckedAt || '2026-10-04', currentLang)}
+                  </span>
+                </strong>
+              </div>
+              <a
+                href={loc.photoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="stock-photo-frame"
+                title={t('catalog.modal.photo_zoom_hint')}
+              >
+                <img
+                  src={loc.photoUrl}
+                  alt={`Витрина с украшениями в ${loc.shop} (${stockLoc?.lastCheckedAt || '2026-10-04'})`}
+                  class="stock-photo-image"
+                  loading="lazy"
+                />
+                <span class="stock-photo-zoom-tag">🔍 {t('catalog.modal.photo_zoom_badge')}</span>
+              </a>
+            </div>
+          )}
+
+          {loc.modalHoursKey && (
+            <div class="modal-hours">
+              <span class="modal-hours-icon">🕒</span>
+              <span>{t(loc.modalHoursKey)}</span>
+            </div>
+          )}
+
+          {loc.mapsUrl && loc.modalMapsKey && (
+            <div class="modal-footer-actions">
+              <a
+                href={loc.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-maps-link"
+              >
+                <span>🗺️</span>
+                <strong>{t(loc.modalMapsKey)}</strong>
+                <span>↗</span>
+              </a>
+            </div>
+          )}
         </div>
-        <a
-          href="/images/stock/ngay-mai-showcase.jpg"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="stock-photo-frame"
-          title={t('catalog.modal.photo_zoom_hint')}
-        >
-          <img
-            src="/images/stock/ngay-mai-showcase.jpg"
-            alt={`Витрина с украшениями в NGÀY MAI (${ngayMaiLoc?.lastCheckedAt || '2026-10-04'})`}
-            class="stock-photo-image"
-            loading="lazy"
-          />
-          <span class="stock-photo-zoom-tag">🔍 {t('catalog.modal.photo_zoom_badge')}</span>
-        </a>
-      </div>
-
-      <div class="modal-hours">
-        <span class="modal-hours-icon">🕒</span>
-        <span>{t('catalog.modal.nm_hours')}</span>
-      </div>
-
-      <div class="modal-footer-actions">
-        <a
-          href="https://maps.app.goo.gl/9ZpC4aK4fGzW5c8r7"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-maps-link"
-        >
-          <span>🗺️</span>
-          <strong>{t('catalog.modal.nm_maps')}</strong>
-          <span>↗</span>
-        </a>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- Modal: Cat Food (Ho Chi Minh City) -->
-<div class="hystmodal" id="modal-checkup-catfood" aria-hidden="true">
-  <div class="hystmodal__wrap">
-    <div class="hystmodal__window checkup-modal-window" role="dialog" aria-modal="true" aria-labelledby="modal-cf-title">
-      <button data-hystclose class="hystmodal__close" aria-label={t('catalog.modal.close')}>✕</button>
-
-      <div class="modal-badge-tag">
-        <span>📍</span>
-        <span>{localizeCity('Ho Chi Minh')} • Cat Food</span>
-      </div>
-
-      <h3 id="modal-cf-title" class="modal-headline">
-        {t('catalog.modal.title')}
-      </h3>
-
-      <div class="modal-body-content">
-        <p class="modal-lead">
-          {t('catalog.modal.catfood_p1')}
-        </p>
-        <p>
-          {t('catalog.modal.catfood_p2')}
-        </p>
-        <p class="modal-highlight">
-          {t('catalog.modal.catfood_p3')}
-        </p>
-      </div>
-
-      <div class="modal-footer-actions">
-        <a
-          href="https://maps.google.com/?q=Cat+Food+Shop+Ben+Thanh+Ho+Chi+Minh+City"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-maps-link"
-        >
-          <span>🗺️</span>
-          <strong>{t('catalog.modal.catfood_maps')}</strong>
-          <span>↗</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
+  );
+})}

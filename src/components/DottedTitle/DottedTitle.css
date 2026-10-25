@@ -1,0 +1,34 @@
+.dotted-title {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding-bottom: 12px;
+    gap: 7px;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--color-brand-dark);
+}
+    .dotted-title::before {
+        content: "";
+        display: block;
+        flex-shrink: 0;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--accent-teal);
+    }
+
+@media (min-width: 1600px) {
+
+    .dotted-title {
+        font-size: 15px;
+        padding-bottom: 16px;
+    }
+        .dotted-title::before {
+            width: 9px;
+            height: 9px;
+        }
+}
