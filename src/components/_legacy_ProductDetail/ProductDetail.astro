@@ -5,7 +5,6 @@ import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations, formatAuditRelativeDate } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
 import { LOCATIONS, getLocation } from '../../config/locations';
-import RemakePill from './RemakePill.astro';
 import PartnerModals from './PartnerModals.astro';
 import DottedTitle from '../DottedTitle/DottedTitle.astro';
 import Option from '../Option/Option.astro';
@@ -33,6 +32,14 @@ const hasOnline = stockLocations.some((l: any) => l.meta.type === 'online') || s
 
 const isDalatInStock = dalatOffline ? (dalatOffline.quantity !== undefined && dalatOffline.quantity > 0) : false;
 const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCATIONS.dalat };
+
+const remakeDays = siteSettings.fulfillment.remakeDays;
+const remakeSuffix = {
+  ru: `Повтор <span class="remake-prep-hide">за </span><span class="remake-time">${remakeDays}&nbsp;дня</span>`,
+  en: `Remake <span class="remake-prep-hide">in </span><span class="remake-time">${remakeDays}&nbsp;days</span>`,
+  vi: `Nhận làm <span class="remake-prep-hide">trong </span><span class="remake-time">${remakeDays}&nbsp;ngày</span>`,
+}[currentLang];
+const remakeStockHtml = `${t('catalog.remake_pill_label')}<span class="option__stock option__stock--dotted">${remakeSuffix}</span>`;
 ---
 
 <div class="product-info-panel">
@@ -93,7 +100,7 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                   <span class="option__stock">{t('catalog.ready_to_ship')}</span>
                 </>
               ) : (
-                <RemakePill currentLang={currentLang} />
+                <Fragment set:html={remakeStockHtml} />
               )}
             </Fragment>
           </Option>
@@ -128,7 +135,7 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                   <span class="option__stock">{t('catalog.ready_to_ship')}</span>
                 </>
               ) : (
-                <RemakePill currentLang={currentLang} />
+                <Fragment set:html={remakeStockHtml} />
               )}
             </Fragment>
           </Option>
@@ -170,7 +177,7 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                   <span class="option__stock">{t('catalog.in_stock_suffix')}</span>
                 </>
               ) : (
-                <RemakePill currentLang={currentLang} />
+                <Fragment set:html={remakeStockHtml} />
               )}
             </Fragment>
           </Option>
