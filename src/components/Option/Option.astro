@@ -23,26 +23,28 @@ const {
   <div class="option__icon">
     {icon}
   </div>
-  <div class="option__title">
-    <slot name="title" />
+  <div class="option__content">
+    <div class="option__title">
+      <slot name="title" />
+    </div>
+    {Astro.slots.has('subnote') && (
+      <div class="option__notes">
+        <slot name="subnote" />
+      </div>
+    )}
+    {Astro.slots.has('quantity') && (
+      <div
+        class:list={[
+          'option__quantity',
+          clickable && 'option__quantity--clickable',
+        ]}
+        data-hystmodal={modalTarget}
+        role={clickable ? 'button' : undefined}
+        title={auditHint}
+      >
+        <slot name="quantity" />
+      </div>
+    )}
+    <slot />
   </div>
-  {Astro.slots.has('subnote') && (
-    <div class="option__notes">
-      <slot name="subnote" />
-    </div>
-  )}
-  {Astro.slots.has('quantity') && (
-    <div
-      class:list={[
-        'option__quantity',
-        clickable && 'option__quantity--clickable',
-      ]}
-      data-hystmodal={modalTarget}
-      role={clickable ? 'button' : undefined}
-      title={auditHint}
-    >
-      <slot name="quantity" />
-    </div>
-  )}
-  <slot />
 </div>

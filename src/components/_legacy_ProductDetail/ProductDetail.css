@@ -553,21 +553,3 @@
   }
 }
 
-@media (width < 390px) {
-  :lang(vi) .remake-prep-hide {
-    display: none;
-  }
-}
-
-@media (width < 370px) {
-  :lang(ru) .remake-prep-hide {
-    display: none;
-  }
-}
-
-@media (width < 350px) {
-  :lang(en) .remake-prep-hide {
-    display: none;
-  }
-}
-
