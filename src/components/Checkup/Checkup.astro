@@ -1,0 +1,87 @@
+---
+import './Checkup.css';
+import { type SupportedLanguage } from '../../i18n/ui';
+import { useTranslations, formatAuditRelativeDate } from '../../i18n/utils';
+
+interface Props {
+  loc: any;
+  stockLoc?: any;
+  product: any;
+  currentLang: SupportedLanguage;
+}
+
+const { loc, stockLoc, product, currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+const city = loc.cityKey ? t(loc.cityKey) : '';
+---
+
+<div class="checkup">
+  <div class="checkup__badge">
+    <span>📍</span>
+    <span>{city} • {loc.shop}</span>
+  </div>
+
+  <h3 id={`${loc.modalId}-title`} class="checkup__title">
+    {t('catalog.modal.title')}
+  </h3>
+
+  <div class="checkup__body">
+    {loc.modalLeadKey && <p class="checkup__lead">{t(loc.modalLeadKey)}</p>}
+    {loc.modalBodyKey && <p>{t(loc.modalBodyKey)}</p>}
+    {loc.modalBodySubKey && (
+      <p set:html={t(loc.modalBodySubKey).replace('{item}', `<strong>«${product.title}»</strong>`)} />
+    )}
+    {loc.modalHighlightKey && <p class="checkup__highlight">{t(loc.modalHighlightKey)}</p>}
+  </div>
+
+  {loc.photoUrl && (
+    <div class="checkup__photo-card">
+      <div class="checkup__photo-header">
+        <span class="checkup__photo-icon">📸</span>
+        <strong class="checkup__photo-heading">
+          {t('catalog.modal.stock_photo_title')}
+          <span class="audit-date" data-audit-date={stockLoc?.lastCheckedAt || '2026-10-04'}>
+            {formatAuditRelativeDate(stockLoc?.lastCheckedAt || '2026-10-04', currentLang)}
+          </span>
+        </strong>
+      </div>
+      <a
+        href={loc.photoUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="checkup__photo-frame"
+        title={t('catalog.modal.photo_zoom_hint')}
+      >
+        <img
+          src={loc.photoUrl}
+          alt={`Витрина с украшениями в ${loc.shop} (${stockLoc?.lastCheckedAt || '2026-10-04'})`}
+          class="checkup__photo-image"
+          loading="lazy"
+        />
+        <span class="checkup__photo-zoom">🔍 {t('catalog.modal.photo_zoom_badge')}</span>
+      </a>
+    </div>
+  )}
+
+  {loc.modalHoursKey && (
+    <div class="checkup__hours">
+      <span class="checkup__hours-icon">🕒</span>
+      <span>{t(loc.modalHoursKey)}</span>
+    </div>
+  )}
+
+  {loc.mapsUrl && loc.modalMapsKey && (
+    <div class="checkup__actions">
+      <a
+        href={loc.mapsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="checkup__maps-link"
+      >
+        <span>🗺️</span>
+        <strong>{t(loc.modalMapsKey)}</strong>
+        <span>↗</span>
+      </a>
+    </div>
+  )}
+</div>

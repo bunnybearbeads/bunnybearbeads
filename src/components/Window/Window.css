@@ -1,0 +1,102 @@
+@import '../../styles/overrides/hyst-modal.css';
+
+.window {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: var(--radius-md, 12px);
+    box-shadow: 0 25px 60px rgb(0 0 0 / 20%);
+    width: 100%;
+    max-width: 740px;
+    margin: 0 auto;
+}
+    .window__close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 68px;
+        height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        z-index: 2;
+    }
+        /* hover */
+        .window__close::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--action-bg-light, rgb(0 0 0 / 6%));
+            opacity: 0%;
+            transition: opacity 0.2s ease;
+        }
+
+        .window__close:hover::before {
+            opacity: 100%;
+        }
+
+        .window__close:active {
+            translate: 0 1px;
+        }
+
+        /* icon */
+        .window__close .icon {
+            position: relative;
+            font-size: 26px;
+            line-height: 26px;
+            width: 26px;
+            height: 26px;
+            color: var(--heading-color, var(--text-dark, #2C2825));
+        }
+
+    .window__heading {
+        padding: 28px 32px 0 32px;
+    }
+
+    .window__body {
+        padding: 32px;
+    }
+
+    .window__heading ~ .window__body {
+        padding-top: 20px;
+    }
+
+    .window__actions {
+        padding: 0 24px 24px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+.window--floated-cross-button {
+
+}
+    .window--floated-cross-button .window__close {
+        position: relative;
+        float: right;
+    }
+
+    .window--floated-cross-button .window__heading {
+        padding-right: 0;
+    }
+
+@media (width < 740px) {
+    .window__heading {
+        padding: 24px 24px 0 24px;
+    }
+
+    .window__body {
+        padding: 24px;
+    }
+
+    .window__heading ~ .window__body {
+        padding-top: 14px;
+    }
+}
