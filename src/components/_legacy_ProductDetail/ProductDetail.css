@@ -96,65 +96,6 @@
   margin-top: 8px;
 }
 
-.stock-remake-pill {
-  background: #FEF2F2;
-  color: #991B1B;
-  border: 1px solid rgba(220, 38, 38, 0.25);
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.remake-pill-status {
-  font-weight: 700;
-}
-
-.remake-pill-sep {
-  opacity: 0.6;
-  margin: 0 1px;
-}
-
-.remake-pill-action {
-  font-weight: 400;
-  white-space: nowrap;
-}
-
-.stock-quantity-pill {
-  font-size: 12.5px;
-  padding: 4px 11px;
-  background: rgba(42, 123, 136, 0.12);
-  color: var(--accent-teal);
-  border-radius: 13px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-}
-
-.stock-quantity-pill strong {
-  font-weight: 700;
-}
-
-.stock-sold-pill {
-  background: rgba(180, 83, 9, 0.12);
-  color: #B45309;
-  border: 1px solid rgba(180, 83, 9, 0.25);
-}
-
-.stock-quantity-pill .audit-sep {
-  opacity: 0.6;
-}
-
-.stock-quantity-pill .stock-pill-suffix {
-  font-weight: 400;
-}
-
-.stock-quantity-pill .audit-date {
-  font-weight: 500;
-}
-
-
-
 .product-specs-section {
   margin-top: 22px;
   padding-top: 18px;
@@ -225,26 +166,6 @@
   color: var(--accent-teal);
   text-decoration: underline;
   font-weight: 600;
-}
-
-.stock-quantity-pill--clickable {
-  cursor: pointer;
-  border: 1px solid rgba(42, 123, 136, 0.3);
-  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  text-align: left;
-}
-
-.stock-quantity-pill--clickable:hover {
-  background: rgba(42, 123, 136, 0.22);
-  border-color: var(--accent-teal);
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(42, 123, 136, 0.15);
-}
-
-.pill-info-icon {
-  font-size: 11.5px;
-  margin-left: 2px;
-  opacity: 0.85;
 }
 
 .checkup-modal-window {
@@ -558,11 +479,6 @@
 
   .where-to-buy-section {
     margin-bottom: 31px;
-  }
-
-  .stock-quantity-pill {
-    font-size: 14.5px;
-    padding: 5px 13px;
   }
 
   .product-specs-section {

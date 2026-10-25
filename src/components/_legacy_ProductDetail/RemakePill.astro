@@ -12,24 +12,21 @@ const t = useTranslations(currentLang);
 const remakeDays = siteSettings.fulfillment.remakeDays;
 ---
 
-<span class="stock-quantity-pill stock-remake-pill">
-  <strong class="remake-pill-status">{t('catalog.remake_pill_label')}</strong>
-  <span class="remake-pill-sep">·</span>
-  <span class="remake-pill-action">
-    {currentLang === 'ru' && (
-      <>
-        Повтор <span class="remake-prep-hide">за </span><span class="remake-time">{remakeDays}&nbsp;дня</span>
-      </>
-    )}
-    {currentLang === 'en' && (
-      <>
-        Remake <span class="remake-prep-hide">in </span><span class="remake-time">{remakeDays}&nbsp;days</span>
-      </>
-    )}
-    {currentLang === 'vi' && (
-      <>
-        Nhận làm <span class="remake-prep-hide">trong </span><span class="remake-time">{remakeDays}&nbsp;ngày</span>
-      </>
-    )}
-  </span>
+{t('catalog.remake_pill_label')}
+<span class="option__stock option__stock--dotted">
+  {currentLang === 'ru' && (
+    <>
+      Повтор <span class="remake-prep-hide">за </span><span class="remake-time">{remakeDays}&nbsp;дня</span>
+    </>
+  )}
+  {currentLang === 'en' && (
+    <>
+      Remake <span class="remake-prep-hide">in </span><span class="remake-time">{remakeDays}&nbsp;days</span>
+    </>
+  )}
+  {currentLang === 'vi' && (
+    <>
+      Nhận làm <span class="remake-prep-hide">trong </span><span class="remake-time">{remakeDays}&nbsp;ngày</span>
+    </>
+  )}
 </span>

@@ -54,9 +54,57 @@
             margin-right: 3px;
         }
 
-/* ==========================================================================
-   Desktop (> 1600px)
-   ========================================================================== */
+    .option__quantity {
+        margin-top: 6px;
+        font-size: 12.5px;
+        padding: 4px 11px;
+        background: rgba(42, 123, 136, 0.12);
+        border: 1px solid rgba(42, 123, 136, 0.3);
+        color: var(--accent-teal);
+        border-radius: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+        font-weight: 700;
+        line-height: 1.4;
+        width: fit-content;
+    }
+
+    .option__quantity--clickable {
+        cursor: pointer;
+        transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        text-align: left;
+    }
+
+    .option__quantity--clickable:hover {
+        background: rgba(42, 123, 136, 0.22);
+        border-color: var(--accent-teal);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(42, 123, 136, 0.15);
+    }
+
+        .option__stock {
+            font-weight: 400;
+        }
+
+        .option__stock--dotted::before {
+            content: "·";
+            margin: 0 5px 0 2px;
+            opacity: 0.6;
+            font-weight: 700;
+        }
+
+            .option__help-icon {
+                font-size: 14px;
+                line-height: 1;
+                margin-left: 2px;
+                opacity: 0.8;
+                vertical-align: middle;
+                transition: opacity 0.2s ease, transform 0.2s ease;
+            }
+
+
 @media (1600px <= width) {
 
     .option {
@@ -75,17 +123,18 @@
     .option__notes {
         font-size: 14px;
     }
-        .option__note-item {
 
+    .option__quantity {
+        font-size: 14.5px;
+        padding: 5px 13px;
+    }
+        .option__help-icon {
+            font-size: 16px;
         }
-            .option__note-item .icon {
-
-            }
 }
 
-/* ==========================================================================
-   Mobile / Smartphone (< 740px)
-   ========================================================================== */
+
+
 @media (width < 740px) {
 
     .option {

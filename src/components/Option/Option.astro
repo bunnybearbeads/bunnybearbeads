@@ -4,9 +4,19 @@ import './Option.css';
 interface Props {
   icon: string;
   class?: string;
+  clickable?: boolean;
+  modalTarget?: string;
+  auditHint?: string;
 }
 
-const { icon, class: className, ...rest } = Astro.props;
+const {
+  icon,
+  class: className,
+  clickable = false,
+  modalTarget,
+  auditHint,
+  ...rest
+} = Astro.props;
 ---
 
 <div class:list={['option', className]} {...rest}>
@@ -19,6 +29,20 @@ const { icon, class: className, ...rest } = Astro.props;
   {Astro.slots.has('subnote') && (
     <div class="option__notes">
       <slot name="subnote" />
+    </div>
+  )}
+  {Astro.slots.has('quantity') && (
+    <div
+      class:list={[
+        'option__quantity',
+        clickable && 'option__quantity--clickable',
+      ]}
+      data-hystmodal={modalTarget}
+      role={clickable ? 'button' : undefined}
+      tabindex={clickable ? 0 : undefined}
+      title={auditHint}
+    >
+      <slot name="quantity" />
     </div>
   )}
   <slot />
