@@ -34,7 +34,7 @@ export const LOCATIONS: Record<LocationId, LocationConfig> = {
   'ngay-mai': {
     id: 'ngay-mai',
     type: 'partner',
-    shop: 'NGÀY MAI',
+    shop: 'NGÀY\u00A0MAI',
     cityKey: 'geo.city.danang',
     districtKey: 'geo.district.myan',
     modalId: 'modal-checkup-ngaymai',
@@ -50,7 +50,7 @@ export const LOCATIONS: Record<LocationId, LocationConfig> = {
   'cat-food': {
     id: 'cat-food',
     type: 'partner',
-    shop: 'Cat Food',
+    shop: 'Cat\u00A0Food',
     cityKey: 'geo.city.hcm',
     districtKey: 'geo.district.benthanh',
     modalId: 'modal-checkup-catfood',

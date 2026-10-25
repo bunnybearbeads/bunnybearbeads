@@ -143,7 +143,7 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
           {/* Da Lat Studio */}
           <Option icon="🏠">
             <Fragment slot="title">
-              <strong class="option__bold">{t(dalatLoc.meta.cityKey)}{dalatLoc.meta.districtKey ? `, ${t(dalatLoc.meta.districtKey)}` : ''}</strong> — {t('geo.pickup_at_workshop_suffix')}
+              <strong class="option__bold">{t(dalatLoc.meta.cityKey)}{dalatLoc.meta.districtKey ? `, ${t(dalatLoc.meta.districtKey)}` : ''}</strong>&nbsp;— {t('geo.pickup_at_workshop_suffix')}
             </Fragment>
             <Fragment slot="subnote">
               {isDalatInStock ? (
@@ -188,7 +188,7 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                 auditHint={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
               >
                 <Fragment slot="title">
-                  <strong class="option__bold">{t(loc.meta.cityKey)}{loc.meta.districtKey ? `, ${t(loc.meta.districtKey)}` : ''}</strong> — {t('catalog.on_showcase_at')}{' '}<strong class="option__bold">{loc.meta.shop}</strong>
+                  <strong class="option__bold">{t(loc.meta.cityKey)}{loc.meta.districtKey ? `, ${t(loc.meta.districtKey)}` : ''}</strong>&nbsp;— {t('catalog.on_showcase_at')}&nbsp;<strong class="option__bold">{loc.meta.shop}</strong>
                 </Fragment>
                 <Fragment slot="subnote">
                   <span class="option__note-item" set:html={t('catalog.shop_working_hours')} />
