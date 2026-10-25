@@ -118,7 +118,6 @@
   font-weight: 400;
   line-height: 1.4;
   color: var(--text-muted);
-  margin-top: 2px;
 }
 
 .subnote-item {
@@ -186,47 +185,16 @@
 
 .buy-option-title {
   font-size: 13px;
+  line-height: 1.35;
   color: var(--color-brand-dark);
 }
 
-.delivery-text-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+.delivery-block .buy-option-title {
+  font-weight: 700;
 }
 
-.buy-option-delivery-sub {
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--text-muted);
-  line-height: 1.35;
-}
-
-.dalat-remake-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.dalat-title-row {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  flex-wrap: wrap;
-}
-
-.dalat-remake-craft-text {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--color-brand-dark);
-  line-height: 1.35;
-}
-
-.dalat-remake-time-text {
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--text-muted);
-  line-height: 1.35;
+.buy-option-title strong {
+  font-weight: 700;
 }
 
 .stock-quantity-pill {
@@ -682,13 +650,8 @@
     font-size: 15.5px;
   }
 
-  .buy-option-delivery-sub,
-  .dalat-remake-time-text {
-    font-size: 14.5px;
-  }
-
-  .dalat-remake-craft-text {
-    font-size: 15px;
+  .delivery-subnote {
+    font-size: 14px;
   }
 
   .stock-quantity-pill {

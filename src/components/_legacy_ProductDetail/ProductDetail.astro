@@ -75,18 +75,16 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
             <div class="buy-option-main">
               <div class="buy-option-icon">📦</div>
               <div class="buy-option-content">
-                <div class="buy-option-title">
-                  <strong>{t('catalog.delivery_vn_title')}</strong>
-                  <span class="delivery-subnote">
-                    <span class="subnote-item">{t('catalog.free')}</span>
-                    <span class="subnote-item" set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')} />
-                    <span class="subnote-item">
-                      <span class="icon">payments</span>
-                      <span class="icon">qr_code</span>
-                      {t('catalog.pay_on_receipt')}
-                    </span>
+                <div class="buy-option-title">{t('catalog.delivery_vn_title')}</div>
+                <span class="delivery-subnote">
+                  <span class="subnote-item">{t('catalog.free')}</span>
+                  <span class="subnote-item" set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')} />
+                  <span class="subnote-item">
+                    <span class="icon">payments</span>
+                    <span class="icon">qr_code</span>
+                    {t('catalog.pay_on_receipt')}
                   </span>
-                </div>
+                </span>
                 {isDalatInStock ? (
                   <span class="stock-quantity-pill">
                     <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
@@ -103,28 +101,26 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
             <div class="buy-option-main">
               <div class="buy-option-icon">🛵</div>
               <div class="buy-option-content">
-                <div class="buy-option-title">
-                  <strong>{t('catalog.delivery_dalat_title')}</strong>
-                  <span class="delivery-subnote">
-                    <span class="subnote-item">{t('catalog.free')}</span>
-                    {isDalatInStock ? (
-                      <span
-                        class="subnote-item dalat-dynamic-cutoff-text"
-                        data-text-today={t('catalog.delivery_dalat_sub_today')}
-                        data-text-morning={t('catalog.delivery_dalat_sub_morning')}
-                        data-text-tomorrow={t('catalog.delivery_dalat_sub_tomorrow')}
-                        set:html={t('catalog.delivery_dalat_sub_today')}
-                      />
-                    ) : (
-                      <span class="subnote-item" set:html={t('catalog.delivery_dalat_sub_remake')} />
-                    )}
-                    <span class="subnote-item">
-                      <span class="icon">payments</span>
-                      <span class="icon">qr_code</span>
-                      {t('catalog.pay_on_receipt')}
-                    </span>
+                <div class="buy-option-title">{t('catalog.delivery_dalat_title')}</div>
+                <span class="delivery-subnote">
+                  <span class="subnote-item">{t('catalog.free')}</span>
+                  {isDalatInStock ? (
+                    <span
+                      class="subnote-item dalat-dynamic-cutoff-text"
+                      data-text-today={t('catalog.delivery_dalat_sub_today')}
+                      data-text-morning={t('catalog.delivery_dalat_sub_morning')}
+                      data-text-tomorrow={t('catalog.delivery_dalat_sub_tomorrow')}
+                      set:html={t('catalog.delivery_dalat_sub_today')}
+                    />
+                  ) : (
+                    <span class="subnote-item" set:html={t('catalog.delivery_dalat_sub_remake')} />
+                  )}
+                  <span class="subnote-item">
+                    <span class="icon">payments</span>
+                    <span class="icon">qr_code</span>
+                    {t('catalog.pay_on_receipt')}
                   </span>
-                </div>
+                </span>
                 {isDalatInStock ? (
                   <span class="stock-quantity-pill">
                     <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
@@ -150,26 +146,26 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
               <div class="buy-option-icon">🏠</div>
               <div class="buy-option-content">
                 <div class="buy-option-title">
-                  <div><strong>{t(dalatLoc.meta.cityKey)}{dalatLoc.meta.districtKey ? `, ${t(dalatLoc.meta.districtKey)}` : ''}</strong> — {t('geo.pickup_at_workshop_suffix')}</div>
-                  <span class="delivery-subnote">
-                    {isDalatInStock ? (
-                      <span
-                        class="subnote-item dalat-dynamic-cutoff-text"
-                        data-text-today={t('catalog.pickup_dalat_sub_today')}
-                        data-text-morning={t('catalog.pickup_dalat_sub_morning')}
-                        data-text-tomorrow={t('catalog.pickup_dalat_sub_tomorrow')}
-                        set:html={t('catalog.pickup_dalat_sub_today')}
-                      />
-                    ) : (
-                      <span class="subnote-item" set:html={t('catalog.pickup_dalat_sub_remake')} />
-                    )}
-                    <span class="subnote-item">
-                      <span class="icon">payments</span>
-                      <span class="icon">qr_code</span>
-                      {t('catalog.pay_on_pickup')}
-                    </span>
-                  </span>
+                  <strong>{t(dalatLoc.meta.cityKey)}{dalatLoc.meta.districtKey ? `, ${t(dalatLoc.meta.districtKey)}` : ''}</strong> — {t('geo.pickup_at_workshop_suffix')}
                 </div>
+                <span class="delivery-subnote">
+                  {isDalatInStock ? (
+                    <span
+                      class="subnote-item dalat-dynamic-cutoff-text"
+                      data-text-today={t('catalog.pickup_dalat_sub_today')}
+                      data-text-morning={t('catalog.pickup_dalat_sub_morning')}
+                      data-text-tomorrow={t('catalog.pickup_dalat_sub_tomorrow')}
+                      set:html={t('catalog.pickup_dalat_sub_today')}
+                    />
+                  ) : (
+                    <span class="subnote-item" set:html={t('catalog.pickup_dalat_sub_remake')} />
+                  )}
+                  <span class="subnote-item">
+                    <span class="icon">payments</span>
+                    <span class="icon">qr_code</span>
+                    {t('catalog.pay_on_pickup')}
+                  </span>
+                </span>
                 {isDalatInStock ? (
                   <span class="stock-quantity-pill">
                     <strong>{dalatLoc.quantity} {t('catalog.pcs')}</strong>
@@ -193,19 +189,17 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
                   <div class="buy-option-icon">📍</div>
                   <div class="buy-option-content">
                     <div class="buy-option-title">
-                      <div>
-                        <strong>{t(loc.meta.cityKey)}{loc.meta.districtKey ? `, ${t(loc.meta.districtKey)}` : ''}</strong> — {t('catalog.on_showcase_at')} <strong>{loc.meta.shop}</strong>
-                      </div>
-                      <span class="delivery-subnote">
-                        <span class="subnote-item" set:html={t('catalog.shop_working_hours')} />
-                        <span class="subnote-item">
-                          <span class="icon">payments</span>
-                          <span class="icon">qr_code</span>
-                          <span class="icon">credit_card</span>
-                          {t('catalog.pay_at_checkout')}
-                        </span>
-                      </span>
+                      <strong>{t(loc.meta.cityKey)}{loc.meta.districtKey ? `, ${t(loc.meta.districtKey)}` : ''}</strong> — {t('catalog.on_showcase_at')} <strong>{loc.meta.shop}</strong>
                     </div>
+                    <span class="delivery-subnote">
+                      <span class="subnote-item" set:html={t('catalog.shop_working_hours')} />
+                      <span class="subnote-item">
+                        <span class="icon">payments</span>
+                        <span class="icon">qr_code</span>
+                        <span class="icon">credit_card</span>
+                        {t('catalog.pay_at_checkout')}
+                      </span>
+                    </span>
                     {loc.quantity !== undefined && (
                       loc.lastCheckedAt ? (
                         <span
