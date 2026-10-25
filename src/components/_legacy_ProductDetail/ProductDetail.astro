@@ -71,12 +71,12 @@ const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCAT
       {/* Delivery Options */}
       {hasOnline && (
         <div class="delivery-block">
-          <div class="buy-option-card buy-option-card--highlight">
+          <div class="buy-option-card">
             <div class="buy-option-main">
               <div class="buy-option-icon">📦</div>
               <div class="buy-option-content">
                 <div class="buy-option-title">
-                  <strong class="delivery-title-strong">{t('catalog.delivery_vn_title')}</strong>
+                  <strong>{t('catalog.delivery_vn_title')}</strong>
                   <span class="delivery-subnote">
                     <span class="subnote-item">{t('catalog.free')}</span>
                     <span class="subnote-item" set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')} />

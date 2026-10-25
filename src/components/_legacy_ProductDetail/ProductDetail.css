@@ -74,20 +74,26 @@
   margin-bottom: 25px;
 }
 
-.buy-options-list {
+.buy-options-list,
+.delivery-block {
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
 }
 
 .buy-option-card {
   display: flex;
   flex-direction: column;
   gap: 0;
-  background: white;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: var(--radius-sm);
-  padding: 11px 14px;
+  background: transparent;
+  padding: 12px 14px;
+}
+
+.buy-option-card + .buy-option-card {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .buy-option-main {
@@ -101,22 +107,7 @@
 .where-to-buy-content {
   display: flex;
   flex-direction: column;
-  gap: 13px;
-}
-
-.delivery-block {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-.buy-option-card--highlight {
-  background: linear-gradient(135deg, rgba(2, 132, 199, 0.07) 0%, rgba(42, 123, 136, 0.05) 100%);
-  border: 1.5px solid rgba(2, 132, 199, 0.25);
-}
-
-.delivery-title-strong {
-  color: #0369A1;
+  gap: 16px;
 }
 
 .delivery-subnote {
@@ -701,13 +692,7 @@
     margin-bottom: 31px;
   }
 
-  .buy-options-list,
-  .delivery-block {
-    gap: 11px;
-  }
-
   .buy-option-card {
-    gap: 13px;
     padding: 13px 18px;
   }
 
