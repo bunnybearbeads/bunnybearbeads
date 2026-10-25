@@ -215,7 +215,7 @@ export function getDeliveryVietnamSubnote(lang: 'ru' | 'en' | 'vi', isRemake: bo
   }
   // ru
   return isRemake
-    ? `${vietnamShippingDays}\u00A0дня по\u00A0готовности`
+    ? `${vietnamShippingDays}\u00A0дня после\u00A0плетения`
     : `${vietnamShippingDays}\u00A0дня`;
 }
 

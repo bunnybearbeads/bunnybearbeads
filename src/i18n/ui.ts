@@ -294,7 +294,7 @@ export const ui = {
     'catalog.pay_at_checkout': paymentSuffixRU.checkout,
     'catalog.delivery_vn_title': 'Доставка по\u00A0Вьетнаму',
     'catalog.delivery_vn_sub': 'бесплатно, 1‑3\u00A0дня',
-    'catalog.delivery_vn_sub_remake': '1‑3\u00A0дня по\u00A0готовности',
+    'catalog.delivery_vn_sub_remake': '1‑3\u00A0дня после\u00A0плетения',
     'catalog.sold_out': 'Нет в наличии',
     'catalog.out_of_stock': 'Нет в наличии',
     'catalog.craft_remake': 'С удовольствием сплету повтор',

@@ -20,12 +20,15 @@ const {
 ---
 
 <div class:list={['option', className]} {...rest}>
-  <div class="option__icon">
-    {icon}
-  </div>
+
   <div class="option__content">
-    <div class="option__title">
-      <slot name="title" />
+    <div class="option__head">
+      <div class="option__icon">
+          {icon}
+      </div>
+      <div class="option__title">
+          <slot name="title" />
+      </div>
     </div>
     {Astro.slots.has('subnote') && (
       <div class="option__notes">
