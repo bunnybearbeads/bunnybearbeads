@@ -12,10 +12,7 @@ export interface LocationConfig {
   mapsUrl?: string;
   photoUrl?: string;
   // Translation keys for partner modal dialogs
-  modalLeadKey?: TranslationKey;
-  modalBodyKey?: TranslationKey;
-  modalBodySubKey?: TranslationKey;
-  modalHighlightKey?: TranslationKey;
+  modalContentKey?: TranslationKey;
   modalHoursKey?: TranslationKey;
   modalMapsKey?: TranslationKey;
 }
@@ -40,10 +37,7 @@ export const LOCATIONS: Record<LocationId, LocationConfig> = {
     modalId: 'modal-checkup-ngaymai',
     mapsUrl: 'https://maps.app.goo.gl/9ZpC4aK4fGzW5c8r7',
     photoUrl: '/images/stock/ngay-mai-showcase.jpg',
-    modalLeadKey: 'catalog.modal.nm_p1',
-    modalBodyKey: 'catalog.modal.nm_p2',
-    modalBodySubKey: 'catalog.modal.nm_p2_sub',
-    modalHighlightKey: 'catalog.modal.nm_p3',
+    modalContentKey: 'catalog.modal.nm_content',
     modalHoursKey: 'catalog.modal.nm_hours',
     modalMapsKey: 'catalog.modal.nm_maps',
   },
@@ -55,9 +49,7 @@ export const LOCATIONS: Record<LocationId, LocationConfig> = {
     districtKey: 'geo.district.benthanh',
     modalId: 'modal-checkup-catfood',
     mapsUrl: 'https://maps.google.com/?q=Cat+Food+Shop+Ben+Thanh+Ho+Chi+Minh+City',
-    modalLeadKey: 'catalog.modal.catfood_p1',
-    modalBodyKey: 'catalog.modal.catfood_p2',
-    modalHighlightKey: 'catalog.modal.catfood_p3',
+    modalContentKey: 'catalog.modal.catfood_content',
     modalMapsKey: 'catalog.modal.catfood_maps',
   },
 };

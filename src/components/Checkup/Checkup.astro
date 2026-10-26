@@ -1,5 +1,6 @@
 ---
 import './Checkup.css';
+import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { useTranslations, formatAuditRelativeDate } from '../../i18n/utils';
 
@@ -16,23 +17,14 @@ const city = loc.cityKey ? t(loc.cityKey) : '';
 ---
 
 <div class="checkup">
-  <div class="checkup__badge">
-    <span>📍</span>
-    <span>{city} • {loc.shop}</span>
-  </div>
 
   <h3 id={`${loc.modalId}-title`} class="checkup__title">
     {t('catalog.modal.title')}
   </h3>
 
-  <div class="checkup__body">
-    {loc.modalLeadKey && <p class="checkup__lead">{t(loc.modalLeadKey)}</p>}
-    {loc.modalBodyKey && <p>{t(loc.modalBodyKey)}</p>}
-    {loc.modalBodySubKey && (
-      <p set:html={t(loc.modalBodySubKey).replace('{item}', `<strong>«${product.title}»</strong>`)} />
-    )}
-    {loc.modalHighlightKey && <p class="checkup__highlight">{t(loc.modalHighlightKey)}</p>}
-  </div>
+  {loc.modalContentKey && (
+    <Wysiwyg halved set:html={t(loc.modalContentKey).replace('{item}', `«${product.title}»`)} />
+  )}
 
   {loc.photoUrl && (
     <div class="checkup__photo-card">

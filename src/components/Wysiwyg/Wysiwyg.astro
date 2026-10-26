@@ -1,0 +1,30 @@
+---
+import './Wysiwyg.css';
+
+interface Props {
+  halved?: boolean;
+  smaller?: boolean;
+  class?: string;
+  'set:html'?: string;
+}
+
+const {
+  halved,
+  smaller,
+  class: className,
+  'set:html': html,
+  ...rest
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    'wysiwyg',
+    halved && 'wysiwyg--halved',
+    smaller && 'wysiwyg--smaller',
+    className,
+  ]}
+  {...rest}
+>
+  {html ? <Fragment set:html={html} /> : <slot />}
+</div>

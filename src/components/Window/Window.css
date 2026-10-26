@@ -61,7 +61,7 @@
     }
 
     .window__body {
-        padding: 32px;
+        padding: 40px 48px 48px;
     }
 
     .window__heading ~ .window__body {

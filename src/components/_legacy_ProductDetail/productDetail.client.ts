@@ -53,18 +53,26 @@ function initProductDetail() {
   updateAuditDates();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initProductDetail);
-} else {
-  initProductDetail();
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  new HystModal({
+function initModals() {
+  const myModal = new HystModal({
     linkAttributeName: 'data-hystmodal',
     catchFocus: true,
     waitTransitions: true,
     closeOnEsc: true,
     closeOnOverlay: true,
   });
-});
+
+  if (document.querySelector('#modal-checkup-ngaymai')) {
+    myModal.open('#modal-checkup-ngaymai');
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initProductDetail();
+    initModals();
+  });
+} else {
+  initProductDetail();
+  initModals();
+}
