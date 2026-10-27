@@ -6,3 +6,7 @@
     background-color: transparent !important; /* use window component */
     padding: 0 !important;
 }
+
+.hystmodal::before {
+    background-color: var(--modal-bg);
+}

@@ -1,6 +1,10 @@
 import HystModal from 'hystmodal';
 import 'hystmodal/css';
-import { formatAuditRelativeDate, type SupportedLanguage } from '../../i18n/utils';
+import {
+  formatAuditRelativeDate,
+  formatAuditRelativeOnly,
+  type SupportedLanguage,
+} from '../../i18n/utils';
 
 function updateAuditDates() {
   try {
@@ -9,6 +13,12 @@ function updateAuditDates() {
       const dateStr = el.getAttribute('data-audit-date');
       if (dateStr) {
         el.textContent = formatAuditRelativeDate(dateStr, lang);
+      }
+    });
+    document.querySelectorAll<HTMLElement>('[data-audit-relative]').forEach((el) => {
+      const dateStr = el.getAttribute('data-audit-relative');
+      if (dateStr) {
+        el.textContent = formatAuditRelativeOnly(dateStr, lang);
       }
     });
   } catch {

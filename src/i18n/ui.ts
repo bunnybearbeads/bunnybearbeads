@@ -29,6 +29,8 @@ import {
   getCourierScheduleText,
   getPickupScheduleText,
   getPartnerShopHoursText,
+  getPartnerShopModalHoursText,
+  getPartnerShopPaymentDetailsText,
   getPaymentNotesText,
   getPaymentSuffixText,
   getDeliveryVietnamSubnote,
@@ -38,6 +40,8 @@ import {
 const courierEN = getCourierScheduleText('en');
 const pickupEN = getPickupScheduleText('en');
 const shopHoursEN = getPartnerShopHoursText('en');
+const shopModalHoursEN = getPartnerShopModalHoursText('en');
+const shopPaymentEN = getPartnerShopPaymentDetailsText('en');
 const paymentEN = getPaymentNotesText('en');
 const paymentSuffixEN = getPaymentSuffixText('en');
 const deliveryVnReadyEN = getDeliveryVietnamSubnote('en', false);
@@ -47,6 +51,8 @@ const remakePillEN = getRemakeStockPillText('en');
 const courierRU = getCourierScheduleText('ru');
 const pickupRU = getPickupScheduleText('ru');
 const shopHoursRU = getPartnerShopHoursText('ru');
+const shopModalHoursRU = getPartnerShopModalHoursText('ru');
+const shopPaymentRU = getPartnerShopPaymentDetailsText('ru');
 const paymentRU = getPaymentNotesText('ru');
 const paymentSuffixRU = getPaymentSuffixText('ru');
 const deliveryVnReadyRU = getDeliveryVietnamSubnote('ru', false);
@@ -56,6 +62,8 @@ const remakePillRU = getRemakeStockPillText('ru');
 const courierVI = getCourierScheduleText('vi');
 const pickupVI = getPickupScheduleText('vi');
 const shopHoursVI = getPartnerShopHoursText('vi');
+const shopModalHoursVI = getPartnerShopModalHoursText('vi');
+const shopPaymentVI = getPartnerShopPaymentDetailsText('vi');
 const paymentVI = getPaymentNotesText('vi');
 const paymentSuffixVI = getPaymentSuffixText('vi');
 const deliveryVnReadyVI = getDeliveryVietnamSubnote('vi', false);
@@ -168,24 +176,23 @@ export const ui = {
     'geo.pickup_at_workshop_suffix': 'pickup from studio',
     'catalog.on_showcase_at': 'on display at',
     'geo.workshop.dalat': 'Studio in Da Lat, Lam Vien',
-    'catalog.modal.title': 'How Partner Store Stock Works',
+    'catalog.modal.title': 'About the “last checked” date',
     'catalog.modal.nm_content': `
-      <p>NGÀY MAI is a physical artisan craft shop in Da Nang. Among jewelry with natural stones, leather goods, ceramics, and woodwork, you will find my humble jewelry display.</p>
-      <p>Once a week we sync up, and I update stock availability on this website you are currently browsing. That explains the date.</p>
-      <p>Items sell slowly. For the first few days after verification, {item} is almost certainly still there waiting for you. Yet a 100% guarantee, alas, cannot be made.</p>
-      <p class="checkup__highlight">In any case, it is a wonderful place. If you are currently in Da Nang, be sure to pay them a visit!</p>
+      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span> is an authentic handmade shop in <span class="nobr">Da&nbsp;Nang</span> with actual shelves you can explore in person. Among indie perfumes, minerals, ceramics, and handcrafted leather accessories, you’ll find my corner as well. We sync up once a week to check what’s left in stock, and that's when I update the website. And this is what the “last checked” date refers to.</p>
+      <p>Beadwork moves at a rather calm pace, so for the first couple of days after an update, {item} is almost certainly waiting for you on the shelf. No\u00A0100% guarantee, of course, but <span class="nobr">NGÀY&nbsp;MAI</span> itself is well worth stopping by regardless!</p>
     `,
     'catalog.modal.stock_photo_title': 'Display photo ·',
     'catalog.modal.photo_zoom_hint': 'Click to open full size photo',
     'catalog.modal.photo_zoom_badge': 'Zoom in',
-    'catalog.modal.nm_hours': shopHoursEN,
-    'catalog.modal.nm_maps': 'View NGÀY MAI on Google Maps',
+    'catalog.modal.nm_hours': shopModalHoursEN,
+    'catalog.modal.nm_payment': shopPaymentEN,
+    'catalog.modal.nm_maps': 'NGÀY\u00A0MAI on Google Maps',
     'catalog.modal.catfood_content': `
-      <p>Cat Food is a cozy concept store in Ho Chi Minh City featuring my humble display of handmade beadwork.</p>
+      <p><span class="nobr"><strong>Cat&nbsp;Food</strong></span> is a cozy concept store in <span class="nobr">Ho&nbsp;Chi&nbsp;Minh City</span> featuring my humble display of handmade beadwork.</p>
       <p>Once a week, we conduct a mutual stock checkup and update availability.</p>
-      <p class="checkup__highlight">If you are visiting Ben Thanh in Saigon, feel free to stop by and check out the pieces in person!</p>
+      <p class="checkup__highlight">If you are visiting <span class="nobr">Ben&nbsp;Thanh</span> in Saigon, feel free to stop by and check out the pieces in person!</p>
     `,
-    'catalog.modal.catfood_maps': 'View Cat Food on Google Maps',
+    'catalog.modal.catfood_maps': 'Cat\u00A0Food on Google Maps',
     'catalog.modal.close': 'Got it',
 
     // Blog UI
@@ -335,24 +342,23 @@ export const ui = {
     'geo.pickup_at_workshop_suffix': 'самовывоз из\u00A0мастерской',
     'catalog.on_showcase_at': 'на\u00A0витрине в',
     'geo.workshop.dalat': 'Мастерская в Далат, Ламвьен',
-    'catalog.modal.title': 'Как устроено наличие в магазинах',
+    'catalog.modal.title': 'Откуда берётся дата проверки',
     'catalog.modal.nm_content': `
-      <p>«NGÀY MAI» — физический магазин ремесленных изделий в Дананге. Среди украшений с натуральными камнями, аксессуаров из кожи, керамики и дерева расположилась и моя скромная витрина.</p>
-      <p>Раз в неделю мы сверяем часы, и я обновляю наличие у себя на сайте, который вы сейчас просматриваете. Отсюда и дата.</p>
-      <p>Изделия продаются неторопливо. Первые несколько дней после проверки {item} почти наверняка на\u00A0месте и\u00A0ждёт вас. Но стопроцентную гарантию, увы, дать невозможно.</p>
-      <blockquote>В любом случае это прекрасное место. Если вы сейчас в Дананге, обязательно загляните к ним в гости!</blockquote>
+      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span>&nbsp;— это магазин аутентичного хендмейда с&nbsp;живой витриной в&nbsp;Дананге. Среди авторских духов, минералов, керамики и&nbsp;аксессуаров из&nbsp;кожи расположился и&nbsp;мой уголок. Раз в&nbsp;неделю мы сверяем наличие на&nbsp;стенде, и&nbsp;я&nbsp;обновляю сайт&nbsp;— это и&nbsp;есть дата проверки.</p>
+      <p>Хендмейд продаётся неторопливо, так что в&nbsp;первые дни после проверки {item} практически гарантированно на&nbsp;месте и&nbsp;ждёт вас. Без стопроцентной гарантии, конечно, но&nbsp;в&nbsp;любом случае <span class="nobr">Ngay&nbsp;Mai</span>&nbsp;— это само по&nbsp;себе прекрасное место, куда обязательно стоит заглянуть!</p>
     `,
     'catalog.modal.stock_photo_title': 'Фото витрины ·',
     'catalog.modal.photo_zoom_hint': 'Нажмите, чтобы открыть фото в полном размере',
     'catalog.modal.photo_zoom_badge': 'Увеличить',
-    'catalog.modal.nm_hours': shopHoursRU,
-    'catalog.modal.nm_maps': 'Открыть NGÀY MAI на Google Картах',
+    'catalog.modal.nm_hours': shopModalHoursRU,
+    'catalog.modal.nm_payment': shopPaymentRU,
+    'catalog.modal.nm_maps': 'NGÀY\u00A0MAI на\u00A0Google\u00A0Картах',
     'catalog.modal.catfood_content': `
-      <p>Cat Food — очень уютный концепт-стор в Хошимине, где среди других авторских вещей живёт и моя скромная витрина.</p>
-      <p>Раз в неделю мы бережно сверяем часы и обновляем данные о наличии.</p>
-      <p class="checkup__highlight">Будете гулять в районе Ben Thanh в Сайгоне — обязательно загляните в гости!</p>
+      <p><span class="nobr"><strong>Cat&nbsp;Food</strong></span>&nbsp;— очень уютный концепт-стор в&nbsp;Хошимине, где среди других авторских вещей живёт и&nbsp;моя скромная витрина.</p>
+      <p>Раз в&nbsp;неделю мы бережно сверяем часы и&nbsp;обновляем данные о&nbsp;наличии.</p>
+      <p class="checkup__highlight">Будете гулять в&nbsp;районе <span class="nobr">Ben&nbsp;Thanh</span> в&nbsp;Сайгоне&nbsp;— обязательно загляните в&nbsp;гости!</p>
     `,
-    'catalog.modal.catfood_maps': 'Открыть Cat Food на Google Картах',
+    'catalog.modal.catfood_maps': 'Cat\u00A0Food на\u00A0Google\u00A0Картах',
     'catalog.modal.close': 'Понятно 💖',
 
     // Blog UI
@@ -501,24 +507,24 @@ export const ui = {
     'geo.pickup_at_workshop_suffix': 'nhận tại studio',
     'catalog.on_showcase_at': 'trưng bày tại',
     'geo.workshop.dalat': 'Xưởng tại Đà Lạt, Lâm Viên',
-    'catalog.modal.title': 'Về Tình Trạng Hàng Tại Cửa Hàng Đối Tác',
+    'catalog.modal.title': 'Về ngày “kiểm tra” trên web',
     'catalog.modal.nm_content': `
-      <p>«NGÀY MAI» là cửa hàng thủ công tại Đà Nẵng, nơi có góc trưng bày nhỏ xinh của mình cùng với nhiều nghệ nhân độc lập khác.</p>
-      <p>Mỗi tuần chúng mình đều đối soát kiểm kê để cập nhật tình trạng có sẵn.</p>
-      <p>Đồ thủ công bán không quá nhanh. Trong vài ngày đầu sau khi kiểm tra, {item} gần như chắc chắn vẫn đang chờ bạn trên kệ. Nhưng 100% bảo đảm thì tiếc là không thể.</p>
-      <p class="checkup__highlight">Dù sao thì đây cũng là một không gian tuyệt vời. Nếu ở Đà Nẵng, bạn hãy ghé thăm shop nhé!</p>
+      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span> là một tiệm đồ thủ công rất xinh yêu ở <span class="nobr">Đà&nbsp;Nẵng</span>, nơi bạn có thể ghé tận nơi để sờ tận tay, ngắm tận mắt từng món trên kệ. Bên cạnh nước hoa indie, đá thiên nhiên, đồ gốm và đồ da thủ công, bạn cũng sẽ thấy một góc nhỏ của tụi mình ở&nbsp;đó.</p>
+      <p>Tụi mình kiểm lại đồ trên kệ mỗi tuần một lần rồi mình mới cập nhật lên web&nbsp;— số lượng và ngày “kiểm tra” bạn thấy chính là từ lần đếm gần nhất&nbsp;đó.</p>
+      <p>Đồ cườm bán ra cũng túc tắc thôi, nên tầm vài ngày đầu sau khi cập nhật thì {item} gần như chắc chắn vẫn còn trên kệ đợi bạn. Dù không dám hứa\u00A0100%, nhưng ghé <span class="nobr">NGÀY&nbsp;MAI</span> dạo chơi một vòng cũng rất thú vị&nbsp;nha!</p>
     `,
     'catalog.modal.stock_photo_title': 'Ảnh góc trưng bày ·',
     'catalog.modal.photo_zoom_hint': 'Nhấp để xem ảnh kích thước đầy đủ',
     'catalog.modal.photo_zoom_badge': 'Phóng to',
-    'catalog.modal.nm_hours': shopHoursVI,
-    'catalog.modal.nm_maps': 'Mở NGÀY MAI trên Google Maps',
+    'catalog.modal.nm_hours': shopModalHoursVI,
+    'catalog.modal.nm_payment': shopPaymentVI,
+    'catalog.modal.nm_maps': 'NGÀY\u00A0MAI trên Google Maps',
     'catalog.modal.catfood_content': `
-      <p>Cat Food là concept store xinh xắn tại TP. Hồ Chí Minh có góc trưng bày các sản phẩm thủ công của chúng mình.</p>
+      <p><span class="nobr"><strong>Cat&nbsp;Food</strong></span> là concept store xinh xắn tại <span class="nobr">TP.&nbsp;Hồ&nbsp;Chí&nbsp;Minh</span> có góc trưng bày các sản phẩm thủ công của chúng mình.</p>
       <p>Mỗi tuần chúng mình đều đối soát kiểm kê để cập nhật tình trạng có sẵn.</p>
-      <p class="checkup__highlight">Nếu ở Sài Gòn, hãy ghé Cat Food ngắm trực tiếp nha!</p>
+      <p class="checkup__highlight">Nếu ở Sài Gòn, hãy ghé <span class="nobr">Cat&nbsp;Food</span> ngắm trực tiếp nha!</p>
     `,
-    'catalog.modal.catfood_maps': 'Mở Cat Food trên Google Maps',
+    'catalog.modal.catfood_maps': 'Cat\u00A0Food trên Google Maps',
     'catalog.modal.close': 'Đã hiểu',
 
     // Blog UI

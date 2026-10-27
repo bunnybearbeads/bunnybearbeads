@@ -1,14 +1,18 @@
 .wysiwyg {
-    --body-font-size: 16px;
-    --body-line-height: 24px;
-    overflow-wrap: break-word;
-    font-size: var(--body-font-size);
-    line-height: var(--body-line-height);
+    --wysiwyg-font-size: var(--body-font-size);
+    --wysiwyg-line-height: var(--body-line-height);
 }
 
 .wysiwyg--smaller {
-    --body-font-size: 14px;
-    --body-line-height: 20px;
+    --wysiwyg-font-size: var(--body-font-size-smaller);
+    --wysiwyg-line-height: var(--body-line-height-smaller);
+}
+
+
+.wysiwyg {
+    overflow-wrap: break-word;
+    font-size: var(--wysiwyg-font-size);
+    line-height: var(--wysiwyg-line-height);
 }
 
 .wysiwyg p,
@@ -17,8 +21,8 @@
 .wysiwyg hr,
 .wysiwyg figure,
 .wysiwyg blockquote {
-    margin-top: var(--body-line-height);
-    margin-bottom: var(--body-line-height);
+    margin-top: var(--wysiwyg-line-height);
+    margin-bottom: var(--wysiwyg-line-height);
 }
 
 .wysiwyg--smaller p,
@@ -27,8 +31,8 @@
 .wysiwyg--smaller hr,
 .wysiwyg--smaller figure,
 .wysiwyg--smaller blockquote {
-    margin-top: calc(var(--body-line-height) * 2 / 3);
-    margin-bottom: calc(var(--body-line-height) * 2 / 3);
+    margin-top: calc(var(--wysiwyg-line-height) * 2 / 3);
+    margin-bottom: calc(var(--wysiwyg-line-height) * 2 / 3);
 }
 
 .wysiwyg--halved p,
@@ -37,8 +41,8 @@
 .wysiwyg--halved hr,
 .wysiwyg--halved figure,
 .wysiwyg--halved blockquote {
-    margin-top: calc(var(--body-line-height) / 2);
-    margin-bottom: calc(var(--body-line-height) / 2);
+    margin-top: calc(var(--wysiwyg-line-height) / 2);
+    margin-bottom: calc(var(--wysiwyg-line-height) / 2);
 }
 
 .wysiwyg p:first-child,
@@ -79,11 +83,11 @@
 
 .wysiwyg--smaller ul,
 .wysiwyg--smaller ol {
-    padding-left: 16px;
+    padding-left: var(--body-font-size);
 }
 
 .wysiwyg--smaller li {
-    margin-top: 6px;
+    margin-top: calc(var(--wysiwyg-line-height) / 3);
 }
 
 .wysiwyg--smaller li:first-child {

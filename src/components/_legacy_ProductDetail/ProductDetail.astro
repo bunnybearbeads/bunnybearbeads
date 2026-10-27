@@ -230,7 +230,19 @@ const remakeText = {
                         📍
                     </div>
                     <div class="option__title">
-                      <strong class="option__bold">{t(loc.meta.cityKey)}{loc.meta.districtKey ? `, ${t(loc.meta.districtKey)}` : ''}</strong>&nbsp;— {t('catalog.on_showcase_at')}&nbsp;<strong class="option__bold">{loc.meta.shop}</strong>
+                      <strong class="option__bold">{t(loc.meta.cityKey)}{loc.meta.districtKey ? `, ${t(loc.meta.districtKey)}` : ''}</strong>&nbsp;— {t('catalog.on_showcase_at')}&nbsp;{loc.meta.mapsUrl ? (
+                        <a
+                          href={loc.meta.mapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="option__shop-link"
+                          title={loc.meta.modalMapsKey ? t(loc.meta.modalMapsKey) : undefined}
+                        >
+                          <strong class="option__bold">{loc.meta.shop}</strong>
+                        </a>
+                      ) : (
+                        <strong class="option__bold">{loc.meta.shop}</strong>
+                      )}
                     </div>
                   </div>
                   <div class="option__notes">

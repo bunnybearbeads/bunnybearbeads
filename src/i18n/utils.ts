@@ -121,13 +121,82 @@ export function formatAuditRelativeDate(
         ? lang === 'ru'
           ? 'сегодня'
           : lang === 'vi'
-            ? 'hôm nay'
+            ? 'hôm\u00A0nay'
             : 'today'
-        : rtf.format(diffDays, 'day');
+        : rtf.format(diffDays, 'day').replace(/\s+/g, '\u00A0');
 
-    if (lang === 'ru') return `проверено ${relativePart}`;
-    if (lang === 'vi') return `kiểm tra ${relativePart}`;
-    return `checked ${relativePart}`;
+    if (lang === 'ru') return `проверено\u00A0${relativePart}`;
+    if (lang === 'vi') return `kiểm\u00A0tra\u00A0${relativePart}`;
+    return `checked\u00A0${relativePart}`;
+  } catch {
+    return dateStr;
+  }
+}
+
+/**
+ * Formats an ISO date string (e.g. "2026-10-04") into a calendar audit title
+ * (e.g. "Наличие на 4 октября", "Stock as of October 4", "Tình trạng ngày 4 tháng 10").
+ */
+export function formatAuditCalendarDate(
+  dateStr?: string,
+  lang: SupportedLanguage = defaultLang
+): string {
+  if (!dateStr) {
+    if (lang === 'ru') return 'Наличие на\u00A0витрине';
+    if (lang === 'vi') return 'Tình trạng tại\u00A0quầy';
+    return 'Showcase availability';
+  }
+  try {
+    const target = new Date(`${dateStr}T00:00:00Z`);
+    if (isNaN(target.getTime())) return dateStr;
+
+    const locale = lang === 'ru' ? 'ru-RU' : lang === 'vi' ? 'vi-VN' : 'en-US';
+    const dateFormatted = new Intl.DateTimeFormat(locale, {
+      day: 'numeric',
+      month: 'long',
+      timeZone: 'UTC',
+    }).format(target).replace(/\s+/g, '\u00A0');
+
+    if (lang === 'ru') return `Наличие на\u00A0${dateFormatted}`;
+    if (lang === 'vi') return `Tình trạng ngày\u00A0${dateFormatted}`;
+    return `Stock as of\u00A0${dateFormatted}`;
+  } catch {
+    return dateStr;
+  }
+}
+
+/**
+ * Formats an ISO date string into purely the relative time part without prefixes
+ * (e.g. "22 дня назад", "22 days ago", "22 ngày trước").
+ */
+export function formatAuditRelativeOnly(
+  dateStr?: string,
+  lang: SupportedLanguage = defaultLang,
+  now: Date = new Date()
+): string {
+  if (!dateStr) return '';
+  try {
+    const target = new Date(`${dateStr}T00:00:00Z`);
+    if (isNaN(target.getTime())) return dateStr;
+
+    const utcNow = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+    const utcTarget = Date.UTC(target.getUTCFullYear(), target.getUTCMonth(), target.getUTCDate());
+    const diffDays = Math.round((utcTarget - utcNow) / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) {
+      if (lang === 'ru') return 'сегодня';
+      if (lang === 'vi') return 'hôm\u00A0nay';
+      return 'today';
+    }
+
+    if (diffDays === -1) {
+      if (lang === 'ru') return 'вчера';
+      if (lang === 'vi') return 'hôm\u00A0qua';
+      return 'yesterday';
+    }
+
+    const rtf = new Intl.RelativeTimeFormat(lang, { numeric: 'always' });
+    return rtf.format(diffDays, 'day').replace(/\s+/g, '\u00A0');
   } catch {
     return dateStr;
   }

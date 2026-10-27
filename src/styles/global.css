@@ -28,8 +28,15 @@
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Mulish', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-  --body-font-size: 16px;
-  --body-line-height: 24px;
+  --body-font-size: 15px;
+  --body-line-height: 22px;
+
+  --body-font-size-smaller: 14px;
+  --body-line-height-smaller: 20px;
+
+  --modal-bg: rgb(0 0 0 / 80%);
+
+  --heading-color: #000000;
 
   --color-brand-dark: #3D2E24;
   --color-text-main: #2C2825;
@@ -64,9 +71,12 @@
 }
 
 @media (1600px <= width) {
+
   :root {
-    --body-font-size: 18px;
-    --body-line-height: 27px;
+    --body-font-size: 17px;
+    --body-line-height: 25px;
+    --body-font-size-smaller: 15px;
+    --body-line-height-smaller: 22px;
   }
 }
 
@@ -233,6 +243,10 @@ main {
 
 .desktop-only {
   display: inline;
+}
+
+.nobr {
+  white-space: nowrap;
 }
 
 .is-dragging,

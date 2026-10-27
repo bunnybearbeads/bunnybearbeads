@@ -11,9 +11,11 @@ export interface LocationConfig {
   modalId?: string;
   mapsUrl?: string;
   photoUrl?: string;
+  photoUrls?: string[];
   // Translation keys for partner modal dialogs
   modalContentKey?: TranslationKey;
   modalHoursKey?: TranslationKey;
+  modalPaymentKey?: TranslationKey;
   modalMapsKey?: TranslationKey;
 }
 
@@ -35,10 +37,15 @@ export const LOCATIONS: Record<LocationId, LocationConfig> = {
     cityKey: 'geo.city.danang',
     districtKey: 'geo.district.myan',
     modalId: 'modal-checkup-ngaymai',
-    mapsUrl: 'https://maps.app.goo.gl/9ZpC4aK4fGzW5c8r7',
-    photoUrl: '/images/stock/ngay-mai-showcase.jpg',
+    mapsUrl: 'https://maps.app.goo.gl/RPadZnwnU88RgrTB9',
+    photoUrl: '/images/stock/ngay-mai-showcase-1.jpg',
+    photoUrls: [
+      '/images/stock/ngay-mai-showcase-1.jpg',
+      '/images/stock/ngay-mai-showcase-2.jpg',
+    ],
     modalContentKey: 'catalog.modal.nm_content',
     modalHoursKey: 'catalog.modal.nm_hours',
+    modalPaymentKey: 'catalog.modal.nm_payment',
     modalMapsKey: 'catalog.modal.nm_maps',
   },
   'cat-food': {

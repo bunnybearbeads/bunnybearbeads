@@ -152,6 +152,29 @@ export function getPartnerShopHoursText(lang: 'ru' | 'en' | 'vi'): string {
   return `В\u00A0любой день с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`;
 }
 
+export function getPartnerShopModalHoursText(lang: 'ru' | 'en' | 'vi'): string {
+  const { openHour, closeHour } = siteSettings.partnerShops;
+  if (lang === 'en') {
+    return `Daily from ${formatTime12(openHour)} to ${formatTime12(closeHour)}, no breaks or days off`;
+  }
+  if (lang === 'vi') {
+    return `Từ ${formatTime24(openHour)} đến ${formatTime24(closeHour)} hàng ngày, không nghỉ trưa`;
+  }
+  // ru
+  return `С\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)} без\u00A0обеда и\u00A0выходных`;
+}
+
+export function getPartnerShopPaymentDetailsText(lang: 'ru' | 'en' | 'vi'): string {
+  if (lang === 'en') {
+    return 'Payment via cash, VietQR, and international cards';
+  }
+  if (lang === 'vi') {
+    return 'Thanh toán tiền mặt, VietQR và thẻ quốc tế';
+  }
+  // ru
+  return 'Оплата наличными, VietQR и\u00A0международными картами';
+}
+
 export function getPaymentSuffixText(lang: 'ru' | 'en' | 'vi') {
   if (lang === 'en') {
     return {

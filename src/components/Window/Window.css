@@ -5,9 +5,6 @@
     background-color: #ffffff;
     border-radius: var(--radius-md, 12px);
     box-shadow: 0 25px 60px rgb(0 0 0 / 20%);
-    width: 100%;
-    max-width: 740px;
-    margin: 0 auto;
 }
     .window__close {
         position: absolute;
@@ -34,7 +31,7 @@
             height: 40px;
             border-radius: 50%;
             background-color: var(--action-bg-light, rgb(0 0 0 / 6%));
-            opacity: 0%;
+            opacity: 0;
             transition: opacity 0.2s ease;
         }
 
@@ -53,27 +50,71 @@
             line-height: 26px;
             width: 26px;
             height: 26px;
-            color: var(--heading-color, var(--text-dark, #2C2825));
+            color: var(--heading-color);
         }
 
-    .window__heading {
-        padding: 28px 32px 0 32px;
-    }
+    /*.window__heading {*/
+    /*    padding: 28px 48px 0 32px;*/
+    /*}*/
 
     .window__body {
-        padding: 40px 48px 48px;
+        padding: 38px 48px 48px;
     }
 
-    .window__heading ~ .window__body {
-        padding-top: 20px;
-    }
+    /*.window__heading ~ .window__body {*/
+    /*    padding-top: 20px;*/
+    /*}*/
 
-    .window__actions {
-        padding: 0 24px 24px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
+    /*.window__actions {*/
+    /*    padding: 0 24px 24px;*/
+    /*    display: flex;*/
+    /*    align-items: center;*/
+    /*    gap: 8px;*/
+    /*}*/
+
+
+
+@media (1600px <= width) {
+
+    .window {
+        /*box-shadow: 0 25px 60px rgb(0 0 0 / 20%);*/
     }
+        .window__close {
+            /*width: 68px;*/
+            /*height: 68px;*/
+        }
+            /* hover */
+            .window__close::before {
+                /*width: 40px;*/
+                /*height: 40px;*/
+            }
+
+            /* icon */
+            .window__close .icon {
+                /*font-size: 26px;*/
+                /*line-height: 26px;*/
+                /*width: 26px;*/
+                /*height: 26px;*/
+            }
+
+        /*.window__heading {*/
+        /*    padding: 28px 32px 0 32px;*/
+        /*}*/
+
+        .window__body {
+            padding: 44px 52px 52px;
+        }
+
+        /*.window__heading ~ .window__body {*/
+        /*    padding-top: 20px;*/
+        /*}*/
+
+        /*.window__actions {*/
+        /*    padding: 0 24px 24px;*/
+        /*}*/
+}
+
+
 
 .window--floated-cross-button {
 

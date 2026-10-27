@@ -2,7 +2,11 @@
 import './Checkup.css';
 import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
-import { useTranslations, formatAuditRelativeDate } from '../../i18n/utils';
+import {
+  useTranslations,
+  formatAuditCalendarDate,
+  formatAuditRelativeOnly,
+} from '../../i18n/utils';
 
 interface Props {
   loc: any;
@@ -14,6 +18,12 @@ interface Props {
 const { loc, stockLoc, product, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 const city = loc.cityKey ? t(loc.cityKey) : '';
+const auditDate = stockLoc?.lastCheckedAt || '2026-10-04';
+const photoList: string[] = loc.photoUrls?.length
+  ? loc.photoUrls
+  : loc.photoUrl
+    ? [loc.photoUrl, loc.photoUrl]
+    : [];
 ---
 
 <div class="checkup">
@@ -23,43 +33,15 @@ const city = loc.cityKey ? t(loc.cityKey) : '';
   </h3>
 
   {loc.modalContentKey && (
-    <Wysiwyg halved set:html={t(loc.modalContentKey).replace('{item}', `«${product.title}»`)} />
-  )}
-
-  {loc.photoUrl && (
-    <div class="checkup__photo-card">
-      <div class="checkup__photo-header">
-        <span class="checkup__photo-icon">📸</span>
-        <strong class="checkup__photo-heading">
-          {t('catalog.modal.stock_photo_title')}
-          <span class="audit-date" data-audit-date={stockLoc?.lastCheckedAt || '2026-10-04'}>
-            {formatAuditRelativeDate(stockLoc?.lastCheckedAt || '2026-10-04', currentLang)}
-          </span>
-        </strong>
-      </div>
-      <a
-        href={loc.photoUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="checkup__photo-frame"
-        title={t('catalog.modal.photo_zoom_hint')}
-      >
-        <img
-          src={loc.photoUrl}
-          alt={`Витрина с украшениями в ${loc.shop} (${stockLoc?.lastCheckedAt || '2026-10-04'})`}
-          class="checkup__photo-image"
-          loading="lazy"
-        />
-        <span class="checkup__photo-zoom">🔍 {t('catalog.modal.photo_zoom_badge')}</span>
-      </a>
-    </div>
-  )}
-
-  {loc.modalHoursKey && (
-    <div class="checkup__hours">
-      <span class="checkup__hours-icon">🕒</span>
-      <span>{t(loc.modalHoursKey)}</span>
-    </div>
+    <Wysiwyg
+      halved
+      set:html={t(loc.modalContentKey).replaceAll(
+        /\{{1,2}(?:item|item_name)\}{1,2}/g,
+        currentLang === 'ru'
+          ? `<span class="nobr"><strong>«${product.title}»</strong></span>`
+          : `<span class="nobr"><strong>“${product.title}”</strong></span>`
+      )}
+    />
   )}
 
   {loc.mapsUrl && loc.modalMapsKey && (
@@ -70,10 +52,111 @@ const city = loc.cityKey ? t(loc.cityKey) : '';
         rel="noopener noreferrer"
         class="checkup__maps-link"
       >
-        <span>🗺️</span>
-        <strong>{t(loc.modalMapsKey)}</strong>
-        <span>↗</span>
+        <span>{t(loc.modalMapsKey)}</span>
+        <span class="checkup__maps-arrow" aria-hidden="true">↗</span>
       </a>
     </div>
   )}
+
+  {photoList.length > 0 && (
+    <div class="checkup__photo-card">
+      <div class="checkup__photo-header">
+        <h4 class="checkup__photo-heading">
+          <span class="checkup__photo-title">{formatAuditCalendarDate(auditDate, currentLang)}</span>
+          <span class="checkup__photo-sub nobr">
+            (<span class="nobr" data-audit-relative={auditDate}>{formatAuditRelativeOnly(auditDate, currentLang)}</span>)
+          </span>
+        </h4>
+      </div>
+      <div class="checkup__photos" data-checkup-photos>
+        {photoList.map((url, index) => (
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="checkup__photo-frame"
+            data-checkup-photo
+            data-index={index}
+            title={t('catalog.modal.photo_zoom_hint')}
+          >
+            <img
+              src={url}
+              alt={`${loc.shop} (${stockLoc?.lastCheckedAt || '2026-10-04'}) — ${index + 1}`}
+              class="checkup__photo-image"
+              loading={index === 0 ? 'eager' : 'lazy'}
+            />
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
 </div>
+
+<script>
+  import PhotoSwipe from 'photoswipe';
+  import 'photoswipe/style.css';
+
+  function initCheckupLightbox() {
+    if ((window as any).__checkupLightboxInitialized) return;
+    (window as any).__checkupLightboxInitialized = true;
+
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement | null;
+      const link = target?.closest<HTMLAnchorElement>('[data-checkup-photo]');
+      if (!link) return;
+
+      const container = link.closest<HTMLElement>('[data-checkup-photos]');
+      if (!container) return;
+
+      e.preventDefault();
+
+      const photoLinks = Array.from(
+        container.querySelectorAll<HTMLAnchorElement>('[data-checkup-photo]')
+      );
+      const initialIndex = photoLinks.indexOf(link);
+
+      const dataSource = photoLinks.map((item) => {
+        const img = item.querySelector<HTMLImageElement>('img');
+        const naturalW = img?.naturalWidth || 0;
+        const naturalH = img?.naturalHeight || 0;
+        return {
+          src: item.href || img?.currentSrc || img?.src || '',
+          width: naturalW > 0 ? naturalW : 1024,
+          height: naturalH > 0 ? naturalH : 768,
+          alt: img?.alt || '',
+          msrc: img?.src || item.href || '',
+          element: img || item,
+        };
+      });
+
+      const pswp = new PhotoSwipe({
+        dataSource,
+        index: initialIndex >= 0 ? initialIndex : 0,
+        bgOpacity: 0.95,
+        showHideAnimationType: 'zoom',
+      });
+
+      // Trap Escape and Tab so parent modal doesn't close or hijack focus
+      const onKeyDownCapture = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          pswp.close();
+        } else if (event.key === 'Tab') {
+          event.stopImmediatePropagation();
+        }
+      };
+
+      window.addEventListener('keydown', onKeyDownCapture, true);
+
+      pswp.on('destroy', () => {
+        window.removeEventListener('keydown', onKeyDownCapture, true);
+        link.focus();
+      });
+
+      pswp.init();
+    });
+  }
+
+  initCheckupLightbox();
+</script>
