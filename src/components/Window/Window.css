@@ -1,4 +1,4 @@
-@import '../../styles/overrides/hyst-modal.css';
+@import '../../styles/overrides/hyst-modal-override.css';
 
 .window {
     position: relative;
