@@ -128,22 +128,23 @@
 @media (1600px <= width) {
 
     .button {
-        padding: 15px 33px;
-        font-size: 16.5px;
+        padding: 14px 30px;
+        min-width: 115px;
+        font-size: 16px;
         line-height: 24px;
-        gap: 11px;
+        gap: 10px;
     }
 
     .button--smaller {
         padding: 11px 22px;
-        font-size: 14.5px;
+        font-size: 14px;
         line-height: 20px;
         gap: 8px;
     }
 
     .button--larger {
-        padding: 18px 40px;
-        font-size: 17.5px;
+        padding: 17px 38px;
+        font-size: 18px;
         line-height: 26px;
         gap: 12px;
     }
@@ -154,12 +155,30 @@
     }
 
     .button--square.button--smaller {
-        width: 42px;
-        height: 42px;
+        width: 44px;
+        height: 44px;
     }
 
     .button--square.button--larger {
         width: 62px;
         height: 62px;
+    }
+
+    .button .icon {
+        font-size: 22px;
+        width: 22px;
+        height: 22px;
+    }
+
+    .button--smaller .icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .button--larger .icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
     }
 }
