@@ -59,8 +59,9 @@ const photoList: string[] = loc.photoUrls?.length
       <span class="checkup__photo-title">
         {formatAuditCalendarDate(auditDate, currentLang, loc.shop)}
       </span>
-      <span class="checkup__date nobr">
-        (<span class="nobr" data-audit-relative={auditDate}>{formatAuditRelativeOnly(auditDate, currentLang)}</span>)
+      {' '}
+      <span class="checkup__date">
+        (<span data-audit-relative={auditDate}>{formatAuditRelativeOnly(auditDate, currentLang)}</span>)
       </span>
     </h4>
     <div class="checkup__gallery" data-checkup-photos>

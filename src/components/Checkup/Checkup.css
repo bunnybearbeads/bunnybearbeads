@@ -36,13 +36,16 @@
     .checkup__sub-header {
         margin-top: 32px;
         margin-bottom: 0;
-        font-weight: bold;
-        font-size: 18px;
-        line-height: 24px;
-        color: var(--heading-color);
+        line-height: 20px;
     }
+        .checkup__photo-title {
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 24px;
+            color: var(--heading-color);
+        }
+
         .checkup__date {
-            margin-left: 6px;
             font-weight: normal;
             font-size: 14px;
             line-height: 20px;
