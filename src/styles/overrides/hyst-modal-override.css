@@ -14,3 +14,10 @@
 .hystmodal--active::before {
     opacity: 100%;
 }
+
+
+@media (width < 740px) {
+    .hystmodal__window {
+        margin: calc(var(--container-padding) / 2) auto !important;
+    }
+}
