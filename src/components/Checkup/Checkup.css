@@ -18,6 +18,11 @@
 }
 
 
+
+
+
+
+
 .checkup {
 
 }
@@ -37,61 +42,45 @@
     .checkup__location {
         margin-top: 16px;
     }
-        .checkup__sub-header {
-            margin-top: 32px;
-            margin-bottom: 0;
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-            font-weight: bold;
-            font-size: 18px;
-            line-height: 24px;
-            color: var(--heading-color);
+
+    .checkup__sub-header {
+        margin-top: 32px;
+        margin-bottom: 0;
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 24px;
+        color: var(--heading-color);
+    }
+        .checkup__date {
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 20px;
+            color: var(--color-text-muted);
+            white-space: nowrap;
         }
-            .checkup__date {
-                font-weight: normal;
-                font-size: 14px;
-                line-height: 20px;
-                color: var(--color-text-muted);
-                white-space: nowrap;
-            }
 
-        .checkup__gallery {
-            margin-top: 16px;
+    .checkup__gallery {
+        margin-top: 16px;
+    }
+        .checkup__item {
+            margin-top: 20px;
+            display: block;
+            cursor: pointer;
         }
-            .checkup__item {
-                margin-top: 20px;
-                display: block;
-                cursor: pointer;
+
+        .checkup__item:first-child {
+            margin-top: 0;
+        }
+            .checkup__image {
+                vertical-align: top;
+                width: 100%;
+                height: auto;
+                background-color: var(--image-fallback);
+                border-radius: var(--radius-sm);
             }
 
-            .checkup__item:first-child {
-                margin-top: 0;
-            }
-                .checkup__image {
-                    vertical-align: top;
-                    width: 100%;
-                    height: auto;
-                    background-color: var(--image-fallback);
-                    border-radius: var(--radius-sm);
-                }
 
 
-
-
-
-@media (width < 740px) {
-
-    .hystmodal__window:has(.checkup) {
-        width: calc(100% - var(--container-padding)) !important;
-        margin: calc(var(--container-padding) / 2);
-    }
-
-    .checkup__title {
-
-    }
-
-    .checkup__body {
-
-    }
-}
