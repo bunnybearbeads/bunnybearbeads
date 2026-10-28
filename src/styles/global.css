@@ -34,9 +34,13 @@
   --body-font-size-smaller: 14px;
   --body-line-height-smaller: 20px;
 
-  --modal-bg: rgb(0 0 0 / 80%);
+  --modal-backdrop-opacity: 80%;
+  --modal-bg: rgb(0 0 0 / var(--modal-backdrop-opacity));
 
   --heading-color: #000000;
+
+  --action-bg-light: #FDF2F4;
+  --action-bg-light-hover: #FAECEF;
 
   --color-brand-dark: #3D2E24;
   --color-text-main: #2C2825;

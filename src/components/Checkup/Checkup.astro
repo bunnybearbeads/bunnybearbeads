@@ -95,6 +95,7 @@ const photoList: string[] = loc.photoUrls?.length
 <script>
   import PhotoSwipe from 'photoswipe';
   import 'photoswipe/style.css';
+  import { getModalBgOpacity } from '../../utils';
 
   function initCheckupLightbox() {
     if ((window as any).__checkupLightboxInitialized) return;
@@ -132,7 +133,7 @@ const photoList: string[] = loc.photoUrls?.length
       const pswp = new PhotoSwipe({
         dataSource,
         index: initialIndex >= 0 ? initialIndex : 0,
-        bgOpacity: 0.95,
+        bgOpacity: getModalBgOpacity(),
         showHideAnimationType: 'zoom',
       });
 

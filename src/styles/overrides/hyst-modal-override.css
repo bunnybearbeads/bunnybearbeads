@@ -10,3 +10,7 @@
 .hystmodal::before {
     background-color: var(--modal-bg);
 }
+
+.hystmodal--active::before {
+    opacity: 100%;
+}

@@ -25,7 +25,7 @@
 
 import PhotoSwipe from 'photoswipe';
 import type { EmblaCarouselType } from 'embla-carousel';
-import { isMobile } from '../../utils';
+import { isMobile, getModalBgOpacity } from '../../utils';
 import type { VideoPlaybackState } from './types';
 
 export interface OpenPhotoSwipeOptions {
@@ -108,7 +108,7 @@ export function openPhotoSwipe({
   const pswp = new PhotoSwipe({
     dataSource,
     index: initialIndex,
-    bgOpacity: 0.85,
+    bgOpacity: getModalBgOpacity(),
     wheelToZoom: true,
     closeOnVerticalDrag: true,
   });
