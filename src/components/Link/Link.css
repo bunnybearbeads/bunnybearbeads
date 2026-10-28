@@ -15,7 +15,8 @@
     text-decoration-thickness: 1px;
     text-underline-offset: 2px;
     cursor: pointer;
-    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    transition: color var(--transition-hover),
+                text-decoration-color var(--transition-hover);
 }
 
 .link:hover,
@@ -81,6 +82,6 @@
 
 .link--accent-underline:hover,
 .wysiwyg .link--accent-underline:hover {
-    color: var(--accent-teal);
-    text-decoration-color: var(--accent-teal);
+    color: inherit;
+    text-decoration-color: transparent;
 }
