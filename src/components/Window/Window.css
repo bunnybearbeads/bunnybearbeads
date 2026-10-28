@@ -2,6 +2,9 @@
 
 .window {
     position: relative;
+    width: var(--window-width, 632px);
+    max-width: 100%;
+    box-sizing: border-box;
     background-color: #ffffff;
     border-radius: var(--radius-md, 12px);
     box-shadow: 0 25px 60px rgb(0 0 0 / 20%);
@@ -75,6 +78,7 @@
 @media (1600px <= width) {
 
     .window {
+        width: var(--window-width-large, var(--window-width, 700px));
         /*box-shadow: 0 25px 60px rgb(0 0 0 / 20%);*/
     }
         .window__close {
@@ -111,6 +115,11 @@
 }
 
 @media (width < 740px) {
+
+    .window {
+        width: 100%;
+        max-width: 440px;
+    }
 
     /*.window__heading {*/
     /*    padding: 24px 24px 0 24px;*/

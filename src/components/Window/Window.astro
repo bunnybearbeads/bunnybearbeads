@@ -5,13 +5,17 @@ import Icon from '../Icon/Icon.astro';
 interface Props {
   heading?: string;
   floatedCrossButton?: boolean;
+  width?: string;
   class?: string;
 }
 
-const { heading, floatedCrossButton, class: className } = Astro.props;
+const { heading, floatedCrossButton, width, class: className } = Astro.props;
 ---
 
-<div class:list={['window', { 'window--floated-cross-button': floatedCrossButton }, className]}>
+<div
+  class:list={['window', { 'window--floated-cross-button': floatedCrossButton }, className]}
+  style={width ? `--window-width: ${width};` : undefined}
+>
   <button class="window__close" type="button" data-hystclose aria-label="Close">
     <Icon name="close" />
   </button>

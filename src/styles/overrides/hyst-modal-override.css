@@ -2,11 +2,6 @@
     z-index: 3000 !important;
 }
 
-.hystmodal__window {
-    background-color: transparent !important; /* use window component */
-    padding: 0 !important;
-}
-
 .hystmodal::before {
     background-color: var(--modal-bg);
 }
@@ -15,14 +10,35 @@
     opacity: 100%;
 }
 
-@media (width < 768px) {
+/* Outer spacing and safe zone around modal dialogs */
+.hystmodal__wrap {
+    box-sizing: border-box;
+    padding: 50px var(--container-padding);
+}
+
+.hystmodal__window {
+    background-color: transparent !important; /* styled by <Window> component */
+    padding: 0 !important;
+    margin: 0 auto !important; /* neutralize library margins */
+    width: auto !important;
+    max-width: 100%;
+}
+
+/* 1600px+ large desktop: slightly more vertical breathing room */
+@media (1600px <= width) {
     .hystmodal__wrap {
-        padding: 0 calc(var(--container-padding) / 2);
-        box-sizing: border-box;
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+}
+
+/* Mobile (< 740px): uniform padding on all 4 sides */
+@media (width < 740px) {
+    .hystmodal__wrap {
+        padding: calc(var(--container-padding) / 2);
     }
 
     .hystmodal__window {
-        margin: calc(var(--container-padding) / 2) auto !important;
         width: 100%;
     }
 }
