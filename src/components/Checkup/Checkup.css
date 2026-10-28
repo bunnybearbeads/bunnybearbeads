@@ -26,19 +26,18 @@
         font-size: 32px;
         line-height: 40px;
         color: var(--heading-color);
-        margin-bottom: 24px;
     }
 
     .checkup__description {
-
+        margin-top: 24px;
     }
 
     .checkup__actions {
-        margin-top: 20px;
+        margin-top: 16px;
     }
         .checkup__sub-header {
-            margin-top: 24px;
-            margin-bottom: 12px;
+            margin-top: 32px;
+            margin-bottom: 0;
             font-weight: bold;
             font-size: 18px;
             line-height: 24px;
@@ -60,22 +59,18 @@
                 margin-top: 20px;
                 display: block;
                 position: relative;
-                border-radius: var(--radius-sm, 8px);
-                overflow: hidden;
-                cursor: zoom-in;
-                box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
-                background: #e8e3dc;
+                cursor: pointer;
             }
 
             .checkup__item:first-child {
                 margin-top: 0;
             }
                 .checkup__image {
+                    vertical-align: top;
                     width: 100%;
-                    aspect-ratio: 4 / 3;
-                    object-fit: cover;
-                    display: block;
-                    transition: scale 0.3s ease;
+                    height: auto;
+                    background-color: var(--image-fallback);
+                    border-radius: var(--radius-sm);
                 }
 
 
