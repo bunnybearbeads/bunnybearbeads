@@ -15,9 +15,14 @@
     opacity: 100%;
 }
 
+@media (width < 768px) {
+    .hystmodal__wrap {
+        padding: 0 calc(var(--container-padding) / 2);
+        box-sizing: border-box;
+    }
 
-@media (width < 740px) {
     .hystmodal__window {
         margin: calc(var(--container-padding) / 2) auto !important;
+        width: 100%;
     }
 }
