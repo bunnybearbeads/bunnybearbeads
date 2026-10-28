@@ -3,8 +3,6 @@
 .window {
     position: relative;
     width: fit-content;
-    max-width: 100%;
-    box-sizing: border-box;
     background-color: #ffffff;
     border-radius: var(--radius-md, 12px);
     box-shadow: 0 25px 60px rgb(0 0 0 / 20%);
