@@ -20,7 +20,7 @@
     background-color: transparent !important; /* styled by <Window> component */
     padding: 0 !important;
     margin: 0 auto !important; /* neutralize library margins */
-    width: auto !important;
+    width: fit-content !important;
     max-width: 100%;
 }
 
@@ -35,10 +35,6 @@
 /* Mobile (< 740px): uniform padding on all 4 sides */
 @media (width < 740px) {
     .hystmodal__wrap {
-        padding: calc(var(--container-padding) / 2);
-    }
-
-    .hystmodal__window {
-        width: 100%;
+        padding: var(--container-padding);
     }
 }

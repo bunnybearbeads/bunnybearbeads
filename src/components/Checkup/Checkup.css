@@ -6,7 +6,21 @@
 
 
 .checkup {
+    width: 536px;
+    max-width: 100%;
+}
 
+@media (1600px <= width) {
+    .checkup {
+        width: 592px;
+    }
+}
+
+@media (width < 740px) {
+    .checkup {
+        width: 376px;
+        max-width: 100%;
+    }
 }
     .checkup__title {
         margin-top: 0;
