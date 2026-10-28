@@ -135,16 +135,17 @@ export function formatAuditRelativeDate(
 
 /**
  * Formats an ISO date string (e.g. "2026-10-04") into a calendar audit title
- * (e.g. "Наличие на 4 октября", "Stock as of October 4", "Tình trạng ngày 4 tháng 10").
+ * (e.g. "Наличие в NGÀY MAI на 4 октября", "Stock at NGÀY MAI as of October 4", "Tình trạng tại NGÀY MAI ngày 4 tháng 10").
  */
 export function formatAuditCalendarDate(
   dateStr?: string,
-  lang: SupportedLanguage = defaultLang
+  lang: SupportedLanguage = defaultLang,
+  shopName?: string
 ): string {
   if (!dateStr) {
-    if (lang === 'ru') return 'Наличие на\u00A0витрине';
-    if (lang === 'vi') return 'Tình trạng tại\u00A0quầy';
-    return 'Showcase availability';
+    if (lang === 'ru') return shopName ? `Наличие в\u00A0${shopName} на\u00A0витрине` : 'Наличие на\u00A0витрине';
+    if (lang === 'vi') return shopName ? `Tình trạng tại\u00A0${shopName}` : 'Tình trạng tại\u00A0quầy';
+    return shopName ? `Stock at\u00A0${shopName}` : 'Showcase availability';
   }
   try {
     const target = new Date(`${dateStr}T00:00:00Z`);
@@ -157,9 +158,19 @@ export function formatAuditCalendarDate(
       timeZone: 'UTC',
     }).format(target).replace(/\s+/g, '\u00A0');
 
-    if (lang === 'ru') return `Наличие на\u00A0${dateFormatted}`;
-    if (lang === 'vi') return `Tình trạng ngày\u00A0${dateFormatted}`;
-    return `Stock as of\u00A0${dateFormatted}`;
+    if (lang === 'ru') {
+      return shopName
+        ? `Наличие в\u00A0${shopName} на\u00A0${dateFormatted}`
+        : `Наличие на\u00A0${dateFormatted}`;
+    }
+    if (lang === 'vi') {
+      return shopName
+        ? `Tình trạng tại\u00A0${shopName} ngày\u00A0${dateFormatted}`
+        : `Tình trạng ngày\u00A0${dateFormatted}`;
+    }
+    return shopName
+      ? `Stock at\u00A0${shopName} as of\u00A0${dateFormatted}`
+      : `Stock as of\u00A0${dateFormatted}`;
   } catch {
     return dateStr;
   }

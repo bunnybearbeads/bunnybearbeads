@@ -1,0 +1,165 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+    gap: 9px;
+    border: 1px solid transparent;
+    padding: 11px 26px;
+    min-width: 100px;
+    background-color: var(--accent-teal);
+    border-radius: var(--radius-pill, 50px);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: inherit;
+    color: #FFFFFF;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color var(--transition-hover),
+                border-color var(--transition-hover),
+                color var(--transition-hover);
+}
+
+.button:hover {
+    background-color: var(--accent-teal-hover);
+}
+
+.button:active {
+    translate: 0 1px;
+    transition: none;
+}
+
+.button:disabled,
+.button:disabled:hover,
+.button:disabled:active {
+    background-color: #F6F6F6;
+    color: var(--disabled-color);
+    translate: none;
+    cursor: default;
+}
+
+
+/* Secondary variant */
+.button--secondary {
+    box-shadow: none;
+    background-color: rgb(255 255 255 / 80%);
+    color: var(--color-brand-dark);
+    border-color: rgb(0 0 0 / 10%);
+}
+
+.button--secondary:hover {
+    background-color: #EFEFEF;
+}
+
+.button--secondary:active {
+
+}
+
+
+/* Size modifiers */
+.button--smaller {
+    padding: 9px 18px;
+    font-size: 12px;
+    line-height: 18px;
+    gap: 7px;
+}
+
+.button--larger {
+    padding: 14px 32px;
+    font-size: 16px;
+    line-height: 24px;
+    gap: 10px;
+}
+
+
+/* Square modifier */
+.button--square {
+    width: 44px;
+    height: 44px;
+    min-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.button--square.button--smaller {
+    width: 38px;
+    height: 38px;
+}
+
+.button--square.button--larger {
+    width: 54px;
+    height: 54px;
+}
+
+
+/* Icon support */
+.button .icon {
+    vertical-align: middle;
+    font-size: 20px;
+    line-height: 1;
+    width: 20px;
+    height: 20px;
+    color: currentColor;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button--smaller .icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.button--larger .icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+}
+
+
+
+/* Large desktop (1600px+) */
+@media (1600px <= width) {
+
+    .button {
+        padding: 15px 33px;
+        font-size: 16.5px;
+        line-height: 24px;
+        gap: 11px;
+    }
+
+    .button--smaller {
+        padding: 11px 22px;
+        font-size: 14.5px;
+        line-height: 20px;
+        gap: 8px;
+    }
+
+    .button--larger {
+        padding: 18px 40px;
+        font-size: 17.5px;
+        line-height: 26px;
+        gap: 12px;
+    }
+
+    .button--square {
+        width: 54px;
+        height: 54px;
+    }
+
+    .button--square.button--smaller {
+        width: 42px;
+        height: 42px;
+    }
+
+    .button--square.button--larger {
+        width: 62px;
+        height: 62px;
+    }
+}

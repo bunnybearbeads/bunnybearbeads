@@ -9,6 +9,7 @@ import { LOCATIONS, getLocation } from '../../config/locations';
 import PartnerModals from './PartnerModals.astro';
 import DottedTitle from '../DottedTitle/DottedTitle.astro';
 import Icon from '../Icon/Icon.astro';
+import Button from '../Button/Button.astro';
 
 interface Props {
   product: any;
@@ -295,14 +296,13 @@ const remakeText = {
   )}
 
   <div class="cta-buttons product-cta-buttons">
-    <a
+    <Button
       href="https://t.me/bunnybearbeads"
       target="_blank"
-      rel="noopener noreferrer"
-      class="btn btn-primary btn-lg"
+      larger
     >
       <span>✈️</span> {t('catalog.order_piece')} (Telegram)
-    </a>
+    </Button>
   </div>
 </div>
 

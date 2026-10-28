@@ -1,6 +1,8 @@
 ---
 import './Checkup.css';
 import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
+import Button from '../Button/Button.astro';
+import Icon from '../Icon/Icon.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
 import {
   useTranslations,
@@ -42,48 +44,44 @@ const photoList: string[] = loc.photoUrls?.length
 
   {loc.mapsUrl && loc.modalMapsKey && (
     <div class="checkup__actions">
-      <a
+      <Button
         href={loc.mapsUrl}
         target="_blank"
-        rel="noopener noreferrer"
-        class="checkup__maps-link"
       >
-        <span>{t(loc.modalMapsKey)}</span>
-        <span class="checkup__maps-arrow" aria-hidden="true">↗</span>
-      </a>
+        {t(loc.modalMapsKey)}
+        <Icon name="arrow_outward" />
+      </Button>
     </div>
   )}
 
   {photoList.length > 0 && (
-    <div class="checkup__photo">
-      <h4 class="checkup__sub-header">
-        <span class="checkup__photo-title">
-          {formatAuditCalendarDate(auditDate, currentLang)}
-        </span>
-        <span class="checkup__date nobr">
-          (<span class="nobr" data-audit-relative={auditDate}>{formatAuditRelativeOnly(auditDate, currentLang)}</span>)
-        </span>
-      </h4>
-      <div class="checkup__gallery" data-checkup-photos>
-        {photoList.map((url, index) => (
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="checkup__item"
-            data-checkup-photo
-            data-index={index}
-            title={t('catalog.modal.photo_zoom_hint')}
-          >
-            <img
-              src={url}
-              alt={`${loc.shop} (${stockLoc?.lastCheckedAt || '2026-10-04'}) — ${index + 1}`}
-              class="checkup__image"
-              loading={index === 0 ? 'eager' : 'lazy'}
-            />
-          </a>
-        ))}
-      </div>
+    <h4 class="checkup__sub-header">
+      <span class="checkup__photo-title">
+        {formatAuditCalendarDate(auditDate, currentLang, loc.shop)}
+      </span>
+      <span class="checkup__date nobr">
+        (<span class="nobr" data-audit-relative={auditDate}>{formatAuditRelativeOnly(auditDate, currentLang)}</span>)
+      </span>
+    </h4>
+    <div class="checkup__gallery" data-checkup-photos>
+      {photoList.map((url, index) => (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="checkup__item"
+          data-checkup-photo
+          data-index={index}
+          title={t('catalog.modal.photo_zoom_hint')}
+        >
+          <img
+            src={url}
+            alt={`${loc.shop} (${stockLoc?.lastCheckedAt || '2026-10-04'}) — ${index + 1}`}
+            class="checkup__image"
+            loading={index === 0 ? 'eager' : 'lazy'}
+          />
+        </a>
+      ))}
     </div>
   )}
 </div>

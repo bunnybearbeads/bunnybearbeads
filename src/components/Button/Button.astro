@@ -1,0 +1,57 @@
+---
+import './Button.css';
+
+interface Props {
+  href?: string;
+  target?: string;
+  rel?: string;
+  download?: boolean | string;
+  secondary?: boolean;
+  square?: boolean;
+  size?: 'smaller' | 'larger';
+  smaller?: boolean;
+  larger?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  target,
+  rel,
+  download,
+  secondary,
+  square,
+  size,
+  smaller,
+  larger,
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+const computedRel = rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined);
+const resolvedSize = size ?? (larger ? 'larger' : smaller ? 'smaller' : undefined);
+
+const classes = [
+  'button',
+  secondary && 'button--secondary',
+  square && 'button--square',
+  resolvedSize && `button--${resolvedSize}`,
+  className,
+].filter(Boolean).join(' ');
+---
+
+<Tag
+  href={Tag === 'a' ? href : undefined}
+  target={Tag === 'a' ? target : undefined}
+  rel={Tag === 'a' ? computedRel : undefined}
+  download={Tag === 'a' && download ? download : undefined}
+  type={Tag === 'button' ? type : undefined}
+  class={classes}
+  {...rest}
+>
+  <slot />
+</Tag>

@@ -11,6 +11,7 @@
   --accent-gold: #D4A359;
   --accent-rose: #D98284;
   --accent-teal: #2A7B88;
+  --accent-teal-hover: #358A98;
   --accent-teal-10pct: #E8F1F2;
   --accent-teal-20pct: #D1E3E5;
   --accent-teal-30pct: #BBD5D9;
@@ -41,6 +42,11 @@
 
   --action-bg-light: #FDF2F4;
   --action-bg-light-hover: #FAECEF;
+
+  --disabled-background: #F6F6F6;
+  --disabled-color: #A09A93;
+
+
 
   --color-brand-dark: #3D2E24;
   --color-text-main: #2C2825;
