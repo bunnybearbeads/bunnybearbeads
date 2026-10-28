@@ -28,19 +28,15 @@ const photoList: string[] = loc.photoUrls?.length
 
 <div class="checkup">
 
-  <h3 id={`${loc.modalId}-title`} class="checkup__title">
+  <h3 class="checkup__title" id={`${loc.modalId}-title`}>
     {t('catalog.modal.title')}
   </h3>
 
   {loc.modalContentKey && (
     <Wysiwyg
+      class="checkup__description"
       halved
-      set:html={t(loc.modalContentKey).replaceAll(
-        /\{{1,2}(?:item|item_name)\}{1,2}/g,
-        currentLang === 'ru'
-          ? `<span class="nobr"><strong>«${product.title}»</strong></span>`
-          : `<span class="nobr"><strong>“${product.title}”</strong></span>`
-      )}
+      set:html={t(loc.modalContentKey).replace('{item}', `<span class="nobr">${product.title}</span>`)}
     />
   )}
 
@@ -59,22 +55,22 @@ const photoList: string[] = loc.photoUrls?.length
   )}
 
   {photoList.length > 0 && (
-    <div class="checkup__photo-card">
-      <div class="checkup__photo-header">
-        <h4 class="checkup__photo-heading">
-          <span class="checkup__photo-title">{formatAuditCalendarDate(auditDate, currentLang)}</span>
-          <span class="checkup__photo-sub nobr">
-            (<span class="nobr" data-audit-relative={auditDate}>{formatAuditRelativeOnly(auditDate, currentLang)}</span>)
-          </span>
-        </h4>
-      </div>
-      <div class="checkup__photos" data-checkup-photos>
+    <div class="checkup__photo">
+      <h4 class="checkup__sub-header">
+        <span class="checkup__photo-title">
+          {formatAuditCalendarDate(auditDate, currentLang)}
+        </span>
+        <span class="checkup__date nobr">
+          (<span class="nobr" data-audit-relative={auditDate}>{formatAuditRelativeOnly(auditDate, currentLang)}</span>)
+        </span>
+      </h4>
+      <div class="checkup__gallery" data-checkup-photos>
         {photoList.map((url, index) => (
           <a
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            class="checkup__photo-frame"
+            class="checkup__item"
             data-checkup-photo
             data-index={index}
             title={t('catalog.modal.photo_zoom_hint')}
@@ -82,7 +78,7 @@ const photoList: string[] = loc.photoUrls?.length
             <img
               src={url}
               alt={`${loc.shop} (${stockLoc?.lastCheckedAt || '2026-10-04'}) — ${index + 1}`}
-              class="checkup__photo-image"
+              class="checkup__image"
               loading={index === 0 ? 'eager' : 'lazy'}
             />
           </a>

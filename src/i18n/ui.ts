@@ -179,7 +179,7 @@ export const ui = {
     'catalog.modal.title': 'About the “last checked” date',
     'catalog.modal.nm_content': `
       <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span> is an authentic handmade shop in <span class="nobr">Da&nbsp;Nang</span> with actual shelves you can explore in person. Among indie perfumes, minerals, ceramics, and handcrafted leather accessories, you’ll find my corner as well. We sync up once a week to check what’s left in stock, and that's when I update the website. And this is what the “last checked” date refers to.</p>
-      <p>Beadwork moves at a rather calm pace, so for the first couple of days after an update, {item} is almost certainly waiting for you on the shelf. No\u00A0100% guarantee, of course, but <span class="nobr">NGÀY&nbsp;MAI</span> itself is well worth stopping by regardless!</p>
+      <p>Beadwork moves at a rather calm pace, so for the first couple of days after an update, <strong>{item}</strong> is almost certainly waiting for you on the shelf. No\u00A0100% guarantee, of course, but <span class="nobr">NGÀY&nbsp;MAI</span> itself is well worth stopping by regardless!</p>
     `,
     'catalog.modal.stock_photo_title': 'Display photo ·',
     'catalog.modal.photo_zoom_hint': 'Click to open full size photo',
@@ -345,7 +345,7 @@ export const ui = {
     'catalog.modal.title': 'Откуда берётся дата проверки',
     'catalog.modal.nm_content': `
       <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span>&nbsp;— это магазин аутентичного хендмейда с&nbsp;живой витриной в&nbsp;Дананге. Среди авторских духов, минералов, керамики и&nbsp;аксессуаров из&nbsp;кожи расположился и&nbsp;мой уголок. Раз в&nbsp;неделю мы сверяем наличие на&nbsp;стенде, и&nbsp;я&nbsp;обновляю сайт&nbsp;— это и&nbsp;есть дата проверки.</p>
-      <p>Хендмейд продаётся неторопливо, так что в&nbsp;первые дни после проверки {item} практически гарантированно на&nbsp;месте и&nbsp;ждёт вас. Без стопроцентной гарантии, конечно, но&nbsp;в&nbsp;любом случае <span class="nobr">Ngay&nbsp;Mai</span>&nbsp;— это само по&nbsp;себе прекрасное место, куда обязательно стоит заглянуть!</p>
+      <p>Хендмейд продаётся неторопливо, так что в&nbsp;первые дни после проверки <strong>{item}</strong> практически гарантированно на&nbsp;месте и&nbsp;ждёт вас. Без стопроцентной гарантии, конечно, но&nbsp;в&nbsp;любом случае <span class="nobr">Ngay&nbsp;Mai</span>&nbsp;— это само по&nbsp;себе прекрасное место, куда обязательно стоит заглянуть!</p>
     `,
     'catalog.modal.stock_photo_title': 'Фото витрины ·',
     'catalog.modal.photo_zoom_hint': 'Нажмите, чтобы открыть фото в полном размере',
@@ -511,7 +511,7 @@ export const ui = {
     'catalog.modal.nm_content': `
       <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span> là một tiệm đồ thủ công rất xinh yêu ở <span class="nobr">Đà&nbsp;Nẵng</span>, nơi bạn có thể ghé tận nơi để sờ tận tay, ngắm tận mắt từng món trên kệ. Bên cạnh nước hoa indie, đá thiên nhiên, đồ gốm và đồ da thủ công, bạn cũng sẽ thấy một góc nhỏ của tụi mình ở&nbsp;đó.</p>
       <p>Tụi mình kiểm lại đồ trên kệ mỗi tuần một lần rồi mình mới cập nhật lên web&nbsp;— số lượng và ngày “kiểm tra” bạn thấy chính là từ lần đếm gần nhất&nbsp;đó.</p>
-      <p>Đồ cườm bán ra cũng túc tắc thôi, nên tầm vài ngày đầu sau khi cập nhật thì {item} gần như chắc chắn vẫn còn trên kệ đợi bạn. Dù không dám hứa\u00A0100%, nhưng ghé <span class="nobr">NGÀY&nbsp;MAI</span> dạo chơi một vòng cũng rất thú vị&nbsp;nha!</p>
+      <p>Đồ cườm bán ra cũng túc tắc thôi, nên tầm vài ngày đầu sau khi cập nhật thì <strong>{item}</strong> gần như chắc chắn vẫn còn trên kệ đợi bạn. Dù không dám hứa\u00A0100%, nhưng ghé <span class="nobr">NGÀY&nbsp;MAI</span> dạo chơi một vòng cũng rất thú vị&nbsp;nha!</p>
     `,
     'catalog.modal.stock_photo_title': 'Ảnh góc trưng bày ·',
     'catalog.modal.photo_zoom_hint': 'Nhấp để xem ảnh kích thước đầy đủ',
