@@ -23,9 +23,8 @@
  *    - При закрытии лайтбокса актуальные статусы и время возвращаются обратно в карусель страницы.
  */
 
-import PhotoSwipe from 'photoswipe';
 import type { EmblaCarouselType } from 'embla-carousel';
-import { isMobile, getModalBgOpacity } from '../../utils';
+import { isMobile, createPhotoSwipe } from '../../utils';
 import type { VideoPlaybackState } from './types';
 
 export interface OpenPhotoSwipeOptions {
@@ -105,26 +104,9 @@ export function openPhotoSwipe({
   // Pause page videos while lightbox is active
   pageVideos.forEach((v) => v.pause());
 
-  const pswp = new PhotoSwipe({
+  const pswp = createPhotoSwipe({
     dataSource,
     index: initialIndex,
-    bgOpacity: getModalBgOpacity(),
-    wheelToZoom: true,
-    closeOnVerticalDrag: true,
-  });
-
-  // Enable ArrowUp/ArrowDown navigation inside PhotoSwipe (next/prev)
-  pswp.on('keydown', (e) => {
-    const key = e.originalEvent?.key;
-    if (key === 'ArrowDown') {
-      e.preventDefault();
-      e.originalEvent.preventDefault();
-      pswp.next();
-    } else if (key === 'ArrowUp') {
-      e.preventDefault();
-      e.originalEvent.preventDefault();
-      pswp.prev();
-    }
   });
 
   // Prevent PhotoSwipe from blocking native pointer events on video controls

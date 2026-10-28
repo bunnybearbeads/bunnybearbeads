@@ -87,74 +87,7 @@ const photoList: string[] = loc.photoUrls?.length
 </div>
 
 <script>
-  import PhotoSwipe from 'photoswipe';
-  import 'photoswipe/style.css';
-  import { getModalBgOpacity } from '../../utils';
+  import { initSimpleLightbox } from '../../utils';
 
-  function initCheckupLightbox() {
-    if ((window as any).__checkupLightboxInitialized) return;
-    (window as any).__checkupLightboxInitialized = true;
-
-    document.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement | null;
-      const link = target?.closest<HTMLAnchorElement>('[data-checkup-photo]');
-      if (!link) return;
-
-      const container = link.closest<HTMLElement>('[data-checkup-photos]');
-      if (!container) return;
-
-      e.preventDefault();
-
-      const photoLinks = Array.from(
-        container.querySelectorAll<HTMLAnchorElement>('[data-checkup-photo]')
-      );
-      const initialIndex = photoLinks.indexOf(link);
-
-      const dataSource = photoLinks.map((item) => {
-        const img = item.querySelector<HTMLImageElement>('img');
-        const naturalW = img?.naturalWidth || 0;
-        const naturalH = img?.naturalHeight || 0;
-        return {
-          src: item.href || img?.currentSrc || img?.src || '',
-          width: naturalW > 0 ? naturalW : 1024,
-          height: naturalH > 0 ? naturalH : 768,
-          alt: img?.alt || '',
-          msrc: img?.src || item.href || '',
-          element: img || item,
-        };
-      });
-
-      const pswp = new PhotoSwipe({
-        dataSource,
-        index: initialIndex >= 0 ? initialIndex : 0,
-        bgOpacity: getModalBgOpacity(),
-        wheelToZoom: true,
-        closeOnVerticalDrag: true,
-        secondaryZoomLevel: (zoomLevel) => Math.max(1, zoomLevel.fit * 2.2),
-        maxZoomLevel: (zoomLevel) => Math.max(2.5, zoomLevel.fit * 4),
-      });
-
-      // Trap Escape and Tab so parent modal doesn't close or hijack focus
-      const onKeyDownCapture = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-          event.stopImmediatePropagation();
-          event.preventDefault();
-          pswp.close();
-        } else if (event.key === 'Tab') {
-          event.stopImmediatePropagation();
-        }
-      };
-
-      window.addEventListener('keydown', onKeyDownCapture, true);
-
-      pswp.on('destroy', () => {
-        window.removeEventListener('keydown', onKeyDownCapture, true);
-        link.focus();
-      });
-
-      pswp.init();
-    });
-  }
-
-  initCheckupLightbox();
+  initSimpleLightbox('[data-checkup-photos]', '[data-checkup-photo]');
 </script>
