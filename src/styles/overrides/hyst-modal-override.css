@@ -3,11 +3,11 @@
 }
 
 .hystmodal::before {
-    background-color: var(--modal-bg);
+    background-color: var(--modal-bg) !important;
 }
 
 .hystmodal--active::before {
-    opacity: 100%;
+    opacity: 100% !important;
 }
 
 /* Outer spacing and safe zone around modal dialogs */

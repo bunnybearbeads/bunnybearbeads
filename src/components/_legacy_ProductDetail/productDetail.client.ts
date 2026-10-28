@@ -18,7 +18,7 @@ function updateAuditDates() {
     document.querySelectorAll<HTMLElement>('[data-audit-relative]').forEach((el) => {
       const dateStr = el.getAttribute('data-audit-relative');
       if (dateStr) {
-        el.textContent = formatAuditRelativeOnly(dateStr, lang);
+        el.textContent = `(${formatAuditRelativeOnly(dateStr, lang)})`;
       }
     });
   } catch {
