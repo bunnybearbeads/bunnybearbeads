@@ -38,7 +38,7 @@ const photoList: string[] = loc.photoUrls?.length
     <Wysiwyg
       class="checkup__description"
       halved
-      set:html={t(loc.modalContentKey).replace('{item}', `<span class="nobr">${product.title}</span>`)}
+      set:html={t(loc.modalContentKey).replace('{item}', product.title)}
     />
   )}
 
