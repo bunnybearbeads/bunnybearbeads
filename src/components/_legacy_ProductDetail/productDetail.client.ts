@@ -71,10 +71,6 @@ function initModals() {
     closeOnEsc: true,
     closeOnOverlay: true,
   });
-
-  if (document.querySelector('#modal-checkup-ngaymai')) {
-    myModal.open('#modal-checkup-ngaymai');
-  }
 }
 
 if (document.readyState === 'loading') {
