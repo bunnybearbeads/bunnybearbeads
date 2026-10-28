@@ -36,15 +36,13 @@
     .checkup__sub-header {
         margin-top: 32px;
         margin-bottom: 0;
-        display: flex;
-        align-items: baseline;
-        gap: 6px;
         font-weight: bold;
         font-size: 18px;
         line-height: 24px;
         color: var(--heading-color);
     }
         .checkup__date {
+            margin-left: 6px;
             font-weight: normal;
             font-size: 14px;
             line-height: 20px;
@@ -71,6 +69,68 @@
                 background-color: var(--image-fallback);
                 border-radius: var(--radius-sm);
             }
+
+
+
+@media (width < 740px) {
+
+    .checkup {
+        /*width: 536px;*/
+        /*max-width: 100%;*/
+    }
+        .checkup__title {
+            /*margin-top: 0;*/
+            /*margin-bottom: 0;*/
+            /*font-family: var(--font-serif);*/
+            /*font-size: 32px;*/
+            /*line-height: 40px;*/
+            /*color: var(--heading-color);*/
+        }
+
+        .checkup__description {
+            /*margin-top: 24px;*/
+        }
+
+        .checkup__location {
+            /*margin-top: 16px;*/
+        }
+
+        .checkup__sub-header {
+            /*margin-top: 32px;*/
+            /*margin-bottom: 0;*/
+            /*font-weight: bold;*/
+            /*font-size: 18px;*/
+            /*line-height: 24px;*/
+            /*color: var(--heading-color);*/
+        }
+            .checkup__date {
+                /*font-weight: normal;*/
+                /*font-size: 14px;*/
+                /*line-height: 20px;*/
+                /*color: var(--color-text-muted);*/
+                /*white-space: nowrap;*/
+            }
+
+        .checkup__gallery {
+            /*margin-top: 16px;*/
+        }
+            .checkup__item {
+                /*margin-top: 20px;*/
+                /*display: block;*/
+                /*cursor: pointer;*/
+            }
+
+            .checkup__item:first-child {
+                /*margin-top: 0;*/
+            }
+                .checkup__image {
+                    /*vertical-align: top;*/
+                    /*width: 100%;*/
+                    /*height: auto;*/
+                    /*background-color: var(--image-fallback);*/
+                    /*border-radius: var(--radius-sm);*/
+                }
+}
 
 
 
