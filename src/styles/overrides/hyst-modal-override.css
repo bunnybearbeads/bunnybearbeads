@@ -35,6 +35,6 @@
 /* Mobile (< 740px): uniform padding on all 4 sides */
 @media (width < 740px) {
     .hystmodal__wrap {
-        padding: var(--container-padding);
+        padding: calc(var(--container-padding) / 2);
     }
 }
