@@ -128,7 +128,10 @@ const photoList: string[] = loc.photoUrls?.length
         dataSource,
         index: initialIndex >= 0 ? initialIndex : 0,
         bgOpacity: getModalBgOpacity(),
-        showHideAnimationType: 'zoom',
+        wheelToZoom: true,
+        closeOnVerticalDrag: true,
+        secondaryZoomLevel: (zoomLevel) => Math.max(1, zoomLevel.fit * 2.2),
+        maxZoomLevel: (zoomLevel) => Math.max(2.5, zoomLevel.fit * 4),
       });
 
       // Trap Escape and Tab so parent modal doesn't close or hijack focus
