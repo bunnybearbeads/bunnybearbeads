@@ -22,6 +22,8 @@
 
 }
     .checkup__title {
+        margin-top: 0;
+        margin-bottom: 0;
         font-family: var(--font-serif);
         font-size: 32px;
         line-height: 40px;
@@ -38,17 +40,19 @@
         .checkup__sub-header {
             margin-top: 32px;
             margin-bottom: 0;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
             font-weight: bold;
             font-size: 18px;
             line-height: 24px;
             color: var(--heading-color);
         }
             .checkup__date {
-                margin-left: 6px;
+                font-weight: normal;
                 font-size: 14px;
                 line-height: 20px;
-                font-weight: 400;
-                color: var(--color-text-muted, #6B635B);
+                color: var(--color-text-muted);
                 white-space: nowrap;
             }
 
@@ -58,7 +62,6 @@
             .checkup__item {
                 margin-top: 20px;
                 display: block;
-                position: relative;
                 cursor: pointer;
             }
 
