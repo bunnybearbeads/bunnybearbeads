@@ -10,6 +10,7 @@ import PartnerModals from './PartnerModals.astro';
 import DottedTitle from '../DottedTitle/DottedTitle.astro';
 import Icon from '../Icon/Icon.astro';
 import Button from '../Button/Button.astro';
+import Link from '../Link/Link.astro';
 
 interface Props {
   product: any;
@@ -232,15 +233,14 @@ const remakeText = {
                     </div>
                     <div class="option__title">
                       <strong class="option__bold">{t(loc.meta.cityKey)}{loc.meta.districtKey ? `, ${t(loc.meta.districtKey)}` : ''}</strong>&nbsp;— {t('catalog.on_showcase_at')}&nbsp;{loc.meta.mapsUrl ? (
-                        <a
+                        <Link
                           href={loc.meta.mapsUrl}
                           target="_blank"
-                          rel="noopener noreferrer"
-                          class="option__shop-link"
+                          accentUnderline
                           title={loc.meta.modalMapsKey ? t(loc.meta.modalMapsKey) : undefined}
                         >
                           <strong class="option__bold">{loc.meta.shop}</strong>
-                        </a>
+                        </Link>
                       ) : (
                         <strong class="option__bold">{loc.meta.shop}</strong>
                       )}

@@ -12,6 +12,8 @@
   --accent-rose: #D98284;
   --accent-teal: #2A7B88;
   --accent-teal-hover: #358A98;
+  --link-color: var(--accent-teal);
+  --link-color-hover: var(--accent-teal-hover);
   --accent-teal-10pct: #E8F1F2;
   --accent-teal-20pct: #D1E3E5;
   --accent-teal-30pct: #BBD5D9;

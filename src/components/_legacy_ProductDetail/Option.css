@@ -35,19 +35,6 @@
                 font-weight: bold;
             }
 
-            .option__shop-link {
-                color: inherit;
-                text-decoration: underline;
-                text-decoration-color: var(--accent-gold);
-                text-underline-offset: 3px;
-                transition: color 0.2s ease, text-decoration-color 0.2s ease;
-            }
-
-            .option__shop-link:hover {
-                color: var(--accent-teal);
-                text-decoration-color: var(--accent-teal);
-            }
-
         .option__notes {
             margin-top: 5px;
             display: flex;
