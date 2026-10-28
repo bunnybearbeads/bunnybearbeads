@@ -93,6 +93,7 @@
 
         .checkup__location {
             /*margin-top: 16px;*/
+            text-transform: capitalize;
         }
 
         .checkup__sub-header {
@@ -132,5 +133,8 @@
                 }
 }
 
-
-
+@media (width < 350px) {
+    .checkup__maps-shop {
+        display: none;
+    }
+}

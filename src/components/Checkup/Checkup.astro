@@ -48,7 +48,7 @@ const photoList: string[] = loc.photoUrls?.length
         href={loc.mapsUrl}
         target="_blank"
       >
-        {t(loc.modalMapsKey)}
+        <span set:html={t(loc.modalMapsKey).replace(loc.shop, `<span class="checkup__maps-shop">${loc.shop}</span>`)} />
         <Icon name="arrow_outward" />
       </Button>
     </div>
