@@ -87,6 +87,11 @@ export function openSimpleLightbox({
     const img = item.querySelector<HTMLImageElement>('img');
     const naturalW = img?.naturalWidth || 0;
     const naturalH = img?.naturalHeight || 0;
+    const thumbCropped = Boolean(
+      item.dataset.pswpCropped !== undefined ||
+      item.dataset.cropped !== undefined ||
+      (img && window.getComputedStyle(img).objectFit === 'cover')
+    );
     return {
       src: item.href || img?.currentSrc || img?.src || '',
       width: naturalW > 0 ? naturalW : 1200,
@@ -94,6 +99,7 @@ export function openSimpleLightbox({
       alt: img?.alt || '',
       msrc: img?.src || item.href || '',
       element: img || item,
+      thumbCropped,
     };
   });
 
@@ -101,6 +107,23 @@ export function openSimpleLightbox({
     dataSource,
     index: initialIndex >= 0 ? initialIndex : 0,
     trapModalKeys,
+  });
+
+  // Resolve real dimensions asynchronously for any image that wasn't decoded yet
+  items.forEach((item, idx) => {
+    const img = item.querySelector<HTMLImageElement>('img');
+    if (img && img.naturalWidth > 0) return;
+    const src = dataSource[idx]?.src;
+    if (!src) return;
+    const probe = new Image();
+    probe.onload = () => {
+      if (probe.naturalWidth > 0 && probe.naturalHeight > 0) {
+        dataSource[idx].width = probe.naturalWidth;
+        dataSource[idx].height = probe.naturalHeight;
+        pswp.refreshSlideContent(idx);
+      }
+    };
+    probe.src = src;
   });
 
   if (triggerElement) {

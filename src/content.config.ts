@@ -7,11 +7,20 @@ const localizedString = z.object({
   vi: z.string(),
 });
 
+const locationImageSchema = z.union([
+  z.string(),
+  z.object({
+    src: z.string(),
+    alt: z.union([z.string(), localizedString]).optional(),
+  }),
+]);
+
 const stockLocationSchema = z.object({
   locationId: z.enum(['online', 'dalat', 'ngay-mai', 'cat-food']),
   lastCheckedAt: z.string().optional(),
-  quantity: z.number().int().positive().default(1),
-  variantNote: localizedString.optional(),
+  quantity: z.number().int().nonnegative().default(1),
+  note: localizedString.optional(),
+  images: z.array(locationImageSchema).default([]),
 });
 
 const mediaItemSchema = z.union([
@@ -30,7 +39,6 @@ const products = defineCollection({
     createdAt: z.string().optional(),
     title: localizedString,
     description: localizedString,
-    crafterNote: localizedString.optional(),
     price: z.number(),
     currency: z.string().default('VND'),
     categoryId: z.enum(['bracelets', 'rings', 'phone-charms', 'keychains', 'other']).default('bracelets'),

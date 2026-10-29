@@ -15,7 +15,7 @@ import { siteSettings } from '../../config/siteSettings';
 import { LOCATIONS, getLocation } from '../../config/locations';
 import PartnerModals from './PartnerModals.astro';
 import RemakeModal from '../RemakeModal/RemakeModal.astro';
-import DottedTitle from '../DottedTitle/DottedTitle.astro';
+import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 import Icon from '../Icon/Icon.astro';
 import Button from '../Button/Button.astro';
 import Link from '../Link/Link.astro';
@@ -30,31 +30,56 @@ const { product, productRaw, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 const categoryId = productRaw.data.categoryId || 'bracelets';
 
+interface NormalizedLocationImage {
+  src: string;
+  alt: string;
+}
+
+function normalizeLocationImages(
+  rawImages: any[] | undefined,
+  fallbackTitle: string
+): NormalizedLocationImage[] {
+  if (!Array.isArray(rawImages)) return [];
+  return rawImages.map((img, idx) => {
+    if (typeof img === 'string') {
+      return { src: img, alt: `${fallbackTitle} — ${idx + 1}` };
+    }
+    const localizedAlt = img.alt
+      ? typeof img.alt === 'string'
+        ? img.alt
+        : localize(img.alt, currentLang)
+      : `${fallbackTitle} — ${idx + 1}`;
+    return { src: img.src, alt: localizedAlt };
+  });
+}
+
 const rawStock = productRaw.data.stockLocations || [];
-const stockLocations = rawStock.map((sl: any) => ({
-  ...sl,
-  quantity: sl.quantity ?? 1,
-  variantNoteText: sl.variantNote ? localize(sl.variantNote, currentLang) : undefined,
-  meta: getLocation(sl.locationId) || LOCATIONS.dalat,
-}));
+const stockLocations = rawStock.map((sl: any) => {
+  const meta = getLocation(sl.locationId) || LOCATIONS.dalat;
+  const fallbackLabel = `${product.title} (${meta.shop || t(meta.cityKey)})`;
+  return {
+    ...sl,
+    quantity: sl.quantity ?? 1,
+    noteHtml: sl.note ? localize(sl.note, currentLang) : undefined,
+    images: normalizeLocationImages(sl.images, fallbackLabel),
+    meta,
+  };
+});
 
 const dalatOffline = stockLocations.find((l: any) => l.meta.id === 'dalat');
-const otherOffline = stockLocations.filter((l: any) => l.meta.type === 'partner');
+const otherOffline = stockLocations.filter((l: any) => l.meta.type === 'partner' && (l.quantity ?? 1) > 0);
 const hasOnline = stockLocations.some((l: any) => l.meta.type === 'online') || stockLocations.length === 0;
 
-const isDalatInStock = Boolean(dalatOffline);
-const dalatQty = dalatOffline?.quantity ?? 1;
-const studioStockBadge = formatStudioStockQty(dalatQty, currentLang);
+const dalatQty = dalatOffline ? (dalatOffline.quantity ?? 1) : 0;
+const isDalatInStock = dalatQty > 0;
+const studioStockBadge = formatStudioStockQty(dalatQty || 1, currentLang);
 const dalatLoc = dalatOffline || {
   locationId: 'dalat',
   quantity: 0,
-  variantNoteText: undefined,
+  noteHtml: undefined,
+  images: [] as NormalizedLocationImage[],
   meta: LOCATIONS.dalat,
 };
-
-const partnerReadyTotal = otherOffline.reduce((acc: number, l: any) => acc + (l.quantity ?? 1), 0);
-const totalReadyCopies = (isDalatInStock ? dalatQty : 0) + partnerReadyTotal;
-const showMultiCopyInfo = otherOffline.length > 0 || totalReadyCopies > 1;
 
 let runningReadyCount = isDalatInStock ? dalatQty : 0;
 const partnerCards = otherOffline.map((loc: any) => {
@@ -142,10 +167,37 @@ const remakeText = {
             </button>
           )}
 
-          {dalatLoc.variantNoteText && (
-            <div class="option__variant-note">
-              <span class="option__variant-icon" aria-hidden="true">🧷</span>
-              <span>{dalatLoc.variantNoteText}</span>
+          {(dalatLoc.noteHtml || dalatLoc.images.length > 0) && (
+            <div class="option__details">
+              {dalatLoc.noteHtml && (
+                <Wysiwyg
+                  class="option__description"
+                  smaller
+                  halved
+                  set:html={dalatLoc.noteHtml}
+                />
+              )}
+              {dalatLoc.images.length > 0 && (
+                <div class="option__gallery" data-option-photos>
+                  {dalatLoc.images.map((img: NormalizedLocationImage) => (
+                    <a
+                      href={img.src}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="option__photo"
+                      data-option-photo
+                      title={t('catalog.modal.photo_zoom_hint')}
+                    >
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        class="option__image"
+                        loading="lazy"
+                      />
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -285,32 +337,44 @@ const remakeText = {
               </div>
             )}
 
-            {loc.variantNoteText && (
-              <div class="option__variant-note">
-                <span class="option__variant-icon" aria-hidden="true">🧷</span>
-                <span>{loc.variantNoteText}</span>
+            {(loc.noteHtml || loc.images.length > 0) && (
+              <div class="option__details">
+                {loc.noteHtml && (
+                  <Wysiwyg
+                    class="option__description"
+                    smaller
+                    halved
+                    set:html={loc.noteHtml}
+                  />
+                )}
+                {loc.images.length > 0 && (
+                  <div class="option__gallery" data-option-photos>
+                    {loc.images.map((img: NormalizedLocationImage) => (
+                      <a
+                        href={img.src}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="option__photo"
+                        data-option-photo
+                        title={t('catalog.modal.photo_zoom_hint')}
+                      >
+                        <img
+                          src={img.src}
+                          alt={img.alt}
+                          class="option__image"
+                          loading="lazy"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>
         </div>
       ))}
-
-      {showMultiCopyInfo && (
-        <p class="where-to-buy-note">
-          <span class="where-to-buy-note__icon" aria-hidden="true">🧷</span>
-          <span>{t('catalog.handmade_copies_note')}</span>
-        </p>
-      )}
     </div>
   </div>
-
-  <!-- Crafter's Note Section -->
-  {product.crafterNote && (
-    <div class="crafter-note-section">
-      <DottedTitle>{t('catalog.crafter_note_title')}</DottedTitle>
-      <div class="crafter-note-body" set:html={product.crafterNote} />
-    </div>
-  )}
 
   <div class="cta-buttons product-cta-buttons">
     <Button

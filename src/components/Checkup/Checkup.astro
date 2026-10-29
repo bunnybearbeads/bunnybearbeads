@@ -5,7 +5,6 @@ import {
   useTranslations,
   formatAuditCalendarDate,
   formatAuditRelativeOnly,
-  localize,
 } from '../../i18n/utils';
 
 interface Props {
@@ -37,11 +36,6 @@ const action = loc.mapsUrl && loc.modalMapsKey ? {
   href: loc.mapsUrl,
   label: t(loc.modalMapsKey).replace(loc.shop, `<span class="availability__maps-shop">${loc.shop}</span>`),
 } : undefined;
-
-const variantNoteText = stockLoc?.variantNote ? localize(stockLoc.variantNote, currentLang) : undefined;
-const noteHtml = variantNoteText
-  ? `<strong>${t('catalog.modal.variant_note_prefix')}</strong> ${variantNoteText}`
-  : undefined;
 ---
 
 <Availability
@@ -49,6 +43,5 @@ const noteHtml = variantNoteText
   titleId={`${loc.modalId}-title`}
   contentHtml={t(loc.modalContentKey).replace('{item}', product.title)}
   action={action}
-  noteHtml={noteHtml}
   gallery={gallery}
 />

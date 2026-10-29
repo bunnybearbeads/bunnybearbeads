@@ -80,24 +80,6 @@
   gap: 12px;
 }
 
-.where-to-buy-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 7px;
-  margin: 0;
-  padding: 0 2px;
-  font-size: 12.5px;
-  line-height: 1.55;
-  color: var(--text-muted);
-}
-
-.where-to-buy-note__icon {
-  flex-shrink: 0;
-  font-size: 13.5px;
-  line-height: 1.5;
-  opacity: 85%;
-}
-
 .product-specs-section {
   margin-top: 22px;
   padding-top: 18px;
@@ -170,82 +152,6 @@
   font-weight: 600;
 }
 
-/* Crafter's Note Section */
-.crafter-note-section {
-  margin-bottom: 25px;
-}
-
-.crafter-note-body {
-  font-size: 13.5px;
-  line-height: 1.75;
-  color: var(--text-dark);
-}
-
-.crafter-note-body p {
-  margin: 0 0 11px 0;
-}
-
-.crafter-note-body p:last-child {
-  margin-bottom: 0;
-}
-
-.crafter-note-body h4 {
-  font-size: 13.5px;
-  font-weight: 700;
-  color: var(--color-brand-dark);
-  margin: 16px 0 7px 0;
-  letter-spacing: -0.2px;
-}
-
-.crafter-note-body .crafter-palette-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(153px, 1fr));
-  gap: 11px;
-  margin: 12px 0 14px 0;
-}
-
-.crafter-note-body .crafter-palette-card {
-  display: flex;
-  flex-direction: column;
-  background: white;
-  border: 1px solid rgba(212, 163, 89, 0.25);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.crafter-note-body .crafter-palette-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent-gold);
-}
-
-.crafter-note-body .crafter-palette-card img {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  background: #fbf9f5;
-  display: block;
-}
-
-.crafter-note-body .crafter-palette-info {
-  padding: 9px 11px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.crafter-note-body .crafter-palette-info strong {
-  font-size: 12px;
-  color: var(--color-brand-dark);
-  line-height: 1.3;
-}
-
-.crafter-note-body .crafter-palette-info span {
-  font-size: 11px;
-  color: #666;
-  line-height: 1.4;
-}
-
 .product-cta-buttons {
   margin-top: 28px;
 }
@@ -291,10 +197,6 @@
     gap: 16px;
   }
 
-  .where-to-buy-note {
-    font-size: 14px;
-  }
-
   .product-specs-section {
     margin-top: 26px;
     padding-top: 22px;
@@ -317,14 +219,6 @@
 
   .credit-row {
     font-size: 15.5px;
-  }
-
-  .crafter-note-body {
-    font-size: 16.5px;
-  }
-
-  .crafter-note-body h4 {
-    font-size: 16.5px;
   }
 
   .product-cta-buttons {

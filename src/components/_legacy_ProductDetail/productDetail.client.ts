@@ -5,6 +5,7 @@ import {
   formatAuditRelativeOnly,
   type SupportedLanguage,
 } from '../../i18n/utils';
+import { initSimpleLightbox } from '../../utils';
 
 function updateAuditDates() {
   try {
@@ -61,6 +62,9 @@ function updateDalatCutoffs() {
 function initProductDetail() {
   updateDalatCutoffs();
   updateAuditDates();
+  if (document.querySelector('[data-option-photos]')) {
+    initSimpleLightbox('[data-option-photos]', '[data-option-photo]');
+  }
 }
 
 function initModals() {

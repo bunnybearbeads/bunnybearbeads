@@ -11,11 +11,6 @@
     "ru": "Сияющее авторское украшение ручной работы, вдохновлённое золотыми солнечными вспышками и тёплыми лучами. Сплетено с ювелирной точностью из японского бисера.",
     "vi": "Trang sức kết cườm thủ công rực rỡ lấy cảm hứng từ những tia nắng mặt trời ấm áp. Được đan tỉ mỉ từ hạt cườm Nhật Bản cao cấp."
   },
-  "crafterNote": {
-    "en": "<p>What you see in the photos is the first prototype of this piece, not available for purchase. My husband loves experimenting with different kinds of beads, and this particular sample was woven using Matsuno beads, which performed poorly upon contact with skin. However, I have already acquired the official license for this design and will gladly recreate it for you from scratch using premium Japanese Miyuki or Toho seed beads.</p>",
-    "ru": "<p>То, что вы видите на фото — это первая версия товара, недоступная к продаже. Мой муж любит экспериментировать с разными видами бисера, и конкретно этот экземпляр был создан из бисера Matsuno, который очень плохо показал себя при контакте с кожей. Тем не менее я уже купила лицензию на этот дизайн и с радостью повторю его из высококачественного японского бисера Miyuki или Toho.</p>",
-    "vi": "<p>Những gì bạn thấy trong ảnh là phiên bản đầu tiên của sản phẩm và hiện không mở bán. Chồng mình rất thích thử nghiệm các loại cườm khác nhau, và mẫu này được tạo nên từ hạt cườm Matsuno vốn có độ bền không tốt khi tiếp xúc với da. Dù vậy, mình đã mua bản quyền thiết kế này và rất sẵn lòng đan lại một chiếc mới hoàn hảo cho bạn từ cườm Nhật Bản cao cấp Miyuki hoặc Toho.</p>"
-  },
   "price": 320000,
   "currency": "VND",
   "categoryId": "bracelets",
@@ -49,6 +44,15 @@
   "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: DB0031, DB0202  •  Aiko colors: 1022, 457</strong></span><br />\n<span class=\"mat-accessory\">Hypoallergenic gold-plated stainless steel hardware</span>",
   "designedBy": "BunnyBearBeads",
   "stockLocations": [
+    {
+      "locationId": "dalat",
+      "quantity": 0,
+      "note": {
+        "en": "<p>What you see in the photos is the first prototype of this piece, not available for purchase. My husband loves experimenting with different kinds of beads, and this particular sample was woven using Matsuno beads, which performed poorly upon contact with skin. However, I have already acquired the official license for this design and will gladly recreate it for you from scratch using premium Japanese Miyuki or Toho seed beads.</p>",
+        "ru": "<p>То, что вы видите на фото — это первая версия товара, недоступная к продаже. Мой муж любит экспериментировать с разными видами бисера, и конкретно этот экземпляр был создан из бисера Matsuno, который очень плохо показал себя при контакте с кожей. Тем не менее я уже купила лицензию на этот дизайн и с радостью повторю его из высококачественного японского бисера Miyuki или Toho.</p>",
+        "vi": "<p>Những gì bạn thấy trong ảnh là phiên bản đầu tiên của sản phẩm và hiện không mở bán. Chồng mình rất thích thử nghiệm các loại cườm khác nhau, và mẫu này được tạo nên từ hạt cườm Matsuno vốn có độ bền không tốt khi tiếp xúc với da. Dù vậy, mình đã mua bản quyền thiết kế này và rất sẵn lòng đan lại một chiếc mới hoàn hảo cho bạn từ cườm Nhật Bản cao cấp Miyuki hoặc Toho.</p>"
+      }
+    },
     {
       "locationId": "online"
     }

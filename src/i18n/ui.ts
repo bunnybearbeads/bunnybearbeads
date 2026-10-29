@@ -491,11 +491,6 @@ export const translations = {
     ru: 'По Далату доступен бесплатный курьер в\u00A0день готовности',
     vi: 'Giao hỏa tốc miễn phí tại Đà Lạt ngay khi hoàn thành',
   },
-  'catalog.crafter_note_title': {
-    en: 'Made to Order',
-    ru: 'Изготовление под заказ',
-    vi: 'Đặt làm theo yêu cầu',
-  },
   'catalog.expand': {
     en: 'Read more ↓',
     ru: 'Читать полностью ↓',
@@ -597,16 +592,6 @@ export const translations = {
     en: 'at\u00A0checkout',
     ru: 'на\u00A0кассе',
     vi: 'tại\u00A0quầy',
-  },
-  'catalog.handmade_copies_note': {
-    en: 'Each piece is assembled by hand, so separate copies may differ slightly in small details\u00A0— such as the clasp or strap.',
-    ru: 'Каждое украшение собирается вручную, поэтому разные экземпляры могут немного отличаться мелкими деталями\u00A0— например, замочком или креплением.',
-    vi: 'Mỗi món đều được kết tay thủ công, nên các sản phẩm riêng lẻ có thể khác nhau đôi chút ở chi tiết nhỏ\u00A0— chẳng hạn như móc khóa hoặc dây đeo.',
-  },
-  'catalog.modal.variant_note_prefix': {
-    en: 'Note on this piece:',
-    ru: 'Особенность этого экземпляра:',
-    vi: 'Lưu ý về sản phẩm này:',
   },
   'catalog.on_showcase_at': {
     en: 'on display at',
