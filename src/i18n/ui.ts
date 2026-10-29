@@ -594,9 +594,9 @@ export const translations = {
     vi: 'Nhận trực tiếp tại xưởng',
   },
   'catalog.pay_in_store_checkout': {
-    en: 'in-store at checkout',
-    ru: 'покупка на\u00A0кассе',
-    vi: 'mua trực tiếp tại quầy',
+    en: 'at\u00A0checkout',
+    ru: 'на\u00A0кассе',
+    vi: 'tại\u00A0quầy',
   },
   'catalog.handmade_copies_note': {
     en: 'Each piece is assembled by hand, so separate copies may differ slightly in small details\u00A0— such as the clasp or strap.',
