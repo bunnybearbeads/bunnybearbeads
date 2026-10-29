@@ -29,7 +29,7 @@
 
 .product-top-sep {
   color: var(--text-muted);
-  opacity: 0.45;
+  opacity: 45%;
   font-size: 12px;
   line-height: 1;
 }
@@ -74,26 +74,28 @@
   margin-bottom: 25px;
 }
 
-.options-list,
-.delivery-block {
-  display: flex;
-  flex-direction: column;
-  background: white;
-  border: 1px solid #EBEBEB;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-
 .where-to-buy-content {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
-.showcases-block {
+.where-to-buy-note {
   display: flex;
-  flex-direction: column;
-  margin-top: 8px;
+  align-items: flex-start;
+  gap: 7px;
+  margin: 0;
+  padding: 0 2px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.where-to-buy-note__icon {
+  flex-shrink: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  opacity: 85%;
 }
 
 .product-specs-section {
@@ -283,6 +285,14 @@
 
   .where-to-buy-section {
     margin-bottom: 31px;
+  }
+
+  .where-to-buy-content {
+    gap: 16px;
+  }
+
+  .where-to-buy-note {
+    font-size: 14px;
   }
 
   .product-specs-section {

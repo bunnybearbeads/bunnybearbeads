@@ -4,9 +4,11 @@ import './Icon.css';
 interface Props {
 	name: string;
 	class?: string;
+	'aria-hidden'?: 'true' | 'false' | boolean;
+	[key: string]: unknown;
 }
 
-const { name, class: className } = Astro.props;
+const { name, class: className, 'aria-hidden': ariaHidden = 'true', ...rest } = Astro.props;
 ---
 
-<span class:list={['icon', className]}>{name}</span>
+<span class:list={['icon', className]} aria-hidden={ariaHidden} {...rest}>{name}</span>

@@ -10,6 +10,8 @@ const localizedString = z.object({
 const stockLocationSchema = z.object({
   locationId: z.enum(['online', 'dalat', 'ngay-mai', 'cat-food']),
   lastCheckedAt: z.string().optional(),
+  quantity: z.number().int().positive().default(1),
+  variantNote: localizedString.optional(),
 });
 
 const mediaItemSchema = z.union([

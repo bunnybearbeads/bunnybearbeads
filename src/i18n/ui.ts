@@ -578,6 +578,36 @@ export const translations = {
     ru: 'самовывоз из\u00A0мастерской',
     vi: 'nhận tại studio',
   },
+  'geo.at_workshop_suffix': {
+    en: 'at the studio',
+    ru: 'в\u00A0мастерской',
+    vi: 'tại xưởng',
+  },
+  'catalog.studio_remake_label': {
+    en: 'None ready',
+    ru: 'Нет готового',
+    vi: 'Chưa có sẵn',
+  },
+  'catalog.pickup_studio_title': {
+    en: 'Studio pickup',
+    ru: 'Самовывоз из\u00A0мастерской',
+    vi: 'Nhận trực tiếp tại xưởng',
+  },
+  'catalog.pay_in_store_checkout': {
+    en: 'in-store at checkout',
+    ru: 'покупка на\u00A0кассе',
+    vi: 'mua trực tiếp tại quầy',
+  },
+  'catalog.handmade_copies_note': {
+    en: 'Each piece is assembled by hand, so separate copies may differ slightly in small details\u00A0— such as the clasp or strap.',
+    ru: 'Каждое украшение собирается вручную, поэтому разные экземпляры могут немного отличаться мелкими деталями\u00A0— например, замочком или креплением.',
+    vi: 'Mỗi món đều được kết tay thủ công, nên các sản phẩm riêng lẻ có thể khác nhau đôi chút ở chi tiết nhỏ\u00A0— chẳng hạn như móc khóa hoặc dây đeo.',
+  },
+  'catalog.modal.variant_note_prefix': {
+    en: 'Note on this piece:',
+    ru: 'Особенность этого экземпляра:',
+    vi: 'Lưu ý về sản phẩm này:',
+  },
   'catalog.on_showcase_at': {
     en: 'on display at',
     ru: 'на\u00A0витрине в',
