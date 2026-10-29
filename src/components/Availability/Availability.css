@@ -1,22 +1,22 @@
-.checkup {
+.availability {
     width: 536px;
     max-width: 100%;
 }
 
 @media (1600px <= width) {
-    .checkup {
+    .availability {
         width: 610px;
     }
 }
 
 /* Можно: */
 @media (width < 740px) {
-    .checkup {
+    .availability {
         width: 376px;
         max-width: 100%;
     }
 }
-    .checkup__title {
+    .availability__title {
         margin-top: 0;
         margin-bottom: 0;
         font-family: var(--font-serif);
@@ -25,27 +25,31 @@
         color: var(--heading-color);
     }
 
-    .checkup__description {
+    .availability__description {
         margin-top: 24px;
     }
 
-    .checkup__location {
+    .availability__location {
         margin-top: 16px;
     }
 
-    .checkup__sub-header {
+    .availability__note {
+        margin-top: 24px;
+    }
+
+    .availability__sub-header {
         margin-top: 32px;
         margin-bottom: 0;
         line-height: 20px;
     }
-        .checkup__photo-title {
+        .availability__photo-title {
             font-weight: bold;
             font-size: 18px;
             line-height: 24px;
             color: var(--heading-color);
         }
 
-        .checkup__date {
+        .availability__date {
             font-weight: normal;
             font-size: 14px;
             line-height: 20px;
@@ -53,19 +57,19 @@
             white-space: nowrap;
         }
 
-    .checkup__gallery {
+    .availability__gallery {
         margin-top: 16px;
     }
-        .checkup__item {
+        .availability__item {
             margin-top: 20px;
             display: block;
             cursor: pointer;
         }
 
-        .checkup__item:first-child {
+        .availability__item:first-child {
             margin-top: 0;
         }
-            .checkup__image {
+            .availability__image {
                 vertical-align: top;
                 width: 100%;
                 height: auto;
@@ -77,49 +81,53 @@
 
 @media (width < 740px) {
 
-    .checkup {
+    .availability {
 
     }
-        .checkup__title {
+        .availability__title {
 
         }
 
-        .checkup__description {
+        .availability__description {
 
         }
 
-        .checkup__location {
+        .availability__location {
 
         }
 
-        .checkup__sub-header {
+        .availability__note {
 
         }
-            .checkup__date {
+
+        .availability__sub-header {
+
+        }
+            .availability__date {
 
             }
 
-        .checkup__gallery {
+        .availability__gallery {
 
         }
-            .checkup__item {
+            .availability__item {
 
             }
 
-            .checkup__item:first-child {
+            .availability__item:first-child {
 
             }
-                .checkup__image {
+                .availability__image {
 
                 }
 }
 
 @media (width < 350px) {
 
-    .checkup__location {
+    .availability__location {
         text-transform: capitalize;
     }
-        .checkup__maps-shop {
+        .availability__maps-shop {
             display: none;
         }
 }

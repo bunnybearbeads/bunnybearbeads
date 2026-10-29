@@ -190,20 +190,17 @@ export const ui = {
     'catalog.modal.catfood_content': `
       <p><span class="nobr"><strong>Cat&nbsp;Food</strong></span> is a cozy concept store in <span class="nobr">Ho&nbsp;Chi&nbsp;Minh City</span> featuring my humble display of handmade beadwork.</p>
       <p>Once a week, we conduct a mutual stock checkup and update availability.</p>
-      <p class="checkup__highlight">If you are visiting <span class="nobr">Ben&nbsp;Thanh</span> in Saigon, feel free to stop by and check out the pieces in person!</p>
     `,
     'catalog.modal.catfood_maps': 'Cat\u00A0Food on Google Maps',
     'catalog.modal.close': 'Got it',
     'catalog.remake_hint': 'Piece remake — click to learn more',
-    'catalog.modal.remake_title': 'How piece remakes work',
+    'catalog.modal.remake_title': 'How made-to-order repeats work',
     'catalog.modal.remake_content': `
-      <p>A remake is simpler than it sounds. Since I’ve already crafted this piece before, the design is ready, and the beads and threads are already matched. All that’s left is my favorite part: the weaving itself. And I’m good at it.</p>
-      <p>The estimated crafting time shown on the site is <strong>{remakeDays}&nbsp;{remakeUnit}</strong>. This estimate is based on my current order queue and typical crafting time. Delivery time is calculated separately.</p>
-      <p>However, we do need to double-check my stock of specific beads and findings. I do my best to keep supplies full (because the spice must flow ✦), and so far I’ve never had to decline a remake request.</p>
+      <p>A repeat is actually simpler than it sounds: the measurements are already done, the beads are chosen, the pattern is ready for weaving, and the design\u00A0— if it’s a paid one\u00A0— has already been purchased. All that’s left is my favorite part: the beading. And I’m good at it!</p>
+      <p>But first, let's make sure I have the seed beads and findings on hand. That said, I do my best to keep everything well-stocked\u00A0— because, you know, the spice must flow ✧\u00A0— and I've never had to turn down a remake yet. Contact me to sort out the details:</p>
     `,
-    'catalog.modal.remake_tg_button': 'Message on Telegram',
-    'catalog.modal.remake_note_resizable': 'Please note that this is a remake of an existing design, not a custom commission. We can certainly swap a clasp or adjust the length of the piece, but changing the color palette or revising the design is a much more complex task requiring an upfront deposit, as custom pieces cannot always be returned to the sales pool.',
-    'catalog.modal.remake_note_standard': 'Please note that this is a remake of an existing design, not a custom commission. We can certainly swap a clasp, but changing the color palette or revising the design is a much more complex task requiring an upfront deposit, as custom pieces cannot always be returned to the sales pool.',
+    'catalog.modal.remake_tg_button': 'Order',
+    'catalog.modal.remake_note': 'Kindly note: this isn’t a custom order, but a repeat along a path I’ve already walked. We can, of course, swap out the clasp, but changing the color palette or reworking the design would be a more involved project.',
 
     // Blog UI
     'blog.title': 'Beadwork Journal & Stories',
@@ -366,20 +363,17 @@ export const ui = {
     'catalog.modal.catfood_content': `
       <p><span class="nobr"><strong>Cat&nbsp;Food</strong></span>&nbsp;— очень уютный концепт-стор в&nbsp;Хошимине, где среди других авторских вещей живёт и&nbsp;моя скромная витрина.</p>
       <p>Раз в&nbsp;неделю мы бережно сверяем часы и&nbsp;обновляем данные о&nbsp;наличии.</p>
-      <p class="checkup__highlight">Будете гулять в&nbsp;районе <span class="nobr">Ben&nbsp;Thanh</span> в&nbsp;Сайгоне&nbsp;— обязательно загляните в&nbsp;гости!</p>
     `,
     'catalog.modal.catfood_maps': 'Cat\u00A0Food на\u00A0Google\u00A0Картах',
     'catalog.modal.close': 'Понятно 💖',
     'catalog.remake_hint': 'Повтор изделия — нажмите, чтобы узнать подробнее',
     'catalog.modal.remake_title': 'Как работает повтор изделия',
     'catalog.modal.remake_content': `
-      <p>Повтор&nbsp;— это проще, чем кажется. Поскольку я&nbsp;это изделие уже плела в&nbsp;прошлом, у&nbsp;меня уже подобран или куплен дизайн, выбран бисер и&nbsp;нитки. Мне осталась только моя самая любимая часть: непосредственно плетение. И&nbsp;я&nbsp;в&nbsp;этом хороша.</p>
-      <p>Сейчас на&nbsp;сайте вы&nbsp;видите срок изготовления <strong>{remakeDays}&nbsp;{remakeUnit}</strong>. Эта цифра сгенерирована из&nbsp;моей текущей очереди заказов и&nbsp;примерного времени изготовления. Время доставки считается отдельно.</p>
-      <p>Но нам обязательно надо уточнить наличие у&nbsp;меня бисера и&nbsp;фурнитуры. Я&nbsp;стараюсь держать свои запасы наполненными (ведь spice must flow ✦), и&nbsp;пока что ещё ни&nbsp;разу не&nbsp;была в&nbsp;ситуации, когда пришлось отказать с&nbsp;повтором.</p>
+      <p>Повтор изделия&nbsp;— это проще, чем кажется: замеры уже сделаны, бисер подобран, схема подготовлена к&nbsp;плетению, а&nbsp;дизайн, если он платный, куплен. Остаётся только моя любимая часть&nbsp;— само плетение. И&nbsp;я&nbsp;в&nbsp;этом хороша!</p>
+      <p>Но нам нужно уточнить наличие нужного бисера и&nbsp;фурнитуры. Впрочем, я&nbsp;стараюсь держать запасы наполненными (ведь the spice must flow ✧) и&nbsp;пока ни&nbsp;разу не&nbsp;приходилось отказывать в&nbsp;повторе. Напишите мне, чтобы сверить детали:</p>
     `,
-    'catalog.modal.remake_tg_button': 'Написать в Telegram',
-    'catalog.modal.remake_note_resizable': 'Прошу обратить внимание, что это не&nbsp;кастомный заказ, а&nbsp;повтор по&nbsp;уже существующему дизайну. Мы, конечно, можем поменять замочек или изменить длину изделия, но&nbsp;смена палитры или доработка дизайна&nbsp;— это гораздо более трудоёмкая задача, за&nbsp;которую я&nbsp;беру предоплату, ведь кастомный товар не&nbsp;всегда можно вернуть в&nbsp;пул изделий для продажи.',
-    'catalog.modal.remake_note_standard': 'Прошу обратить внимание, что это не&nbsp;кастомный заказ, а&nbsp;повтор по&nbsp;уже существующему дизайну. Мы, конечно, можем поменять замочек, но&nbsp;смена палитры или доработка дизайна&nbsp;— это гораздо более трудоёмкая задача, за&nbsp;которую я&nbsp;беру предоплату, ведь кастомный товар не&nbsp;всегда можно вернуть в&nbsp;пул изделий для продажи.',
+    'catalog.modal.remake_tg_button': 'Заказать',
+    'catalog.modal.remake_note': 'Обратите внимание: это не&nbsp;индивидуальный заказ, а&nbsp;повтор по&nbsp;уже протоптанной тропинке. Мы, конечно, можем заменить замочек, но&nbsp;смена палитры или доработка дизайна&nbsp;— это, пожалуй, отдельная услуга.',
 
     // Blog UI
     'blog.title': 'Блог & Заметки мастера',
@@ -542,20 +536,17 @@ export const ui = {
     'catalog.modal.catfood_content': `
       <p><span class="nobr"><strong>Cat&nbsp;Food</strong></span> là concept store xinh xắn tại <span class="nobr">TP.&nbsp;Hồ&nbsp;Chí&nbsp;Minh</span> có góc trưng bày các sản phẩm thủ công của chúng mình.</p>
       <p>Mỗi tuần chúng mình đều đối soát kiểm kê để cập nhật tình trạng có sẵn.</p>
-      <p class="checkup__highlight">Nếu ở Sài Gòn, hãy ghé <span class="nobr">Cat&nbsp;Food</span> ngắm trực tiếp nha!</p>
     `,
     'catalog.modal.catfood_maps': 'Cat\u00A0Food trên Google Maps',
     'catalog.modal.close': 'Đã hiểu',
-    'catalog.remake_hint': 'Làm lại sản phẩm — bấm để xem chi tiết',
-    'catalog.modal.remake_title': 'Cách thức làm lại sản phẩm',
+    'catalog.remake_hint': 'Đặt làm lại mẫu — bấm để xem chi tiết',
+    'catalog.modal.remake_title': 'Đặt làm lại một mẫu diễn ra thế nào?',
     'catalog.modal.remake_content': `
-      <p>Làm lại một món đồ dễ hơn bạn nghĩ nhiều. Vì mình đã từng đan mẫu này trước đây, nên thiết kế đã có sẵn, hạt cườm và sợi chỉ cũng đã được lựa chọn chuẩn chỉnh. Mình chỉ việc tập trung vào phần yêu thích nhất: trực tiếp đan hạt. Và mình thực sự rất tỉ mỉ trong việc này.</p>
-      <p>Thời gian làm dự kiến trên website hiện tại là <strong>{remakeDays}&nbsp;{remakeUnit}</strong>. Con số này được tính toán dựa trên lượng đơn hàng đang chờ và thời gian đan thực tế. Thời gian giao hàng sẽ được tính riêng.</p>
-      <p>Dù vậy, tụi mình vẫn cần kiểm tra lại lượng cườm và phụ kiện hiện có trong xưởng. Mình luôn cố gắng giữ kho nguyên liệu thật đầy đặn (bởi vì “spice must flow” mà ✦), và từ trước tới nay chưa từng phải từ chối làm lại mẫu nào cả.</p>
+      <p>Đan lại một món đồ thật ra đơn giản hơn bạn nghĩ nhiều: số đo đã có sẵn, hạt cườm đã chọn xong, sơ đồ đan đã lên khung, và bản quyền thiết kế (nếu là mẫu trả phí) cũng đã mua rồi. Mình chỉ việc bắt tay vào phần yêu thích nhất: ngồi đan hạt thôi. Mà đan cườm thì đúng là sở trường của mình rồi!</p>
+      <p>Tuy vậy, trước tiên tụi mình cần kiểm tra lại xem trong xưởng còn sẵn hạt cườm và phụ kiện cho mẫu này không nhé. Thật ra mình luôn cố gắng giữ kho nguyên liệu thật đầy đặn\u00A0— vì, bạn biết đấy, the spice must flow ✧\u00A0— và từ trước tới nay mình chưa từng phải từ chối làm lại mẫu nào cả. Nhắn cho mình để cùng chốt lại chi tiết nha:</p>
     `,
-    'catalog.modal.remake_tg_button': 'Nhắn tin qua Telegram',
-    'catalog.modal.remake_note_resizable': 'Xin lưu ý rằng đây là việc làm lại theo thiết kế có sẵn, không phải đơn đặt làm riêng (custom). Tụi mình hoàn toàn có thể đổi loại móc khóa hoặc điều chỉnh độ dài sản phẩm, nhưng việc thay đổi bảng màu hay tinh chỉnh thiết kế là công việc phức tạp hơn nhiều và cần đặt cọc trước, vì sản phẩm custom không phải lúc nào cũng có thể đưa lại vào kệ hàng chung để bán.',
-    'catalog.modal.remake_note_standard': 'Xin lưu ý rằng đây là việc làm lại theo thiết kế có sẵn, không phải đơn đặt làm riêng (custom). Tụi mình hoàn toàn có thể đổi loại móc khóa, nhưng việc thay đổi bảng màu hay tinh chỉnh thiết kế là công việc phức tạp hơn nhiều và cần đặt cọc trước, vì sản phẩm custom không phải lúc nào cũng có thể đưa lại vào kệ hàng chung để bán.',
+    'catalog.modal.remake_tg_button': 'Đặt làm',
+    'catalog.modal.remake_note': 'Bạn lưu ý một chút nha: đây là làm lại mẫu quen, chứ không phải đơn đặt làm riêng (custom). Tụi mình hoàn toàn có thể đổi loại móc khóa, nhưng nếu muốn đổi bảng màu hay biến tấu lại thiết kế thì sẽ tốn nhiều công sức hơn hẳn và tính như một đơn đặt riêng nhé.',
 
     // Blog UI
     'blog.title': 'Nhật Ký Đan Cườm & Câu Chuyện',

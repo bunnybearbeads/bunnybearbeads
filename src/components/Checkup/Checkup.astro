@@ -1,8 +1,5 @@
 ---
-import './Checkup.css';
-import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
-import Button from '../Button/Button.astro';
-import Icon from '../Icon/Icon.astro';
+import Availability from '../Availability/Availability.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
 import {
   useTranslations,
@@ -19,76 +16,32 @@ interface Props {
 
 const { loc, stockLoc, product, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
-const city = loc.cityKey ? t(loc.cityKey) : '';
 const auditDate = stockLoc?.lastCheckedAt || '2026-10-04';
 const photoList: string[] = loc.photoUrls?.length
   ? loc.photoUrls
   : loc.photoUrl
     ? [loc.photoUrl, loc.photoUrl]
     : [];
+
+const gallery = photoList.length > 0 ? {
+  photos: photoList,
+  photoTitle: formatAuditCalendarDate(auditDate, currentLang, loc.shop),
+  auditDate,
+  relativeDate: formatAuditRelativeOnly(auditDate, currentLang),
+  zoomHint: t('catalog.modal.photo_zoom_hint'),
+  shopName: loc.shop,
+} : undefined;
+
+const action = loc.mapsUrl && loc.modalMapsKey ? {
+  href: loc.mapsUrl,
+  label: t(loc.modalMapsKey).replace(loc.shop, `<span class="availability__maps-shop">${loc.shop}</span>`),
+} : undefined;
 ---
 
-<div class="checkup">
-
-  <h3 class="checkup__title" id={`${loc.modalId}-title`}>
-    {t('catalog.modal.title')}
-  </h3>
-
-  {loc.modalContentKey && (
-    <Wysiwyg
-      class="checkup__description"
-      halved
-      set:html={t(loc.modalContentKey).replace('{item}', product.title)}
-    />
-  )}
-
-  {loc.mapsUrl && loc.modalMapsKey && (
-    <div class="checkup__location">
-      <Button
-        href={loc.mapsUrl}
-        target="_blank"
-      >
-        <span set:html={t(loc.modalMapsKey).replace(loc.shop, `<span class="checkup__maps-shop">${loc.shop}</span>`)} />
-        <Icon name="arrow_outward" />
-      </Button>
-    </div>
-  )}
-
-  {photoList.length > 0 && (
-    <h4 class="checkup__sub-header">
-      <span class="checkup__photo-title">
-        {formatAuditCalendarDate(auditDate, currentLang, loc.shop)}
-      </span>
-      {' '}
-      <span class="checkup__date" data-audit-relative={auditDate}>
-        ({formatAuditRelativeOnly(auditDate, currentLang)})
-      </span>
-    </h4>
-    <div class="checkup__gallery" data-checkup-photos>
-      {photoList.map((url, index) => (
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="checkup__item"
-          data-checkup-photo
-          data-index={index}
-          title={t('catalog.modal.photo_zoom_hint')}
-        >
-          <img
-            src={url}
-            alt={`${loc.shop} (${stockLoc?.lastCheckedAt || '2026-10-04'}) — ${index + 1}`}
-            class="checkup__image"
-            loading={index === 0 ? 'eager' : 'lazy'}
-          />
-        </a>
-      ))}
-    </div>
-  )}
-</div>
-
-<script>
-  import { initSimpleLightbox } from '../../utils';
-
-  initSimpleLightbox('[data-checkup-photos]', '[data-checkup-photo]');
-</script>
+<Availability
+  title={t('catalog.modal.title')}
+  titleId={`${loc.modalId}-title`}
+  contentHtml={t(loc.modalContentKey).replace('{item}', product.title)}
+  action={action}
+  gallery={gallery}
+/>

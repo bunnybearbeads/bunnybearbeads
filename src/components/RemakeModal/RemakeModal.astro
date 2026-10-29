@@ -1,10 +1,7 @@
 ---
 import HystModal from '../HystModal/HystModal.astro';
 import Window from '../Window/Window.astro';
-import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
-import Button from '../Button/Button.astro';
-import Icon from '../Icon/Icon.astro';
-import '../Checkup/Checkup.css';
+import Availability from '../Availability/Availability.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
@@ -24,8 +21,6 @@ const {
 } = Astro.props;
 
 const t = useTranslations(currentLang);
-const isResizableCategory = categoryId === 'bracelets' || categoryId === 'rings';
-
 const remakeUnit = {
   ru: 'дня',
   en: 'days',
@@ -35,34 +30,21 @@ const remakeUnit = {
 const remakeContent = t('catalog.modal.remake_content')
   .replace('{remakeDays}', remakeDays)
   .replace('{remakeUnit}', remakeUnit);
+
+const noteHtml = t('catalog.modal.remake_note');
 ---
 
 <HystModal id="modal-remake">
   <Window>
-    <div class="checkup">
-      <h3 class="checkup__title" id="modal-remake-title">
-        {t('catalog.modal.remake_title')}
-      </h3>
-
-      <Wysiwyg
-        class="checkup__description"
-        halved
-        set:html={remakeContent}
-      />
-
-      <div class="checkup__location checkup__location--remake">
-        <Button
-          href={siteSettings.contacts.telegramUrl}
-          target="_blank"
-        >
-          <span>{t('catalog.modal.remake_tg_button')}</span>
-          <Icon name="arrow_outward" />
-        </Button>
-      </div>
-
-      <Wysiwyg class="checkup__description" halved>
-        <p set:html={isResizableCategory ? t('catalog.modal.remake_note_resizable') : t('catalog.modal.remake_note_standard')} />
-      </Wysiwyg>
-    </div>
+    <Availability
+      title={t('catalog.modal.remake_title')}
+      titleId="modal-remake-title"
+      contentHtml={remakeContent}
+      action={{
+        href: siteSettings.contacts.telegramUrl,
+        label: t('catalog.modal.remake_tg_button'),
+      }}
+      noteHtml={noteHtml}
+    />
   </Window>
 </HystModal>

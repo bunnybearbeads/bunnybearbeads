@@ -1,0 +1,111 @@
+---
+import './Availability.css';
+import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
+import Button from '../Button/Button.astro';
+import Icon from '../Icon/Icon.astro';
+
+export interface AvailabilityAction {
+  href: string;
+  label: string;
+  target?: string;
+}
+
+export interface AvailabilityGallery {
+  photos: string[];
+  photoTitle: string;
+  auditDate: string;
+  relativeDate: string;
+  zoomHint?: string;
+  shopName?: string;
+}
+
+interface Props {
+  title: string;
+  titleId?: string;
+  contentHtml: string;
+  action?: AvailabilityAction;
+  noteHtml?: string;
+  gallery?: AvailabilityGallery;
+  class?: string;
+}
+
+const {
+  title,
+  titleId,
+  contentHtml,
+  action,
+  noteHtml,
+  gallery,
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={['availability', className]}>
+  <h3 class="availability__title" id={titleId}>
+    {title}
+  </h3>
+
+  <Wysiwyg
+    class="availability__description"
+    halved
+    set:html={contentHtml}
+  />
+
+  {action && (
+    <div class="availability__location">
+      <Button
+        href={action.href}
+        target={action.target ?? '_blank'}
+      >
+        <span set:html={action.label} />
+        <Icon name="arrow_outward" />
+      </Button>
+    </div>
+  )}
+
+  {noteHtml && (
+    <Wysiwyg class="availability__note" halved>
+      <p set:html={noteHtml} />
+    </Wysiwyg>
+  )}
+
+  {gallery && gallery.photos.length > 0 && (
+    <h4 class="availability__sub-header">
+      <span class="availability__photo-title">
+        {gallery.photoTitle}
+      </span>
+      {' '}
+      <span class="availability__date" data-audit-relative={gallery.auditDate}>
+        ({gallery.relativeDate})
+      </span>
+    </h4>
+    <div class="availability__gallery" data-availability-photos>
+      {gallery.photos.map((url, index) => (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="availability__item"
+          data-availability-photo
+          data-index={index}
+          title={gallery.zoomHint}
+        >
+          <img
+            src={url}
+            alt={`${gallery.shopName || ''} (${gallery.auditDate}) — ${index + 1}`}
+            class="availability__image"
+            loading={index === 0 ? 'eager' : 'lazy'}
+          />
+        </a>
+      ))}
+    </div>
+  )}
+</div>
+
+<script>
+  import { initSimpleLightbox } from '../../utils';
+
+  if (document.querySelector('[data-availability-photos]')) {
+    initSimpleLightbox('[data-availability-photos]', '[data-availability-photo]');
+  }
+</script>
