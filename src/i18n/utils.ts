@@ -116,18 +116,22 @@ export function formatAuditRelativeDate(
     const diffDays = Math.round((utcTarget - utcNow) / (1000 * 60 * 60 * 24));
 
     const rtf = new Intl.RelativeTimeFormat(lang, { numeric: 'always' });
+    const todayPart: Record<SupportedLanguage, string> = {
+      en: 'today',
+      ru: 'сегодня',
+      vi: 'hôm\u00A0nay',
+    };
     const relativePart =
       diffDays >= 0
-        ? lang === 'ru'
-          ? 'сегодня'
-          : lang === 'vi'
-            ? 'hôm\u00A0nay'
-            : 'today'
+        ? todayPart[lang]
         : rtf.format(diffDays, 'day').replace(/\s+/g, '\u00A0');
 
-    if (lang === 'ru') return `проверено\u00A0${relativePart}`;
-    if (lang === 'vi') return `kiểm\u00A0tra\u00A0${relativePart}`;
-    return `checked\u00A0${relativePart}`;
+    const checkedPrefix: Record<SupportedLanguage, string> = {
+      en: 'checked\u00A0',
+      ru: 'проверено\u00A0',
+      vi: 'kiểm\u00A0tra\u00A0',
+    };
+    return `${checkedPrefix[lang]}${relativePart}`;
   } catch {
     return dateStr;
   }
@@ -143,9 +147,12 @@ export function formatAuditCalendarDate(
   shopName?: string
 ): string {
   if (!dateStr) {
-    if (lang === 'ru') return shopName ? `Наличие в\u00A0${shopName} на\u00A0витрине` : 'Наличие на\u00A0витрине';
-    if (lang === 'vi') return shopName ? `Tình trạng tại\u00A0${shopName}` : 'Tình trạng tại\u00A0quầy';
-    return shopName ? `Stock at\u00A0${shopName}` : 'Showcase availability';
+    const fallbackTitle: Record<SupportedLanguage, string> = {
+      en: shopName ? `Stock at\u00A0${shopName}` : 'Showcase availability',
+      ru: shopName ? `Наличие в\u00A0${shopName} на\u00A0витрине` : 'Наличие на\u00A0витрине',
+      vi: shopName ? `Tình trạng tại\u00A0${shopName}` : 'Tình trạng tại\u00A0quầy',
+    };
+    return fallbackTitle[lang];
   }
   try {
     const target = new Date(`${dateStr}T00:00:00Z`);
@@ -158,19 +165,18 @@ export function formatAuditCalendarDate(
       timeZone: 'UTC',
     }).format(target).replace(/\s+/g, '\u00A0');
 
-    if (lang === 'ru') {
-      return shopName
+    const calendarTitle: Record<SupportedLanguage, string> = {
+      en: shopName
+        ? `Stock at\u00A0${shopName} as of\u00A0${dateFormatted}`
+        : `Stock as of\u00A0${dateFormatted}`,
+      ru: shopName
         ? `Наличие в\u00A0${shopName} на\u00A0${dateFormatted}`
-        : `Наличие на\u00A0${dateFormatted}`;
-    }
-    if (lang === 'vi') {
-      return shopName
+        : `Наличие на\u00A0${dateFormatted}`,
+      vi: shopName
         ? `Tình trạng tại\u00A0${shopName} ngày\u00A0${dateFormatted}`
-        : `Tình trạng ngày\u00A0${dateFormatted}`;
-    }
-    return shopName
-      ? `Stock at\u00A0${shopName} as of\u00A0${dateFormatted}`
-      : `Stock as of\u00A0${dateFormatted}`;
+        : `Tình trạng ngày\u00A0${dateFormatted}`,
+    };
+    return calendarTitle[lang];
   } catch {
     return dateStr;
   }
@@ -195,15 +201,21 @@ export function formatAuditRelativeOnly(
     const diffDays = Math.round((utcTarget - utcNow) / (1000 * 60 * 60 * 24));
 
     if (diffDays === 0) {
-      if (lang === 'ru') return 'сегодня';
-      if (lang === 'vi') return 'hôm\u00A0nay';
-      return 'today';
+      const todayMap: Record<SupportedLanguage, string> = {
+        en: 'today',
+        ru: 'сегодня',
+        vi: 'hôm\u00A0nay',
+      };
+      return todayMap[lang];
     }
 
     if (diffDays === -1) {
-      if (lang === 'ru') return 'вчера';
-      if (lang === 'vi') return 'hôm\u00A0qua';
-      return 'yesterday';
+      const yesterdayMap: Record<SupportedLanguage, string> = {
+        en: 'yesterday',
+        ru: 'вчера',
+        vi: 'hôm\u00A0qua',
+      };
+      return yesterdayMap[lang];
     }
 
     const rtf = new Intl.RelativeTimeFormat(lang, { numeric: 'always' });

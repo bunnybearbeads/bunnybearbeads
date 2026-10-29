@@ -94,171 +94,175 @@ export function formatTime12(hour: number): string {
 
 export function getCourierScheduleText(lang: 'ru' | 'en' | 'vi') {
   const { openHour, closeHour } = siteSettings.studio;
-  if (lang === 'en') {
-    return {
-      today: `Today before ${formatTime12(closeHour)}`,
-      morning: `Today ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
-      tomorrow: `Tomorrow ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
-    };
-  }
-  if (lang === 'vi') {
-    return {
-      today: `Hôm nay trước ${formatTime24(closeHour)}`,
-      morning: `Hôm nay ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
-      tomorrow: `Ngày mai ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
-    };
-  }
-  // ru
+  const schedule = {
+    today: {
+      en: `Today before ${formatTime12(closeHour)}`,
+      ru: `Сегодня до\u00A0${formatTime24(closeHour)}`,
+      vi: `Hôm nay trước ${formatTime24(closeHour)}`,
+    },
+    morning: {
+      en: `Today ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
+      ru: `Сегодня с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
+      vi: `Hôm nay ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
+    },
+    tomorrow: {
+      en: `Tomorrow ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
+      ru: `Завтра с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
+      vi: `Ngày mai ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
+    },
+  };
   return {
-    today: `Сегодня до\u00A0${formatTime24(closeHour)}`,
-    morning: `Сегодня с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
-    tomorrow: `Завтра с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
+    today: schedule.today[lang],
+    morning: schedule.morning[lang],
+    tomorrow: schedule.tomorrow[lang],
   };
 }
 
 export function getPickupScheduleText(lang: 'ru' | 'en' | 'vi') {
   const { openHour, closeHour } = siteSettings.studio;
-  if (lang === 'en') {
-    return {
-      today: `Today before ${formatTime12(closeHour)}`,
-      morning: `Today ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
-      tomorrow: `Tomorrow ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
-    };
-  }
-  if (lang === 'vi') {
-    return {
-      today: `Hôm nay trước ${formatTime24(closeHour)}`,
-      morning: `Hôm nay ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
-      tomorrow: `Ngày mai ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
-    };
-  }
-  // ru
+  const schedule = {
+    today: {
+      en: `Today before ${formatTime12(closeHour)}`,
+      ru: `Сегодня до\u00A0${formatTime24(closeHour)}`,
+      vi: `Hôm nay trước ${formatTime24(closeHour)}`,
+    },
+    morning: {
+      en: `Today ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
+      ru: `Сегодня с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
+      vi: `Hôm nay ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
+    },
+    tomorrow: {
+      en: `Tomorrow ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
+      ru: `Завтра с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
+      vi: `Ngày mai ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
+    },
+  };
   return {
-    today: `Сегодня до\u00A0${formatTime24(closeHour)}`,
-    morning: `Сегодня с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
-    tomorrow: `Завтра с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
+    today: schedule.today[lang],
+    morning: schedule.morning[lang],
+    tomorrow: schedule.tomorrow[lang],
   };
 }
 
 export function getPartnerShopHoursText(lang: 'ru' | 'en' | 'vi'): string {
   const { openHour, closeHour } = siteSettings.partnerShops;
-  if (lang === 'en') {
-    return `Any day ${formatTime12(openHour)} – ${formatTime12(closeHour)}`;
-  }
-  if (lang === 'vi') {
-    return `Mỗi ngày ${formatTime24(openHour)} – ${formatTime24(closeHour)}`;
-  }
-  // ru
-  return `В\u00A0любой день с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`;
+  const text = {
+    en: `Any day ${formatTime12(openHour)} – ${formatTime12(closeHour)}`,
+    ru: `В\u00A0любой день с\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)}`,
+    vi: `Mỗi ngày ${formatTime24(openHour)} – ${formatTime24(closeHour)}`,
+  };
+  return text[lang];
 }
 
 export function getPartnerShopModalHoursText(lang: 'ru' | 'en' | 'vi'): string {
   const { openHour, closeHour } = siteSettings.partnerShops;
-  if (lang === 'en') {
-    return `Daily from ${formatTime12(openHour)} to ${formatTime12(closeHour)}, no breaks or days off`;
-  }
-  if (lang === 'vi') {
-    return `Từ ${formatTime24(openHour)} đến ${formatTime24(closeHour)} hàng ngày, không nghỉ trưa`;
-  }
-  // ru
-  return `С\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)} без\u00A0обеда и\u00A0выходных`;
+  const text = {
+    en: `Daily from ${formatTime12(openHour)} to ${formatTime12(closeHour)}, no breaks or days off`,
+    ru: `С\u00A0${formatTime24(openHour)} до\u00A0${formatTime24(closeHour)} без\u00A0обеда и\u00A0выходных`,
+    vi: `Từ ${formatTime24(openHour)} đến ${formatTime24(closeHour)} hàng ngày, không nghỉ trưa`,
+  };
+  return text[lang];
 }
 
 export function getPartnerShopPaymentDetailsText(lang: 'ru' | 'en' | 'vi'): string {
-  if (lang === 'en') {
-    return 'Payment via cash, VietQR, and international cards';
-  }
-  if (lang === 'vi') {
-    return 'Thanh toán tiền mặt, VietQR và thẻ quốc tế';
-  }
-  // ru
-  return 'Оплата наличными, VietQR и\u00A0международными картами';
+  const text = {
+    en: 'Payment via cash, VietQR, and international cards',
+    ru: 'Оплата наличными, VietQR и\u00A0международными картами',
+    vi: 'Thanh toán tiền mặt, VietQR và thẻ quốc tế',
+  };
+  return text[lang];
 }
 
 export function getPaymentSuffixText(lang: 'ru' | 'en' | 'vi') {
-  if (lang === 'en') {
-    return {
-      receipt: 'on delivery',
-      pickup: 'in person',
-      checkout: 'at checkout',
-    };
-  }
-  if (lang === 'vi') {
-    return {
-      receipt: 'khi nhận',
-      pickup: 'tại chỗ',
-      checkout: 'tại quầy',
-    };
-  }
-  // ru
+  const suffix = {
+    receipt: {
+      en: 'on delivery',
+      ru: 'при\u00A0получении',
+      vi: 'khi nhận',
+    },
+    pickup: {
+      en: 'in person',
+      ru: 'на\u00A0месте',
+      vi: 'tại chỗ',
+    },
+    checkout: {
+      en: 'at checkout',
+      ru: 'на\u00A0кассе',
+      vi: 'tại quầy',
+    },
+  };
   return {
-    receipt: 'при\u00A0получении',
-    pickup: 'на\u00A0месте',
-    checkout: 'на\u00A0кассе',
+    receipt: suffix.receipt[lang],
+    pickup: suffix.pickup[lang],
+    checkout: suffix.checkout[lang],
   };
 }
 
 export function getPaymentNotesText(lang: 'ru' | 'en' | 'vi') {
-  if (lang === 'en') {
-    return {
-      delivery: 'Payment on delivery: cash or QR to courier',
-      courier: 'Payment on delivery: cash or QR to courier',
-      pickup: 'Cash or QR',
-      shop: 'Payment at checkout: cash, QR, or international card',
-    };
-  }
-  if (lang === 'vi') {
-    return {
-      delivery: 'Thanh toán khi nhận: tiền mặt hoặc QR cho shipper',
-      courier: 'Thanh toán khi nhận: tiền mặt hoặc QR cho shipper',
-      pickup: 'Tiền mặt hoặc QR',
-      shop: 'Thanh toán tại quầy: tiền mặt, QR hoặc thẻ quốc tế',
-    };
-  }
-  // ru
+  const notes = {
+    delivery: {
+      en: 'Payment on delivery: cash or QR to courier',
+      ru: 'Оплата при получении: наличными или QR курьеру',
+      vi: 'Thanh toán khi nhận: tiền mặt hoặc QR cho shipper',
+    },
+    courier: {
+      en: 'Payment on delivery: cash or QR to courier',
+      ru: 'Оплата при получении: наличными или QR курьеру',
+      vi: 'Thanh toán khi nhận: tiền mặt hoặc QR cho shipper',
+    },
+    pickup: {
+      en: 'Cash or QR',
+      ru: 'Наличными или QR',
+      vi: 'Tiền mặt или QR',
+    },
+    shop: {
+      en: 'Payment at checkout: cash, QR, or international card',
+      ru: 'Оплата на кассе: наличными, QR или международной картой',
+      vi: 'Thanh toán tại quầy: tiền mặt, QR hoặc thẻ quốc tế',
+    },
+  };
   return {
-    delivery: 'Оплата при получении: наличными или QR курьеру',
-    courier: 'Оплата при получении: наличными или QR курьеру',
-    pickup: 'Наличными или QR',
-    shop: 'Оплата на кассе: наличными, QR или международной картой',
+    delivery: notes.delivery[lang],
+    courier: notes.courier[lang],
+    pickup: notes.pickup[lang],
+    shop: notes.shop[lang],
   };
 }
 
 export function getDeliveryVietnamSubnote(lang: 'ru' | 'en' | 'vi', isRemake: boolean): string {
   const { vietnamShippingDays } = siteSettings.fulfillment;
-  if (lang === 'en') {
-    return isRemake
-      ? `${vietnamShippingDays}\u00A0days upon completion`
-      : `${vietnamShippingDays}\u00A0days`;
+  if (isRemake) {
+    const text = {
+      en: `${vietnamShippingDays}\u00A0days upon completion`,
+      ru: `${vietnamShippingDays}\u00A0дня после\u00A0плетения`,
+      vi: `${vietnamShippingDays}\u00A0ngày sau khi hoàn thành`,
+    };
+    return text[lang];
   }
-  if (lang === 'vi') {
-    return isRemake
-      ? `${vietnamShippingDays}\u00A0ngày sau khi hoàn thành`
-      : `${vietnamShippingDays}\u00A0ngày`;
-  }
-  // ru
-  return isRemake
-    ? `${vietnamShippingDays}\u00A0дня после\u00A0плетения`
-    : `${vietnamShippingDays}\u00A0дня`;
+  const text = {
+    en: `${vietnamShippingDays}\u00A0days`,
+    ru: `${vietnamShippingDays}\u00A0дня`,
+    vi: `${vietnamShippingDays}\u00A0ngày`,
+  };
+  return text[lang];
 }
 
 export function getRemakeStockPillText(lang: 'ru' | 'en' | 'vi') {
   const { remakeDays } = siteSettings.fulfillment;
-  if (lang === 'en') {
-    return {
-      label: 'Out of stock',
-      suffix: `·\u00A0Remake in ${remakeDays}\u00A0days`,
-    };
-  }
-  if (lang === 'vi') {
-    return {
-      label: 'Tạm hết hàng',
-      suffix: `·\u00A0Nhận làm trong ${remakeDays}\u00A0ngày`,
-    };
-  }
-  // ru
+  const pill = {
+    label: {
+      en: 'Out of stock',
+      ru: 'Нет в наличии',
+      vi: 'Tạm hết hàng',
+    },
+    suffix: {
+      en: `·\u00A0Remake in ${remakeDays}\u00A0days`,
+      ru: `·\u00A0Сплету повтор за\u00A0${remakeDays}\u00A0дня`,
+      vi: `·\u00A0Nhận làm trong ${remakeDays}\u00A0ngày`,
+    },
+  };
   return {
-    label: 'Нет в наличии',
-    suffix: `·\u00A0Сплету повтор за\u00A0${remakeDays}\u00A0дня`,
+    label: pill.label[lang],
+    suffix: pill.suffix[lang],
   };
 }
