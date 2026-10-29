@@ -178,7 +178,7 @@ export const ui = {
     'geo.workshop.dalat': 'Studio in Da Lat, Lam Vien',
     'catalog.modal.title': 'About the “last checked” date',
     'catalog.modal.nm_content': `
-      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span> is an authentic handmade shop in <span class="nobr">Da&nbsp;Nang</span> with actual shelves you can explore in person. Among indie perfumes, minerals, ceramics, and handcrafted leather accessories, you’ll find my corner as well. We sync up once a week to check what’s left in stock, and that's when I update the website. And this is what the “last checked” date refers to.</p>
+      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span> is an authentic handmade shop in <span class="nobr">Da&nbsp;Nang</span> with actual shelves you can explore in person. Among indie perfumes, minerals, ceramics, and woodwork, you’ll find my corner as well. We sync up once a week to check what’s left in stock, and that's when I update the website. And this is what the “last checked” date refers to.</p>
       <p>Beadwork moves at a rather calm pace, so for the first couple of days after an update, <strong>{item}</strong> is almost certainly waiting for you on the shelf. No\u00A0100% guarantee, of course, but <span class="nobr">NGÀY&nbsp;MAI</span> itself is well worth stopping by regardless!</p>
     `,
     'catalog.modal.stock_photo_title': 'Display photo ·',
@@ -194,6 +194,16 @@ export const ui = {
     `,
     'catalog.modal.catfood_maps': 'Cat\u00A0Food on Google Maps',
     'catalog.modal.close': 'Got it',
+    'catalog.remake_hint': 'Piece remake — click to learn more',
+    'catalog.modal.remake_title': 'How piece remakes work',
+    'catalog.modal.remake_content': `
+      <p>A remake is simpler than it sounds. Since I’ve already crafted this piece before, the design is ready, and the beads and threads are already matched. All that’s left is my favorite part: the weaving itself. And I’m good at it.</p>
+      <p>The estimated crafting time shown on the site is <strong>{remakeDays}&nbsp;{remakeUnit}</strong>. This estimate is based on my current order queue and typical crafting time. Delivery time is calculated separately.</p>
+      <p>However, we do need to double-check my stock of specific beads and findings. I do my best to keep supplies full (because the spice must flow ✦), and so far I’ve never had to decline a remake request.</p>
+    `,
+    'catalog.modal.remake_tg_button': 'Message on Telegram',
+    'catalog.modal.remake_note_resizable': 'Please note that this is a remake of an existing design, not a custom commission. We can certainly swap a clasp or adjust the length of the piece, but changing the color palette or revising the design is a much more complex task requiring an upfront deposit, as custom pieces cannot always be returned to the sales pool.',
+    'catalog.modal.remake_note_standard': 'Please note that this is a remake of an existing design, not a custom commission. We can certainly swap a clasp, but changing the color palette or revising the design is a much more complex task requiring an upfront deposit, as custom pieces cannot always be returned to the sales pool.',
 
     // Blog UI
     'blog.title': 'Beadwork Journal & Stories',
@@ -344,8 +354,8 @@ export const ui = {
     'geo.workshop.dalat': 'Мастерская в Далат, Ламвьен',
     'catalog.modal.title': 'Откуда берётся дата проверки',
     'catalog.modal.nm_content': `
-      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span>&nbsp;— это магазин аутентичного хендмейда с&nbsp;живой витриной в&nbsp;Дананге. Среди авторских духов, минералов, керамики и&nbsp;аксессуаров из&nbsp;кожи расположился и&nbsp;мой уголок. Раз в&nbsp;неделю мы сверяем наличие на&nbsp;стенде, и&nbsp;я&nbsp;обновляю сайт&nbsp;— это и&nbsp;есть дата проверки.</p>
-      <p>Хендмейд продаётся неторопливо, так что в&nbsp;первые дни после проверки <strong>{item}</strong> практически гарантированно на&nbsp;месте и&nbsp;ждёт вас. Без стопроцентной гарантии, конечно, но&nbsp;в&nbsp;любом случае <span class="nobr">Ngay&nbsp;Mai</span>&nbsp;— это само по&nbsp;себе прекрасное место, куда обязательно стоит заглянуть!</p>
+      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span>&nbsp;— это магазин аутентичного хендмейда с&nbsp;живой витриной в&nbsp;Дананге. Среди авторских духов, минералов, керамики и&nbsp;дерева расположился и&nbsp;мой уголок. Раз в&nbsp;неделю мы сверяем наличие на&nbsp;стенде, и&nbsp;я&nbsp;обновляю сайт&nbsp;— это и&nbsp;есть дата проверки.</p>
+      <p>Хендмейд продаётся неторопливо, так что в&nbsp;первые дни после проверки <strong>{item}</strong> практически гарантированно на&nbsp;месте и&nbsp;ждёт вас. Без стопроцентной гарантии, конечно, но&nbsp;в&nbsp;любом случае <span class="nobr">NGÀY&nbsp;MAI</span>&nbsp;— это само по&nbsp;себе прекрасное место, куда обязательно стоит заглянуть!</p>
     `,
     'catalog.modal.stock_photo_title': 'Фото витрины ·',
     'catalog.modal.photo_zoom_hint': 'Нажмите, чтобы открыть фото в полном размере',
@@ -360,6 +370,16 @@ export const ui = {
     `,
     'catalog.modal.catfood_maps': 'Cat\u00A0Food на\u00A0Google\u00A0Картах',
     'catalog.modal.close': 'Понятно 💖',
+    'catalog.remake_hint': 'Повтор изделия — нажмите, чтобы узнать подробнее',
+    'catalog.modal.remake_title': 'Как работает повтор изделия',
+    'catalog.modal.remake_content': `
+      <p>Повтор&nbsp;— это проще, чем кажется. Поскольку я&nbsp;это изделие уже плела в&nbsp;прошлом, у&nbsp;меня уже подобран или куплен дизайн, выбран бисер и&nbsp;нитки. Мне осталась только моя самая любимая часть: непосредственно плетение. И&nbsp;я&nbsp;в&nbsp;этом хороша.</p>
+      <p>Сейчас на&nbsp;сайте вы&nbsp;видите срок изготовления <strong>{remakeDays}&nbsp;{remakeUnit}</strong>. Эта цифра сгенерирована из&nbsp;моей текущей очереди заказов и&nbsp;примерного времени изготовления. Время доставки считается отдельно.</p>
+      <p>Но нам обязательно надо уточнить наличие у&nbsp;меня бисера и&nbsp;фурнитуры. Я&nbsp;стараюсь держать свои запасы наполненными (ведь spice must flow ✦), и&nbsp;пока что ещё ни&nbsp;разу не&nbsp;была в&nbsp;ситуации, когда пришлось отказать с&nbsp;повтором.</p>
+    `,
+    'catalog.modal.remake_tg_button': 'Написать в Telegram',
+    'catalog.modal.remake_note_resizable': 'Прошу обратить внимание, что это не&nbsp;кастомный заказ, а&nbsp;повтор по&nbsp;уже существующему дизайну. Мы, конечно, можем поменять замочек или изменить длину изделия, но&nbsp;смена палитры или доработка дизайна&nbsp;— это гораздо более трудоёмкая задача, за&nbsp;которую я&nbsp;беру предоплату, ведь кастомный товар не&nbsp;всегда можно вернуть в&nbsp;пул изделий для продажи.',
+    'catalog.modal.remake_note_standard': 'Прошу обратить внимание, что это не&nbsp;кастомный заказ, а&nbsp;повтор по&nbsp;уже существующему дизайну. Мы, конечно, можем поменять замочек, но&nbsp;смена палитры или доработка дизайна&nbsp;— это гораздо более трудоёмкая задача, за&nbsp;которую я&nbsp;беру предоплату, ведь кастомный товар не&nbsp;всегда можно вернуть в&nbsp;пул изделий для продажи.',
 
     // Blog UI
     'blog.title': 'Блог & Заметки мастера',
@@ -509,7 +529,7 @@ export const ui = {
     'geo.workshop.dalat': 'Xưởng tại Đà Lạt, Lâm Viên',
     'catalog.modal.title': 'Về ngày “kiểm tra” trên web',
     'catalog.modal.nm_content': `
-      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span> là một tiệm đồ thủ công rất xinh yêu ở <span class="nobr">Đà&nbsp;Nẵng</span>, nơi bạn có thể ghé tận nơi để sờ tận tay, ngắm tận mắt từng món trên kệ. Bên cạnh nước hoa indie, đá thiên nhiên, đồ gốm và đồ da thủ công, bạn cũng sẽ thấy một góc nhỏ của tụi mình ở&nbsp;đó.</p>
+      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span> là một tiệm đồ thủ công rất xinh yêu ở <span class="nobr">Đà&nbsp;Nẵng</span>, nơi bạn có thể ghé tận nơi để sờ tận tay, ngắm tận mắt từng món trên kệ. Bên cạnh nước hoa indie, đá thiên nhiên, đồ gốm và đồ gỗ, bạn cũng sẽ thấy một góc nhỏ của tụi mình ở&nbsp;đó.</p>
       <p>Tụi mình kiểm lại đồ trên kệ mỗi tuần một lần rồi mình mới cập nhật lên web&nbsp;— số lượng và ngày “kiểm tra” bạn thấy chính là từ lần đếm gần nhất&nbsp;đó.</p>
       <p>Đồ cườm bán ra cũng túc tắc thôi, nên tầm vài ngày đầu sau khi cập nhật thì <strong>{item}</strong> gần như chắc chắn vẫn còn trên kệ đợi bạn. Dù không dám hứa\u00A0100%, nhưng ghé <span class="nobr">NGÀY&nbsp;MAI</span> dạo chơi một vòng cũng rất thú vị&nbsp;nha!</p>
     `,
@@ -526,6 +546,16 @@ export const ui = {
     `,
     'catalog.modal.catfood_maps': 'Cat\u00A0Food trên Google Maps',
     'catalog.modal.close': 'Đã hiểu',
+    'catalog.remake_hint': 'Làm lại sản phẩm — bấm để xem chi tiết',
+    'catalog.modal.remake_title': 'Cách thức làm lại sản phẩm',
+    'catalog.modal.remake_content': `
+      <p>Làm lại một món đồ dễ hơn bạn nghĩ nhiều. Vì mình đã từng đan mẫu này trước đây, nên thiết kế đã có sẵn, hạt cườm và sợi chỉ cũng đã được lựa chọn chuẩn chỉnh. Mình chỉ việc tập trung vào phần yêu thích nhất: trực tiếp đan hạt. Và mình thực sự rất tỉ mỉ trong việc này.</p>
+      <p>Thời gian làm dự kiến trên website hiện tại là <strong>{remakeDays}&nbsp;{remakeUnit}</strong>. Con số này được tính toán dựa trên lượng đơn hàng đang chờ và thời gian đan thực tế. Thời gian giao hàng sẽ được tính riêng.</p>
+      <p>Dù vậy, tụi mình vẫn cần kiểm tra lại lượng cườm và phụ kiện hiện có trong xưởng. Mình luôn cố gắng giữ kho nguyên liệu thật đầy đặn (bởi vì “spice must flow” mà ✦), và từ trước tới nay chưa từng phải từ chối làm lại mẫu nào cả.</p>
+    `,
+    'catalog.modal.remake_tg_button': 'Nhắn tin qua Telegram',
+    'catalog.modal.remake_note_resizable': 'Xin lưu ý rằng đây là việc làm lại theo thiết kế có sẵn, không phải đơn đặt làm riêng (custom). Tụi mình hoàn toàn có thể đổi loại móc khóa hoặc điều chỉnh độ dài sản phẩm, nhưng việc thay đổi bảng màu hay tinh chỉnh thiết kế là công việc phức tạp hơn nhiều và cần đặt cọc trước, vì sản phẩm custom không phải lúc nào cũng có thể đưa lại vào kệ hàng chung để bán.',
+    'catalog.modal.remake_note_standard': 'Xin lưu ý rằng đây là việc làm lại theo thiết kế có sẵn, không phải đơn đặt làm riêng (custom). Tụi mình hoàn toàn có thể đổi loại móc khóa, nhưng việc thay đổi bảng màu hay tinh chỉnh thiết kế là công việc phức tạp hơn nhiều và cần đặt cọc trước, vì sản phẩm custom không phải lúc nào cũng có thể đưa lại vào kệ hàng chung để bán.',
 
     // Blog UI
     'blog.title': 'Nhật Ký Đan Cườm & Câu Chuyện',

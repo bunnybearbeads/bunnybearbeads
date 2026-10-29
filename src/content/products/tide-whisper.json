@@ -32,12 +32,10 @@
   "designedBy": "<a href=\"https://www.etsy.com\" target=\"_blank\" rel=\"noopener noreferrer\">BeadyourEarrings</a> (Etsy)",
   "stockLocations": [
     {
-      "locationId": "dalat",
-      "quantity": 1
+      "locationId": "dalat"
     },
     {
       "locationId": "ngay-mai",
-      "quantity": 2,
       "lastCheckedAt": "2026-10-05"
     },
     {

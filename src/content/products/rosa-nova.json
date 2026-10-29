@@ -33,12 +33,10 @@
   "stockLocations": [
     {
       "locationId": "ngay-mai",
-      "quantity": 1,
       "lastCheckedAt": "2026-10-04"
     },
     {
       "locationId": "cat-food",
-      "quantity": 1,
       "lastCheckedAt": "2026-10-02"
     },
     {

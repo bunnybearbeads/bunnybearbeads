@@ -32,8 +32,7 @@
   "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
   "stockLocations": [
     {
-      "locationId": "dalat",
-      "quantity": 2
+      "locationId": "dalat"
     },
     {
       "locationId": "online"

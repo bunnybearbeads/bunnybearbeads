@@ -7,6 +7,7 @@ import { getLocalizedUrl, useTranslations, formatAuditRelativeDate } from '../..
 import { siteSettings } from '../../config/siteSettings';
 import { LOCATIONS, getLocation } from '../../config/locations';
 import PartnerModals from './PartnerModals.astro';
+import RemakeModal from '../RemakeModal/RemakeModal.astro';
 import DottedTitle from '../DottedTitle/DottedTitle.astro';
 import Icon from '../Icon/Icon.astro';
 import Button from '../Button/Button.astro';
@@ -32,8 +33,8 @@ const dalatOffline = stockLocations.find((l: any) => l.meta.id === 'dalat');
 const otherOffline = stockLocations.filter((l: any) => l.meta.type === 'partner');
 const hasOnline = stockLocations.some((l: any) => l.meta.type === 'online') || stockLocations.length === 0;
 
-const isDalatInStock = dalatOffline ? (dalatOffline.quantity !== undefined && dalatOffline.quantity > 0) : false;
-const dalatLoc = dalatOffline || { locationId: 'dalat', quantity: 0, meta: LOCATIONS.dalat };
+const isDalatInStock = Boolean(dalatOffline);
+const dalatLoc = dalatOffline || { locationId: 'dalat', meta: LOCATIONS.dalat };
 
 const remakeDays = siteSettings.fulfillment.remakeDays;
 const remakeText = {
@@ -100,18 +101,25 @@ const remakeText = {
                   {t('catalog.pay_on_receipt')}
                 </span>
               </div>
-              <div class="option__quantity">
+              <div
+                class:list={[
+                  'option__quantity',
+                  !isDalatInStock && 'option__quantity--out-of-stock',
+                  !isDalatInStock && 'option__quantity--clickable',
+                ]}
+                data-hystmodal={!isDalatInStock ? '#modal-remake' : undefined}
+                role={!isDalatInStock ? 'button' : undefined}
+                title={!isDalatInStock ? t('catalog.remake_hint') : undefined}
+              >
                 {isDalatInStock ? (
-                  <>
-                    {dalatLoc.quantity}&nbsp;{t('catalog.pcs')}
-                    <span class="option__stock">{t('catalog.ready_to_ship')}</span>
-                  </>
+                  t('catalog.in_stock')
                 ) : (
                   <>
                     {t('catalog.remake_pill_label')}
                     <span class="option__stock option__stock--dotted">
                       {remakeText.action} <span class="option__preposition">{remakeText.prep} </span>{remakeDays}&nbsp;{remakeText.unit}
                     </span>
+                    <Icon class="option__help-icon" name="help" />
                   </>
                 )}
               </div>
@@ -147,18 +155,25 @@ const remakeText = {
                   {t('catalog.pay_on_receipt')}
                 </span>
               </div>
-              <div class="option__quantity">
+              <div
+                class:list={[
+                  'option__quantity',
+                  !isDalatInStock && 'option__quantity--out-of-stock',
+                  !isDalatInStock && 'option__quantity--clickable',
+                ]}
+                data-hystmodal={!isDalatInStock ? '#modal-remake' : undefined}
+                role={!isDalatInStock ? 'button' : undefined}
+                title={!isDalatInStock ? t('catalog.remake_hint') : undefined}
+              >
                 {isDalatInStock ? (
-                  <>
-                    {dalatLoc.quantity}&nbsp;{t('catalog.pcs')}
-                    <span class="option__stock">{t('catalog.ready_to_ship')}</span>
-                  </>
+                  t('catalog.in_stock')
                 ) : (
                   <>
                     {t('catalog.remake_pill_label')}
                     <span class="option__stock option__stock--dotted">
                       {remakeText.action} <span class="option__preposition">{remakeText.prep} </span>{remakeDays}&nbsp;{remakeText.unit}
                     </span>
+                    <Icon class="option__help-icon" name="help" />
                   </>
                 )}
               </div>
@@ -201,18 +216,25 @@ const remakeText = {
                   {t('catalog.pay_on_pickup')}
                 </span>
               </div>
-              <div class="option__quantity">
+              <div
+                class:list={[
+                  'option__quantity',
+                  !isDalatInStock && 'option__quantity--out-of-stock',
+                  !isDalatInStock && 'option__quantity--clickable',
+                ]}
+                data-hystmodal={!isDalatInStock ? '#modal-remake' : undefined}
+                role={!isDalatInStock ? 'button' : undefined}
+                title={!isDalatInStock ? t('catalog.remake_hint') : undefined}
+              >
                 {isDalatInStock ? (
-                  <>
-                    {dalatLoc.quantity}&nbsp;{t('catalog.pcs')}
-                    <span class="option__stock">{t('catalog.in_stock_suffix')}</span>
-                  </>
+                  t('catalog.in_stock')
                 ) : (
                   <>
                     {t('catalog.remake_pill_label')}
                     <span class="option__stock option__stock--dotted">
                       {remakeText.action} <span class="option__preposition">{remakeText.prep} </span>{remakeDays}&nbsp;{remakeText.unit}
                     </span>
+                    <Icon class="option__help-icon" name="help" />
                   </>
                 )}
               </div>
@@ -255,29 +277,25 @@ const remakeText = {
                       {t('catalog.pay_at_checkout')}
                     </span>
                   </div>
-                  {loc.quantity !== undefined && (
-                    <div
-                      class:list={[
-                        'option__quantity',
-                        isOfflineCheckup && 'option__quantity--clickable',
-                      ]}
-                      data-hystmodal={modalTarget}
-                      role={isOfflineCheckup ? 'button' : undefined}
-                      title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
-                    >
-                      {loc.quantity}&nbsp;{t('catalog.pcs')}
-                      {loc.lastCheckedAt ? (
-                        <>
-                          <span class="option__stock option__stock--dotted" data-audit-date={loc.lastCheckedAt}>
-                            {formatAuditRelativeDate(loc.lastCheckedAt, currentLang)}
-                          </span>
-                          <Icon class="option__help-icon" name="help" />
-                        </>
-                      ) : (
-                        <span class="option__stock">{t('catalog.in_stock_suffix')}</span>
-                      )}
-                    </div>
-                  )}
+                  <div
+                    class:list={[
+                      'option__quantity',
+                      isOfflineCheckup && 'option__quantity--clickable',
+                    ]}
+                    data-hystmodal={modalTarget}
+                    role={isOfflineCheckup ? 'button' : undefined}
+                    title={modalTarget ? t('catalog.weekly_audit_hint') : undefined}
+                  >
+                    {t('catalog.in_stock')}
+                    {loc.lastCheckedAt && (
+                      <>
+                        <span class="option__stock option__stock--dotted" data-audit-date={loc.lastCheckedAt}>
+                          {formatAuditRelativeDate(loc.lastCheckedAt, currentLang)}
+                        </span>
+                        <Icon class="option__help-icon" name="help" />
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             );
@@ -311,5 +329,14 @@ const remakeText = {
   currentLang={currentLang}
   stockLocations={rawStock}
 />
+
+{!isDalatInStock && (
+  <RemakeModal
+    product={product}
+    currentLang={currentLang}
+    categoryId={categoryId}
+    remakeDays={remakeDays}
+  />
+)}
 
 <script src="./productDetail.client.ts"></script>

@@ -32,8 +32,7 @@
   "designedBy": "<span>Perles & Co</span>",
   "stockLocations": [
     {
-      "locationId": "dalat",
-      "quantity": 2
+      "locationId": "dalat"
     },
     {
       "locationId": "online"

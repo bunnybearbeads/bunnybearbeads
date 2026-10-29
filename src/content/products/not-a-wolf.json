@@ -33,7 +33,6 @@
   "stockLocations": [
     {
       "locationId": "cat-food",
-      "quantity": 1,
       "lastCheckedAt": "2026-10-06"
     },
     {

@@ -328,7 +328,8 @@
 @media (width < 740px) {
 
   .product__details {
-
+    margin-left: calc(-1 * var(--container-padding));
+    margin-right: calc(-1 * var(--container-padding));
   }
 
   .product-info-panel {

@@ -32,12 +32,10 @@
   "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
   "stockLocations": [
     {
-      "locationId": "dalat",
-      "quantity": 1
+      "locationId": "dalat"
     },
     {
       "locationId": "ngay-mai",
-      "quantity": 2,
       "lastCheckedAt": "2026-10-05"
     },
     {

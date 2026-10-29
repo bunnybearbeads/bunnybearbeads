@@ -50,10 +50,6 @@
   "designedBy": "BunnyBearBeads",
   "stockLocations": [
     {
-      "locationId": "dalat",
-      "quantity": 0
-    },
-    {
       "locationId": "online"
     }
   ],

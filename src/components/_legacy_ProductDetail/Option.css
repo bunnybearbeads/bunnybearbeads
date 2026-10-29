@@ -108,7 +108,6 @@
             .option__stock--dotted {
 
             }
-
                 .option__stock--dotted::before {
                     content: "·";
                     margin-right: 5px;
@@ -125,6 +124,14 @@
                     opacity: 80%;
                     vertical-align: middle;
                 }
+
+        /* Чтобы сконцентрировать внимание на повторе, а не на отстутсвии наличия */
+        .option__quantity--out-of-stock {
+            font-weight: normal;
+        }
+            .option__quantity--out-of-stock .option__stock {
+                font-weight: bold;
+            }
 
 
 @media (1600px <= width),
