@@ -442,27 +442,8 @@
 }
 
 
-@media (width < 450px) {
+@media (width < 350px) {
     :lang(vi) .option__preposition {
-        display: none;
-    }
-}
-
-@media (width < 370px) {
-    :lang(ru) .option__preposition {
-        display: none;
-    }
-}
-
-@media (width < 360px) {
-    .option__quantity {
-        white-space: normal;
-        flex-wrap: wrap;
-    }
-}
-
-@media (width < 340px) {
-    :lang(en) .option__preposition {
         display: none;
     }
 }

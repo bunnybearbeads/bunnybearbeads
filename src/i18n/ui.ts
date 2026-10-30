@@ -683,13 +683,13 @@ export const translations = {
     vi: 'Đặt làm lại mẫu — bấm để xem chi tiết',
   },
   'catalog.modal.remake_title': {
-    en: 'How made-to-order repeats work',
+    en: 'How made-to-order remakes work',
     ru: 'Как работает повтор изделия',
     vi: 'Đặt làm lại một mẫu diễn ra thế nào?',
   },
   'catalog.modal.remake_content': {
     en: `
-      <p>A repeat is actually simpler than it sounds: the measurements are already done, the beads are chosen, the pattern is ready for weaving, and the design\u00A0— if it’s a paid one\u00A0— has already been purchased. All that’s left is my favorite part: the beading. And I’m good at it!</p>
+      <p>A remake is actually simpler than it sounds: the measurements are already done, the beads are chosen, the pattern is ready for weaving, and the design\u00A0— if it’s a paid one\u00A0— has already been purchased. All that’s left is my favorite part: the beading. And I’m good at it!</p>
       <p>But first, let's make sure I have the seed beads and findings on hand. That said, I do my best to keep everything well-stocked\u00A0— because, you know, the spice must flow ✧\u00A0— and I've never had to turn down a remake yet. Contact me to sort out the details:</p>
     `,
     ru: `
@@ -707,7 +707,7 @@ export const translations = {
     vi: 'Đặt làm',
   },
   'catalog.modal.remake_note': {
-    en: 'Kindly note: this isn’t a custom order, but a repeat along a path I’ve already walked. We can, of course, swap out the clasp or adjust the length, but changing the color palette or reworking the design would be a more involved project.',
+    en: 'Kindly note: this isn’t a custom order, but a remake along a path I’ve already walked. We can, of course, swap out the clasp or adjust the length, but changing the color palette or reworking the design would be a more involved project.',
     ru: 'Обратите внимание: это не&nbsp;индивидуальный заказ, а&nbsp;повтор по&nbsp;уже протоптанной тропинке. Мы, конечно, можем заменить замочек или скорректировать длину, но&nbsp;смена палитры или доработка дизайна&nbsp;— это, пожалуй, отдельная услуга.',
     vi: 'Bạn lưu ý một chút nha: đây là mẫu được làm, chứ không phải đơn đặt làm riêng (custom). Tụi mình hoàn toàn có thể đổi loại móc khóa hoặc chỉnh lại độ dài, nhưng nếu muốn đổi bảng màu hay biến tấu lại thiết kế thì sẽ tốn nhiều công sức hơn hẳn và tính như một đơn đặt riêng nhé.',
   },

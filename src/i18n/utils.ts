@@ -257,7 +257,7 @@ export function formatShowcaseStockQty(
     return `+${n}\u00A0more`;
   }
   if (lang === 'ru') return `${n}\u00A0шт`;
-  if (lang === 'vi') return `Còn ${n}\u00A0chiếc`;
+  if (lang === 'vi') return `${n}\u00A0chiếc`;
   return n === 1 ? '1\u00A0pc' : `${n}\u00A0pcs`;
 }
 
