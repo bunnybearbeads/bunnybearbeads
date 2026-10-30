@@ -443,8 +443,7 @@
 
 
 @media (width < 450px) {
-    :lang(vi) .option__preposition,
-    .option__context {
+    :lang(vi) .option__preposition {
         display: none;
     }
 }

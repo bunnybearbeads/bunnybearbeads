@@ -226,14 +226,14 @@ export function formatAuditRelativeOnly(
 }
 
 /**
- * Formats the studio ready stock badge parts (e.g. { qtyText: "1 шт.", suffix: "в наличии" }).
+ * Formats the studio ready stock badge parts (e.g. { qtyText: "1 шт", suffix: "в наличии" }).
  */
 export function formatStudioStockQty(
   qty: number,
   lang: SupportedLanguage = defaultLang
 ): { qtyText: string; suffix: string } {
   const n = Math.max(1, qty || 1);
-  if (lang === 'ru') return { qtyText: `${n}\u00A0шт.`, suffix: 'в\u00A0наличии' };
+  if (lang === 'ru') return { qtyText: `${n}\u00A0шт`, suffix: 'в\u00A0наличии' };
   if (lang === 'vi') return { qtyText: `${n}\u00A0chiếc`, suffix: 'có\u00A0sẵn' };
   return {
     qtyText: n === 1 ? '1\u00A0pc' : `${n}\u00A0pcs`,
@@ -243,24 +243,21 @@ export function formatStudioStockQty(
 
 /**
  * Formats a partner showcase stock badge text, explicitly distinguishing
- * additional physical copies ("Ещё 1 шт. на витрине") when another copy is already listed above.
+ * additional physical copies ("Ещё 1 шт") when another copy is already listed above.
  */
 export function formatShowcaseStockQty(
   qty: number,
   hasPriorReady: boolean,
   lang: SupportedLanguage = defaultLang
-): { main: string; context: string } {
+): string {
   const n = Math.max(1, qty || 1);
   if (hasPriorReady) {
-    if (lang === 'ru') return { main: `Ещё ${n}\u00A0шт.`, context: 'на\u00A0витрине' };
-    if (lang === 'vi') return { main: `Thêm ${n}\u00A0chiếc`, context: 'tại quầy' };
-    return { main: `+${n}\u00A0more`, context: 'on display' };
+    if (lang === 'ru') return `Ещё ${n}\u00A0шт`;
+    if (lang === 'vi') return `Thêm ${n}\u00A0chiếc`;
+    return `+${n}\u00A0more`;
   }
-  if (lang === 'ru') return { main: `${n}\u00A0шт.`, context: 'на\u00A0витрине' };
-  if (lang === 'vi') return { main: `Còn ${n}\u00A0chiếc`, context: 'tại quầy' };
-  return {
-    main: n === 1 ? '1\u00A0pc' : `${n}\u00A0pcs`,
-    context: 'on display',
-  };
+  if (lang === 'ru') return `${n}\u00A0шт`;
+  if (lang === 'vi') return `Còn ${n}\u00A0chiếc`;
+  return n === 1 ? '1\u00A0pc' : `${n}\u00A0pcs`;
 }
 

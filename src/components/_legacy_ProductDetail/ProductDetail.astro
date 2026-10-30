@@ -322,18 +322,14 @@ const remakeText = {
                 data-hystmodal={loc.modalTarget}
                 title={t('catalog.weekly_audit_hint')}
               >
-                <span>
-                  {loc.badgeText.main}<span class="option__context">{' '}{loc.badgeText.context}</span>
-                </span>{' '}<span class="option__stock option__stock--dotted" data-audit-date={loc.lastCheckedAt}>
+                {loc.badgeText}{' '}<span class="option__stock option__stock--dotted" data-audit-date={loc.lastCheckedAt}>
                   {formatAuditRelativeDate(loc.lastCheckedAt, currentLang)}
                 </span>
                 <Icon class="option__help-icon" name="help" />
               </button>
             ) : (
               <div class="option__quantity">
-                <span>
-                  {loc.badgeText.main}<span class="option__context">{' '}{loc.badgeText.context}</span>
-                </span>
+                {loc.badgeText}
               </div>
             )}
           </div>
