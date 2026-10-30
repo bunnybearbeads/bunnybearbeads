@@ -53,28 +53,32 @@
   font-family: var(--font-serif);
   font-size: 34px;
   color: var(--heading-color);
-  margin-bottom: 14px;
 }
 
 .product-price-large {
+  margin-top: 22px;
+  margin-bottom: 0;
   font-family: var(--font-serif);
   font-size: 32px;
   font-weight: 700;
   color: var(--accent-gold);
-  margin-bottom: 22px;
 }
 
 .product-description-text {
+  margin-top: 22px;
   font-size: 14.5px;
   color: var(--text-dark);
   line-height: 1.75;
-  margin-bottom: 22px;
   padding: 0;
   background: none;
 }
 
+.product__stock-heading {
+  margin-top: 32px;
+}
+
 .where-to-buy-section {
-  margin-bottom: 25px;
+
 }
 
 .where-to-buy-content {
@@ -183,16 +187,20 @@
 
   .product-price-large {
     font-size: 40px;
-    margin-bottom: 26px;
+    margin-top: 26px;
   }
 
   .product-description-text {
+    margin-top: 26px;
     font-size: 17.5px;
-    margin-bottom: 26px;
+  }
+
+  .product__stock-heading {
+    margin-top: 48px;
   }
 
   .where-to-buy-section {
-    margin-bottom: 31px;
+
   }
 
   .where-to-buy-content {

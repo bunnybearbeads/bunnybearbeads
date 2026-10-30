@@ -226,6 +226,16 @@ export const translations = {
     ru: 'Заказать в',
     vi: 'Đặt qua',
   },
+  'catalog.inquiry.order': {
+    en: 'Order',
+    ru: 'Заказать',
+    vi: 'Đặt mua',
+  },
+  'catalog.inquiry.via': {
+    en: 'via',
+    ru: 'в',
+    vi: 'qua',
+  },
   'catalog.view_details': {
     en: 'View Details',
     ru: 'Подробнее',

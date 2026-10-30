@@ -20,6 +20,7 @@ import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 import Icon from '../Icon/Icon.astro';
 import Button from '../Button/Button.astro';
 import Link from '../Link/Link.astro';
+import DottedTitle from "@/components/DottedTitle/DottedTitle.astro";
 
 interface Props {
   product: any;
@@ -132,6 +133,17 @@ const remakeText = {
 
   <div class="product-price-large">
     {Number(product.price).toLocaleString('vi-VN')} {product.currency || 'VND'}
+  </div>
+
+  <div class="cta-buttons product-cta-buttons">
+    <Inquiry
+        currentLang={currentLang}
+        productTitle={product.title}
+    />
+  </div>
+
+  <div class="product__stock-heading">
+    <DottedTitle>Наличие</DottedTitle>
   </div>
 
   <!-- Physical Copies & Fulfillment Section -->
@@ -377,13 +389,6 @@ const remakeText = {
     </div>
   </div>
 
-  <div class="cta-buttons product-cta-buttons">
-    <Inquiry
-      currentLang={currentLang}
-      productTitle={product.title}
-      size="larger"
-    />
-  </div>
 </div>
 
 <PartnerModals

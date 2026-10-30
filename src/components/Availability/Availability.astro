@@ -15,7 +15,6 @@ export interface AvailabilityAction {
 export interface AvailabilityInquiry {
   currentLang: SupportedLanguage;
   productTitle?: string;
-  size?: 'smaller' | 'larger';
 }
 
 export interface AvailabilityGallery {
@@ -66,7 +65,6 @@ const {
       <Inquiry
         currentLang={inquiry.currentLang}
         productTitle={inquiry.productTitle}
-        size={inquiry.size}
       />
     </div>
   ) : action ? (

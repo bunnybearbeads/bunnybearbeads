@@ -9,14 +9,12 @@ import { siteSettings } from '../../config/siteSettings';
 export interface Props {
   currentLang: SupportedLanguage;
   productTitle?: string;
-  size?: 'smaller' | 'larger';
   class?: string;
 }
 
 const {
   currentLang,
   productTitle,
-  size,
   class: className,
 } = Astro.props;
 
@@ -73,21 +71,24 @@ const orderedMessengers = [...messengersData].sort((a, b) => {
 
 <div class:list={['inquiry', className]} role="group" aria-label={t('catalog.order_piece')}>
   {orderedMessengers.map((item) => {
-    const label = `${t('catalog.inquiry.order_via')} ${item.name}`;
+    const fullLabel = `${t('catalog.inquiry.order_via')} ${item.name}`;
     return (
       <Button
         href={item.url}
         target="_blank"
-        size={size}
         square={!item.isHighlighted}
-        aria-label={!item.isHighlighted ? label : undefined}
-        title={label}
+        aria-label={!item.isHighlighted ? fullLabel : undefined}
+        title={fullLabel}
       >
         <AltIcon
           src={item.icon}
           alt=""
         />
-        {item.isHighlighted && label}
+        {item.isHighlighted && (
+          <span class="inquiry__label">
+            {t('catalog.inquiry.order')}<span class="inquiry__channel"> {t('catalog.inquiry.via')} {item.name}</span>
+          </span>
+        )}
       </Button>
     );
   })}
