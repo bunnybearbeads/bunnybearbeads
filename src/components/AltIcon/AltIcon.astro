@@ -4,8 +4,6 @@ import './AltIcon.css';
 interface Props {
   src?: string;
   name?: string;
-  outline?: boolean;
-  messenger?: string | boolean;
   alt?: string;
   class?: string;
   width?: number | string;
@@ -17,8 +15,6 @@ interface Props {
 const {
   src,
   name,
-  outline = false,
-  messenger,
   alt = '',
   class: className,
   width,
@@ -27,7 +23,6 @@ const {
   ...rest
 } = Astro.props;
 
-const isOutline = outline || messenger === 'messenger' || messenger === 'facebook';
 const resolvedSrc = src ?? (name ? `/images/messengers/${name}.svg` : undefined);
 ---
 
@@ -36,7 +31,7 @@ const resolvedSrc = src ?? (name ? `/images/messengers/${name}.svg` : undefined)
   alt={alt}
   class:list={[
     'alt-icon',
-    isOutline && 'alt-icon--outline',
+    name && `alt-icon--${name}`,
     className,
   ]}
   width={width}
