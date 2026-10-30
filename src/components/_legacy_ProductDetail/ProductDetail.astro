@@ -15,6 +15,7 @@ import { siteSettings } from '../../config/siteSettings';
 import { LOCATIONS, getLocation } from '../../config/locations';
 import PartnerModals from './PartnerModals.astro';
 import RemakeModal from '../RemakeModal/RemakeModal.astro';
+import Inquiry from '../Inquiry/Inquiry.astro';
 import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 import Icon from '../Icon/Icon.astro';
 import Button from '../Button/Button.astro';
@@ -377,13 +378,11 @@ const remakeText = {
   </div>
 
   <div class="cta-buttons product-cta-buttons">
-    <Button
-      href="https://t.me/bunnybearbeads"
-      target="_blank"
-      larger
-    >
-      <span aria-hidden="true">✈️</span> {t('catalog.order_piece')} (Telegram)
-    </Button>
+    <Inquiry
+      currentLang={currentLang}
+      productTitle={product.title}
+      size="larger"
+    />
   </div>
 </div>
 

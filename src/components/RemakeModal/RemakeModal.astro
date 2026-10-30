@@ -40,9 +40,9 @@ const noteHtml = t('catalog.modal.remake_note');
       title={t('catalog.modal.remake_title')}
       titleId="modal-remake-title"
       contentHtml={remakeContent}
-      action={{
-        href: siteSettings.contacts.telegramUrl,
-        label: t('catalog.modal.remake_tg_button'),
+      inquiry={{
+        currentLang,
+        productTitle: product.title,
       }}
       noteHtml={noteHtml}
     />

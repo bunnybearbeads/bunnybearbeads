@@ -3,11 +3,18 @@ import './Availability.css';
 import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 import Button from '../Button/Button.astro';
 import Icon from '../Icon/Icon.astro';
+import Inquiry from '../Inquiry/Inquiry.astro';
+import { type SupportedLanguage } from '../../i18n/ui';
 
 export interface AvailabilityAction {
   href: string;
   label: string;
   target?: string;
+}
+
+export interface AvailabilityInquiry {
+  currentLang: SupportedLanguage;
+  productTitle?: string;
 }
 
 export interface AvailabilityGallery {
@@ -24,6 +31,7 @@ interface Props {
   titleId?: string;
   contentHtml: string;
   action?: AvailabilityAction;
+  inquiry?: AvailabilityInquiry;
   noteHtml?: string;
   gallery?: AvailabilityGallery;
   class?: string;
@@ -34,6 +42,7 @@ const {
   titleId,
   contentHtml,
   action,
+  inquiry,
   noteHtml,
   gallery,
   class: className,
@@ -51,7 +60,15 @@ const {
     set:html={contentHtml}
   />
 
-  {action && (
+  {inquiry ? (
+    <div class="availability__location">
+      <Inquiry
+        currentLang={inquiry.currentLang}
+        productTitle={inquiry.productTitle}
+        size="smaller"
+      />
+    </div>
+  ) : action ? (
     <div class="availability__location">
       <Button
         href={action.href}
@@ -61,7 +78,7 @@ const {
         <Icon name="arrow_outward" />
       </Button>
     </div>
-  )}
+  ) : null}
 
   {noteHtml && (
     <Wysiwyg class="availability__note" halved>
