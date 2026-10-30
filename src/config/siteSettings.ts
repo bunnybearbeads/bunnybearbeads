@@ -44,8 +44,12 @@ export interface SiteSettings {
   contacts: {
     telegramUrl: string;
     telegramHandle: string;
-    whatsappUrl: string;
+    messengerUrl: string;
+    messengerHandle?: string;
+    whatsappUrl?: string;
+    whatsappHandle?: string;
     zaloUrl: string;
+    zaloHandle?: string;
   };
 }
 
@@ -76,8 +80,12 @@ export const siteSettings: SiteSettings = {
   contacts: {
     telegramUrl: 'https://t.me/bunnybearbeads',
     telegramHandle: '@bunnybearbeads',
+    messengerUrl: 'https://m.me/bunnybearbeads',
+    messengerHandle: 'bunnybearbeads',
     whatsappUrl: 'https://wa.me/message/bunnybearbeads',
+    whatsappHandle: 'bunnybearbeads',
     zaloUrl: 'https://zalo.me/bunnybearbeads',
+    zaloHandle: 'bunnybearbeads',
   },
 };
 

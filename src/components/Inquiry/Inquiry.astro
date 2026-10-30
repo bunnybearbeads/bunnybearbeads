@@ -2,6 +2,7 @@
 import './Inquiry.css';
 import Button from '../Button/Button.astro';
 import AltIcon from '../AltIcon/AltIcon.astro';
+import QrModal from '../QrModal/QrModal.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
@@ -10,20 +11,22 @@ export interface Props {
   currentLang: SupportedLanguage;
   productTitle?: string;
   class?: string;
+  withModals?: boolean;
 }
 
 const {
   currentLang,
   productTitle,
   class: className,
+  withModals = true,
 } = Astro.props;
 
 const t = useTranslations(currentLang);
 
-type MessengerKey = 'whatsapp' | 'telegram' | 'zalo';
+type MessengerKey = 'messenger' | 'telegram' | 'zalo';
 
 const priorityByLang: Record<SupportedLanguage, MessengerKey> = {
-  en: 'whatsapp',
+  en: 'messenger',
   ru: 'telegram',
   vi: 'zalo',
 };
@@ -33,8 +36,11 @@ const highlightedKey = priorityByLang[currentLang] ?? 'telegram';
 interface MessengerItem {
   id: MessengerKey;
   name: string;
+  modalId: string;
   url: string;
   icon: string;
+  qrImage: string;
+  username: string;
   isHighlighted: boolean;
 }
 
@@ -42,22 +48,31 @@ const messengersData: MessengerItem[] = [
   {
     id: 'telegram',
     name: 'Telegram',
+    modalId: 'qr-modal-telegram',
     url: siteSettings.contacts.telegramUrl,
     icon: '/images/messengers/telegram.svg',
+    qrImage: '/images/qr/telegram.svg',
+    username: siteSettings.contacts.telegramHandle || 'bunnybearbeads',
     isHighlighted: highlightedKey === 'telegram',
   },
   {
-    id: 'whatsapp',
-    name: 'WhatsApp',
-    url: siteSettings.contacts.whatsappUrl,
-    icon: '/images/messengers/whatsapp.svg',
-    isHighlighted: highlightedKey === 'whatsapp',
+    id: 'messenger',
+    name: 'Messenger',
+    modalId: 'qr-modal-messenger',
+    url: siteSettings.contacts.messengerUrl,
+    icon: '/images/messengers/messenger.svg',
+    qrImage: '/images/qr/messenger.svg',
+    username: siteSettings.contacts.messengerHandle || 'bunnybearbeads',
+    isHighlighted: highlightedKey === 'messenger',
   },
   {
     id: 'zalo',
     name: 'Zalo',
+    modalId: 'qr-modal-zalo',
     url: siteSettings.contacts.zaloUrl,
     icon: '/images/messengers/zalo.svg',
+    qrImage: '/images/qr/zalo.svg',
+    username: siteSettings.contacts.zaloHandle || 'bunnybearbeads',
     isHighlighted: highlightedKey === 'zalo',
   },
 ];
@@ -74,8 +89,7 @@ const orderedMessengers = [...messengersData].sort((a, b) => {
     const fullLabel = `${t('catalog.inquiry.order_via')} ${item.name}`;
     return (
       <Button
-        href={item.url}
-        target="_blank"
+        data-hystmodal={`#${item.modalId}`}
         square={!item.isHighlighted}
         aria-label={!item.isHighlighted ? fullLabel : undefined}
         title={fullLabel}
@@ -93,3 +107,14 @@ const orderedMessengers = [...messengersData].sort((a, b) => {
     );
   })}
 </div>
+
+{withModals && messengersData.map((item) => (
+  <QrModal
+    id={item.modalId}
+    messenger={item.id}
+    name={item.name}
+    qrImage={item.qrImage}
+    username={item.username}
+    link={item.url}
+  />
+))}

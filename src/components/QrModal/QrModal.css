@@ -1,0 +1,177 @@
+/* Consts */
+
+/* Telegram EN (Summer / Beach) */
+#qr-modal-telegram,
+.qr-modal--telegram,
+.qr-modal--qr-modal-telegram {
+    --theme-gradient:
+        radial-gradient(at 0% 0%, #F7C495 0%, transparent 70%),
+        radial-gradient(at 100% 0%, #FFBBA7 0%, transparent 70%),
+        radial-gradient(at 100% 100%, #48CAE4 0%, transparent 70%),
+        radial-gradient(at 0% 100%, #48E5C2 0%, transparent 70%);
+    --theme-bg-color: #48E5C2;
+    --theme-accent-color: #48CAE4;
+    --theme-pattern: url('./beach-fixed-edges.svg');
+}
+
+/* Messenger */
+#qr-modal-messenger,
+.qr-modal--messenger,
+.qr-modal--qr-modal-messenger {
+    --theme-gradient: linear-gradient(135deg, #0099FF 0%, #A033FF 70%, #FF5280 100%);
+    --theme-bg-color: #0084FF;
+    --theme-accent-color: #0084FF;
+    --theme-pattern: none;
+}
+
+/* WhatsApp */
+#qr-modal-whatsapp,
+.qr-modal--whatsapp,
+.qr-modal--qr-modal-whatsapp {
+    --theme-gradient: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    --theme-bg-color: #25D366;
+    --theme-accent-color: #128C7E;
+    --theme-pattern: none;
+}
+
+/* Zalo */
+#qr-modal-zalo,
+.qr-modal--zalo,
+.qr-modal--qr-modal-zalo {
+    --theme-gradient: linear-gradient(135deg, #0088FF 0%, #0055D4 100%);
+    --theme-bg-color: #0068FF;
+    --theme-accent-color: #0055D4;
+    --theme-pattern: none;
+}
+
+/* Code */
+
+.hystmodal:has(.qr-modal)::before,
+.hystmodal:has(.qr-modal-telegram)::before {
+    background-image:
+        var(--theme-pattern),
+        var(--theme-gradient);
+    background-position: center center, 0 0, 0 0, 0 0, 0 0;
+    background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+    background-size: 420px auto, cover, cover, cover, cover;
+    background-blend-mode: soft-light, normal, normal, normal, normal;
+    background-color: var(--theme-bg-color) !important;
+}
+
+.hystmodal--active:has(.qr-modal)::before,
+.hystmodal--active:has(.qr-modal-telegram)::before {
+    opacity: 100% !important;
+}
+
+.hystmodal__window:has(.qr-modal),
+.hystmodal__window:has(.qr-modal-telegram) {
+    width: 300px;
+    border-top: 74px solid transparent; /* Компенсируем отрицательный маргин */
+}
+
+@media (width < 400px) {
+    .hystmodal__window:has(.qr-modal),
+    .hystmodal__window:has(.qr-modal-telegram) {
+        width: calc(100% - 2 * var(--container-padding));
+    }
+}
+
+.hystmodal__window:has(.qr-modal) .window,
+.hystmodal__window:has(.qr-modal-telegram) .window {
+    border-radius: 44px;
+    corner-shape: superellipse(1.3);
+}
+
+.hystmodal__window:has(.qr-modal) .window__body,
+.hystmodal__window:has(.qr-modal-telegram) .window__body {
+    padding: 16px 16px 20px;
+}
+
+.hystmodal__window:has(.qr-modal) .window__close,
+.hystmodal__window:has(.qr-modal-telegram) .window__close {
+    width: 60px;
+    height: 60px;
+}
+
+.hystmodal__window:has(.qr-modal) .window__close .icon,
+.hystmodal__window:has(.qr-modal-telegram) .window__close .icon {
+    background-image: var(--theme-gradient);
+    background-color: var(--theme-bg-color);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.qr-modal,
+.qr-modal-telegram {
+    text-align: center;
+}
+
+.qr-modal__logo,
+.qr-modal-telegram__logo {
+    display: block;
+    margin: -124px auto 0;
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    border: 4px solid #ffffff;
+    background-color: var(--image-fallback);
+    object-fit: cover;
+}
+
+.qr-modal__image,
+.qr-modal-telegram__image {
+    display: block;
+    margin: 12px auto 0;
+    width: 206px;
+    height: 206px;
+    object-position: -9999px;
+    background-image: var(--theme-gradient);
+    background-color: var(--theme-bg-color);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+@supports not ((-webkit-mask-image: url("")) or (mask-image: url(""))) {
+    .qr-modal__image,
+    .qr-modal-telegram__image {
+        object-position: center;
+        background: transparent;
+    }
+}
+
+.qr-modal__username,
+.qr-modal-telegram__username {
+    display: block;
+    width: fit-content;
+    margin: 15px auto 0;
+    padding: 4px 0;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 28px;
+    letter-spacing: -0.25px;
+    text-transform: uppercase;
+    text-decoration: none;
+    background-image: var(--theme-gradient);
+    background-color: var(--theme-bg-color);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.qr-modal__hover,
+.qr-modal-telegram__hover {
+    text-decoration: 1.6px underline transparent;
+    text-underline-offset: 4px;
+}
+
+.qr-modal__username:hover .qr-modal__hover,
+.qr-modal-telegram__username:hover .qr-modal-telegram__hover {
+    text-decoration-color: var(--theme-accent-color);
+}

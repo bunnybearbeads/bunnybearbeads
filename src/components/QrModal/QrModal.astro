@@ -1,0 +1,65 @@
+---
+import './QrModal.css';
+import beachSvg from './beach-fixed-edges.svg?url';
+import HystModal from '../HystModal/HystModal.astro';
+import Window from '../Window/Window.astro';
+
+export interface Props {
+  id: string;
+  name: string;
+  messenger?: 'telegram' | 'messenger' | 'whatsapp' | 'zalo' | string;
+  qrImage: string;
+  username: string;
+  link: string;
+  logoSrc?: string;
+  usernameFontSize?: number;
+}
+
+const {
+  id,
+  name,
+  messenger,
+  qrImage,
+  username,
+  link,
+  logoSrc = '/logo_icon.png',
+  usernameFontSize = 22,
+} = Astro.props;
+
+const messengerKey = messenger || id.replace(/^qr-modal-/, '').replace(/^modal-qr-/, '');
+const displayUsername = username.startsWith('@') ? username.slice(1) : username;
+const isTelegram = messengerKey === 'telegram';
+---
+
+{isTelegram && (
+  <link rel="preload" href={beachSvg} as="image" type="image/svg+xml" />
+)}
+
+<HystModal id={id}>
+  <Window>
+    <div class:list={['qr-modal', `qr-modal--${messengerKey}`, id && `qr-modal--${id}`, isTelegram && 'qr-modal-telegram']}>
+      <img
+        class="qr-modal__logo qr-modal-telegram__logo"
+        src={logoSrc}
+        width="108"
+        height="108"
+        alt="BunnyBearBeads Logo"
+      />
+      <img
+        class="qr-modal__image qr-modal-telegram__image"
+        src={qrImage}
+        alt={`QR code for ${name}`}
+        style={`-webkit-mask-image: url(${qrImage}); mask-image: url(${qrImage});`}
+      />
+      <a
+        class="qr-modal__username qr-modal-telegram__username"
+        style={`font-size: ${usernameFontSize}px;`}
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        @<span class="qr-modal__hover qr-modal-telegram__hover">{displayUsername}</span>
+      </a>
+    </div>
+  </Window>
+</HystModal>
