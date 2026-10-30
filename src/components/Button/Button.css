@@ -80,7 +80,8 @@
 
 
 /* Icon support */
-.button .icon {
+.button .icon,
+.button .alt-icon {
     vertical-align: middle;
     font-size: 20px;
     line-height: 1;
@@ -92,17 +93,21 @@
     justify-content: center;
 }
 
-.button--smaller .icon {
+.button--smaller .icon,
+.button--smaller .alt-icon {
     font-size: 16px;
     width: 16px;
     height: 16px;
 }
 
-.button--larger .icon {
+.button--larger .icon,
+.button--larger .alt-icon {
     font-size: 22px;
     width: 22px;
     height: 22px;
 }
+
+
 
 
 
@@ -131,19 +136,22 @@
         gap: 12px;
     }
 
-    .button .icon {
+    .button .icon,
+    .button .alt-icon {
         font-size: 22px;
         width: 22px;
         height: 22px;
     }
 
-    .button--smaller .icon {
+    .button--smaller .icon,
+    .button--smaller .alt-icon {
         font-size: 18px;
         width: 18px;
         height: 18px;
     }
 
-    .button--larger .icon {
+    .button--larger .icon,
+    .button--larger .alt-icon {
         font-size: 24px;
         width: 24px;
         height: 24px;

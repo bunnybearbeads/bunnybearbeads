@@ -1,6 +1,11 @@
 .inquiry {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    gap: 8px;
 }
+    .inquiry .button .alt-icon {
+        scale: 120%;
+    }
+
+    .inquiry .button:not(.button--square) .alt-icon {
+        margin-left: -6px;
+    }

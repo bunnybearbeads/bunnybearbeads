@@ -1,0 +1,38 @@
+---
+import './AltIcon.css';
+
+interface Props {
+  src?: string;
+  name?: string;
+  alt?: string;
+  class?: string;
+  width?: number | string;
+  height?: number | string;
+  'aria-hidden'?: 'true' | 'false' | boolean;
+  [key: string]: unknown;
+}
+
+const {
+  src,
+  name,
+  alt = '',
+  class: className,
+  width,
+  height,
+  'aria-hidden': ariaHidden = 'true',
+  ...rest
+} = Astro.props;
+
+const resolvedSrc = src ?? (name ? `/images/messengers/${name}.svg` : undefined);
+---
+
+<img
+  src={resolvedSrc}
+  alt={alt}
+  class:list={['alt-icon', className]}
+  width={width}
+  height={height}
+  aria-hidden={ariaHidden}
+  loading="lazy"
+  {...rest}
+/>
