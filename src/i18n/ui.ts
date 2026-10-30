@@ -573,10 +573,10 @@ export const translations = {
     ru: 'самовывоз из\u00A0мастерской',
     vi: 'nhận tại studio',
   },
-  'geo.at_workshop_suffix': {
-    en: 'at the studio',
-    ru: 'в\u00A0мастерской',
-    vi: 'tại xưởng',
+  'catalog.studio_card_title': {
+    en: 'Studio in\u00A0Da\u00A0Lat',
+    ru: 'Мастерская в\u00A0Далате',
+    vi: 'Xưởng tại\u00A0Đà\u00A0Lạt',
   },
   'catalog.studio_remake_label': {
     en: 'None ready',
@@ -584,9 +584,9 @@ export const translations = {
     vi: 'Chưa có sẵn',
   },
   'catalog.pickup_studio_title': {
-    en: 'Studio pickup',
-    ru: 'Самовывоз из\u00A0мастерской',
-    vi: 'Nhận trực tiếp tại xưởng',
+    en: 'Self-pickup\u00A0— Da\u00A0Lat, Lam\u00A0Vien',
+    ru: 'Самовывоз\u00A0— Далат, Ламвьен',
+    vi: 'Nhận trực tiếp\u00A0— Đà\u00A0Lạt, Lâm\u00A0Viên',
   },
   'catalog.pay_in_store_checkout': {
     en: 'at\u00A0checkout',
