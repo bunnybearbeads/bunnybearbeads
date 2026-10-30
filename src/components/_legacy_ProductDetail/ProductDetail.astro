@@ -166,40 +166,6 @@ const remakeText = {
               <Icon class="option__help-icon" name="help" />
             </button>
           )}
-
-          {(dalatLoc.noteHtml || dalatLoc.images.length > 0) && (
-            <div class="option__details">
-              {dalatLoc.noteHtml && (
-                <Wysiwyg
-                  class="option__description"
-                  smaller
-                  halved
-                  set:html={dalatLoc.noteHtml}
-                />
-              )}
-              {dalatLoc.images.length > 0 && (
-                <div class="option__gallery" data-option-photos>
-                  {dalatLoc.images.map((img: NormalizedLocationImage) => (
-                    <a
-                      href={img.src}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="option__photo"
-                      data-option-photo
-                      title={t('catalog.modal.photo_zoom_hint')}
-                    >
-                      <img
-                        src={img.src}
-                        alt={img.alt}
-                        class="option__image"
-                        loading="lazy"
-                      />
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
         </div>
 
         <div class="option__fulfillment">
@@ -279,6 +245,40 @@ const remakeText = {
             </li>
           </ul>
         </div>
+
+        {(dalatLoc.noteHtml || dalatLoc.images.length > 0) && (
+          <div class="option__details">
+            {dalatLoc.noteHtml && (
+              <Wysiwyg
+                class="option__description"
+                smaller
+                halved
+                set:html={dalatLoc.noteHtml}
+              />
+            )}
+            {dalatLoc.images.length > 0 && (
+              <div class="option__gallery" data-option-photos>
+                {dalatLoc.images.map((img: NormalizedLocationImage) => (
+                  <a
+                    href={img.src}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="option__photo"
+                    data-option-photo
+                    title={t('catalog.modal.photo_zoom_hint')}
+                  >
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      class="option__image"
+                      loading="lazy"
+                    />
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Partner Showcase Physical Copies */}
@@ -336,41 +336,41 @@ const remakeText = {
                 </span>
               </div>
             )}
-
-            {(loc.noteHtml || loc.images.length > 0) && (
-              <div class="option__details">
-                {loc.noteHtml && (
-                  <Wysiwyg
-                    class="option__description"
-                    smaller
-                    halved
-                    set:html={loc.noteHtml}
-                  />
-                )}
-                {loc.images.length > 0 && (
-                  <div class="option__gallery" data-option-photos>
-                    {loc.images.map((img: NormalizedLocationImage) => (
-                      <a
-                        href={img.src}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="option__photo"
-                        data-option-photo
-                        title={t('catalog.modal.photo_zoom_hint')}
-                      >
-                        <img
-                          src={img.src}
-                          alt={img.alt}
-                          class="option__image"
-                          loading="lazy"
-                        />
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
           </div>
+
+          {(loc.noteHtml || loc.images.length > 0) && (
+            <div class="option__details">
+              {loc.noteHtml && (
+                <Wysiwyg
+                  class="option__description"
+                  smaller
+                  halved
+                  set:html={loc.noteHtml}
+                />
+              )}
+              {loc.images.length > 0 && (
+                <div class="option__gallery" data-option-photos>
+                  {loc.images.map((img: NormalizedLocationImage) => (
+                    <a
+                      href={img.src}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="option__photo"
+                      data-option-photo
+                      title={t('catalog.modal.photo_zoom_hint')}
+                    >
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        class="option__image"
+                        loading="lazy"
+                      />
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       ))}
     </div>
