@@ -122,9 +122,11 @@ const remakeText = {
   <h1>{product.title}</h1>
 
   {product.description && (
-    <p class="product-description-text">
-      {product.description}
-    </p>
+    <div class="product-description-text">
+      <Wysiwyg>
+        {product.description}
+      </Wysiwyg>
+    </div>
   )}
 
   <div class="product-price-large">
