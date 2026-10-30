@@ -32,8 +32,7 @@
   "designedBy": "<a href=\"https://youtube.com\" target=\"_blank\" rel=\"noopener noreferrer\">Зелёная Птичка</a> (YouTube)",
   "stockLocations": [
     {
-      "locationId": "cat-food",
-      "lastCheckedAt": "2026-10-06"
+      "locationId": "cat-food"
     },
     {
       "locationId": "online"

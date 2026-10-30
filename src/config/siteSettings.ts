@@ -22,6 +22,8 @@ export interface PartnerShopsConfig {
   openHour: number;
   /** Closing hour in 24h format (e.g. 20 for 20:00) */
   closeHour: number;
+  /** Global date when offline partner showcases were last audited (YYYY-MM-DD) */
+  lastCheckedAt: string;
 }
 
 export interface FulfillmentConfig {
@@ -59,6 +61,7 @@ export const siteSettings: SiteSettings = {
   partnerShops: {
     openHour: 8,   // 8:00 AM
     closeHour: 20, // 8:00 PM
+    lastCheckedAt: '2026-10-04',
   },
 
   // Fulfillment defaults

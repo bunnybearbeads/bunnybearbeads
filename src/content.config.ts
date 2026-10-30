@@ -17,7 +17,6 @@ const locationImageSchema = z.union([
 
 const stockLocationSchema = z.object({
   locationId: z.enum(['online', 'dalat', 'ngay-mai', 'cat-food']),
-  lastCheckedAt: z.string().optional(),
   quantity: z.number().int().nonnegative().default(1),
   note: localizedString.optional(),
   images: z.array(locationImageSchema).default([]),

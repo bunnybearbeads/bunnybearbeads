@@ -6,17 +6,17 @@ import {
   formatAuditCalendarDate,
   formatAuditRelativeOnly,
 } from '../../i18n/utils';
+import { siteSettings } from '../../config/siteSettings';
 
 interface Props {
   loc: any;
-  stockLoc?: any;
   product: any;
   currentLang: SupportedLanguage;
 }
 
-const { loc, stockLoc, product, currentLang } = Astro.props;
+const { loc, product, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
-const auditDate = stockLoc?.lastCheckedAt || '2026-10-04';
+const auditDate = loc.lastCheckedAt || siteSettings.partnerShops.lastCheckedAt;
 const photoList: string[] = loc.photoUrls?.length
   ? loc.photoUrls
   : loc.photoUrl

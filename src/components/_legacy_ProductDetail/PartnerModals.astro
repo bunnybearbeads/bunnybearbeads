@@ -8,25 +8,19 @@ import Checkup from '../Checkup/Checkup.astro';
 interface Props {
   product: any;
   currentLang: SupportedLanguage;
-  stockLocations?: any[];
 }
 
-const { product, currentLang, stockLocations = [] } = Astro.props;
+const { product, currentLang } = Astro.props;
 ---
 
-{PARTNER_LOCATIONS.map((loc) => {
-  const stockLoc = stockLocations.find((sl: any) => sl.locationId === loc.id);
-
-  return (
-    <HystModal id={loc.modalId}>
-      <Window>
-        <Checkup
-          loc={loc}
-          stockLoc={stockLoc}
-          product={product}
-          currentLang={currentLang}
-        />
-      </Window>
-    </HystModal>
-  );
-})}
+{PARTNER_LOCATIONS.map((loc) => (
+  <HystModal id={loc.modalId}>
+    <Window>
+      <Checkup
+        loc={loc}
+        product={product}
+        currentLang={currentLang}
+      />
+    </Window>
+  </HystModal>
+))}

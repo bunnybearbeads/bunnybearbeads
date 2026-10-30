@@ -1,4 +1,5 @@
 import type { TranslationKey } from '../i18n/ui';
+import { siteSettings } from './siteSettings';
 
 export type LocationId = 'online' | 'dalat' | 'ngay-mai' | 'cat-food';
 
@@ -8,6 +9,7 @@ export interface LocationConfig {
   cityKey?: TranslationKey;
   districtKey?: TranslationKey;
   shop?: string;
+  lastCheckedAt?: string;
   modalId?: string;
   mapsUrl?: string;
   photoUrl?: string;
@@ -36,6 +38,7 @@ export const LOCATIONS: Record<LocationId, LocationConfig> = {
     shop: 'NGÀY\u00A0MAI',
     cityKey: 'geo.city.danang',
     districtKey: 'geo.district.myan',
+    lastCheckedAt: siteSettings.partnerShops.lastCheckedAt,
     modalId: 'modal-checkup-ngaymai',
     mapsUrl: 'https://maps.app.goo.gl/RPadZnwnU88RgrTB9',
     photoUrl: '/images/stock/ngay-mai-showcase-1.jpg',
@@ -54,6 +57,7 @@ export const LOCATIONS: Record<LocationId, LocationConfig> = {
     shop: 'Cat\u00A0Food',
     cityKey: 'geo.city.hcm',
     districtKey: 'geo.district.benthanh',
+    lastCheckedAt: siteSettings.partnerShops.lastCheckedAt,
     modalId: 'modal-checkup-catfood',
     mapsUrl: 'https://maps.google.com/?q=Cat+Food+Shop+Ben+Thanh+Ho+Chi+Minh+City',
     modalContentKey: 'catalog.modal.catfood_content',

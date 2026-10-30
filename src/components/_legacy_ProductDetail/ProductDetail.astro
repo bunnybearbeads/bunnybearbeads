@@ -86,11 +86,13 @@ const partnerCards = otherOffline.map((loc: any) => {
   const qty = loc.quantity ?? 1;
   const badgeText = formatShowcaseStockQty(qty, runningReadyCount > 0, currentLang);
   runningReadyCount += qty;
-  const isOfflineCheckup = Boolean(loc.lastCheckedAt);
+  const lastCheckedAt = loc.meta.lastCheckedAt || siteSettings.partnerShops.lastCheckedAt;
+  const isOfflineCheckup = Boolean(lastCheckedAt);
   return {
     ...loc,
     qty,
     badgeText,
+    lastCheckedAt,
     isOfflineCheckup,
     modalTarget: isOfflineCheckup ? `#${loc.meta.modalId}` : undefined,
   };
@@ -386,7 +388,6 @@ const remakeText = {
 <PartnerModals
   product={product}
   currentLang={currentLang}
-  stockLocations={rawStock}
 />
 
 {!isDalatInStock && (
