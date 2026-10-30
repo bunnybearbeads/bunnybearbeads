@@ -96,6 +96,7 @@ const orderedMessengers = [...messengersData].sort((a, b) => {
       >
         <AltIcon
           src={item.icon}
+          outline={item.id === 'messenger'}
           alt=""
         />
         {item.isHighlighted && (
