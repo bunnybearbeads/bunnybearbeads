@@ -158,7 +158,7 @@ const remakeText = {
       <div class="option">
         <div class="option__content">
           <div class="option__head">
-            <div class="option__icon" aria-hidden="true">
+            <div class="option__main-icon" aria-hidden="true">
               🏠
             </div>
             <div class="option__title">
@@ -186,21 +186,21 @@ const remakeText = {
         </div>
 
         <div class="option__fulfillment">
-          <ul class="option__fulfillment-list" role="list">
+          <ul class="option__list" role="list">
             {hasOnline && (
               <>
-                <li class="option__fulfillment-item">
+                <li class="option__item">
                   <div class="option__fulfillment-head">
                     <span class="option__fulfillment-icon" aria-hidden="true">📦</span>
-                    <strong class="option__fulfillment-title">{t('catalog.delivery_vn_title')}</strong>
+                    <strong class="option__channel">{t('catalog.delivery_vn_title')}</strong>
                   </div>
-                  <div class="option__notes">
-                    <span class="option__note-item">{t('catalog.free')}</span>
+                  <div class="option__info">
+                    <span class="option__note">{t('catalog.free')}</span>
                     <span
-                      class="option__note-item"
+                      class="option__note"
                       set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')}
                     />
-                    <span class="option__note-item">
+                    <span class="option__note">
                       <Icon name="payments" />
                       <Icon name="qr_code" />
                       {t('catalog.pay_on_receipt')}
@@ -208,25 +208,25 @@ const remakeText = {
                   </div>
                 </li>
 
-                <li class="option__fulfillment-item">
+                <li class="option__item">
                   <div class="option__fulfillment-head">
                     <span class="option__fulfillment-icon" aria-hidden="true">🛵</span>
-                    <strong class="option__fulfillment-title">{t('catalog.delivery_dalat_title')}</strong>
+                    <strong class="option__channel">{t('catalog.delivery_dalat_title')}</strong>
                   </div>
-                  <div class="option__notes">
-                    <span class="option__note-item">{t('catalog.free')}</span>
+                  <div class="option__info">
+                    <span class="option__note">{t('catalog.free')}</span>
                     {isDalatInStock ? (
                       <span
-                        class="option__note-item dalat-dynamic-cutoff-text"
+                        class="option__note dalat-dynamic-cutoff-text"
                         data-text-today={t('catalog.delivery_dalat_sub_today')}
                         data-text-morning={t('catalog.delivery_dalat_sub_morning')}
                         data-text-tomorrow={t('catalog.delivery_dalat_sub_tomorrow')}
                         set:html={t('catalog.delivery_dalat_sub_today')}
                       />
                     ) : (
-                      <span class="option__note-item" set:html={t('catalog.delivery_dalat_sub_remake')} />
+                      <span class="option__note" set:html={t('catalog.delivery_dalat_sub_remake')} />
                     )}
-                    <span class="option__note-item">
+                    <span class="option__note">
                       <Icon name="payments" />
                       <Icon name="qr_code" />
                       {t('catalog.pay_on_receipt')}
@@ -236,24 +236,24 @@ const remakeText = {
               </>
             )}
 
-            <li class="option__fulfillment-item">
+            <li class="option__item">
               <div class="option__fulfillment-head">
                 <span class="option__fulfillment-icon" aria-hidden="true">🛍️</span>
-                <strong class="option__fulfillment-title">{t('catalog.pickup_studio_title')}</strong>
+                <strong class="option__channel">{t('catalog.pickup_studio_title')}</strong>
               </div>
-              <div class="option__notes">
+              <div class="option__info">
                 {isDalatInStock ? (
                   <span
-                    class="option__note-item dalat-dynamic-cutoff-text"
+                    class="option__note dalat-dynamic-cutoff-text"
                     data-text-today={t('catalog.pickup_dalat_sub_today')}
                     data-text-morning={t('catalog.pickup_dalat_sub_morning')}
                     data-text-tomorrow={t('catalog.pickup_dalat_sub_tomorrow')}
                     set:html={t('catalog.pickup_dalat_sub_today')}
                   />
                 ) : (
-                  <span class="option__note-item" set:html={t('catalog.pickup_dalat_sub_remake')} />
+                  <span class="option__note" set:html={t('catalog.pickup_dalat_sub_remake')} />
                 )}
-                <span class="option__note-item">
+                <span class="option__note">
                   <Icon name="payments" />
                   <Icon name="qr_code" />
                   {t('catalog.pay_on_pickup')}
@@ -303,7 +303,7 @@ const remakeText = {
         <div class="option">
           <div class="option__content">
             <div class="option__head">
-              <div class="option__icon" aria-hidden="true">
+              <div class="option__main-icon" aria-hidden="true">
                 📍
               </div>
               <div class="option__title">
@@ -322,9 +322,9 @@ const remakeText = {
               </div>
             </div>
 
-            <div class="option__notes">
-              <span class="option__note-item" set:html={t('catalog.shop_working_hours')} />
-              <span class="option__note-item">
+            <div class="option__info">
+              <span class="option__note" set:html={t('catalog.shop_working_hours')} />
+              <span class="option__note">
                 <Icon name="payments" />
                 <Icon name="qr_code" />
                 <Icon name="credit_card" />
