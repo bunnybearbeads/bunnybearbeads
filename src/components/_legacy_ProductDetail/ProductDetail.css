@@ -87,6 +87,14 @@
   gap: 12px;
 }
 
+.product__remake-heading {
+  margin-top: 32px;
+}
+
+/*.product__remake-note {*/
+/*  margin-top: 14px;*/
+/*}*/
+
 .product-specs-section {
   margin-top: 22px;
   padding-top: 18px;
@@ -206,6 +214,14 @@
   .where-to-buy-content {
     gap: 16px;
   }
+
+  .product__remake-heading {
+    margin-top: 36px;
+  }
+
+  /*.product__remake-note {*/
+  /*  margin-top: 16px;*/
+  /*}*/
 
   .product-specs-section {
     margin-top: 26px;

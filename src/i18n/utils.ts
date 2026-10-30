@@ -131,7 +131,7 @@ export function formatAuditRelativeDate(
       ru: 'проверено\u00A0',
       vi: 'kiểm\u00A0tra\u00A0',
     };
-    return `${checkedPrefix[lang]}${relativePart}`;
+    return `<span class="option__audit-prefix">${checkedPrefix[lang]}</span>${relativePart}`;
   } catch {
     return dateStr;
   }

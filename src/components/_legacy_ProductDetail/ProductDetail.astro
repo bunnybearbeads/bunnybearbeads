@@ -31,6 +31,7 @@ interface Props {
 const { product, productRaw, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 const categoryId = productRaw.data.categoryId || 'bracelets';
+const remakeNote = product.remakeNote || product.crafterNote;
 
 interface NormalizedLocationImage {
   src: string;
@@ -158,7 +159,7 @@ const remakeText = {
       <div class="option">
         <div class="option__content">
           <div class="option__head">
-            <div class="option__main-icon" aria-hidden="true">
+            <div class="option__main-emoji" aria-hidden="true">
               🏠
             </div>
             <div class="option__title">
@@ -191,7 +192,7 @@ const remakeText = {
               <>
                 <li class="option__item">
                   <div class="option__fulfillment-head">
-                    <span class="option__fulfillment-icon" aria-hidden="true">📦</span>
+                    <span class="option__fulfillment-emoji" aria-hidden="true">📦</span>
                     <strong class="option__channel">{t('catalog.delivery_vn_title')}</strong>
                   </div>
                   <div class="option__info">
@@ -210,7 +211,7 @@ const remakeText = {
 
                 <li class="option__item">
                   <div class="option__fulfillment-head">
-                    <span class="option__fulfillment-icon" aria-hidden="true">🛵</span>
+                    <span class="option__fulfillment-emoji" aria-hidden="true">🛵</span>
                     <strong class="option__channel">{t('catalog.delivery_dalat_title')}</strong>
                   </div>
                   <div class="option__info">
@@ -238,7 +239,7 @@ const remakeText = {
 
             <li class="option__item">
               <div class="option__fulfillment-head">
-                <span class="option__fulfillment-icon" aria-hidden="true">🛍️</span>
+                <span class="option__fulfillment-emoji" aria-hidden="true">🛍️</span>
                 <strong class="option__channel">{t('catalog.pickup_studio_title')}</strong>
               </div>
               <div class="option__info">
@@ -303,7 +304,7 @@ const remakeText = {
         <div class="option">
           <div class="option__content">
             <div class="option__head">
-              <div class="option__main-icon" aria-hidden="true">
+              <div class="option__main-emoji" aria-hidden="true">
                 📍
               </div>
               <div class="option__title">
@@ -339,9 +340,11 @@ const remakeText = {
                 data-hystmodal={loc.modalTarget}
                 title={t('catalog.weekly_audit_hint')}
               >
-                {loc.badgeText}{' '}<span class="option__stock option__stock--dotted" data-audit-date={loc.lastCheckedAt}>
-                  {formatAuditRelativeDate(loc.lastCheckedAt, currentLang)}
-                </span>
+                {loc.badgeText}{' '}<span
+                  class="option__stock option__stock--dotted"
+                  data-audit-date={loc.lastCheckedAt}
+                  set:html={formatAuditRelativeDate(loc.lastCheckedAt, currentLang)}
+                />
                 <Icon class="option__help-icon" name="help" />
               </button>
             ) : (
@@ -388,6 +391,17 @@ const remakeText = {
       ))}
     </div>
   </div>
+
+  {remakeNote && (
+    <div class="product__remake-section">
+      <div class="product__remake-heading">
+        <DottedTitle>{t('catalog.remake_note_title')}</DottedTitle>
+      </div>
+      <div class="product__remake-note">
+        <Wysiwyg halved set:html={remakeNote} />
+      </div>
+    </div>
+  )}
 
 </div>
 

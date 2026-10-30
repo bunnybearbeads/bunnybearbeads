@@ -16,12 +16,12 @@
         .option__head {
             position: relative;
         }
-            .option__main-icon {
+            .option__main-emoji {
                 position: absolute;
                 right: 100%;
                 top: 1px;
                 width: var(--option-left-padding);
-                padding-left: 4px;
+                padding-left: 2px;
                 flex-shrink: 0;
                 font-size: 20px;
                 line-height: 1;
@@ -39,7 +39,7 @@
             }
 
         .option__info {
-            margin-top: 2px;
+            margin-top: 1px;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
@@ -77,7 +77,6 @@
             width: fit-content;
             align-items: center;
             gap: 4px;
-            max-width: 100%;
             margin-top: 8px;
             padding: 4px 11px;
             background-color: rgb(42 123 136 / 12%);
@@ -165,11 +164,12 @@
                 .option__fulfillment-head {
                     position: relative;
                 }
-                    .option__fulfillment-icon {
+                    .option__fulfillment-emoji {
                         position: absolute;
                         right: 100%;
                         top: 4px;
                         width: var(--option-left-padding);
+                        padding-left: 2px;
                         font-size: 17px;
                         line-height: 1;
                         text-align: center;
@@ -263,7 +263,7 @@
             .option__head {
 
             }
-                .option__main-icon {
+                .option__main-emoji {
                     top: 1px;
                     font-size: 22px;
                 }
@@ -274,7 +274,7 @@
                 }
 
             .option__info {
-                margin-top: 3px;
+
             }
                 .option__note {
                     font-size: 15px;
@@ -321,7 +321,7 @@
                     .option__fulfillment-head {
 
                     }
-                        .option__fulfillment-icon {
+                        .option__fulfillment-emoji {
                             font-size: 19px;
                         }
 
@@ -364,8 +364,9 @@
                 align-items: center;
                 gap: 10px;
             }
-                .option__main-icon {
+                .option__main-emoji {
                     position: static;
+                    padding-left: 0;
                     margin: 0;
                     width: auto;
                 }
@@ -375,6 +376,7 @@
                 }
 
             .option__info {
+                margin-top: 5px;
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 3px;
@@ -410,9 +412,10 @@
                         align-items: center;
                         gap: 10px;
                     }
-                        .option__fulfillment-icon {
+                        .option__fulfillment-emoji {
                             position: static;
                             margin: 0;
+                            padding-left: 0;
                             width: auto;
                         }
 
@@ -427,7 +430,13 @@
 
 
 @media (width < 350px) {
+
     :lang(vi) .option__preposition {
+        display: none;
+    }
+
+    :lang(ru) .option__audit-prefix,
+    :lang(vi) .option__audit-prefix {
         display: none;
     }
 }

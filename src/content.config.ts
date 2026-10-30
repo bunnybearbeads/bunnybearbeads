@@ -49,6 +49,8 @@ const products = defineCollection({
     designedBy: z.string().optional(),
     stockLocations: z.array(stockLocationSchema).default([]),
     badge: localizedString.optional(),
+    remakeNote: localizedString.optional(),
+    crafterNote: localizedString.optional(),
   }),
 });
 
