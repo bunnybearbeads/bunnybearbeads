@@ -38,10 +38,10 @@
 #qr-modal-zalo,
 .qr-modal--zalo,
 .qr-modal--qr-modal-zalo {
-    --theme-gradient: linear-gradient(135deg, #0088FF 0%, #0055D4 100%);
-    --theme-bg-color: #0068FF;
-    --theme-accent-color: #0055D4;
-    --theme-pattern: none;
+    --theme-gradient: linear-gradient(55deg, #2B4362 0%, #516F95 100%);
+    --theme-bg-color: #2B4362;
+    --theme-accent-color: #516F95;
+    --theme-pattern: url('./zalo-pattern.png');
 }
 
 /* Code */
@@ -55,6 +55,18 @@
     background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
     background-size: 420px auto, cover, cover, cover, cover;
     background-blend-mode: soft-light, normal, normal, normal, normal;
+    background-color: var(--theme-bg-color) !important;
+}
+
+.hystmodal:has(.qr-modal--zalo)::before,
+.hystmodal:has(#qr-modal-zalo)::before {
+    background-image:
+        var(--theme-pattern),
+        var(--theme-gradient);
+    background-position: right bottom, 0 0;
+    background-repeat: no-repeat, no-repeat;
+    background-size: clamp(360px, 50vw, 840px) auto, cover;
+    background-blend-mode: normal, normal;
     background-color: var(--theme-bg-color) !important;
 }
 
@@ -145,11 +157,18 @@
     }
 }
 
+.qr-modal__hint {
+    margin: 14px auto 0;
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--text-muted);
+}
+
 .qr-modal__username,
 .qr-modal-telegram__username {
     display: block;
     width: fit-content;
-    margin: 15px auto 0;
+    margin: 6px auto 0;
     padding: 4px 0;
     font-weight: 600;
     font-size: 22px;

@@ -111,6 +111,7 @@ const orderedMessengers = [...messengersData].sort((a, b) => {
 {withModals && messengersData.map((item) => (
   <QrModal
     id={item.modalId}
+    currentLang={currentLang}
     messenger={item.id}
     name={item.name}
     qrImage={item.qrImage}

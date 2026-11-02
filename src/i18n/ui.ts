@@ -236,6 +236,11 @@ export const translations = {
     ru: 'в',
     vi: 'qua',
   },
+  'qr_modal.or_link': {
+    en: 'Or via link:',
+    ru: 'Или по ссылке:',
+    vi: 'Hoặc qua liên kết:',
+  },
   'catalog.view_details': {
     en: 'View Details',
     ru: 'Подробнее',

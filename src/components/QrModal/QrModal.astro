@@ -1,12 +1,16 @@
 ---
 import './QrModal.css';
 import beachSvg from './beach-fixed-edges.svg?url';
+import zaloPatternPng from './zalo-pattern.png?url';
 import HystModal from '../HystModal/HystModal.astro';
 import Window from '../Window/Window.astro';
+import { type SupportedLanguage } from '../../i18n/ui';
+import { useTranslations, getLangFromUrl } from '../../i18n/utils';
 
 export interface Props {
   id: string;
   name: string;
+  currentLang?: SupportedLanguage;
   messenger?: 'telegram' | 'messenger' | 'whatsapp' | 'zalo' | string;
   qrImage: string;
   username: string;
@@ -18,6 +22,7 @@ export interface Props {
 const {
   id,
   name,
+  currentLang: propLang,
   messenger,
   qrImage,
   username,
@@ -26,13 +31,20 @@ const {
   usernameFontSize = 22,
 } = Astro.props;
 
+const currentLang = propLang ?? getLangFromUrl(Astro.url);
+const t = useTranslations(currentLang);
+
 const messengerKey = messenger || id.replace(/^qr-modal-/, '').replace(/^modal-qr-/, '');
 const displayUsername = username.startsWith('@') ? username.slice(1) : username;
 const isTelegram = messengerKey === 'telegram';
+const isZalo = messengerKey === 'zalo';
 ---
 
 {isTelegram && (
   <link rel="preload" href={beachSvg} as="image" type="image/svg+xml" />
+)}
+{isZalo && (
+  <link rel="preload" href={zaloPatternPng} as="image" type="image/png" />
 )}
 
 <HystModal id={id}>
@@ -51,6 +63,7 @@ const isTelegram = messengerKey === 'telegram';
         alt={`QR code for ${name}`}
         style={`-webkit-mask-image: url(${qrImage}); mask-image: url(${qrImage});`}
       />
+      <p class="qr-modal__hint">{t('qr_modal.or_link')}</p>
       <a
         class="qr-modal__username qr-modal-telegram__username"
         style={`font-size: ${usernameFontSize}px;`}
