@@ -1,0 +1,52 @@
+<svg width="1440" height="960" viewBox="0 0 1440 960" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="wave1" x1="0" y1="120" x2="1440" y2="840" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.16" />
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="wave2" x1="1440" y1="0" x2="200" y2="960" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.14" />
+      <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0.04" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="bubbleGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.03" />
+    </linearGradient>
+    <radialGradient id="orb1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Flowing Meta/Messenger silk aura waves -->
+  <path d="M-120 740C180 580 420 820 760 640C1100 460 1240 180 1560 240V1040H-120V740Z" fill="url(#wave1)" />
+  <path d="M-80 220C240 420 580 120 920 340C1260 560 1340 320 1540 440V-80H-80V220Z" fill="url(#wave2)" />
+  <path d="M-100 520C260 360 520 660 880 460C1160 300 1320 480 1540 380" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="2" />
+  <path d="M-60 680C320 520 640 780 1020 540C1240 400 1380 520 1520 460" stroke="#FFFFFF" stroke-opacity="0.07" stroke-width="1.5" />
+
+  <!-- Ambient light orbs -->
+  <circle cx="220" cy="200" r="240" fill="url(#orb1)" />
+  <circle cx="1220" cy="760" r="280" fill="url(#orb1)" />
+
+  <!-- Subtle floating Messenger chat bubble (bottom-left) -->
+  <g transform="translate(110, 620) rotate(-10)" opacity="0.85">
+    <path d="M120 20C175.228 20 220 60.2944 220 110C220 159.706 175.228 200 120 200C103.6 200 88.1 196.4 74.4 190L36 208L45.2 171.6C29.4 155.4 20 133.8 20 110C20 60.2944 64.7715 20 120 20Z" fill="url(#bubbleGrad)" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1.5" />
+    <!-- Messenger bolt inside bubble -->
+    <path d="M138 92L112 120L94 106L68 134L98 104L116 118L138 92Z" fill="#FFFFFF" fill-opacity="0.18" />
+  </g>
+
+  <!-- Subtle floating chat bubble (top-right) -->
+  <g transform="translate(1130, 90) rotate(12)" opacity="0.75">
+    <path d="M90 16C134.183 16 170 48.2355 170 88C170 127.765 134.183 160 90 160C76.88 160 64.48 157.12 53.52 152L22.8 166.4L30.16 137.28C17.52 124.32 10 107.04 10 88C10 48.2355 45.8172 16 90 16Z" fill="url(#bubbleGrad)" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1.5" />
+    <circle cx="66" cy="88" r="7" fill="#FFFFFF" fill-opacity="0.18" />
+    <circle cx="90" cy="88" r="7" fill="#FFFFFF" fill-opacity="0.18" />
+    <circle cx="114" cy="88" r="7" fill="#FFFFFF" fill-opacity="0.18" />
+  </g>
+
+  <!-- Small secondary bubble (bottom-right) -->
+  <g transform="translate(1060, 680) rotate(-6)" opacity="0.6">
+    <rect x="0" y="0" width="128" height="76" rx="38" fill="url(#bubbleGrad)" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="1.2" />
+  </g>
+</svg>

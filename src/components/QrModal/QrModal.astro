@@ -1,6 +1,7 @@
 ---
 import './QrModal.css';
 import beachSvg from './beach-fixed-edges.svg?url';
+import messengerPatternSvg from './messenger-pattern.svg?url';
 import zaloPatternPng from './zalo-pattern.png?url';
 import HystModal from '../HystModal/HystModal.astro';
 import Window from '../Window/Window.astro';
@@ -37,11 +38,15 @@ const t = useTranslations(currentLang);
 const messengerKey = messenger || id.replace(/^qr-modal-/, '').replace(/^modal-qr-/, '');
 const displayUsername = username.startsWith('@') ? username.slice(1) : username;
 const isTelegram = messengerKey === 'telegram';
+const isMessenger = messengerKey === 'messenger';
 const isZalo = messengerKey === 'zalo';
 ---
 
 {isTelegram && (
   <link rel="preload" href={beachSvg} as="image" type="image/svg+xml" />
+)}
+{isMessenger && (
+  <link rel="preload" href={messengerPatternSvg} as="image" type="image/svg+xml" />
 )}
 {isZalo && (
   <link rel="preload" href={zaloPatternPng} as="image" type="image/png" />
@@ -49,29 +54,31 @@ const isZalo = messengerKey === 'zalo';
 
 <HystModal id={id}>
   <Window>
-    <div class:list={['qr-modal', `qr-modal--${messengerKey}`, id && `qr-modal--${id}`, isTelegram && 'qr-modal-telegram']}>
+    <div class:list={['qr-modal', `qr-modal--${messengerKey}`, id && `qr-modal--${id}`]}>
       <img
-        class="qr-modal__logo qr-modal-telegram__logo"
+        class="qr-modal__logo"
         src={logoSrc}
         width="108"
         height="108"
         alt="BunnyBearBeads Logo"
       />
       <img
-        class="qr-modal__image qr-modal-telegram__image"
+        class="qr-modal__image"
         src={qrImage}
         alt={`QR code for ${name}`}
         style={`-webkit-mask-image: url(${qrImage}); mask-image: url(${qrImage});`}
       />
       <p class="qr-modal__hint">{t('qr_modal.or_link')}</p>
       <a
-        class="qr-modal__username qr-modal-telegram__username"
+        class="qr-modal__username"
         style={`font-size: ${usernameFontSize}px;`}
         href={link}
         target="_blank"
         rel="noopener noreferrer"
       >
-        @<span class="qr-modal__hover qr-modal-telegram__hover">{displayUsername}</span>
+        <span class="qr-modal__username-text">
+          @<span class="qr-modal__hover">{displayUsername}</span>
+        </span>
       </a>
     </div>
   </Window>

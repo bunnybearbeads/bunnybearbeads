@@ -18,10 +18,14 @@
 #qr-modal-messenger,
 .qr-modal--messenger,
 .qr-modal--qr-modal-messenger {
-    --theme-gradient: linear-gradient(135deg, #0099FF 0%, #A033FF 70%, #FF5280 100%);
-    --theme-bg-color: #0084FF;
-    --theme-accent-color: #0084FF;
-    --theme-pattern: none;
+    --theme-gradient:
+        radial-gradient(at 0% 0%, #00B2FF 0%, transparent 70%),
+        radial-gradient(at 100% 0%, #9333EA 0%, transparent 70%),
+        radial-gradient(at 100% 100%, #FF5280 0%, transparent 70%),
+        radial-gradient(at 0% 100%, #006AFF 0%, transparent 70%);
+    --theme-bg-color: #7B3FE4;
+    --theme-accent-color: #7B3FE4;
+    --theme-pattern: url('./messenger-pattern.svg');
 }
 
 /* WhatsApp */
@@ -46,8 +50,7 @@
 
 /* Code */
 
-.hystmodal:has(.qr-modal)::before,
-.hystmodal:has(.qr-modal-telegram)::before {
+.hystmodal:has(.qr-modal)::before {
     background-image:
         var(--theme-pattern),
         var(--theme-gradient);
@@ -55,6 +58,18 @@
     background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
     background-size: 420px auto, cover, cover, cover, cover;
     background-blend-mode: soft-light, normal, normal, normal, normal;
+    background-color: var(--theme-bg-color) !important;
+}
+
+.hystmodal:has(.qr-modal--messenger)::before,
+.hystmodal:has(#qr-modal-messenger)::before {
+    background-image:
+        var(--theme-pattern),
+        var(--theme-gradient);
+    background-position: center center, 0 0, 0 0, 0 0, 0 0;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+    background-size: cover, cover, cover, cover, cover;
+    background-blend-mode: normal, normal, normal, normal, normal;
     background-color: var(--theme-bg-color) !important;
 }
 
@@ -70,43 +85,55 @@
     background-color: var(--theme-bg-color) !important;
 }
 
-.hystmodal--active:has(.qr-modal)::before,
-.hystmodal--active:has(.qr-modal-telegram)::before {
+.hystmodal--active:has(.qr-modal)::before {
     opacity: 100% !important;
 }
 
-.hystmodal__window:has(.qr-modal),
-.hystmodal__window:has(.qr-modal-telegram) {
+.hystmodal__window:has(.qr-modal) {
     width: 300px;
-    border-top: 74px solid transparent; /* Компенсируем отрицательный маргин */
+    border-top: 74px solid transparent; /* Компенсируем отрицательный маргин аватарки */
 }
 
 @media (width < 400px) {
-    .hystmodal__window:has(.qr-modal),
-    .hystmodal__window:has(.qr-modal-telegram) {
+    .hystmodal__window:has(.qr-modal) {
         width: calc(100% - 2 * var(--container-padding));
     }
 }
 
-.hystmodal__window:has(.qr-modal) .window,
-.hystmodal__window:has(.qr-modal-telegram) .window {
+.hystmodal__window:has(.qr-modal) .window {
     border-radius: 44px;
     corner-shape: superellipse(1.3);
 }
 
-.hystmodal__window:has(.qr-modal) .window__body,
-.hystmodal__window:has(.qr-modal-telegram) .window__body {
-    padding: 16px 16px 20px;
+.hystmodal__window:has(.qr-modal) .window__body {
+    padding: 16px 16px 22px;
 }
 
-.hystmodal__window:has(.qr-modal) .window__close,
-.hystmodal__window:has(.qr-modal-telegram) .window__close {
-    width: 60px;
-    height: 60px;
+/* Вынесенный вбок от карточки крестик закрытия */
+.hystmodal__window:has(.qr-modal) .window__close {
+    top: -6px;
+    right: -60px;
+    width: 48px;
+    height: 48px;
 }
 
-.hystmodal__window:has(.qr-modal) .window__close .icon,
-.hystmodal__window:has(.qr-modal-telegram) .window__close .icon {
+.hystmodal__window:has(.qr-modal) .window__close::before {
+    width: 44px;
+    height: 44px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+    opacity: 100%;
+    transition: box-shadow 0.2s ease, scale 0.2s ease;
+}
+
+.hystmodal__window:has(.qr-modal) .window__close:hover::before {
+    box-shadow: 0 10px 28px rgb(0 0 0 / 26%);
+    scale: 108%;
+}
+
+.hystmodal__window:has(.qr-modal) .window__close .icon {
+    font-size: 24px;
+    line-height: 24px;
     background-image: var(--theme-gradient);
     background-color: var(--theme-bg-color);
     -webkit-background-clip: text;
@@ -115,13 +142,18 @@
     color: transparent;
 }
 
-.qr-modal,
-.qr-modal-telegram {
+@media (width < 480px) {
+    .hystmodal__window:has(.qr-modal) .window__close {
+        top: -58px;
+        right: 0;
+    }
+}
+
+.qr-modal {
     text-align: center;
 }
 
-.qr-modal__logo,
-.qr-modal-telegram__logo {
+.qr-modal__logo {
     display: block;
     margin: -124px auto 0;
     width: 108px;
@@ -129,11 +161,11 @@
     border-radius: 50%;
     border: 4px solid #ffffff;
     background-color: var(--image-fallback);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
     object-fit: cover;
 }
 
-.qr-modal__image,
-.qr-modal-telegram__image {
+.qr-modal__image {
     display: block;
     margin: 12px auto 0;
     width: 206px;
@@ -150,8 +182,7 @@
 }
 
 @supports not ((-webkit-mask-image: url("")) or (mask-image: url(""))) {
-    .qr-modal__image,
-    .qr-modal-telegram__image {
+    .qr-modal__image {
         object-position: center;
         background: transparent;
     }
@@ -164,18 +195,35 @@
     color: var(--text-muted);
 }
 
-.qr-modal__username,
-.qr-modal-telegram__username {
-    display: block;
+.qr-modal__username {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: fit-content;
-    margin: 6px auto 0;
-    padding: 4px 0;
+    margin: 8px auto 0;
+    padding: 5px 18px;
+    border-radius: 999px;
+    background-color: color-mix(in oklab, var(--theme-accent-color) 8%, transparent);
+    border: 1px solid color-mix(in oklab, var(--theme-accent-color) 16%, transparent);
     font-weight: 600;
     font-size: 22px;
     line-height: 28px;
     letter-spacing: -0.25px;
     text-transform: uppercase;
     text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, translate 0.15s ease;
+}
+
+.qr-modal__username:hover {
+    background-color: color-mix(in oklab, var(--theme-accent-color) 14%, transparent);
+    border-color: color-mix(in oklab, var(--theme-accent-color) 28%, transparent);
+}
+
+.qr-modal__username:active {
+    translate: 0 1px;
+}
+
+.qr-modal__username-text {
     background-image: var(--theme-gradient);
     background-color: var(--theme-bg-color);
     -webkit-background-clip: text;
@@ -184,13 +232,11 @@
     color: transparent;
 }
 
-.qr-modal__hover,
-.qr-modal-telegram__hover {
+.qr-modal__hover {
     text-decoration: 1.6px underline transparent;
     text-underline-offset: 4px;
 }
 
-.qr-modal__username:hover .qr-modal__hover,
-.qr-modal-telegram__username:hover .qr-modal-telegram__hover {
+.qr-modal__username:hover .qr-modal__hover {
     text-decoration-color: var(--theme-accent-color);
 }
