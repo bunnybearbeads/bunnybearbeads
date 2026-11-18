@@ -33,11 +33,7 @@
     {
       "sku": "silent-moon-mariners",
       "inStock": false,
-      "stockLocations": [
-        {
-          "locationId": "online"
-        }
-      ]
+      "stockLocations": []
     }
   ]
 }

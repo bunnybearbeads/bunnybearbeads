@@ -27,11 +27,7 @@
   "variants": [
     {
       "sku": "ash-sprite",
-      "stockLocations": [
-        {
-          "locationId": "online"
-        }
-      ]
+      "stockLocations": []
     }
   ]
 }

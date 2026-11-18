@@ -17,14 +17,13 @@ const locationImageSchema = z.union([
 ]);
 
 /**
- * Где лежит вариант. `online` — не место хранения, а признак «можно заказать
- * с доставкой», поэтому количество у него не указывается. Для физических точек
- * (мастерская, витрины партнёров) количество обязательно.
+ * Где лежит вариант и сколько штук. Доставка и самовывоз из мастерской
+ * доступны всегда, поэтому отдельного признака «онлайн» нет.
  */
 const stockLocationSchema = z
   .object({
-    locationId: z.enum(['online', 'dalat', 'ngay-mai', 'cat-food']),
-    quantity: z.number().int().nonnegative().optional(),
+    locationId: z.enum(['dalat', 'ngay-mai', 'cat-food']),
+    quantity: z.number().int().nonnegative(),
     /** Код товара в учётной системе партнёра */
     partnerCode: z.string().optional(),
     /** Категория товара у партнёра (может не совпадать с нашей) */
@@ -34,13 +33,6 @@ const stockLocationSchema = z
   })
   .superRefine((loc, ctx) => {
     const isPartner = LOCATIONS[loc.locationId].type === 'partner';
-    if (loc.locationId !== 'online' && loc.quantity === undefined) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['quantity'],
-        message: `quantity is required for "${loc.locationId}"`,
-      });
-    }
     if (!isPartner && (loc.partnerCode || loc.partnerCategory)) {
       ctx.addIssue({
         code: 'custom',

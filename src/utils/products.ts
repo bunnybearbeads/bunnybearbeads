@@ -78,10 +78,10 @@ export function getLocationQty(stock: StockLocations, locationId: string): numbe
   return stock.find((s) => s.locationId === locationId)?.quantity ?? 0;
 }
 
-/** Физические точки, где вариант реально есть (quantity > 0). online сюда не входит */
+/** Точки, где вариант реально есть (quantity > 0) */
 export function getAvailableLocations(stock: StockLocations): string[] {
   return stock
-    .filter((s) => s.locationId !== 'online' && (s.quantity ?? 0) > 0)
+    .filter((s) => s.quantity > 0)
     .map((s) => s.locationId);
 }
 

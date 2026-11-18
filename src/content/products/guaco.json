@@ -36,9 +36,6 @@
         {
           "locationId": "cat-food",
           "quantity": 1
-        },
-        {
-          "locationId": "online"
         }
       ]
     },
@@ -65,9 +62,6 @@
         {
           "locationId": "cat-food",
           "quantity": 1
-        },
-        {
-          "locationId": "online"
         }
       ]
     }

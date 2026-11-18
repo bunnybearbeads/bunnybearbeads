@@ -27,11 +27,7 @@
   "variants": [
     {
       "sku": "berry-thief",
-      "stockLocations": [
-        {
-          "locationId": "online"
-        }
-      ]
+      "stockLocations": []
     }
   ]
 }

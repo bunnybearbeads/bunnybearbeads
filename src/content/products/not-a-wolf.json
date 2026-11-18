@@ -31,9 +31,6 @@
         {
           "locationId": "cat-food",
           "quantity": 1
-        },
-        {
-          "locationId": "online"
         }
       ]
     }

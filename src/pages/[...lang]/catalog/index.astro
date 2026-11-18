@@ -55,9 +55,7 @@ const products = (await getProducts()).map((p) => {
 // Физические места, где можно посмотреть и купить вживую
 const locations = [
   { id: 'all', label: t('catalog.filter.location_all') },
-  ...Object.values(LOCATIONS)
-    .filter((loc) => loc.type !== 'online')
-    .map((loc) => ({
+  ...Object.values(LOCATIONS).map((loc) => ({
       id: loc.id,
       label: loc.shop
         ? `${loc.shop} · ${t(loc.cityKey!)}`

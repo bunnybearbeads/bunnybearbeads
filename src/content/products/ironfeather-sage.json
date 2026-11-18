@@ -27,11 +27,7 @@
   "variants": [
     {
       "sku": "ironfeather-sage",
-      "stockLocations": [
-        {
-          "locationId": "online"
-        }
-      ]
+      "stockLocations": []
     }
   ]
 }

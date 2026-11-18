@@ -32,11 +32,7 @@
   "variants": [
     {
       "sku": "petite-joy",
-      "stockLocations": [
-        {
-          "locationId": "online"
-        }
-      ]
+      "stockLocations": []
     }
   ]
 }

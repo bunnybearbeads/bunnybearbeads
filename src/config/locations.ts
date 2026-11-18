@@ -1,11 +1,11 @@
 import type { TranslationKey } from '../i18n/ui';
 import { siteSettings } from './siteSettings';
 
-export type LocationId = 'online' | 'dalat' | 'ngay-mai' | 'cat-food';
+export type LocationId = 'dalat' | 'ngay-mai' | 'cat-food';
 
 export interface LocationConfig {
   id: LocationId;
-  type: 'online' | 'studio' | 'partner';
+  type: 'studio' | 'partner';
   cityKey?: TranslationKey;
   districtKey?: TranslationKey;
   shop?: string;
@@ -22,10 +22,6 @@ export interface LocationConfig {
 }
 
 export const LOCATIONS: Record<LocationId, LocationConfig> = {
-  online: {
-    id: 'online',
-    type: 'online',
-  },
   dalat: {
     id: 'dalat',
     type: 'studio',

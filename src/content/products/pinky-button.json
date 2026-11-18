@@ -27,11 +27,7 @@
   "variants": [
     {
       "sku": "pinky-button",
-      "stockLocations": [
-        {
-          "locationId": "online"
-        }
-      ]
+      "stockLocations": []
     }
   ]
 }
