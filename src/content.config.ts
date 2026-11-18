@@ -26,18 +26,16 @@ const stockLocationSchema = z
     quantity: z.number().int().nonnegative(),
     /** Код товара в учётной системе партнёра */
     partnerCode: z.string().optional(),
-    /** Категория товара у партнёра (может не совпадать с нашей) */
-    partnerCategory: z.string().optional(),
     note: localizedString.optional(),
     images: z.array(locationImageSchema).default([]),
   })
   .superRefine((loc, ctx) => {
     const isPartner = LOCATIONS[loc.locationId].type === 'partner';
-    if (!isPartner && (loc.partnerCode || loc.partnerCategory)) {
+    if (!isPartner && loc.partnerCode) {
       ctx.addIssue({
         code: 'custom',
         path: ['partnerCode'],
-        message: `partnerCode/partnerCategory are only allowed for partner locations, not "${loc.locationId}"`,
+        message: `partnerCode is only allowed for partner locations, not "${loc.locationId}"`,
       });
     }
   });
