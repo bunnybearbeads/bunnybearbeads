@@ -16,6 +16,7 @@ import {
   resolveVariant,
   getLocationQty,
   getFirstImageSrc,
+  formatPrice,
 } from '../../utils/products';
 
 interface Props {
@@ -62,7 +63,7 @@ const switcherItems = variants.map((v) => ({
   label: v.label,
   documentTitle: `${v.product.title} — BunnyBearBeads`,
   productTitle: v.product.title,
-  price: `${Number(v.product.price).toLocaleString('vi-VN')} ${v.product.currency || 'VND'}`,
+  price: formatPrice(v.product.price),
   thumb: v.thumb,
   isDefault: v.isDefault,
 }));

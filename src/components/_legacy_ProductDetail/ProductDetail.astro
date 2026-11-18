@@ -8,7 +8,7 @@ import './ProductDetail.css';
 import '../Icon/Icon.css';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
-import { categoryKey } from '../../utils/products';
+import { categoryKey, formatPrice } from '../../utils/products';
 import Inquiry from '../Inquiry/Inquiry.astro';
 import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 
@@ -48,7 +48,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
 )}
 
 <div class="product-price-large">
-  {Number(product.price).toLocaleString('vi-VN')} {product.currency || 'VND'}
+  {formatPrice(product.price)}
 </div>
 
 <div class="cta-buttons product-cta-buttons">

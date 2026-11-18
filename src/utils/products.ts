@@ -98,6 +98,11 @@ export function getFirstImageSrc(images: ProductData['images']): string | undefi
   return first.src;
 }
 
+/** Цена в донгах: 110000 → "110.000 ₫". Магазин работает только во Вьетнаме */
+export function formatPrice(price: number): string {
+  return `${Number(price).toLocaleString('vi-VN')}\u00A0₫`;
+}
+
 export function categoryKey(categoryId: CategoryId): TranslationKey {
   return `cat.${categoryId.replace(/-/g, '_')}` as TranslationKey;
 }

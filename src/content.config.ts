@@ -95,7 +95,6 @@ const products = defineCollection({
     title: localizedString,
     description: localizedString,
     price: z.number(),
-    currency: z.string().default('VND'),
     categoryId: categoryIdSchema.default('bracelets'),
     images: z.array(mediaItemSchema).default([]),
     materials: z.array(z.string()).optional(),
