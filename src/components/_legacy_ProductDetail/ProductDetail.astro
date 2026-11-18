@@ -47,9 +47,7 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
   </div>
 )}
 
-<div class="product-price-large">
-  {formatPrice(product.price)}
-</div>
+<div class="product-price-large" set:html={formatPrice(product.price)} />
 
 <div class="cta-buttons product-cta-buttons">
   <Inquiry

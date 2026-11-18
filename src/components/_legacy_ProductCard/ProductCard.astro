@@ -94,9 +94,7 @@ const placeholderIcon = categoryIcons[categoryId] || '✨';
     <p class="product-desc">{data.description}</p>
 
     <div class="product-bottom">
-      <span class="product-price" data-card-price>
-        {formatPrice(data.price)}
-      </span>
+      <span class="product-price" data-card-price set:html={formatPrice(data.price)} />
       <a href={detailUrl} class="btn btn-primary btn-sm" data-card-link>
         {t('catalog.view_details')} →
       </a>

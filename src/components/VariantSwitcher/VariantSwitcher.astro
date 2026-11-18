@@ -9,6 +9,7 @@ export interface VariantSwitcherItem {
   documentTitle: string;
   /** Название варианта — подставляется в общие модалки */
   productTitle: string;
+  /** HTML из formatPrice() */
   price: string;
   thumb?: string;
   isDefault: boolean;
@@ -43,7 +44,7 @@ const { title, baseUrl, items } = Astro.props;
         )}
         <span class="variant-switcher__text">
           <span class="variant-switcher__label">{item.label}</span>
-          <span class="variant-switcher__price">{item.price}</span>
+          <span class="variant-switcher__price" set:html={item.price} />
         </span>
       </a>
     ))}

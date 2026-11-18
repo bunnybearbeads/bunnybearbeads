@@ -50,6 +50,7 @@ const groups = [
     sku: string;
     href: string;
     title: string;
+    /** HTML из formatPrice() */
     price: string;
     image?: string;
     categoryId: string;
@@ -89,7 +90,7 @@ const groups = [
     const title = card.querySelector('[data-card-title]');
     if (title) title.textContent = variant.title;
     const price = card.querySelector('[data-card-price]');
-    if (price) price.textContent = variant.price;
+    if (price) price.innerHTML = variant.price;
     const category = card.querySelector('[data-card-category]');
     if (category) category.textContent = variant.categoryLabel;
     const image = card.querySelector<HTMLImageElement>('[data-card-image]');

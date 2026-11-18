@@ -98,9 +98,17 @@ export function getFirstImageSrc(images: ProductData['images']): string | undefi
   return first.src;
 }
 
-/** Цена в донгах: 110000 → "110.000 ₫". Магазин работает только во Вьетнаме */
+/**
+ * Цена в донгах как HTML: 320000 → `320.<small class="price-thousands">000</small>&nbsp;₫`.
+ * Последние три цифры во вьетнамских ценах почти всегда нули — уменьшаем их,
+ * чтобы взгляд цеплялся за значимую часть. Выводить через set:html / innerHTML.
+ */
 export function formatPrice(price: number): string {
-  return `${Number(price).toLocaleString('vi-VN')}\u00A0₫`;
+  const [head, ...groups] = Number(price).toLocaleString('vi-VN').split('.');
+  const last = groups.pop();
+  const main = [head, ...groups].join('.');
+  const number = last === undefined ? main : `${main}.<small class="price-thousands">${last}</small>`;
+  return `${number}&nbsp;₫`;
 }
 
 export function categoryKey(categoryId: CategoryId): TranslationKey {
