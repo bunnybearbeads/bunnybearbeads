@@ -14,15 +14,9 @@
   "price": 100000,
   "currency": "VND",
   "categoryId": "keychains",
-  "category": {
-    "en": "Keychains",
-    "ru": "Брелоки на ключи",
-    "vi": "Móc khóa"
-  },
   "images": [
     "/emblem-squared.png"
   ],
-  "inStock": false,
   "materials": [
     "Miyuki Delica & Toho Aiko – the world’s best seed beads",
     "Delica colors: 2104, 2114  •  Aiko colors: 41, 49, 121, 131",
@@ -30,5 +24,11 @@
   ],
   "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 2104, 2114  •  Aiko colors: 41, 49, 121, 131</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
   "designedBy": "<span>Бижутерия Лапками</span>",
-  "stockLocations": []
+  "variants": [
+    {
+      "sku": "fortune",
+      "inStock": false,
+      "stockLocations": []
+    }
+  ]
 }

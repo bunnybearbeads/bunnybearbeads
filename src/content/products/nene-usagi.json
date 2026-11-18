@@ -14,15 +14,9 @@
   "price": 135000,
   "currency": "VND",
   "categoryId": "phone-charms",
-  "category": {
-    "en": "Phone Charms",
-    "ru": "Фончармы (на телефон)",
-    "vi": "Dây đeo điện thoại"
-  },
   "images": [
     "/emblem-squared.png"
   ],
-  "inStock": true,
   "materials": [
     "Miyuki Delica & Toho Aiko – the world’s best seed beads",
     "Delica colors: 160, 167, 214, 1832, 2114  •  Aiko colors: 41, 49",
@@ -30,14 +24,19 @@
   ],
   "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 160, 167, 214, 1832, 2114  •  Aiko colors: 41, 49</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
   "designedBy": "<a href=\"https://www.etsy.com\" target=\"_blank\" rel=\"noopener noreferrer\">RenovatiobyLuciela</a> (Etsy)",
-  "stockLocations": [
-    {
-      "locationId": "online"
-    }
-  ],
   "badge": {
     "en": "Bestseller",
     "ru": "Хит продаж",
     "vi": "Bán chạy"
-  }
+  },
+  "variants": [
+    {
+      "sku": "nene-usagi",
+      "stockLocations": [
+        {
+          "locationId": "online"
+        }
+      ]
+    }
+  ]
 }

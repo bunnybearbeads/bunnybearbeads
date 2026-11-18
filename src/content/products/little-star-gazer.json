@@ -14,15 +14,9 @@
   "price": 135000,
   "currency": "VND",
   "categoryId": "keychains",
-  "category": {
-    "en": "Keychains",
-    "ru": "Брелоки на ключи",
-    "vi": "Móc khóa"
-  },
   "images": [
     "/emblem-squared.png"
   ],
-  "inStock": true,
   "materials": [
     "Miyuki Delica & Toho Aiko – the world’s best seed beads.",
     "Delica colors: 268, 1538, 2112  •  Aiko colors: 21, 41, 49, 2156S",
@@ -30,15 +24,22 @@
   ],
   "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads.</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 268, 1538, 2112  •  Aiko colors: 21, 41, 49, 2156S</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
   "designedBy": "<span>Бижутерия Лапками</span>",
-  "stockLocations": [
+  "variants": [
     {
-      "locationId": "dalat"
-    },
-    {
-      "locationId": "ngay-mai"
-    },
-    {
-      "locationId": "online"
+      "sku": "little-star-gazer",
+      "stockLocations": [
+        {
+          "locationId": "dalat",
+          "quantity": 1
+        },
+        {
+          "locationId": "ngay-mai",
+          "quantity": 1
+        },
+        {
+          "locationId": "online"
+        }
+      ]
     }
   ]
 }

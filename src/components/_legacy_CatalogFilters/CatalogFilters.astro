@@ -1,72 +1,141 @@
 ---
 import './CatalogFilters.css';
 
-interface CategoryFilter {
+interface FilterOption {
   id: string;
   label: string;
 }
 
 interface Props {
-  categories: CategoryFilter[];
+  categories: FilterOption[];
+  /** Физические места продажи; без них строка фильтра по месту не выводится */
+  locations?: FilterOption[];
 }
 
-const { categories } = Astro.props;
+const { categories, locations = [] } = Astro.props;
+
+const groups = [
+  { key: 'category', options: categories },
+  { key: 'location', options: locations },
+].filter((g) => g.options.length > 1);
 ---
 
 <div class="catalog-filters" id="catalog-filters">
-  {categories.map((cat) => (
-    <button
-      type="button"
-      class:list={['filter-pill', { active: cat.id === 'all' }]}
-      data-category={cat.id}
-    >
-      {cat.label}
-    </button>
+  {groups.map((group) => (
+    <div class:list={['catalog-filters__row', `catalog-filters__row--${group.key}`]}>
+      {group.options.map((option) => (
+        <button
+          type="button"
+          class:list={['filter-pill', { active: option.id === 'all' }]}
+          data-filter-group={group.key}
+          data-value={option.id}
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
   ))}
 </div>
 
 <script>
-  function setupFilters() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const initialCategory = urlParams.get('category') || 'all';
+  /**
+   * Фильтры каталога: категория и место (?category=…&location=…).
+   * Карточка — это товар; в ней показывается первый вариант, подходящий под оба фильтра,
+   * и ссылка ведёт сразу на него (?v=sku). Если подходящего варианта нет, карточка скрывается.
+   */
+  type FilterGroup = 'category' | 'location';
+  type FilterState = Record<FilterGroup, string>;
 
-    const buttons = document.querySelectorAll<HTMLButtonElement>('#catalog-filters .filter-pill');
-    const cards = document.querySelectorAll<HTMLElement>('#products-grid .product-card');
+  interface CardVariant {
+    sku: string;
+    href: string;
+    title: string;
+    price: string;
+    image?: string;
+    categoryId: string;
+    categoryLabel: string;
+    locations: string[];
+  }
 
-    function applyFilter(category: string) {
-      buttons.forEach((btn) => {
-        btn.classList.toggle('active', btn.dataset.category === category);
-      });
+  const GROUPS: FilterGroup[] = ['category', 'location'];
 
-      cards.forEach((card) => {
-        const itemCat = card.dataset.category;
-        if (category === 'all' || itemCat === category) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
-      });
-    }
+  const buttons = document.querySelectorAll<HTMLButtonElement>('#catalog-filters [data-filter-group]');
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('#products-grid .product-card'));
+  const emptyMessage = document.getElementById('catalog-empty');
 
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const cat = btn.dataset.category || 'all';
-        applyFilter(cat);
-        const newUrl = new URL(window.location.href);
-        if (cat === 'all') {
-          newUrl.searchParams.delete('category');
-        } else {
-          newUrl.searchParams.set('category', cat);
-        }
-        window.history.pushState({}, '', newUrl.toString());
-      });
+  const cardVariants = new Map<HTMLElement, CardVariant[]>(
+    cards.map((card) => [card, JSON.parse(card.dataset.variants || '[]') as CardVariant[]])
+  );
+
+  function readState(): FilterState {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      category: params.get('category') || 'all',
+      location: params.get('location') || 'all',
+    };
+  }
+
+  function matches(variant: CardVariant, state: FilterState): boolean {
+    return (
+      (state.category === 'all' || variant.categoryId === state.category) &&
+      (state.location === 'all' || variant.locations.includes(state.location))
+    );
+  }
+
+  function showVariant(card: HTMLElement, variant: CardVariant) {
+    card.querySelectorAll<HTMLAnchorElement>('[data-card-link]').forEach((a) => {
+      a.href = variant.href;
     });
-
-    if (initialCategory && initialCategory !== 'all') {
-      applyFilter(initialCategory);
+    const title = card.querySelector('[data-card-title]');
+    if (title) title.textContent = variant.title;
+    const price = card.querySelector('[data-card-price]');
+    if (price) price.textContent = variant.price;
+    const category = card.querySelector('[data-card-category]');
+    if (category) category.textContent = variant.categoryLabel;
+    const image = card.querySelector<HTMLImageElement>('[data-card-image]');
+    if (image && variant.image && image.getAttribute('src') !== variant.image) {
+      image.src = variant.image;
+      image.alt = variant.title;
     }
   }
 
-  setupFilters();
-  window.addEventListener('popstate', setupFilters);
+  function applyFilters(state: FilterState) {
+    buttons.forEach((btn) => {
+      const group = btn.dataset.filterGroup as FilterGroup;
+      btn.classList.toggle('active', state[group] === btn.dataset.value);
+    });
+
+    let visibleCount = 0;
+    cards.forEach((card) => {
+      const variants = cardVariants.get(card) ?? [];
+      // Товар без данных о вариантах фильтруем как раньше — показываем всегда
+      const match = variants.length ? variants.find((v) => matches(v, state)) : undefined;
+      const isVisible = variants.length === 0 || Boolean(match);
+      card.classList.toggle('hidden', !isVisible);
+      if (match) showVariant(card, match);
+      if (isVisible) visibleCount += 1;
+    });
+
+    if (emptyMessage) emptyMessage.hidden = visibleCount > 0;
+  }
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.filterGroup as FilterGroup;
+      const value = btn.dataset.value || 'all';
+      const state = { ...readState(), [group]: value };
+
+      const url = new URL(window.location.href);
+      GROUPS.forEach((g) => {
+        if (state[g] === 'all') url.searchParams.delete(g);
+        else url.searchParams.set(g, state[g]);
+      });
+      window.history.pushState({}, '', url.toString());
+
+      applyFilters(state);
+    });
+  });
+
+  applyFilters(readState());
+  window.addEventListener('popstate', () => applyFilters(readState()));
 </script>

@@ -14,15 +14,9 @@
   "price": 115000,
   "currency": "VND",
   "categoryId": "keychains",
-  "category": {
-    "en": "Keychains",
-    "ru": "Брелоки на ключи",
-    "vi": "Móc khóa"
-  },
   "images": [
     "/emblem-squared.png"
   ],
-  "inStock": true,
   "materials": [
     "Toho Aiko – the world’s best seed beads; manufactured in Japan",
     "Colors: 41, 46, 46L, 125, 714",
@@ -30,14 +24,19 @@
   ],
   "materialsHtml": "<span class=\"mat-beads\">Toho Aiko – the world’s best seed beads; manufactured in Japan</span><br />\n<span class=\"mat-colors\"><strong>Colors: 41, 46, 46L, 125, 714</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
   "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
-  "stockLocations": [
-    {
-      "locationId": "online"
-    }
-  ],
   "badge": {
     "en": "Bestseller",
     "ru": "Хит продаж",
     "vi": "Bán chạy"
-  }
+  },
+  "variants": [
+    {
+      "sku": "petite-joy",
+      "stockLocations": [
+        {
+          "locationId": "online"
+        }
+      ]
+    }
+  ]
 }

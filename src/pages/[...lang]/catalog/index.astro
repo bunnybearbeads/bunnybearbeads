@@ -3,8 +3,17 @@ import Layout from '../../../layouts/Layout.astro';
 import PageHeader from '../../../components/_legacy_PageHeader/PageHeader.astro';
 import CatalogFilters from '../../../components/_legacy_CatalogFilters/CatalogFilters.astro';
 import ProductCard from '../../../components/_legacy_ProductCard/ProductCard.astro';
-import { getCollection } from 'astro:content';
-import { getStaticLangPaths, resolveLang, localize, useTranslations } from '../../../i18n/utils';
+import { getStaticLangPaths, resolveLang, localize, useTranslations, getLocalizedUrl } from '../../../i18n/utils';
+import { LOCATIONS } from '../../../config/locations';
+import {
+  getProducts,
+  getVisibleVariants,
+  resolveVariant,
+  categoryKey,
+  getAvailableLocations,
+  getFirstImageSrc,
+} from '../../../utils/products';
+import type { CardVariant } from '../../../components/_legacy_ProductCard/ProductCard.astro';
 
 export function getStaticPaths() {
   return getStaticLangPaths();
@@ -14,13 +23,47 @@ const { lang: langParam } = Astro.params;
 const currentLang = resolveLang(langParam);
 const t = useTranslations(currentLang);
 
-const rawProducts = await getCollection('products');
-const sortedProducts = [...rawProducts].sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
-const products = sortedProducts.map((p) => ({
-  id: p.id,
-  categoryId: p.data.categoryId || 'bracelets',
-  data: localize(p.data, currentLang),
-}));
+const formatPrice = (price: number, currency = 'VND') =>
+  `${Number(price).toLocaleString('vi-VN')} ${currency}`;
+
+const products = (await getProducts()).map((p) => {
+  const detailUrl = getLocalizedUrl(`/catalog/${p.id}`, currentLang);
+  // Первый видимый вариант — вариант по умолчанию
+  const resolved = getVisibleVariants(p).map((v) => resolveVariant(p, v));
+  const variants: CardVariant[] = resolved.map((r, index) => {
+    const l = localize(r, currentLang);
+    return {
+      sku: r.sku,
+      href: index === 0 ? detailUrl : `${detailUrl}?v=${r.sku}`,
+      title: l.title,
+      price: formatPrice(r.price, r.currency),
+      image: getFirstImageSrc(r.images),
+      categoryId: r.categoryId,
+      categoryLabel: t(categoryKey(r.categoryId)),
+      locations: getAvailableLocations(r.stockLocations),
+    };
+  });
+  return {
+    id: p.id,
+    categoryId: resolved[0].categoryId,
+    image: variants[0].image,
+    variants,
+    data: localize(resolved[0], currentLang),
+  };
+});
+
+// Физические места, где можно посмотреть и купить вживую
+const locations = [
+  { id: 'all', label: t('catalog.filter.location_all') },
+  ...Object.values(LOCATIONS)
+    .filter((loc) => loc.type !== 'online')
+    .map((loc) => ({
+      id: loc.id,
+      label: loc.shop
+        ? `${loc.shop} · ${t(loc.cityKey!)}`
+        : t('catalog.studio_card_title'),
+    })),
+];
 
 const categories = [
   { id: 'all', label: t('cat.all') },
@@ -40,17 +83,20 @@ const categories = [
   <div class="container page-container">
     <PageHeader title={t('catalog.title')} subtitle={t('catalog.subtitle')} />
 
-    <CatalogFilters categories={categories} />
+    <CatalogFilters categories={categories} locations={locations} />
 
     <div class="products-grid" id="products-grid">
       {products.map((product) => (
         <ProductCard
           id={product.id}
           categoryId={product.categoryId}
+          variants={product.variants}
+          image={product.image}
           data={product.data}
           currentLang={currentLang}
         />
       ))}
     </div>
+    <p class="catalog-empty" id="catalog-empty" hidden>{t('catalog.empty')}</p>
   </div>
 </Layout>

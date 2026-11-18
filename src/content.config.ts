@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { LOCATIONS } from './config/locations';
 
 const localizedString = z.object({
   en: z.string(),
@@ -15,12 +16,39 @@ const locationImageSchema = z.union([
   }),
 ]);
 
-const stockLocationSchema = z.object({
-  locationId: z.enum(['online', 'dalat', 'ngay-mai', 'cat-food']),
-  quantity: z.number().int().nonnegative().default(1),
-  note: localizedString.optional(),
-  images: z.array(locationImageSchema).default([]),
-});
+/**
+ * Где лежит вариант. `online` — не место хранения, а признак «можно заказать
+ * с доставкой», поэтому количество у него не указывается. Для физических точек
+ * (мастерская, витрины партнёров) количество обязательно.
+ */
+const stockLocationSchema = z
+  .object({
+    locationId: z.enum(['online', 'dalat', 'ngay-mai', 'cat-food']),
+    quantity: z.number().int().nonnegative().optional(),
+    /** Код товара в учётной системе партнёра */
+    partnerCode: z.string().optional(),
+    /** Категория товара у партнёра (может не совпадать с нашей) */
+    partnerCategory: z.string().optional(),
+    note: localizedString.optional(),
+    images: z.array(locationImageSchema).default([]),
+  })
+  .superRefine((loc, ctx) => {
+    const isPartner = LOCATIONS[loc.locationId].type === 'partner';
+    if (loc.locationId !== 'online' && loc.quantity === undefined) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['quantity'],
+        message: `quantity is required for "${loc.locationId}"`,
+      });
+    }
+    if (!isPartner && (loc.partnerCode || loc.partnerCategory)) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['partnerCode'],
+        message: `partnerCode/partnerCategory are only allowed for partner locations, not "${loc.locationId}"`,
+      });
+    }
+  });
 
 const mediaItemSchema = z.union([
   z.string(),
@@ -31,6 +59,42 @@ const mediaItemSchema = z.union([
   }),
 ]);
 
+const categoryIdSchema = z.enum(['bracelets', 'rings', 'phone-charms', 'keychains', 'other']);
+
+/**
+ * SKU — неизменяемый код варианта. Попадает в накладные, поэтому после первой
+ * накладной не переименовывается. Уникальность по всему каталогу проверяется
+ * в src/utils/products.ts.
+ */
+export const skuSchema = z
+  .string()
+  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'SKU: lowercase latin, digits and single dashes');
+
+/**
+ * Вариант товара. Необязательные поля, если не указаны, наследуются от товара.
+ */
+const variantSchema = z.object({
+  sku: skuSchema,
+  /** Имя варианта, дописывается к названию товара: "Guaco" + "Delicato" */
+  name: z.union([z.string(), localizedString]).optional(),
+  /** Короткая подпись для переключателя вариантов. Без неё используется name */
+  label: z.union([z.string(), localizedString]).optional(),
+  /** archived — снят с производства. Не удаляем: на него ссылаются накладные */
+  status: z.enum(['active', 'archived']).default('active'),
+  createdAt: z.string().optional(),
+  inStock: z.boolean().default(true),
+  stockLocations: z.array(stockLocationSchema),
+
+  // Наследуемые от товара
+  description: localizedString.optional(),
+  price: z.number().optional(),
+  categoryId: categoryIdSchema.optional(),
+  images: z.array(mediaItemSchema).optional(),
+  materials: z.array(z.string()).optional(),
+  materialsHtml: z.string().optional(),
+  badge: localizedString.optional(),
+});
+
 const products = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/products' }),
   schema: z.object({
@@ -40,17 +104,15 @@ const products = defineCollection({
     description: localizedString,
     price: z.number(),
     currency: z.string().default('VND'),
-    categoryId: z.enum(['bracelets', 'rings', 'phone-charms', 'keychains', 'other']).default('bracelets'),
-    category: localizedString,
+    categoryId: categoryIdSchema.default('bracelets'),
     images: z.array(mediaItemSchema).default([]),
-    inStock: z.boolean().default(true),
     materials: z.array(z.string()).optional(),
     materialsHtml: z.string().optional(),
     designedBy: z.string().optional(),
-    stockLocations: z.array(stockLocationSchema).default([]),
     badge: localizedString.optional(),
     remakeNote: localizedString.optional(),
     crafterNote: localizedString.optional(),
+    variants: z.array(variantSchema).min(1),
   }),
 });
 

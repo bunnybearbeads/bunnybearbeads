@@ -14,15 +14,9 @@
   "price": 200000,
   "currency": "VND",
   "categoryId": "keychains",
-  "category": {
-    "en": "Keychains",
-    "ru": "Брелоки на ключи",
-    "vi": "Móc khóa"
-  },
   "images": [
     "/emblem-squared.png"
   ],
-  "inStock": true,
   "materials": [
     "Miyuki Delica 11/0 – high-quality Japanese seed beads",
     "Colors: 10, 2102, 2117, 2127, 1134",
@@ -30,15 +24,22 @@
   ],
   "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 2102, 2117, 2127, 1134</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
   "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
-  "stockLocations": [
+  "variants": [
     {
-      "locationId": "ngay-mai"
-    },
-    {
-      "locationId": "cat-food"
-    },
-    {
-      "locationId": "online"
+      "sku": "pure",
+      "stockLocations": [
+        {
+          "locationId": "ngay-mai",
+          "quantity": 1
+        },
+        {
+          "locationId": "cat-food",
+          "quantity": 1
+        },
+        {
+          "locationId": "online"
+        }
+      ]
     }
   ]
 }

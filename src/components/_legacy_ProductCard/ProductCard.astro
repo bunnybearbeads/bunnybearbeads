@@ -2,13 +2,26 @@
 import './ProductCard.css';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
+import { categoryKey, type CategoryId } from '../../utils/products';
+
+/** Вариант для карточки: каталог подставляет тот, что подходит под фильтры */
+export interface CardVariant {
+  sku: string;
+  href: string;
+  title: string;
+  price: string;
+  image?: string;
+  categoryId: CategoryId;
+  categoryLabel: string;
+  /** Физические точки, где вариант есть в наличии */
+  locations: string[];
+}
 
 interface ProductCardData {
   title: string;
   description: string;
   price: number;
   currency?: string;
-  category: string;
   images?: string[];
   inStock?: boolean;
   badge?: string;
@@ -16,12 +29,16 @@ interface ProductCardData {
 
 interface Props {
   id: string;
-  categoryId: string;
+  categoryId: CategoryId;
+  /** Видимые варианты товара, первый — по умолчанию. По ним фильтрует каталог */
+  variants?: CardVariant[];
+  /** Первое изображение (для видео — постер) */
+  image?: string;
   data: ProductCardData;
   currentLang: SupportedLanguage;
 }
 
-const { id, categoryId, data, currentLang } = Astro.props;
+const { id, categoryId, variants = [], image, data, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 const detailUrl = getLocalizedUrl(`/catalog/${id}`, currentLang);
 
@@ -34,12 +51,13 @@ const categoryIcons: Record<string, string> = {
 const placeholderIcon = categoryIcons[categoryId] || '✨';
 ---
 
-<article class="product-card" data-category={categoryId}>
-  {data.images && data.images.length > 0 ? (
+<article class="product-card" data-variants={JSON.stringify(variants)}>
+  {image ? (
     <div class="product-image-box">
       <img
-        src={data.images[0]}
+        src={image}
         alt={data.title}
+        data-card-image
         loading="lazy"
       />
       {data.badge ? (
@@ -68,19 +86,19 @@ const placeholderIcon = categoryIcons[categoryId] || '✨';
   )}
 
   <div class="product-details">
-    <span class="product-category">{data.category}</span>
+    <span class="product-category" data-card-category>{t(categoryKey(categoryId))}</span>
     <h2 class="product-title">
-      <a href={detailUrl}>
+      <a href={detailUrl} data-card-link data-card-title>
         {data.title}
       </a>
     </h2>
     <p class="product-desc">{data.description}</p>
 
     <div class="product-bottom">
-      <span class="product-price">
+      <span class="product-price" data-card-price>
         {Number(data.price).toLocaleString('vi-VN')} {data.currency || 'VND'}
       </span>
-      <a href={detailUrl} class="btn btn-primary btn-sm">
+      <a href={detailUrl} class="btn btn-primary btn-sm" data-card-link>
         {t('catalog.view_details')} →
       </a>
     </div>

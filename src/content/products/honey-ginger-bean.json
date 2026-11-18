@@ -14,15 +14,9 @@
   "price": 110000,
   "currency": "VND",
   "categoryId": "keychains",
-  "category": {
-    "en": "Keychains",
-    "ru": "Брелоки на ключи",
-    "vi": "Móc khóa"
-  },
   "images": [
     "/emblem-squared.png"
   ],
-  "inStock": true,
   "materials": [
     "Miyuki Delica & Toho Aiko – the world’s best seed beads",
     "Delica colors: 147, 2106, 2108, 2112  •  Aiko colors: 21, 41, 49",
@@ -30,17 +24,23 @@
   ],
   "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 147, 2106, 2108, 2112  •  Aiko colors: 21, 41, 49</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
   "designedBy": "<span>Бижутерия Лапками</span>",
-  "stockLocations": [
-    {
-      "locationId": "dalat"
-    },
-    {
-      "locationId": "online"
-    }
-  ],
   "badge": {
     "en": "New",
     "ru": "Новинка",
     "vi": "Mới ra mắt"
-  }
+  },
+  "variants": [
+    {
+      "sku": "honey-ginger-bean",
+      "stockLocations": [
+        {
+          "locationId": "dalat",
+          "quantity": 1
+        },
+        {
+          "locationId": "online"
+        }
+      ]
+    }
+  ]
 }

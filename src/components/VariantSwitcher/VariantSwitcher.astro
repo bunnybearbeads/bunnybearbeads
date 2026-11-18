@@ -1,0 +1,48 @@
+---
+import './VariantSwitcher.css';
+import DottedTitle from '../DottedTitle/DottedTitle.astro';
+
+export interface VariantSwitcherItem {
+  sku: string;
+  label: string;
+  /** Полный заголовок вкладки браузера для этого варианта */
+  documentTitle: string;
+  price: string;
+  thumb?: string;
+  isDefault: boolean;
+}
+
+interface Props {
+  title: string;
+  /** Адрес страницы товара без параметров */
+  baseUrl: string;
+  items: VariantSwitcherItem[];
+}
+
+const { title, baseUrl, items } = Astro.props;
+---
+
+<div class="variant-switcher">
+  <DottedTitle>{title}</DottedTitle>
+  <div class="variant-switcher__list" role="list">
+    {items.map((item) => (
+      <a
+        class:list={['variant-switcher__item', { 'variant-switcher__item--current': item.isDefault }]}
+        href={item.isDefault ? baseUrl : `${baseUrl}?v=${item.sku}`}
+        role="listitem"
+        aria-current={item.isDefault ? 'true' : undefined}
+        data-variant-link={item.sku}
+        data-variant-title={item.documentTitle}
+        data-variant-default={item.isDefault ? '' : undefined}
+      >
+        {item.thumb && (
+          <img class="variant-switcher__thumb" src={item.thumb} alt="" loading="lazy" />
+        )}
+        <span class="variant-switcher__text">
+          <span class="variant-switcher__label">{item.label}</span>
+          <span class="variant-switcher__price">{item.price}</span>
+        </span>
+      </a>
+    ))}
+  </div>
+</div>

@@ -1,18 +1,18 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import Product from '../../../components/Product/Product.astro';
-import { getCollection } from 'astro:content';
 import { SUPPORTED_LANGUAGES, resolveLang, localize } from '../../../i18n/utils';
+import { getProducts, getDefaultVariant, resolveVariant } from '../../../utils/products';
 
 export async function getStaticPaths() {
-  const products = await getCollection('products');
+  const products = await getProducts();
   return SUPPORTED_LANGUAGES.flatMap((lang) =>
     products.map((product) => ({
       params: {
         lang: lang === 'en' ? undefined : lang,
         id: product.id,
       },
-      props: { productRaw: product },
+      props: { entry: product },
     }))
   );
 }
@@ -20,8 +20,8 @@ export async function getStaticPaths() {
 const { lang: langParam } = Astro.params;
 const currentLang = resolveLang(langParam);
 
-const { productRaw } = Astro.props;
-const product = localize(productRaw.data, currentLang);
+const { entry } = Astro.props;
+const product = localize(resolveVariant(entry, getDefaultVariant(entry)), currentLang);
 ---
 
 <Layout
@@ -29,9 +29,5 @@ const product = localize(productRaw.data, currentLang);
   title={`${product.title} — BunnyBearBeads`}
   description={product.description}
 >
-  <Product
-    product={product}
-    productRaw={productRaw}
-    currentLang={currentLang}
-  />
+  <Product entry={entry} currentLang={currentLang} />
 </Layout>

@@ -451,6 +451,26 @@ export const translations = {
     ru: 'Нет в наличии',
     vi: 'Tạm hết hàng',
   },
+  'catalog.variants_label': {
+    en: 'Versions',
+    ru: 'Варианты',
+    vi: 'Phiên bản',
+  },
+  'catalog.variant_default': {
+    en: 'Original',
+    ru: 'Оригинал',
+    vi: 'Bản gốc',
+  },
+  'catalog.filter.location_all': {
+    en: 'Anywhere',
+    ru: 'Везде',
+    vi: 'Mọi nơi',
+  },
+  'catalog.empty': {
+    en: 'Nothing matches these filters yet',
+    ru: 'По этим фильтрам пока ничего нет',
+    vi: 'Chưa có sản phẩm phù hợp với bộ lọc',
+  },
   'catalog.craft_remake': {
     en: 'Happy to craft a remake',
     ru: 'С удовольствием сплету повтор',

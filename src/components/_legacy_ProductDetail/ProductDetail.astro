@@ -13,8 +13,7 @@ import {
 } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
 import { LOCATIONS, getLocation } from '../../config/locations';
-import PartnerModals from './PartnerModals.astro';
-import RemakeModal from '../RemakeModal/RemakeModal.astro';
+import { categoryKey } from '../../utils/products';
 import Inquiry from '../Inquiry/Inquiry.astro';
 import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 import Icon from '../Icon/Icon.astro';
@@ -26,9 +25,12 @@ interface Props {
   product: any;
   productRaw: any;
   currentLang: SupportedLanguage;
+  /** Рендерить QR-модалки мессенджеров. На странице с вариантами — только у первого */
+  withModals?: boolean;
 }
 
-const { product, productRaw, currentLang } = Astro.props;
+// Модалки партнёров и повтора рендерит Product.astro — один раз на страницу
+const { product, productRaw, currentLang, withModals = true } = Astro.props;
 const t = useTranslations(currentLang);
 const categoryId = productRaw.data.categoryId || 'bracelets';
 const remakeNote = product.remakeNote || product.crafterNote;
@@ -119,7 +121,7 @@ const remakeText = {
       href={`${getLocalizedUrl('/catalog', currentLang)}?category=${categoryId}`}
       class="product-breadcrumb-link product-category"
     >
-      {product.category}
+      {t(categoryKey(categoryId))}
     </a>
   </nav>
   <h1>{product.title}</h1>
@@ -140,6 +142,7 @@ const remakeText = {
     <Inquiry
         currentLang={currentLang}
         productTitle={product.title}
+        withModals={withModals}
     />
   </div>
 
@@ -404,19 +407,5 @@ const remakeText = {
   )}
 
 </div>
-
-<PartnerModals
-  product={product}
-  currentLang={currentLang}
-/>
-
-{!isDalatInStock && (
-  <RemakeModal
-    product={product}
-    currentLang={currentLang}
-    categoryId={categoryId}
-    remakeDays={remakeDays}
-  />
-)}
 
 <script src="./productDetail.client.ts"></script>

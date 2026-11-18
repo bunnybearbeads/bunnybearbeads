@@ -14,15 +14,9 @@
   "price": 155000,
   "currency": "VND",
   "categoryId": "keychains",
-  "category": {
-    "en": "Keychains",
-    "ru": "Брелоки на ключи",
-    "vi": "Móc khóa"
-  },
   "images": [
     "/emblem-squared.png"
   ],
-  "inStock": false,
   "materials": [
     "Toho Aiko – the world’s best seed beads; manufactured in Japan",
     "Colors: 46, 46L, 49, 122, 125, 714",
@@ -30,5 +24,11 @@
   ],
   "materialsHtml": "<span class=\"mat-beads\">Toho Aiko – the world’s best seed beads; manufactured in Japan</span><br />\n<span class=\"mat-colors\"><strong>Colors: 46, 46L, 49, 122, 125, 714</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
   "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
-  "stockLocations": []
+  "variants": [
+    {
+      "sku": "glaze-petite-joy",
+      "inStock": false,
+      "stockLocations": []
+    }
+  ]
 }

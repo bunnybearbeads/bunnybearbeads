@@ -14,15 +14,9 @@
   "price": 120000,
   "currency": "VND",
   "categoryId": "phone-charms",
-  "category": {
-    "en": "Phone Charms",
-    "ru": "Фончармы (на телефон)",
-    "vi": "Dây đeo điện thoại"
-  },
   "images": [
     "/emblem-squared.png"
   ],
-  "inStock": false,
   "materials": [
     "Miyuki Delica 11/0 – high-quality Japanese seed beads",
     "Colors: 10, 2115, 2106, 2108, 2142",
@@ -30,5 +24,11 @@
   ],
   "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 2115, 2106, 2108, 2142</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
   "designedBy": "<a href=\"https://www.etsy.com\" target=\"_blank\" rel=\"noopener noreferrer\">BeadCrumbs</a> (Etsy)",
-  "stockLocations": []
+  "variants": [
+    {
+      "sku": "sir-muffin",
+      "inStock": false,
+      "stockLocations": []
+    }
+  ]
 }

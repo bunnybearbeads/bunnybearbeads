@@ -14,15 +14,9 @@
   "price": 100000,
   "currency": "VND",
   "categoryId": "phone-charms",
-  "category": {
-    "en": "Phone Charms",
-    "ru": "Фончармы (на телефон)",
-    "vi": "Dây đeo điện thoại"
-  },
   "images": [
     "/emblem-squared.png"
   ],
-  "inStock": true,
   "materials": [
     "Miyuki Delica 11/0 – high-quality Japanese seed beads",
     "Colors: 201, 658, 659, 726, 2134",
@@ -30,23 +24,45 @@
   ],
   "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 201, 658, 659, 726, 2134</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
   "designedBy": "<a href=\"https://www.etsy.com\" target=\"_blank\" rel=\"noopener noreferrer\">BeadyourEarrings</a> (Etsy)",
-  "stockLocations": [
+  "variants": [
     {
-      "locationId": "dalat"
-    },
-    {
-      "locationId": "ngay-mai",
-      "note": {
-        "en": "<p>This version is crafted using larger seed beads.</p>",
-        "ru": "<p>В этой версии использован бисер большего размера.</p>",
-        "vi": "<p>Phiên bản này sử dụng hạt cườm có kích thước lớn hơn.</p>"
+      "sku": "tide-whisper",
+      "label": {
+        "en": "Classic",
+        "ru": "Классика",
+        "vi": "Cổ điển"
       },
-      "images": [
-        "/images/products/chaos.jpg"
+      "stockLocations": [
+        {
+          "locationId": "dalat",
+          "quantity": 1
+        },
+        {
+          "locationId": "online"
+        }
       ]
     },
     {
-      "locationId": "online"
+      "sku": "tide-whisper-large",
+      "label": {
+        "en": "Larger beads",
+        "ru": "Крупный бисер",
+        "vi": "Hạt lớn"
+      },
+      "images": [
+        "/images/products/chaos.jpg"
+      ],
+      "stockLocations": [
+        {
+          "locationId": "ngay-mai",
+          "quantity": 1,
+          "note": {
+            "en": "<p>This version is crafted using larger seed beads.</p>",
+            "ru": "<p>В этой версии использован бисер большего размера.</p>",
+            "vi": "<p>Phiên bản này sử dụng hạt cườm có kích thước lớn hơn.</p>"
+          }
+        }
+      ]
     }
   ]
 }

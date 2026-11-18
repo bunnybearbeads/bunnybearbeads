@@ -59,6 +59,11 @@ export function initGallery(galleryRoot: HTMLElement): void {
 
   if (!mainNode || !thumbsNode) return;
 
+  // На странице с вариантами галерея каждого варианта лежит в своей панели [hidden].
+  // Скрытая галерея не листается с клавиатуры и не воспроизводит видео.
+  // Embla сама делает reInit через ResizeObserver, когда панель становится видимой.
+  const isGalleryHidden = () => Boolean(galleryRoot.closest('[hidden]'));
+
   // Embla Carousels initialization
   const emblaMain = EmblaCarousel(mainNode, {
     loop: false,
@@ -196,10 +201,16 @@ export function initGallery(galleryRoot: HTMLElement): void {
   const syncPageVideoPlayback = () => {
     const selectedIndex = emblaMain.selectedScrollSnap();
     const currentSlides = emblaMain.slideNodes();
+    const galleryHidden = isGalleryHidden();
 
     currentSlides.forEach((slide, idx) => {
       const video = slide.querySelector<HTMLVideoElement>('video');
       if (!video) return;
+
+      if (galleryHidden) {
+        video.pause();
+        return;
+      }
 
       let state = pageVideoStates.get(idx);
       if (!state) {
@@ -279,6 +290,7 @@ export function initGallery(galleryRoot: HTMLElement): void {
   // Keyboard navigation for embedded gallery (blocked in modals, PhotoSwipe, and form inputs)
   window.addEventListener('keydown', (event) => {
     if (
+      isGalleryHidden() ||
       isEditableTarget(event.target) ||
       isEditableTarget(document.activeElement) ||
       document.querySelector('.pswp--open') ||

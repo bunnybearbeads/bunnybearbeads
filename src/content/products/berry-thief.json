@@ -14,15 +14,9 @@
   "price": 100000,
   "currency": "VND",
   "categoryId": "phone-charms",
-  "category": {
-    "en": "Phone Charms",
-    "ru": "Фончармы (на телефон)",
-    "vi": "Dây đeo điện thoại"
-  },
   "images": [
     "/emblem-squared.png"
   ],
-  "inStock": true,
   "materials": [
     "Miyuki Delica 11/0 – high-quality Japanese seed beads",
     "Colors: 10, 200, 2104",
@@ -30,9 +24,14 @@
   ],
   "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica 11/0 – high-quality Japanese seed beads</span><br />\n<span class=\"mat-colors\"><strong>Colors: 10, 200, 2104</strong></span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
   "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
-  "stockLocations": [
+  "variants": [
     {
-      "locationId": "online"
+      "sku": "berry-thief",
+      "stockLocations": [
+        {
+          "locationId": "online"
+        }
+      ]
     }
   ]
 }

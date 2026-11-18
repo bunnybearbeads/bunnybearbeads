@@ -2,77 +2,199 @@
 import './Product.css';
 import Gallery from '../Gallery/Gallery.astro';
 import ProductDetail from '../_legacy_ProductDetail/ProductDetail.astro';
+import PartnerModals from '../_legacy_ProductDetail/PartnerModals.astro';
+import RemakeModal from '../RemakeModal/RemakeModal.astro';
+import VariantSwitcher from '../VariantSwitcher/VariantSwitcher.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
-import { useTranslations } from '../../i18n/utils';
+import { useTranslations, localize, getLocalizedUrl } from '../../i18n/utils';
+import { siteSettings } from '../../config/siteSettings';
+import {
+  type ProductEntry,
+  getVisibleVariants,
+  getDefaultVariant,
+  resolveVariant,
+  getLocationQty,
+  getFirstImageSrc,
+} from '../../utils/products';
 
 interface Props {
-  product: any;
-  productRaw: any;
+  entry: ProductEntry;
   currentLang: SupportedLanguage;
 }
 
-const { product, productRaw, currentLang } = Astro.props;
+const { entry, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
+const defaultSku = getDefaultVariant(entry).sku;
+
+const variants = getVisibleVariants(entry).map((variant) => {
+  const resolved = resolveVariant(entry, variant);
+  const product = localize(resolved, currentLang);
+  const label = variant.label ?? variant.name;
+  return {
+    sku: variant.sku,
+    isDefault: variant.sku === defaultSku,
+    productRaw: { id: entry.id, data: resolved },
+    product,
+    label: label ? localize(label, currentLang) : t('catalog.variant_default'),
+    thumb: getFirstImageSrc(resolved.images),
+    needsRemake: getLocationQty(resolved.stockLocations, 'dalat') === 0,
+  };
+});
+
+const defaultVariant = variants[0];
+const hasSwitcher = variants.length > 1;
+const switcherItems = variants.map((v) => ({
+  sku: v.sku,
+  label: v.label,
+  documentTitle: `${v.product.title} — BunnyBearBeads`,
+  price: `${Number(v.product.price).toLocaleString('vi-VN')} ${v.product.currency || 'VND'}`,
+  thumb: v.thumb,
+  isDefault: v.isDefault,
+}));
 ---
 
-<div class="product">
+<div class="product" data-product data-default-variant={defaultSku}>
   <div class="product__wrap container">
     <div class="product__body">
       <div class="product__summary">
         <div class="product__gallery">
-          <Gallery images={product.images} alt={product.title} lang={currentLang} />
-          <div class="product__variants"></div>
+          {variants.map((v) => (
+            <div class="product__pane" data-variant-pane={v.sku} hidden={!v.isDefault}>
+              <Gallery images={v.product.images} alt={v.product.title} lang={currentLang} />
+            </div>
+          ))}
+          {hasSwitcher && (
+            <div class="product__variants">
+              <VariantSwitcher
+                title={t('catalog.variants_label')}
+                baseUrl={getLocalizedUrl(`/catalog/${entry.id}`, currentLang)}
+                items={switcherItems}
+              />
+            </div>
+          )}
         </div>
 
         <div class="product__specs-col">
-          <!-- Materials Section -->
-          {(productRaw.data.materialsHtml || (product.materials && product.materials.length > 0)) && (
-            <div class="product-specs-section">
-              <strong class="specs-heading">
-                {t('catalog.materials_label')}
-              </strong>
-              {productRaw.data.materialsHtml ? (
-                <div class="materials-html-content" set:html={productRaw.data.materialsHtml} />
-              ) : (
-                <div class="materials-tags">
-                  {product.materials.map((mat: string) => (
-                    <span class="material-tag">{mat}</span>
-                  ))}
+          {variants.map((v) => (
+            <div class="product__pane" data-variant-pane={v.sku} hidden={!v.isDefault}>
+              <!-- Materials Section -->
+              {(v.productRaw.data.materialsHtml || (v.product.materials && v.product.materials.length > 0)) && (
+                <div class="product-specs-section">
+                  <strong class="specs-heading">
+                    {t('catalog.materials_label')}
+                  </strong>
+                  {v.productRaw.data.materialsHtml ? (
+                    <div class="materials-html-content" set:html={v.productRaw.data.materialsHtml} />
+                  ) : (
+                    <div class="materials-tags">
+                      {v.product.materials.map((mat: string) => (
+                        <span class="material-tag">{mat}</span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
-            </div>
-          )}
 
-          <!-- Credits Section -->
-          <div class="product-specs-section credits-section">
-            <strong class="specs-heading">
-              {t('catalog.credits')}
-            </strong>
-            <div class="credits-box">
-              <div class="credit-row">
-                <span class="credit-label">{t('catalog.crafted_by')}:</span>
-                <strong class="credit-val brand-craft">BunnyBearBeads</strong>
-              </div>
-              {productRaw.data.designedBy && (
-                <div class="credit-row">
-                  <span class="credit-label">{t('catalog.designed_by')}:</span>
-                  <span class="credit-val" set:html={productRaw.data.designedBy} />
+              <!-- Credits Section -->
+              <div class="product-specs-section credits-section">
+                <strong class="specs-heading">
+                  {t('catalog.credits')}
+                </strong>
+                <div class="credits-box">
+                  <div class="credit-row">
+                    <span class="credit-label">{t('catalog.crafted_by')}:</span>
+                    <strong class="credit-val brand-craft">BunnyBearBeads</strong>
+                  </div>
+                  {v.productRaw.data.designedBy && (
+                    <div class="credit-row">
+                      <span class="credit-label">{t('catalog.designed_by')}:</span>
+                      <span class="credit-val" set:html={v.productRaw.data.designedBy} />
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
 
       <div class="product__details">
-        <ProductDetail
-          product={product}
-          productRaw={productRaw}
-          currentLang={currentLang}
-        />
+        {variants.map((v, index) => (
+          <div class="product__pane" data-variant-pane={v.sku} hidden={!v.isDefault}>
+            <ProductDetail
+              product={v.product}
+              productRaw={v.productRaw}
+              currentLang={currentLang}
+              withModals={index === 0}
+            />
+          </div>
+        ))}
       </div>
     </div>
 
     <div class="product__related"></div>
   </div>
 </div>
+
+{/* Модальные окна общие для всех вариантов — рендерятся один раз, чтобы не дублировать id */}
+<PartnerModals product={defaultVariant.product} currentLang={currentLang} />
+
+{variants.some((v) => v.needsRemake) && (
+  <RemakeModal
+    product={defaultVariant.product}
+    currentLang={currentLang}
+    categoryId={defaultVariant.productRaw.data.categoryId}
+    remakeDays={siteSettings.fulfillment.remakeDays}
+  />
+)}
+
+{hasSwitcher && (
+  <script is:inline>
+    /*
+     * Переключатель вариантов. Inline и в конце разметки — чтобы вариант из ?v=sku
+     * показался до первой отрисовки, без мигания варианта по умолчанию.
+     */
+    (function () {
+      var root = document.querySelector('[data-product]');
+      if (!root) return;
+      var defaultSku = root.getAttribute('data-default-variant');
+      var links = Array.prototype.slice.call(root.querySelectorAll('[data-variant-link]'));
+      var panes = Array.prototype.slice.call(root.querySelectorAll('[data-variant-pane]'));
+
+      function findLink(sku) {
+        return links.find(function (l) { return l.getAttribute('data-variant-link') === sku; });
+      }
+
+      function show(sku, updateUrl) {
+        var link = findLink(sku);
+        if (!link) return;
+        panes.forEach(function (p) { p.hidden = p.getAttribute('data-variant-pane') !== sku; });
+        links.forEach(function (l) {
+          var current = l === link;
+          l.classList.toggle('variant-switcher__item--current', current);
+          if (current) l.setAttribute('aria-current', 'true');
+          else l.removeAttribute('aria-current');
+        });
+        document.title = link.getAttribute('data-variant-title') || document.title;
+        if (updateUrl) {
+          var url = new URL(window.location.href);
+          if (sku === defaultSku) url.searchParams.delete('v');
+          else url.searchParams.set('v', sku);
+          history.replaceState(history.state, '', url);
+        }
+        root.dispatchEvent(new CustomEvent('variantchange', { detail: { sku: sku } }));
+      }
+
+      var initial = new URLSearchParams(window.location.search).get('v');
+      if (initial && initial !== defaultSku) show(initial, false);
+
+      links.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+          event.preventDefault();
+          show(link.getAttribute('data-variant-link'), true);
+        });
+      });
+    })();
+  </script>
+)}

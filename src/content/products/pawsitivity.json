@@ -14,32 +14,32 @@
   "price": 130000,
   "currency": "VND",
   "categoryId": "phone-charms",
-  "category": {
-    "en": "Phone Charms",
-    "ru": "Фончармы (на телефон)",
-    "vi": "Dây đeo điện thoại"
-  },
   "images": [
     "/emblem-squared.png"
   ],
-  "inStock": true,
   "materials": [
     "Miyuki Delica DB-551 & Toho Aiko TA-121– the world’s best seed beads",
     "Generic charm strap"
   ],
   "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica DB-551 & Toho Aiko TA-121– the world’s best seed beads</span><br />\n<span class=\"mat-accessory\">Generic charm strap</span>",
   "designedBy": "<a href=\"https://bijubead.ru\" target=\"_blank\" rel=\"noopener noreferrer\">bijubead.ru</a>",
-  "stockLocations": [
-    {
-      "locationId": "dalat"
-    },
-    {
-      "locationId": "online"
-    }
-  ],
   "badge": {
     "en": "Bestseller",
     "ru": "Хит продаж",
     "vi": "Bán chạy"
-  }
+  },
+  "variants": [
+    {
+      "sku": "pawsitivity",
+      "stockLocations": [
+        {
+          "locationId": "dalat",
+          "quantity": 1
+        },
+        {
+          "locationId": "online"
+        }
+      ]
+    }
+  ]
 }
