@@ -7,6 +7,8 @@ export interface VariantSwitcherItem {
   label: string;
   /** Полный заголовок вкладки браузера для этого варианта */
   documentTitle: string;
+  /** Название варианта — подставляется в общие модалки */
+  productTitle: string;
   price: string;
   thumb?: string;
   isDefault: boolean;
@@ -33,6 +35,7 @@ const { title, baseUrl, items } = Astro.props;
         aria-current={item.isDefault ? 'true' : undefined}
         data-variant-link={item.sku}
         data-variant-title={item.documentTitle}
+        data-variant-product-name={item.productTitle}
         data-variant-default={item.isDefault ? '' : undefined}
       >
         {item.thumb && (
