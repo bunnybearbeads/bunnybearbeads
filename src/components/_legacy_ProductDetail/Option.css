@@ -79,14 +79,14 @@
             gap: 4px;
             margin-top: 8px;
             padding: 4px 11px;
-            background-color: rgb(42 123 136 / 12%);
-            border: 1px solid rgb(42 123 136 / 30%);
+            background-color: #F7EFEA;
+            border: 1px solid rgb(143 81 67 / 24%);
             border-radius: 14px;
             font-family: inherit;
             font-weight: bold;
             font-size: 13px;
             line-height: 18px;
-            color: var(--accent-teal);
+            color: var(--link-color);
             white-space: nowrap;
             user-select: none;
         }
@@ -99,9 +99,9 @@
         }
 
         .option__quantity--clickable:hover {
-            background-color: rgb(42 123 136 / 22%);
-            border-color: var(--accent-teal);
-            box-shadow: 0 3px 8px rgb(42 123 136 / 15%);
+            background-color: #EFE4DC;
+            border-color: var(--link-color);
+            box-shadow: 0 3px 8px rgb(143 81 67 / 15%);
         }
 
         .option__quantity--clickable:focus-visible {
@@ -230,12 +230,12 @@
             }
 
             .option__photo:hover {
-                border-color: var(--accent-teal);
-                box-shadow: 0 4px 10px rgb(42 123 136 / 16%);
+                border-color: var(--color-brand-dark);
+                box-shadow: 0 4px 10px rgb(44 36 32 / 16%);
             }
 
             .option__photo:focus-visible {
-                outline: 2px solid var(--accent-teal);
+                outline: 2px solid var(--color-brand-dark);
                 outline-offset: 2px;
             }
 

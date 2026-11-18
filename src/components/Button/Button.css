@@ -7,7 +7,7 @@
     border: 1px solid transparent;
     padding: 11px 26px;
     min-width: 100px;
-    background-color: var(--accent-teal);
+    background-color: var(--color-brand-dark);
     border-radius: var(--radius-pill, 50px);
     font-family: inherit;
     font-weight: 600;
@@ -20,7 +20,7 @@
     white-space: nowrap;
     cursor: pointer;
     user-select: none;
-    box-shadow: 0 4px 14px rgb(44 40 37 / 14%), 0 1px 3px rgb(0 0 0 / 8%);
+    box-shadow: 0 4px 14px rgb(44 36 32 / 16%), 0 1px 3px rgb(0 0 0 / 6%);
     transition: background-color var(--transition-hover),
                 border-color var(--transition-hover),
                 color var(--transition-hover),
@@ -31,12 +31,12 @@
 
 .button:hover {
     background-color: var(--accent-teal-hover);
-    box-shadow: 0 6px 18px rgb(44 40 37 / 20%), 0 2px 4px rgb(0 0 0 / 10%);
+    box-shadow: 0 6px 18px rgb(44 36 32 / 24%), 0 2px 4px rgb(0 0 0 / 8%);
 }
 
 .button:active {
     translate: 0 1px;
-    box-shadow: 0 2px 6px rgb(44 40 37 / 12%);
+    box-shadow: 0 2px 6px rgb(44 36 32 / 12%);
     transition: none;
 }
 
@@ -54,13 +54,14 @@
 /* Secondary variant */
 .button--secondary {
     box-shadow: none;
-    background-color: rgb(255 255 255 / 80%);
+    background-color: #FFFFFF;
     color: var(--color-brand-dark);
-    border-color: rgb(0 0 0 / 10%);
+    border-color: rgb(44 36 32 / 14%);
 }
 
 .button--secondary:hover {
-    background-color: #EFEFEF;
+    background-color: var(--action-bg-light);
+    border-color: var(--color-brand-dark);
 }
 
 .button--secondary:active {

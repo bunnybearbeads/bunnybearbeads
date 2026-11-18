@@ -24,7 +24,7 @@
 }
 
 .product-breadcrumb-link:hover {
-  color: var(--accent-teal);
+  color: var(--color-brand-dark);
 }
 
 .product-top-sep {
@@ -38,7 +38,7 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent-teal);
+  color: var(--link-color);
   font-weight: 700;
   margin-bottom: 0;
 }
@@ -61,7 +61,7 @@
   font-family: var(--font-serif);
   font-size: 32px;
   font-weight: 700;
-  color: var(--accent-gold);
+  color: var(--color-brand-dark);
 }
 
 .product-description-text {
@@ -126,7 +126,7 @@
 }
 
 .materials-html-content .mat-colors {
-  color: var(--accent-teal);
+  color: var(--link-color);
   font-size: 12px;
 }
 
@@ -157,12 +157,12 @@
 }
 
 .brand-craft {
-  color: var(--accent-teal);
+  color: var(--color-brand-dark);
   font-weight: 700;
 }
 
 .credit-val a {
-  color: var(--accent-teal);
+  color: var(--link-color);
   text-decoration: underline;
   font-weight: 600;
 }

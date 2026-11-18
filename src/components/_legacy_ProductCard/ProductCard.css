@@ -36,13 +36,13 @@
   align-items: center;
   justify-content: center;
   min-height: 252px;
-  background: linear-gradient(135deg, rgba(212, 163, 89, 0.16) 0%, rgba(42, 123, 136, 0.14) 100%);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  background: linear-gradient(135deg, rgb(158 125 88 / 12%) 0%, rgb(143 81 67 / 10%) 100%);
+  border-bottom: 1px solid rgb(0 0 0 / 4%);
 }
 
 .placeholder-icon {
   font-size: 50px;
-  filter: drop-shadow(0 4px 8px rgba(60, 45, 30, 0.12));
+  filter: drop-shadow(0 4px 8px rgb(60 45 30 / 12%));
 }
 
 .product-image-box img {
@@ -60,21 +60,21 @@
   position: absolute;
   top: 14px;
   right: 14px;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgb(255 255 255 / 95%);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(212, 163, 89, 0.4);
+  border: 1px solid rgb(158 125 88 / 30%);
   color: var(--color-brand-dark);
   font-size: 11px;
   font-weight: 700;
   padding: 4px 11px;
   border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgb(0 0 0 / 6%);
 }
 
 .product-badge.out-of-stock {
-  color: #B45309;
-  border-color: rgba(180, 83, 9, 0.35);
-  background: rgba(255, 250, 245, 0.95);
+  color: #8F5143;
+  border-color: rgb(143 81 67 / 35%);
+  background: #FDF9F7;
 }
 
 .product-details {
@@ -88,7 +88,7 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent-teal);
+  color: var(--link-color);
   font-weight: 700;
   margin-bottom: 5px;
 }
@@ -106,7 +106,7 @@
 }
 
 .product-title a:hover {
-  color: var(--accent-teal);
+  color: var(--link-color);
 }
 
 .product-desc {

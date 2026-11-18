@@ -36,14 +36,15 @@
 
 .feature-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(42, 123, 136, 0.3);
+  border-color: var(--color-brand-dark);
 }
 
 .feature-icon {
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(42, 123, 136, 0.15));
+  background: #F7EFEA;
+  color: var(--color-brand-dark);
   display: flex;
   align-items: center;
   justify-content: center;
