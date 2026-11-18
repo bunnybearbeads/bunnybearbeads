@@ -451,6 +451,11 @@ export const translations = {
     ru: 'Нет в наличии',
     vi: 'Tạm hết hàng',
   },
+  'catalog.availability_title': {
+    en: 'Availability',
+    ru: 'Наличие',
+    vi: 'Còn hàng',
+  },
   'catalog.variants_label': {
     en: 'Versions',
     ru: 'Варианты',

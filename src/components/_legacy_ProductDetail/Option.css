@@ -91,6 +91,48 @@
             user-select: none;
         }
 
+        /* Какие варианты лежат в этой точке (если у товара их несколько) */
+        .option__variants {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+            .option__variant {
+                padding: 3px 10px;
+                background-color: #FFFFFF;
+                border: 1px solid rgb(44 36 32 / 14%);
+                border-radius: var(--radius-pill);
+                font-family: inherit;
+                font-size: 12px;
+                line-height: 16px;
+                color: var(--color-brand-dark);
+                cursor: pointer;
+                transition: background-color var(--transition-hover),
+                            border-color var(--transition-hover);
+            }
+
+            .option__variant:hover {
+                background-color: var(--action-bg-light);
+                border-color: var(--color-brand-dark);
+            }
+
+            .option__variant:focus-visible {
+                outline: 2px solid var(--color-brand-dark);
+                outline-offset: 2px;
+            }
+
+            .option__variant--current,
+            .option__variant--current:hover {
+                background-color: var(--color-brand-dark);
+                border-color: var(--color-brand-dark);
+                color: #FFFFFF;
+                cursor: default;
+            }
+                .option__variant-qty {
+                    opacity: 75%;
+                }
+
         .option__quantity--clickable {
             cursor: pointer;
             transition: background-color var(--transition-long-hover),

@@ -1,25 +1,16 @@
 ---
+/**
+ * Шапка варианта товара: хлебные крошки, название, описание, цена, кнопки заказа.
+ * Рендерится отдельно для каждого варианта. Наличие общее для всех вариантов —
+ * см. ProductAvailability.astro. Обёртку .product-info-panel даёт Product.astro.
+ */
 import './ProductDetail.css';
-import './Option.css';
 import '../Icon/Icon.css';
 import { type SupportedLanguage } from '../../i18n/ui';
-import {
-  getLocalizedUrl,
-  useTranslations,
-  localize,
-  formatAuditRelativeDate,
-  formatStudioStockQty,
-  formatShowcaseStockQty,
-} from '../../i18n/utils';
-import { siteSettings } from '../../config/siteSettings';
-import { LOCATIONS, getLocation } from '../../config/locations';
+import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
 import { categoryKey } from '../../utils/products';
 import Inquiry from '../Inquiry/Inquiry.astro';
 import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
-import Icon from '../Icon/Icon.astro';
-import Button from '../Button/Button.astro';
-import Link from '../Link/Link.astro';
-import DottedTitle from "@/components/DottedTitle/DottedTitle.astro";
 
 interface Props {
   product: any;
@@ -29,383 +20,41 @@ interface Props {
   withModals?: boolean;
 }
 
-// Модалки партнёров и повтора рендерит Product.astro — один раз на страницу
 const { product, productRaw, currentLang, withModals = true } = Astro.props;
 const t = useTranslations(currentLang);
 const categoryId = productRaw.data.categoryId || 'bracelets';
-const remakeNote = product.remakeNote || product.crafterNote;
-
-interface NormalizedLocationImage {
-  src: string;
-  alt: string;
-}
-
-function normalizeLocationImages(
-  rawImages: any[] | undefined,
-  fallbackTitle: string
-): NormalizedLocationImage[] {
-  if (!Array.isArray(rawImages)) return [];
-  return rawImages.map((img, idx) => {
-    if (typeof img === 'string') {
-      return { src: img, alt: `${fallbackTitle} — ${idx + 1}` };
-    }
-    const localizedAlt = img.alt
-      ? typeof img.alt === 'string'
-        ? img.alt
-        : localize(img.alt, currentLang)
-      : `${fallbackTitle} — ${idx + 1}`;
-    return { src: img.src, alt: localizedAlt };
-  });
-}
-
-const rawStock = productRaw.data.stockLocations || [];
-const stockLocations = rawStock.map((sl: any) => {
-  const meta = getLocation(sl.locationId) || LOCATIONS.dalat;
-  const fallbackLabel = `${product.title} (${meta.shop || t(meta.cityKey)})`;
-  return {
-    ...sl,
-    quantity: sl.quantity ?? 1,
-    noteHtml: sl.note ? localize(sl.note, currentLang) : undefined,
-    images: normalizeLocationImages(sl.images, fallbackLabel),
-    meta,
-  };
-});
-
-const dalatOffline = stockLocations.find((l: any) => l.meta.id === 'dalat');
-const otherOffline = stockLocations.filter((l: any) => l.meta.type === 'partner' && (l.quantity ?? 1) > 0);
-const hasOnline = stockLocations.some((l: any) => l.meta.type === 'online') || stockLocations.length === 0;
-
-const dalatQty = dalatOffline ? (dalatOffline.quantity ?? 1) : 0;
-const isDalatInStock = dalatQty > 0;
-const studioStockBadge = formatStudioStockQty(dalatQty || 1, currentLang);
-const dalatLoc = dalatOffline || {
-  locationId: 'dalat',
-  quantity: 0,
-  noteHtml: undefined,
-  images: [] as NormalizedLocationImage[],
-  meta: LOCATIONS.dalat,
-};
-
-let runningReadyCount = isDalatInStock ? dalatQty : 0;
-const partnerCards = otherOffline.map((loc: any) => {
-  const qty = loc.quantity ?? 1;
-  const badgeText = formatShowcaseStockQty(qty, runningReadyCount > 0, currentLang);
-  runningReadyCount += qty;
-  const lastCheckedAt = loc.meta.lastCheckedAt || siteSettings.partnerShops.lastCheckedAt;
-  const isOfflineCheckup = Boolean(lastCheckedAt);
-  return {
-    ...loc,
-    qty,
-    badgeText,
-    lastCheckedAt,
-    isOfflineCheckup,
-    modalTarget: isOfflineCheckup ? `#${loc.meta.modalId}` : undefined,
-  };
-});
-
-const remakeDays = siteSettings.fulfillment.remakeDays;
-const remakeText = {
-  en: { action: 'Remake', prep: 'in', unit: 'days' },
-  ru: { action: 'Повтор', prep: 'за', unit: 'дня' },
-  vi: { action: 'Nhận làm', prep: 'trong', unit: 'ngày' },
-}[currentLang];
 ---
 
-<div class="product-info-panel">
-  <nav class="product-top-meta" aria-label="Breadcrumb">
-    <a href={getLocalizedUrl('/catalog', currentLang)} class="product-breadcrumb-link">
-      {t('catalog.breadcrumb')}
-    </a>
-    <span class="product-top-sep" aria-hidden="true">→</span>
-    <a
-      href={`${getLocalizedUrl('/catalog', currentLang)}?category=${categoryId}`}
-      class="product-breadcrumb-link product-category"
-    >
-      {t(categoryKey(categoryId))}
-    </a>
-  </nav>
-  <h1>{product.title}</h1>
+<nav class="product-top-meta" aria-label="Breadcrumb">
+  <a href={getLocalizedUrl('/catalog', currentLang)} class="product-breadcrumb-link">
+    {t('catalog.breadcrumb')}
+  </a>
+  <span class="product-top-sep" aria-hidden="true">→</span>
+  <a
+    href={`${getLocalizedUrl('/catalog', currentLang)}?category=${categoryId}`}
+    class="product-breadcrumb-link product-category"
+  >
+    {t(categoryKey(categoryId))}
+  </a>
+</nav>
+<h1>{product.title}</h1>
 
-  {product.description && (
-    <div class="product-description-text">
-      <Wysiwyg>
-        {product.description}
-      </Wysiwyg>
-    </div>
-  )}
-
-  <div class="product-price-large">
-    {Number(product.price).toLocaleString('vi-VN')} {product.currency || 'VND'}
+{product.description && (
+  <div class="product-description-text">
+    <Wysiwyg>
+      {product.description}
+    </Wysiwyg>
   </div>
+)}
 
-  <div class="cta-buttons product-cta-buttons">
-    <Inquiry
-        currentLang={currentLang}
-        productTitle={product.title}
-        withModals={withModals}
-    />
-  </div>
-
-  <div class="product__stock-heading">
-    <DottedTitle>Наличие</DottedTitle>
-  </div>
-
-  <!-- Physical Copies & Fulfillment Section -->
-  <div class="where-to-buy-section">
-    <div
-      class="where-to-buy-content"
-      data-schedule-open={siteSettings.studio.openHour}
-      data-schedule-cutoff={siteSettings.studio.cutoffHour}
-      data-schedule-close={siteSettings.studio.closeHour}
-    >
-      {/* Card 1: Da Lat Studio Copy (or Remake) + Fulfillment Channels */}
-      <div class="option">
-        <div class="option__content">
-          <div class="option__head">
-            <div class="option__main-emoji" aria-hidden="true">
-              🏠
-            </div>
-            <div class="option__title">
-              <strong class="option__bold">{t('catalog.studio_card_title')}</strong>
-            </div>
-          </div>
-
-          {isDalatInStock ? (
-            <div class="option__quantity">
-              {studioStockBadge.qtyText}{' '}<span class="option__stock">{studioStockBadge.suffix}</span>
-            </div>
-          ) : (
-            <button
-              type="button"
-              class="option__quantity option__quantity--out-of-stock option__quantity--clickable"
-              data-hystmodal="#modal-remake"
-              title={t('catalog.remake_hint')}
-            >
-              {t('catalog.studio_remake_label')}{' '}<span class="option__stock option__stock--dotted">
-                {remakeText.action} <span class="option__preposition">{remakeText.prep} </span>{remakeDays}&nbsp;{remakeText.unit}
-              </span>
-              <Icon class="option__help-icon" name="help" />
-            </button>
-          )}
-        </div>
-
-        <div class="option__fulfillment">
-          <ul class="option__list" role="list">
-            {hasOnline && (
-              <>
-                <li class="option__item">
-                  <div class="option__fulfillment-head">
-                    <span class="option__fulfillment-emoji" aria-hidden="true">📦</span>
-                    <strong class="option__channel">{t('catalog.delivery_vn_title')}</strong>
-                  </div>
-                  <div class="option__info">
-                    <span class="option__note">{t('catalog.free')}</span>
-                    <span
-                      class="option__note"
-                      set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')}
-                    />
-                    <span class="option__note">
-                      <Icon name="payments" />
-                      <Icon name="qr_code" />
-                      {t('catalog.pay_on_receipt')}
-                    </span>
-                  </div>
-                </li>
-
-                <li class="option__item">
-                  <div class="option__fulfillment-head">
-                    <span class="option__fulfillment-emoji" aria-hidden="true">🛵</span>
-                    <strong class="option__channel">{t('catalog.delivery_dalat_title')}</strong>
-                  </div>
-                  <div class="option__info">
-                    <span class="option__note">{t('catalog.free')}</span>
-                    {isDalatInStock ? (
-                      <span
-                        class="option__note dalat-dynamic-cutoff-text"
-                        data-text-today={t('catalog.delivery_dalat_sub_today')}
-                        data-text-morning={t('catalog.delivery_dalat_sub_morning')}
-                        data-text-tomorrow={t('catalog.delivery_dalat_sub_tomorrow')}
-                        set:html={t('catalog.delivery_dalat_sub_today')}
-                      />
-                    ) : (
-                      <span class="option__note" set:html={t('catalog.delivery_dalat_sub_remake')} />
-                    )}
-                    <span class="option__note">
-                      <Icon name="payments" />
-                      <Icon name="qr_code" />
-                      {t('catalog.pay_on_receipt')}
-                    </span>
-                  </div>
-                </li>
-              </>
-            )}
-
-            <li class="option__item">
-              <div class="option__fulfillment-head">
-                <span class="option__fulfillment-emoji" aria-hidden="true">🛍️</span>
-                <strong class="option__channel">{t('catalog.pickup_studio_title')}</strong>
-              </div>
-              <div class="option__info">
-                {isDalatInStock ? (
-                  <span
-                    class="option__note dalat-dynamic-cutoff-text"
-                    data-text-today={t('catalog.pickup_dalat_sub_today')}
-                    data-text-morning={t('catalog.pickup_dalat_sub_morning')}
-                    data-text-tomorrow={t('catalog.pickup_dalat_sub_tomorrow')}
-                    set:html={t('catalog.pickup_dalat_sub_today')}
-                  />
-                ) : (
-                  <span class="option__note" set:html={t('catalog.pickup_dalat_sub_remake')} />
-                )}
-                <span class="option__note">
-                  <Icon name="payments" />
-                  <Icon name="qr_code" />
-                  {t('catalog.pay_on_pickup')}
-                </span>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        {(dalatLoc.noteHtml || dalatLoc.images.length > 0) && (
-          <div class="option__details">
-            {dalatLoc.noteHtml && (
-              <Wysiwyg
-                class="option__description"
-                smaller
-                halved
-                set:html={dalatLoc.noteHtml}
-              />
-            )}
-            {dalatLoc.images.length > 0 && (
-              <div class="option__gallery" data-option-photos>
-                {dalatLoc.images.map((img: NormalizedLocationImage) => (
-                  <a
-                    href={img.src}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="option__photo"
-                    data-option-photo
-                    title={t('catalog.modal.photo_zoom_hint')}
-                  >
-                    <img
-                      src={img.src}
-                      alt={img.alt}
-                      class="option__image"
-                      loading="lazy"
-                    />
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* Partner Showcase Physical Copies */}
-      {partnerCards.map((loc: any) => (
-        <div class="option">
-          <div class="option__content">
-            <div class="option__head">
-              <div class="option__main-emoji" aria-hidden="true">
-                📍
-              </div>
-              <div class="option__title">
-                <strong class="option__bold">{t(loc.meta.cityKey)}{loc.meta.districtKey ? `, ${t(loc.meta.districtKey)}` : ''}</strong>&nbsp;— {t('catalog.on_showcase_at')}&nbsp;{loc.meta.mapsUrl ? (
-                  <Link
-                    href={loc.meta.mapsUrl}
-                    target="_blank"
-                    accentUnderline
-                    title={loc.meta.modalMapsKey ? t(loc.meta.modalMapsKey) : undefined}
-                  >
-                    <strong class="option__bold">{loc.meta.shop}</strong>
-                  </Link>
-                ) : (
-                  <strong class="option__bold">{loc.meta.shop}</strong>
-                )}
-              </div>
-            </div>
-
-            <div class="option__info">
-              <span class="option__note" set:html={t('catalog.shop_working_hours')} />
-              <span class="option__note">
-                <Icon name="payments" />
-                <Icon name="qr_code" />
-                <Icon name="credit_card" />
-                {t('catalog.pay_in_store_checkout')}
-              </span>
-            </div>
-
-            {loc.isOfflineCheckup ? (
-              <button
-                type="button"
-                class="option__quantity option__quantity--clickable"
-                data-hystmodal={loc.modalTarget}
-                title={t('catalog.weekly_audit_hint')}
-              >
-                {loc.badgeText}{' '}<span
-                  class="option__stock option__stock--dotted"
-                  data-audit-date={loc.lastCheckedAt}
-                  set:html={formatAuditRelativeDate(loc.lastCheckedAt, currentLang)}
-                />
-                <Icon class="option__help-icon" name="help" />
-              </button>
-            ) : (
-              <div class="option__quantity">
-                {loc.badgeText}
-              </div>
-            )}
-          </div>
-
-          {(loc.noteHtml || loc.images.length > 0) && (
-            <div class="option__details">
-              {loc.noteHtml && (
-                <Wysiwyg
-                  class="option__description"
-                  smaller
-                  halved
-                  set:html={loc.noteHtml}
-                />
-              )}
-              {loc.images.length > 0 && (
-                <div class="option__gallery" data-option-photos>
-                  {loc.images.map((img: NormalizedLocationImage) => (
-                    <a
-                      href={img.src}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="option__photo"
-                      data-option-photo
-                      title={t('catalog.modal.photo_zoom_hint')}
-                    >
-                      <img
-                        src={img.src}
-                        alt={img.alt}
-                        class="option__image"
-                        loading="lazy"
-                      />
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  </div>
-
-  {remakeNote && (
-    <div class="product__remake-section">
-      <div class="product__remake-heading">
-        <DottedTitle>{t('catalog.remake_note_title')}</DottedTitle>
-      </div>
-      <div class="product__remake-note">
-        <Wysiwyg halved set:html={remakeNote} />
-      </div>
-    </div>
-  )}
-
+<div class="product-price-large">
+  {Number(product.price).toLocaleString('vi-VN')} {product.currency || 'VND'}
 </div>
 
-<script src="./productDetail.client.ts"></script>
+<div class="cta-buttons product-cta-buttons">
+  <Inquiry
+      currentLang={currentLang}
+      productTitle={product.title}
+      withModals={withModals}
+  />
+</div>

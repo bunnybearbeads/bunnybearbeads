@@ -1,0 +1,396 @@
+---
+/**
+ * Секция «Наличие» — общая для всех вариантов товара.
+ *
+ * - Мастерская в Далате показывается всегда: если готовых нет, предлагается повтор.
+ *   Доставка по Вьетнаму, курьер по Далату и самовывоз доступны всегда.
+ * - Витрины партнёров — только если там лежит хотя бы один вариант.
+ * - Количество суммируется по вариантам. Если вариантов несколько, в карточке видно,
+ *   какой вариант где лежит; клик по нему переключает страницу на этот вариант.
+ */
+import './ProductDetail.css';
+import './Option.css';
+import '../Icon/Icon.css';
+import { type SupportedLanguage } from '../../i18n/ui';
+import {
+  useTranslations,
+  localize,
+  formatAuditRelativeDate,
+  formatStudioStockQty,
+  formatShowcaseStockQty,
+} from '../../i18n/utils';
+import { siteSettings } from '../../config/siteSettings';
+import { LOCATIONS, PARTNER_LOCATIONS, type LocationId } from '../../config/locations';
+import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
+import Icon from '../Icon/Icon.astro';
+import Link from '../Link/Link.astro';
+import DottedTitle from '../DottedTitle/DottedTitle.astro';
+
+export interface AvailabilityVariant {
+  sku: string;
+  /** Короткая подпись варианта, как в переключателе */
+  label: string;
+  /** Полное название варианта — для alt у фото */
+  title: string;
+  stockLocations: any[];
+}
+
+interface Props {
+  variants: AvailabilityVariant[];
+  defaultSku: string;
+  /** Заметка о повторе (уже локализованная HTML-строка) */
+  remakeNote?: string;
+  currentLang: SupportedLanguage;
+}
+
+const { variants, defaultSku, remakeNote, currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+const showVariants = variants.length > 1;
+
+interface LocationImage {
+  src: string;
+  alt: string;
+}
+
+interface StockEntry {
+  sku: string;
+  label: string;
+  qty: number;
+  noteHtml?: string;
+  images: LocationImage[];
+}
+
+function normalizeImages(rawImages: any[] | undefined, fallbackTitle: string): LocationImage[] {
+  if (!Array.isArray(rawImages)) return [];
+  return rawImages.map((img, idx) => {
+    if (typeof img === 'string') return { src: img, alt: `${fallbackTitle} — ${idx + 1}` };
+    const alt = img.alt
+      ? typeof img.alt === 'string'
+        ? img.alt
+        : localize(img.alt, currentLang)
+      : `${fallbackTitle} — ${idx + 1}`;
+    return { src: img.src, alt };
+  });
+}
+
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+/** Записи о наличии всех вариантов в одной точке */
+function entriesAt(locationId: LocationId): StockEntry[] {
+  const meta = LOCATIONS[locationId];
+  return variants.flatMap((v) => {
+    const sl = v.stockLocations.find((s) => s.locationId === locationId);
+    if (!sl) return [];
+    const placeLabel = meta.shop || (meta.cityKey ? t(meta.cityKey) : '');
+    return [{
+      sku: v.sku,
+      label: v.label,
+      qty: sl.quantity ?? 0,
+      noteHtml: sl.note
+        ? (showVariants ? `<p><strong>${escapeHtml(v.label)}</strong></p>` : '') + localize(sl.note, currentLang)
+        : undefined,
+      images: normalizeImages(sl.images, `${v.title} (${placeLabel})`),
+    }];
+  });
+}
+
+const sumQty = (entries: StockEntry[]) => entries.reduce((n, e) => n + e.qty, 0);
+
+// Мастерская
+const studioEntries = entriesAt('dalat');
+const studioQty = sumQty(studioEntries);
+const isDalatInStock = studioQty > 0;
+const studioStockBadge = formatStudioStockQty(studioQty || 1, currentLang);
+const studio = {
+  stocked: studioEntries.filter((e) => e.qty > 0),
+  notes: studioEntries.filter((e) => e.noteHtml),
+  images: studioEntries.flatMap((e) => e.images),
+};
+
+// Витрины партнёров
+let runningReadyCount = studioQty;
+const partnerCards = PARTNER_LOCATIONS.flatMap((meta) => {
+  const stocked = entriesAt(meta.id).filter((e) => e.qty > 0);
+  if (stocked.length === 0) return [];
+  const qty = sumQty(stocked);
+  const badgeText = formatShowcaseStockQty(qty, runningReadyCount > 0, currentLang);
+  runningReadyCount += qty;
+  const lastCheckedAt = meta.lastCheckedAt || siteSettings.partnerShops.lastCheckedAt;
+  return [{
+    meta,
+    stocked,
+    badgeText,
+    lastCheckedAt,
+    isOfflineCheckup: Boolean(lastCheckedAt),
+    notes: stocked.filter((e) => e.noteHtml),
+    images: stocked.flatMap((e) => e.images),
+  }];
+});
+
+const remakeDays = siteSettings.fulfillment.remakeDays;
+const remakeText = {
+  en: { action: 'Remake', prep: 'in', unit: 'days' },
+  ru: { action: 'Повтор', prep: 'за', unit: 'дня' },
+  vi: { action: 'Nhận làm', prep: 'trong', unit: 'ngày' },
+}[currentLang];
+---
+
+<div class="product__stock-heading">
+  <DottedTitle>{t('catalog.availability_title')}</DottedTitle>
+</div>
+
+<div class="where-to-buy-section">
+  <div
+    class="where-to-buy-content"
+    data-schedule-open={siteSettings.studio.openHour}
+    data-schedule-cutoff={siteSettings.studio.cutoffHour}
+    data-schedule-close={siteSettings.studio.closeHour}
+  >
+    {/* Мастерская в Далате: готовые экземпляры или повтор + способы получения */}
+    <div class="option">
+      <div class="option__content">
+        <div class="option__head">
+          <div class="option__main-emoji" aria-hidden="true">🏠</div>
+          <div class="option__title">
+            <strong class="option__bold">{t('catalog.studio_card_title')}</strong>
+          </div>
+        </div>
+
+        {isDalatInStock ? (
+          <div class="option__quantity">
+            {studioStockBadge.qtyText}{' '}<span class="option__stock">{studioStockBadge.suffix}</span>
+          </div>
+        ) : (
+          <button
+            type="button"
+            class="option__quantity option__quantity--out-of-stock option__quantity--clickable"
+            data-hystmodal="#modal-remake"
+            title={t('catalog.remake_hint')}
+          >
+            {t('catalog.studio_remake_label')}{' '}<span class="option__stock option__stock--dotted">
+              {remakeText.action} <span class="option__preposition">{remakeText.prep} </span>{remakeDays}&nbsp;{remakeText.unit}
+            </span>
+            <Icon class="option__help-icon" name="help" />
+          </button>
+        )}
+
+        {showVariants && studio.stocked.length > 0 && (
+          <div class="option__variants">
+            {studio.stocked.map((e) => (
+              <button
+                type="button"
+                class:list={['option__variant', { 'option__variant--current': e.sku === defaultSku }]}
+                data-variant-select={e.sku}
+              >
+                {e.label}<span class="option__variant-qty">&nbsp;·&nbsp;{formatStudioStockQty(e.qty, currentLang).qtyText}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div class="option__fulfillment">
+        <ul class="option__list" role="list">
+          <li class="option__item">
+            <div class="option__fulfillment-head">
+              <span class="option__fulfillment-emoji" aria-hidden="true">📦</span>
+              <strong class="option__channel">{t('catalog.delivery_vn_title')}</strong>
+            </div>
+            <div class="option__info">
+              <span class="option__note">{t('catalog.free')}</span>
+              <span
+                class="option__note"
+                set:html={isDalatInStock ? t('catalog.delivery_from_dalat') : t('catalog.delivery_from_dalat_remake')}
+              />
+              <span class="option__note">
+                <Icon name="payments" />
+                <Icon name="qr_code" />
+                {t('catalog.pay_on_receipt')}
+              </span>
+            </div>
+          </li>
+
+          <li class="option__item">
+            <div class="option__fulfillment-head">
+              <span class="option__fulfillment-emoji" aria-hidden="true">🛵</span>
+              <strong class="option__channel">{t('catalog.delivery_dalat_title')}</strong>
+            </div>
+            <div class="option__info">
+              <span class="option__note">{t('catalog.free')}</span>
+              {isDalatInStock ? (
+                <span
+                  class="option__note dalat-dynamic-cutoff-text"
+                  data-text-today={t('catalog.delivery_dalat_sub_today')}
+                  data-text-morning={t('catalog.delivery_dalat_sub_morning')}
+                  data-text-tomorrow={t('catalog.delivery_dalat_sub_tomorrow')}
+                  set:html={t('catalog.delivery_dalat_sub_today')}
+                />
+              ) : (
+                <span class="option__note" set:html={t('catalog.delivery_dalat_sub_remake')} />
+              )}
+              <span class="option__note">
+                <Icon name="payments" />
+                <Icon name="qr_code" />
+                {t('catalog.pay_on_receipt')}
+              </span>
+            </div>
+          </li>
+
+          <li class="option__item">
+            <div class="option__fulfillment-head">
+              <span class="option__fulfillment-emoji" aria-hidden="true">🛍️</span>
+              <strong class="option__channel">{t('catalog.pickup_studio_title')}</strong>
+            </div>
+            <div class="option__info">
+              {isDalatInStock ? (
+                <span
+                  class="option__note dalat-dynamic-cutoff-text"
+                  data-text-today={t('catalog.pickup_dalat_sub_today')}
+                  data-text-morning={t('catalog.pickup_dalat_sub_morning')}
+                  data-text-tomorrow={t('catalog.pickup_dalat_sub_tomorrow')}
+                  set:html={t('catalog.pickup_dalat_sub_today')}
+                />
+              ) : (
+                <span class="option__note" set:html={t('catalog.pickup_dalat_sub_remake')} />
+              )}
+              <span class="option__note">
+                <Icon name="payments" />
+                <Icon name="qr_code" />
+                {t('catalog.pay_on_pickup')}
+              </span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      {(studio.notes.length > 0 || studio.images.length > 0) && (
+        <div class="option__details">
+          {studio.notes.map((e) => (
+            <Wysiwyg class="option__description" smaller halved set:html={e.noteHtml} />
+          ))}
+          {studio.images.length > 0 && (
+            <div class="option__gallery" data-option-photos>
+              {studio.images.map((img) => (
+                <a
+                  href={img.src}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="option__photo"
+                  data-option-photo
+                  title={t('catalog.modal.photo_zoom_hint')}
+                >
+                  <img src={img.src} alt={img.alt} class="option__image" loading="lazy" />
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+
+    {/* Витрины партнёров */}
+    {partnerCards.map((card) => (
+      <div class="option">
+        <div class="option__content">
+          <div class="option__head">
+            <div class="option__main-emoji" aria-hidden="true">📍</div>
+            <div class="option__title">
+              <strong class="option__bold">{t(card.meta.cityKey!)}{card.meta.districtKey ? `, ${t(card.meta.districtKey)}` : ''}</strong>&nbsp;— {t('catalog.on_showcase_at')}&nbsp;{card.meta.mapsUrl ? (
+                <Link
+                  href={card.meta.mapsUrl}
+                  target="_blank"
+                  accentUnderline
+                  title={card.meta.modalMapsKey ? t(card.meta.modalMapsKey) : undefined}
+                >
+                  <strong class="option__bold">{card.meta.shop}</strong>
+                </Link>
+              ) : (
+                <strong class="option__bold">{card.meta.shop}</strong>
+              )}
+            </div>
+          </div>
+
+          <div class="option__info">
+            <span class="option__note" set:html={t('catalog.shop_working_hours')} />
+            <span class="option__note">
+              <Icon name="payments" />
+              <Icon name="qr_code" />
+              <Icon name="credit_card" />
+              {t('catalog.pay_in_store_checkout')}
+            </span>
+          </div>
+
+          {card.isOfflineCheckup ? (
+            <button
+              type="button"
+              class="option__quantity option__quantity--clickable"
+              data-hystmodal={`#${card.meta.modalId}`}
+              title={t('catalog.weekly_audit_hint')}
+            >
+              {card.badgeText}{' '}<span
+                class="option__stock option__stock--dotted"
+                data-audit-date={card.lastCheckedAt}
+                set:html={formatAuditRelativeDate(card.lastCheckedAt, currentLang)}
+              />
+              <Icon class="option__help-icon" name="help" />
+            </button>
+          ) : (
+            <div class="option__quantity">{card.badgeText}</div>
+          )}
+
+          {showVariants && (
+            <div class="option__variants">
+              {card.stocked.map((e) => (
+                <button
+                  type="button"
+                  class:list={['option__variant', { 'option__variant--current': e.sku === defaultSku }]}
+                  data-variant-select={e.sku}
+                >
+                  {e.label}<span class="option__variant-qty">&nbsp;·&nbsp;{formatStudioStockQty(e.qty, currentLang).qtyText}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {(card.notes.length > 0 || card.images.length > 0) && (
+          <div class="option__details">
+            {card.notes.map((e) => (
+              <Wysiwyg class="option__description" smaller halved set:html={e.noteHtml} />
+            ))}
+            {card.images.length > 0 && (
+              <div class="option__gallery" data-option-photos>
+                {card.images.map((img) => (
+                  <a
+                    href={img.src}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="option__photo"
+                    data-option-photo
+                    title={t('catalog.modal.photo_zoom_hint')}
+                  >
+                    <img src={img.src} alt={img.alt} class="option__image" loading="lazy" />
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</div>
+
+{remakeNote && (
+  <div class="product__remake-section">
+    <div class="product__remake-heading">
+      <DottedTitle>{t('catalog.remake_note_title')}</DottedTitle>
+    </div>
+    <div class="product__remake-note">
+      <Wysiwyg halved set:html={remakeNote} />
+    </div>
+  </div>
+)}
+
+<script src="./productDetail.client.ts"></script>

@@ -2,6 +2,7 @@
 import './Product.css';
 import Gallery from '../Gallery/Gallery.astro';
 import ProductDetail from '../_legacy_ProductDetail/ProductDetail.astro';
+import ProductAvailability from '../_legacy_ProductDetail/ProductAvailability.astro';
 import PartnerModals from '../_legacy_ProductDetail/PartnerModals.astro';
 import RemakeModal from '../RemakeModal/RemakeModal.astro';
 import VariantSwitcher from '../VariantSwitcher/VariantSwitcher.astro';
@@ -37,11 +38,24 @@ const variants = getVisibleVariants(entry).map((variant) => {
     product,
     label: label ? localize(label, currentLang) : t('catalog.variant_default'),
     thumb: getFirstImageSrc(resolved.images),
-    needsRemake: getLocationQty(resolved.stockLocations, 'dalat') === 0,
   };
 });
 
 const defaultVariant = variants[0];
+
+// Наличие общее для всех вариантов
+const availabilityVariants = variants.map((v) => ({
+  sku: v.sku,
+  label: v.label,
+  title: v.product.title,
+  stockLocations: v.productRaw.data.stockLocations,
+}));
+const studioQty = variants.reduce(
+  (n, v) => n + getLocationQty(v.productRaw.data.stockLocations, 'dalat'),
+  0
+);
+const remakeNoteRaw = entry.data.remakeNote ?? entry.data.crafterNote;
+const remakeNote = remakeNoteRaw ? localize(remakeNoteRaw, currentLang) : undefined;
 const hasSwitcher = variants.length > 1;
 const switcherItems = variants.map((v) => ({
   sku: v.sku,
@@ -120,16 +134,25 @@ const switcherItems = variants.map((v) => ({
       </div>
 
       <div class="product__details">
-        {variants.map((v, index) => (
-          <div class="product__pane" data-variant-pane={v.sku} hidden={!v.isDefault}>
-            <ProductDetail
-              product={v.product}
-              productRaw={v.productRaw}
-              currentLang={currentLang}
-              withModals={index === 0}
-            />
-          </div>
-        ))}
+        <div class="product-info-panel">
+          {variants.map((v, index) => (
+            <div class="product__pane" data-variant-pane={v.sku} hidden={!v.isDefault}>
+              <ProductDetail
+                product={v.product}
+                productRaw={v.productRaw}
+                currentLang={currentLang}
+                withModals={index === 0}
+              />
+            </div>
+          ))}
+
+          <ProductAvailability
+            variants={availabilityVariants}
+            defaultSku={defaultSku}
+            remakeNote={remakeNote}
+            currentLang={currentLang}
+          />
+        </div>
       </div>
     </div>
 
@@ -140,7 +163,7 @@ const switcherItems = variants.map((v) => ({
 {/* Модальные окна общие для всех вариантов — рендерятся один раз, чтобы не дублировать id */}
 <PartnerModals product={defaultVariant.product} currentLang={currentLang} />
 
-{variants.some((v) => v.needsRemake) && (
+{studioQty === 0 && (
   <RemakeModal
     product={defaultVariant.product}
     currentLang={currentLang}
@@ -160,6 +183,8 @@ const switcherItems = variants.map((v) => ({
       if (!root) return;
       var defaultSku = root.getAttribute('data-default-variant');
       var links = Array.prototype.slice.call(root.querySelectorAll('[data-variant-link]'));
+      // Плашки вариантов в секции «Наличие»
+      var selects = Array.prototype.slice.call(root.querySelectorAll('[data-variant-select]'));
       var panes = Array.prototype.slice.call(root.querySelectorAll('[data-variant-pane]'));
 
       function findLink(sku) {
@@ -170,6 +195,9 @@ const switcherItems = variants.map((v) => ({
         var link = findLink(sku);
         if (!link) return;
         panes.forEach(function (p) { p.hidden = p.getAttribute('data-variant-pane') !== sku; });
+        selects.forEach(function (b) {
+          b.classList.toggle('option__variant--current', b.getAttribute('data-variant-select') === sku);
+        });
         links.forEach(function (l) {
           var current = l === link;
           l.classList.toggle('variant-switcher__item--current', current);
@@ -195,6 +223,17 @@ const switcherItems = variants.map((v) => ({
 
       var initial = new URLSearchParams(window.location.search).get('v');
       if (initial && initial !== defaultSku) show(initial, false);
+
+      selects.forEach(function (button) {
+        button.addEventListener('click', function () {
+          var sku = button.getAttribute('data-variant-select');
+          if (button.classList.contains('option__variant--current')) return;
+          show(sku, true);
+          // Название, цена и галерея меняются выше — показываем их
+          var top = root.getBoundingClientRect().top + window.scrollY - 24;
+          if (window.scrollY > top) window.scrollTo({ top: top, behavior: 'smooth' });
+        });
+      });
 
       links.forEach(function (link) {
         link.addEventListener('click', function (event) {
