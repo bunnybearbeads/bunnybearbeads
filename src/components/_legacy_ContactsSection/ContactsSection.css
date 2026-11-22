@@ -35,8 +35,8 @@
 }
 
 .channel-telegram-highlight {
-  background: linear-gradient(135deg, rgba(42, 123, 136, 0.08) 0%, rgba(212, 163, 89, 0.08) 100%);
-  border-color: rgba(42, 123, 136, 0.35);
+  background: linear-gradient(135deg, rgb(42 123 136 / 8%) 0%, rgb(212 163 89 / 8%) 100%);
+  border-color: rgb(42 123 136 / 35%);
 }
 
 .channel-icon {
@@ -74,7 +74,7 @@
 
 .telegram-direct-card {
   background: var(--card-bg);
-  border: 1px solid rgba(42, 123, 136, 0.25);
+  border: 1px solid rgb(42 123 136 / 25%);
   border-radius: var(--radius-lg);
   padding: 36px 32px;
   position: relative;
@@ -88,7 +88,7 @@
   right: -60px;
   width: 140px;
   height: 140px;
-  background: radial-gradient(circle, rgba(42, 123, 136, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgb(42 123 136 / 15%) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -97,7 +97,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(42, 123, 136, 0.1);
+  background: rgb(42 123 136 / 10%);
   color: var(--accent-teal);
   font-weight: 700;
   font-size: 11px;
@@ -163,14 +163,14 @@
   font-weight: 600;
   border-radius: 28px;
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(42, 123, 136, 0.3);
+  box-shadow: 0 4px 14px rgb(42 123 136 / 30%);
   transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-telegram-large:hover {
   background: var(--color-brand-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(42, 123, 136, 0.4);
+  box-shadow: 0 6px 20px rgb(42 123 136 / 40%);
 }
 
 .tg-subtext {

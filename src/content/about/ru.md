@@ -9,7 +9,7 @@ seoDesc: "Привет! Меня зовут Anh (Amber). Я плету из яп
   Всё началось в 2024 году как домашнее хобби, но я так сильно влюбилась в бисер, что теперь просто не могу остановиться! Сначала это были работы для себя, потом для друзей и близких, потом для соседей, а сейчас бисероплетение превращается для меня в работу. Но работа эта — работа мечты!
 </p>
 
-<div style="margin: 28px 0; padding: 20px 24px; border-left: 4px solid var(--accent-gold); background: rgba(212, 163, 89, 0.08); border-radius: 0 12px 12px 0;">
+<div style="margin: 28px 0; padding: 20px 24px; border-left: 4px solid var(--accent-gold); background: rgb(212 163 89 / 8%); border-radius: 0 12px 12px 0;">
   <p style="font-family: var(--font-serif); font-size: 19px; font-style: italic; color: var(--color-brand-dark); margin: 0;">
     «Выбери работу по душе, и тебе не придется работать ни дня в своей жизни». Правда, моя спина с этой цитатой категорически не согласна. — <strong style="color: var(--color-brand-accent);">Anh / Amber</strong>
   </p>

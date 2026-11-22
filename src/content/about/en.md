@@ -9,7 +9,7 @@ seoDesc: "Meet Anh (Amber), the beader behind BunnyBearBeads. Handcrafted seed b
   It all started in 2024 as a cozy hobby, but I fell so deeply in love with beading that I just can't stop! At first, I was making pieces just for myself, then for friends and family, then for my neighbors... and now, beading is turning into my full-time job. Dream job!
 </p>
 
-<div style="margin: 28px 0; padding: 20px 24px; border-left: 4px solid var(--accent-gold); background: rgba(212, 163, 89, 0.08); border-radius: 0 12px 12px 0;">
+<div style="margin: 28px 0; padding: 20px 24px; border-left: 4px solid var(--accent-gold); background: rgb(212 163 89 / 8%); border-radius: 0 12px 12px 0;">
   <p style="font-family: var(--font-serif); font-size: 19px; font-style: italic; color: var(--color-brand-dark); margin: 0;">
     “Choose a job you love, and you’ll never have to work a day in your life.” (Though my back respectfully disagrees with that quote). — <strong style="color: var(--color-brand-accent);">Anh / Amber</strong>
   </p>

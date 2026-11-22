@@ -9,7 +9,7 @@ seoDesc: "Gặp gỡ Anh (Amber), người sáng lập BunnyBearBeads. Dây char
   Mọi thứ bắt đầu vào năm 2024 như một sở thích nho nhỏ tại nhà, nhưng mình đã yêu hạt cườm say đắm đến mức chẳng thể nào dừng lại được! Ban đầu mình chỉ đan cho bản thân, rồi tặng bạn bè và người thân, sau đó là đan cho hàng xóm... và bây giờ, đan cườm đang trở thành công việc toàn thời gian của mình. Đúng là công việc trong mơ!
 </p>
 
-<div style="margin: 28px 0; padding: 20px 24px; border-left: 4px solid var(--accent-gold); background: rgba(212, 163, 89, 0.08); border-radius: 0 12px 12px 0;">
+<div style="margin: 28px 0; padding: 20px 24px; border-left: 4px solid var(--accent-gold); background: rgb(212 163 89 / 8%); border-radius: 0 12px 12px 0;">
   <p style="font-family: var(--font-serif); font-size: 19px; font-style: italic; color: var(--color-brand-dark); margin: 0;">
     “Hãy chọn công việc bạn yêu thích, và bạn sẽ chẳng phải làm việc một ngày nào trong đời.” (Dù cái lưng của mình thì kịch liệt phản đối câu này nha). — <strong style="color: var(--color-brand-accent);">Anh</strong>
   </p>

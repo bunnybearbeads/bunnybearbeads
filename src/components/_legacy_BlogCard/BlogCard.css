@@ -31,13 +31,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(212, 163, 89, 0.18) 0%, rgba(217, 130, 132, 0.15) 100%);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  background: linear-gradient(135deg, rgb(212 163 89 / 18%) 0%, rgb(217 130 132 / 15%) 100%);
+  border-bottom: 1px solid rgb(0 0 0 / 4%);
 }
 
 .blog-placeholder-icon {
   font-size: 43px;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 4px 6px rgb(0 0 0 / 10%));
 }
 
 .blog-details {

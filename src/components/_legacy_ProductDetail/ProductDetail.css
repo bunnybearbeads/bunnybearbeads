@@ -98,7 +98,7 @@
 .product-specs-section {
   margin-top: 22px;
   padding-top: 18px;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid rgb(0 0 0 / 6%);
 }
 
 .specs-heading {
@@ -114,10 +114,10 @@
   font-size: 13px;
   line-height: 1.7;
   color: var(--color-brand-dark);
-  background: rgba(255, 255, 255, 0.6);
+  background: rgb(255 255 255 / 60%);
   padding: 12px 16px;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid rgb(0 0 0 / 5%);
 }
 
 .materials-html-content .mat-beads {
@@ -139,10 +139,10 @@
   display: flex;
   flex-direction: column;
   gap: 7px;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgb(255 255 255 / 60%);
   padding: 12px 16px;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid rgb(0 0 0 / 5%);
 }
 
 .credit-row {

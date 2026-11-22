@@ -98,7 +98,7 @@
 .lang-dropdown-toggle:hover,
 .lang-dropdown-wrapper.open .lang-dropdown-toggle {
   color: var(--color-brand-dark);
-  background: rgba(212, 163, 89, 0.15);
+  background: rgb(212 163 89 / 15%);
 }
 
 .lang-arrow {
@@ -114,12 +114,12 @@
   position: absolute;
   top: calc(100% + 6px);
   right: 0;
-  background: rgba(255, 255, 255, 0.96);
+  background: rgb(255 255 255 / 96%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: 12px;
-  box-shadow: 0 12px 28px rgba(60, 45, 30, 0.18);
+  box-shadow: 0 12px 28px rgb(60 45 30 / 18%);
   padding: 6px;
   min-width: 145px;
   display: none;
@@ -147,7 +147,7 @@
 }
 
 .lang-option:hover {
-  background: rgba(212, 163, 89, 0.16);
+  background: rgb(212 163 89 / 16%);
   color: var(--color-brand-gold-dark);
 }
 
@@ -188,8 +188,8 @@
   vertical-align: top;
   height: 90px;
   width: 90px;
-  border: 0.5px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 0.5px solid rgb(255 255 255 / 90%);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
   border-radius: 50%;
   margin: -10px 0;
   object-fit: cover;
@@ -199,7 +199,7 @@
 
 .header__logo:hover .header__medallion {
   transform: scale(1.05) rotate(2deg);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 15%);
 }
 
 .header__brand {
@@ -307,12 +307,12 @@
   top: 120px;
   left: 16px;
   right: 16px;
-  background: rgba(250, 247, 242, 0.98);
+  background: rgb(250 247 242 / 98%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 20px 40px rgba(60, 45, 30, 0.2);
+  border: 1px solid rgb(255 255 255 / 90%);
+  box-shadow: 0 20px 40px rgb(60 45 30 / 20%);
   padding: 24px;
   flex-direction: column;
   gap: 20px;
