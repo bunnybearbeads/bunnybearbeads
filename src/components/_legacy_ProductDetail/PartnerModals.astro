@@ -6,7 +6,7 @@ import Window from '../Window/Window.astro';
 import Checkup from '../Checkup/Checkup.astro';
 
 interface Props {
-  product: any;
+  product: { title: string };
   currentLang: SupportedLanguage;
 }
 
@@ -14,7 +14,7 @@ const { product, currentLang } = Astro.props;
 ---
 
 {PARTNER_LOCATIONS.map((loc) => (
-  <HystModal id={loc.modalId}>
+  <HystModal id={loc.modalId} labelledby={`${loc.modalId}-title`}>
     <Window>
       <Checkup
         loc={loc}

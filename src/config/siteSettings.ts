@@ -45,11 +45,7 @@ export interface SiteSettings {
     telegramUrl: string;
     telegramHandle: string;
     messengerUrl: string;
-    messengerHandle?: string;
-    whatsappUrl?: string;
-    whatsappHandle?: string;
     zaloUrl: string;
-    zaloHandle?: string;
   };
 }
 
@@ -67,7 +63,7 @@ export const siteSettings: SiteSettings = {
   partnerShops: {
     openHour: 8,   // 8:00 AM
     closeHour: 20, // 8:00 PM
-    lastCheckedAt: '2026-10-04',
+    lastCheckedAt: '2026-11-02',
   },
 
   // Fulfillment defaults
@@ -81,11 +77,8 @@ export const siteSettings: SiteSettings = {
     telegramUrl: 'https://t.me/bunnybearbeads',
     telegramHandle: '@bunnybearbeads',
     messengerUrl: 'https://m.me/bunnybearbeads',
-    messengerHandle: 'bunnybearbeads',
-    whatsappUrl: 'https://wa.me/message/bunnybearbeads',
-    whatsappHandle: 'bunnybearbeads',
+    // Заглушка: ссылку дадим, когда заведём Zalo на новый номер
     zaloUrl: 'https://zalo.me/bunnybearbeads',
-    zaloHandle: 'bunnybearbeads',
   },
 };
 
@@ -228,7 +221,7 @@ export function getPaymentNotesText(lang: 'ru' | 'en' | 'vi') {
     pickup: {
       en: 'Cash or QR',
       ru: 'Наличными или QR',
-      vi: 'Tiền mặt или QR',
+      vi: 'Tiền mặt hoặc QR',
     },
     shop: {
       en: 'Payment at checkout: cash, QR, or international card',

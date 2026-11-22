@@ -1,6 +1,7 @@
 ---
 import './Window.css';
 import Icon from '../Icon/Icon.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 interface Props {
   heading?: string;
@@ -9,10 +10,11 @@ interface Props {
 }
 
 const { heading, floatedCrossButton, class: className } = Astro.props;
+const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
 <div class:list={['window', { 'window--floated-cross-button': floatedCrossButton }, className]}>
-  <button class="window__close" type="button" data-hystclose aria-label="Close">
+  <button class="window__close" type="button" data-hystclose aria-label={t('window.close')}>
     <Icon name="close" />
   </button>
   {heading && (

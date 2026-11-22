@@ -44,6 +44,9 @@ interface MessengerItem {
   isHighlighted: boolean;
 }
 
+/** https://m.me/bunnybearbeads → m.me/bunnybearbeads */
+const toAddress = (url: string) => url.replace(/^https?:\/\//, '');
+
 const messengersData: MessengerItem[] = [
   {
     id: 'telegram',
@@ -52,7 +55,7 @@ const messengersData: MessengerItem[] = [
     url: siteSettings.contacts.telegramUrl,
     icon: '/images/messengers/telegram.svg',
     qrImage: '/images/qr/telegram.svg',
-    username: siteSettings.contacts.telegramHandle || 'bunnybearbeads',
+    username: siteSettings.contacts.telegramHandle,
     isHighlighted: highlightedKey === 'telegram',
   },
   {
@@ -62,7 +65,7 @@ const messengersData: MessengerItem[] = [
     url: siteSettings.contacts.messengerUrl,
     icon: '/images/messengers/messenger.svg',
     qrImage: '/images/qr/messenger.svg',
-    username: siteSettings.contacts.messengerHandle || 'bunnybearbeads',
+    username: toAddress(siteSettings.contacts.messengerUrl),
     isHighlighted: highlightedKey === 'messenger',
   },
   {
@@ -72,7 +75,7 @@ const messengersData: MessengerItem[] = [
     url: siteSettings.contacts.zaloUrl,
     icon: '/images/messengers/zalo.svg',
     qrImage: '/images/qr/zalo.svg',
-    username: siteSettings.contacts.zaloHandle || 'bunnybearbeads',
+    username: toAddress(siteSettings.contacts.zaloUrl),
     isHighlighted: highlightedKey === 'zalo',
   },
 ];
@@ -84,11 +87,13 @@ const orderedMessengers = [...messengersData].sort((a, b) => {
 });
 ---
 
+{/* На мобильном кнопка ведёт сразу в мессенджер, на десктопе открывает QR-модалку (utils/modals.ts) */}
 <div class:list={['inquiry', className]} role="group" aria-label={t('catalog.order_piece')}>
   {orderedMessengers.map((item) => {
     const fullLabel = `${t('catalog.inquiry.order_via')} ${item.name}`;
     return (
       <Button
+        href={item.url}
         data-hystmodal={`#${item.modalId}`}
         square={!item.isHighlighted}
         aria-label={!item.isHighlighted ? fullLabel : undefined}

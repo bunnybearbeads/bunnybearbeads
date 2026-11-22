@@ -7,7 +7,7 @@ import { useTranslations } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
 
 interface Props {
-  product: any;
+  product: { title: string };
   currentLang: SupportedLanguage;
   categoryId?: string;
   remakeDays?: string;
@@ -34,7 +34,7 @@ const remakeContent = t('catalog.modal.remake_content')
 const noteHtml = t('catalog.modal.remake_note');
 ---
 
-<HystModal id="modal-remake">
+<HystModal id="modal-remake" labelledby="modal-remake-title">
   <Window>
     <Availability
       title={t('catalog.modal.remake_title')}

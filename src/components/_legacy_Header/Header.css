@@ -225,7 +225,7 @@
 }
 
 .category-links a {
-  font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+  font-family: var(--font-serif);
   font-size: 18.5px;
   font-weight: 600;
   color: var(--color-brand-dark);

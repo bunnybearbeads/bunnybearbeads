@@ -236,10 +236,25 @@ export const translations = {
     ru: 'в',
     vi: 'qua',
   },
-  'qr_modal.or_link': {
-    en: 'Or via link:',
-    ru: 'Или по ссылке:',
-    vi: 'Hoặc qua liên kết:',
+  'site.logo_alt': {
+    en: 'bunnybearbeads logo',
+    ru: 'Логотип bunnybearbeads',
+    vi: 'Logo bunnybearbeads',
+  },
+  'qr_modal.hint': {
+    en: 'Scan with your phone or open here:',
+    ru: 'Отсканируйте телефоном или откройте здесь:',
+    vi: 'Quét bằng điện thoại hoặc mở tại đây:',
+  },
+  'qr_modal.qr_alt': {
+    en: 'QR code: chat with bunnybearbeads in {name}',
+    ru: 'QR-код: чат с bunnybearbeads в {name}',
+    vi: 'Mã QR: trò chuyện với bunnybearbeads qua {name}',
+  },
+  'window.close': {
+    en: 'Close',
+    ru: 'Закрыть',
+    vi: 'Đóng',
   },
   'catalog.view_details': {
     en: 'View Details',

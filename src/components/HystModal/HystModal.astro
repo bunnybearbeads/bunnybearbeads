@@ -1,15 +1,28 @@
 ---
+// Здесь, а не в скрипте: без JS модалки должны оставаться скрытыми
+import 'hystmodal/css';
+
 interface Props {
   id?: string;
   class?: string;
+  /** id заголовка внутри модалки — для aria-labelledby */
+  labelledby?: string;
+  /** Подпись диалога, если видимого заголовка нет */
+  label?: string;
 }
 
-const { id, class: className } = Astro.props;
+const { id, class: className, labelledby, label } = Astro.props;
 ---
 
 <div class:list={['hystmodal', className]} id={id} aria-hidden="true">
   <div class="hystmodal__wrap">
-    <div class="hystmodal__window" role="dialog" aria-modal="true">
+    <div
+      class="hystmodal__window"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={labelledby}
+      aria-label={labelledby ? undefined : label}
+    >
       <slot />
     </div>
   </div>

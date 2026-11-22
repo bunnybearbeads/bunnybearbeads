@@ -1,5 +1,3 @@
-import HystModal from 'hystmodal';
-import 'hystmodal/css';
 import {
   formatAuditRelativeDate,
   formatAuditRelativeOnly,
@@ -67,22 +65,8 @@ function initProductDetail() {
   }
 }
 
-function initModals() {
-  const myModal = new HystModal({
-    linkAttributeName: 'data-hystmodal',
-    catchFocus: true,
-    waitTransitions: true,
-    closeOnEsc: true,
-    closeOnOverlay: true,
-  });
-}
-
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    initProductDetail();
-    initModals();
-  });
+  document.addEventListener('DOMContentLoaded', initProductDetail);
 } else {
   initProductDetail();
-  initModals();
 }

@@ -1,9 +1,7 @@
 /* Consts */
 
 /* Telegram EN (Summer / Beach) */
-#qr-modal-telegram,
-.qr-modal--telegram,
-.qr-modal--qr-modal-telegram {
+.hystmodal:has(.qr-modal--telegram) {
     --theme-gradient:
         radial-gradient(at 0% 0%, #F7C495 0%, transparent 70%),
         radial-gradient(at 100% 0%, #FFBBA7 0%, transparent 70%),
@@ -15,9 +13,7 @@
 }
 
 /* Messenger */
-#qr-modal-messenger,
-.qr-modal--messenger,
-.qr-modal--qr-modal-messenger {
+.hystmodal:has(.qr-modal--messenger) {
     --theme-gradient:
         radial-gradient(at 0% 0%, #00B2FF 0%, transparent 70%),
         radial-gradient(at 100% 0%, #9333EA 0%, transparent 70%),
@@ -28,24 +24,19 @@
     --theme-pattern: url('./messenger-pattern.svg');
 }
 
-/* WhatsApp */
-#qr-modal-whatsapp,
-.qr-modal--whatsapp,
-.qr-modal--qr-modal-whatsapp {
-    --theme-gradient: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-    --theme-bg-color: #25D366;
-    --theme-accent-color: #128C7E;
-    --theme-pattern: none;
-}
-
 /* Zalo */
-#qr-modal-zalo,
-.qr-modal--zalo,
-.qr-modal--qr-modal-zalo {
+.hystmodal:has(.qr-modal--zalo) {
     --theme-gradient: linear-gradient(55deg, #2B4362 0%, #516F95 100%);
     --theme-bg-color: #2B4362;
     --theme-accent-color: #516F95;
     --theme-pattern: url('./zalo-pattern.png');
+}
+
+/* На мобильном модалка не открывается — фон не качаем */
+@media (width < 740px) {
+    .hystmodal:has(.qr-modal) {
+        --theme-pattern: none;
+    }
 }
 
 /* Code */
@@ -61,8 +52,7 @@
     background-color: var(--theme-bg-color) !important;
 }
 
-.hystmodal:has(.qr-modal--messenger)::before,
-.hystmodal:has(#qr-modal-messenger)::before {
+.hystmodal:has(.qr-modal--messenger)::before {
     background-image:
         var(--theme-pattern),
         var(--theme-gradient);
@@ -73,8 +63,7 @@
     background-color: var(--theme-bg-color) !important;
 }
 
-.hystmodal:has(.qr-modal--zalo)::before,
-.hystmodal:has(#qr-modal-zalo)::before {
+.hystmodal:has(.qr-modal--zalo)::before {
     background-image:
         var(--theme-pattern),
         var(--theme-gradient);
@@ -90,14 +79,7 @@
 }
 
 .hystmodal__window:has(.qr-modal) {
-    width: 300px;
     border-top: 74px solid transparent; /* Компенсируем отрицательный маргин аватарки */
-}
-
-@media (width < 400px) {
-    .hystmodal__window:has(.qr-modal) {
-        width: calc(100% - 2 * var(--container-padding));
-    }
 }
 
 .hystmodal__window:has(.qr-modal) .window {
@@ -150,6 +132,8 @@
 }
 
 .qr-modal {
+    width: 268px; /* окно 300px: у .hystmodal__window ширина fit-content !important */
+    max-width: 100%;
     text-align: center;
 }
 
@@ -190,6 +174,7 @@
 
 .qr-modal__hint {
     margin: 14px auto 0;
+    text-wrap: balance;
     font-size: 13px;
     line-height: 18px;
     color: var(--text-muted);
@@ -206,10 +191,9 @@
     background-color: color-mix(in oklab, var(--theme-accent-color) 8%, transparent);
     border: 1px solid color-mix(in oklab, var(--theme-accent-color) 16%, transparent);
     font-weight: 600;
-    font-size: 22px;
+    font-size: 19px;
     line-height: 28px;
     letter-spacing: -0.25px;
-    text-transform: uppercase;
     text-decoration: none;
     transition: background-color 0.2s ease, border-color 0.2s ease, translate 0.15s ease;
 }
@@ -230,13 +214,9 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-}
-
-.qr-modal__hover {
-    text-decoration: 1.6px underline transparent;
     text-underline-offset: 4px;
 }
 
-.qr-modal__username:hover .qr-modal__hover {
-    text-decoration-color: var(--theme-accent-color);
+.qr-modal__username:hover .qr-modal__username-text {
+    text-decoration: 1.6px underline; /* красится градиентом вместе с текстом */
 }

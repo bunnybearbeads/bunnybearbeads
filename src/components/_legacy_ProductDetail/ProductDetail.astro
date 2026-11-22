@@ -8,13 +8,13 @@ import './ProductDetail.css';
 import '../Icon/Icon.css';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
-import { categoryKey, formatPrice } from '../../utils/products';
+import { categoryKey, formatPrice, type ResolvedVariant } from '../../utils/products';
 import Inquiry from '../Inquiry/Inquiry.astro';
 import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 
 interface Props {
-  product: any;
-  productRaw: any;
+  product: { title: string; description?: string; price: ResolvedVariant['price'] };
+  productRaw: { data: ResolvedVariant };
   currentLang: SupportedLanguage;
   /** Рендерить QR-модалки мессенджеров. На странице с вариантами — только у первого */
   withModals?: boolean;
