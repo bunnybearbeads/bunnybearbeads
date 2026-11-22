@@ -3,12 +3,12 @@
 /* Telegram EN (Summer / Beach) */
 .hystmodal:has(.qr-modal--telegram) {
     --theme-gradient:
-        radial-gradient(at 0% 0%, #F7C495 0%, transparent 70%),
-        radial-gradient(at 100% 0%, #FFBBA7 0%, transparent 70%),
-        radial-gradient(at 100% 100%, #48CAE4 0%, transparent 70%),
-        radial-gradient(at 0% 100%, #48E5C2 0%, transparent 70%);
-    --theme-bg-color: #48E5C2;
-    --theme-accent-color: #48CAE4;
+        radial-gradient(at 0% 0%, #F2AC66 0%, transparent 70%),
+        radial-gradient(at 100% 0%, #FF9A84 0%, transparent 70%),
+        radial-gradient(at 100% 100%, #1FAFD4 0%, transparent 70%),
+        radial-gradient(at 0% 100%, #22C9A4 0%, transparent 70%);
+    --theme-bg-color: #22C9A4;
+    --theme-accent-color: #1FAFD4;
     --theme-pattern: url('./beach-fixed-edges.svg');
 }
 
