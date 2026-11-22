@@ -87,17 +87,16 @@
 
 /* Вынесенный вбок от карточки крестик закрытия */
 .hystmodal__window:has(.qr-modal) .window__close {
-    top: 0;
+    top: -16px;
     left: 100%;
-    margin-left: 12px;
-    width: 44px;
-    height: 44px;
+    /*width: 44px;*/
+    /*height: 44px;*/
     border-radius: 50%;
 }
 
 .hystmodal__window:has(.qr-modal) .window__close::before {
-    width: 100%;
-    height: 100%;
+    /*width: 100%;*/
+    /*height: 100%;*/
     background-color: #ffffff;
     box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
     opacity: 100%;
