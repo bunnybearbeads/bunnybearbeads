@@ -41,7 +41,7 @@ const t = useTranslations(currentLang);
     <div class:list={['qr-modal', `qr-modal--${messenger}`]}>
       {/* Дублирует ссылку под QR: с клавиатуры и для скринридера достаточно той */}
       <a
-        class="qr-modal__logo-link"
+        class="qr-modal__logo"
         href={link}
         data-zalo={zaloCode}
         target="_blank"
@@ -50,7 +50,7 @@ const t = useTranslations(currentLang);
         aria-hidden="true"
       >
         <img
-          class="qr-modal__logo"
+          class="qr-modal__emblem"
           src={logoSrc}
           width="108"
           height="108"
@@ -61,9 +61,11 @@ const t = useTranslations(currentLang);
         class="qr-modal__image"
         src={qrImage}
         alt={t('qr_modal.qr_alt').replace('{name}', name)}
-        style={`-webkit-mask-image: url(${qrImage}); mask-image: url(${qrImage});`}
+        style={`mask-image: url(${qrImage});`}
       />
-      <p class="qr-modal__hint">{t('qr_modal.hint')}</p>
+      <div class="qr-modal__or-hint">
+        {t('qr_modal.hint')}
+      </div>
       <a
         class="qr-modal__username"
         href={link}
@@ -71,8 +73,8 @@ const t = useTranslations(currentLang);
         target="_blank"
         rel="noopener noreferrer"
       >
-        <span class="qr-modal__username-text" data-zalo-text={zaloCode && ''}>{username ?? t('qr_modal.open').replace('{name}', name)}</span>
-        {messenger === 'telegram' && <span class="qr-modal__note">{t('qr_modal.telegram_note')}</span>}
+        <div class="qr-modal__link-text" data-zalo-text={zaloCode && ''}>{username ?? t('qr_modal.open').replace('{name}', name)}</div>
+        {messenger === 'telegram' && <div class="qr-modal__note">{t('qr_modal.telegram_note')}</div>}
       </a>
     </div>
   </Window>

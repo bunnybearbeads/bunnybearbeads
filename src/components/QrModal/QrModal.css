@@ -1,6 +1,6 @@
 /*
- * Константы тем. Не вставлять в селекторы напрямую: каждая, кроме --theme-pattern,
- * используется несколько раз — фон окна, крестик, QR, текст и плашка ссылки.
+ * Константы тем. Не вставлять в селекторы напрямую: --theme-gradient и --theme-bg-color
+ * используются несколько раз — фон окна, крестик, QR и текст ссылки.
  */
 
 /* Telegram */
@@ -11,7 +11,8 @@
         radial-gradient(at 100% 100%, #1FAFD4 0%, transparent 70%),
         radial-gradient(at 0% 100%, #22C9A4 0%, transparent 70%);
     --theme-bg-color: #22C9A4;
-    --theme-accent-color: #1FAFD4;
+    --theme-link-bg: #EDF9FC;
+    --theme-link-border: #CCEDF5;
     --theme-pattern: url('./beach-fixed-edges.svg');
 }
 
@@ -23,7 +24,8 @@
         radial-gradient(at 100% 100%, #FF5280 0%, transparent 70%),
         radial-gradient(at 0% 100%, #006AFF 0%, transparent 70%);
     --theme-bg-color: #7B3FE4;
-    --theme-accent-color: #7B3FE4;
+    --theme-link-bg: #F4F0FD;
+    --theme-link-border: #E1D3F9;
     --theme-pattern: url('./messenger-pattern.svg');
 }
 
@@ -31,11 +33,12 @@
 .hystmodal:has(.qr-modal--zalo) {
     --theme-gradient: linear-gradient(55deg, #2B4362 0%, #516F95 100%);
     --theme-bg-color: #2B4362;
-    --theme-accent-color: #516F95;
+    --theme-link-bg: #F1F3F7;
+    --theme-link-border: #D7DEE7;
     --theme-pattern: url('./zalo-pattern.svg');
 }
 
-/* На мобильном модалка не открывается — фон не качаем */
+/* На мобилках модалка не открывается — фон не качаем */
 @media (width < 740px) {
     .hystmodal:has(.qr-modal) {
         --theme-pattern: none;
@@ -45,204 +48,178 @@
 
 
 /* Код */
+.hystmodal:has(.qr-modal) {
 
-.hystmodal:has(.qr-modal)::before {
-    background-image: var(--theme-pattern), var(--theme-gradient);
-    background-position: center center, 0 0, 0 0, 0 0, 0 0;
-    background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-    background-size: 420px auto, cover, cover, cover, cover;
-    background-blend-mode: soft-light, normal, normal, normal, normal;
-    background-color: var(--theme-bg-color) !important;
 }
-
-.hystmodal:has(.qr-modal--messenger)::before {
-    background-image: var(--theme-pattern), var(--theme-gradient);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-blend-mode: normal;
-    background-color: var(--theme-bg-color) !important;
-}
-
-.hystmodal:has(.qr-modal--zalo)::before {
-    background-image: var(--theme-pattern), var(--theme-gradient);
-    background-position: center center, 0 0;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-blend-mode: normal;
-    background-color: var(--theme-bg-color) !important;
-}
-
-.hystmodal--active:has(.qr-modal)::before {
-    opacity: 100% !important;
-}
-
-.hystmodal__window:has(.qr-modal) {
-    border-top: 74px solid transparent; /* Компенсируем отрицательный маргин аватарки */
-}
-
-.hystmodal__window:has(.qr-modal) .window__body {
-    padding: 16px 16px 22px;
-}
-
-/* Вынесенный вбок от карточки крестик закрытия */
-.hystmodal__window:has(.qr-modal) .window__close {
-    top: -16px;
-    left: 100%;
-    /*width: 44px;*/
-    /*height: 44px;*/
-    border-radius: 50%;
-}
-
-.hystmodal__window:has(.qr-modal) .window__close::before {
-    /*width: 100%;*/
-    /*height: 100%;*/
-    background-color: #ffffff;
-    box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
-    opacity: 100%;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.hystmodal__window:has(.qr-modal) .window__close:hover::before {
-    background-color: var(--color-brand-dark);
-    box-shadow: 0 12px 32px rgb(0 0 0 / 34%);
-}
-
-.hystmodal__window:has(.qr-modal) .window__close .icon {
-    font-size: 24px;
-    line-height: 24px;
-    background-image: var(--theme-gradient);
-    background-color: var(--theme-bg-color);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    transition: -webkit-text-fill-color 0.2s ease;
-}
-
-.hystmodal__window:has(.qr-modal) .window__close:hover .icon {
-    -webkit-text-fill-color: #ffffff;
-}
-
-@media (width < 480px) {
-    .hystmodal__window:has(.qr-modal) .window__close {
-        top: -58px;
-        right: 0;
+    .hystmodal:has(.qr-modal)::before {
+        background-image: var(--theme-pattern), var(--theme-gradient);
+        background-position: center center, 0 0, 0 0, 0 0, 0 0;
+        background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+        background-size: 420px auto, cover, cover, cover, cover;
+        background-blend-mode: soft-light, normal, normal, normal, normal;
+        background-color: var(--theme-bg-color) !important;
     }
-}
+
+    .hystmodal:has(.qr-modal--messenger)::before {
+        background-image: var(--theme-pattern), var(--theme-gradient);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-blend-mode: normal;
+        background-color: var(--theme-bg-color) !important;
+    }
+
+    .hystmodal:has(.qr-modal--zalo)::before {
+        background-image: var(--theme-pattern), var(--theme-gradient);
+        background-position: center center, 0 0;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-blend-mode: normal;
+        background-color: var(--theme-bg-color) !important;
+    }
+
+    .hystmodal--active:has(.qr-modal)::before {
+        opacity: 100% !important;
+    }
+        .hystmodal__window:has(.qr-modal) {
+            border-top: 74px solid transparent; /* Компенсируем отрицательный маргин аватарки */
+        }
+            .hystmodal__window:has(.qr-modal) .window__body {
+                padding: 16px 16px 22px;
+            }
+
+            /* Вынесенный вбок от карточки крестик закрытия */
+            .hystmodal__window:has(.qr-modal) .window__close {
+                top: -16px;
+                left: 100%;
+                border-radius: 50%;
+            }
+                .hystmodal__window:has(.qr-modal) .window__close::before {
+                    background-color: #ffffff;
+                    box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+                    opacity: 100%;
+                    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+                }
+
+                .hystmodal__window:has(.qr-modal) .window__close:hover::before {
+                    background-color: var(--color-brand-dark);
+                    box-shadow: 0 12px 32px rgb(0 0 0 / 34%);
+                }
+
+                .hystmodal__window:has(.qr-modal) .window__close .icon {
+                    font-size: 24px;
+                    line-height: 24px;
+                    background-image: var(--theme-gradient);
+                    background-color: var(--theme-bg-color);
+                    background-clip: text;
+                    color: transparent;
+                    transition: color 0.2s ease;
+                }
+
+                .hystmodal__window:has(.qr-modal) .window__close:hover .icon {
+                    color: #ffffff;
+                }
 
 .qr-modal {
-    width: 268px; /* плюс паддинг у обёрточного window__body и итого 300px */
+    width: 268px; /* 268px + 2x16px паддинга у обёрточного window__body = 300px */
     max-width: 100%;
     text-align: center;
 }
-
-.qr-modal__logo-link {
-    display: block;
-    width: fit-content;
-    margin: -90px auto 0;
-    background-color: var(--image-fallback);
-    border-radius: 50%;
-    transition: box-shadow 0.2s ease;
-    box-shadow: 0 0 0 0.5px rgb(255 255 255 / 90%),
-                0 8px 24px rgb(0 0 0 / 12%);
-}
-
-.qr-modal__logo-link:hover {
-    box-shadow: 0 0 0 0.5px rgb(255 255 255 / 90%),
-                0 8px 24px rgb(0 0 0 / 12%);
-}
-
-.qr-modal__logo-link:active {
-    translate: 0 1px;
-}
     .qr-modal__logo {
         display: block;
-        width: 108px;
-        height: 108px;
-        object-fit: cover;
+        width: fit-content;
+        margin: -90px auto 0;
+        background-color: var(--image-fallback);
+        border-radius: 50%;
+        transition: box-shadow 0.2s ease;
+        box-shadow: 0 0 0 0.5px rgb(255 255 255 / 90%),
+                    0 8px 24px rgb(0 0 0 / 12%);
     }
 
-.qr-modal__image {
-    display: block;
-    margin: 12px auto 0; /* тихая зона QR: не меньше 4 модулей, 29px */
-    width: 206px;
-    height: 206px;
-    object-position: -9999px;
-    background-image: var(--theme-gradient);
-    background-color: var(--theme-bg-color);
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
-}
+    .qr-modal__logo:hover {
+        box-shadow: 0 0 0 0.5px rgb(255 255 255 / 90%),
+                    0 8px 24px rgb(0 0 0 / 12%);
+    }
 
-@supports not ((-webkit-mask-image: url("")) or (mask-image: url(""))) {
+    .qr-modal__logo:active {
+        translate: 0 1px;
+    }
+        .qr-modal__emblem {
+            display: block;
+            width: 108px;
+            height: 108px;
+            object-fit: cover;
+        }
+
     .qr-modal__image {
-        object-position: center;
-        background: transparent;
+        display: block;
+        margin: 12px auto 0;
+        width: 206px;
+        height: 206px;
+        object-position: 1000px; /* убираем оригинальное изображение */
+        background-image: var(--theme-gradient);
+        background-color: var(--theme-bg-color);
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
     }
-}
 
-.qr-modal__hint {
-    margin: 30px auto 0;
-    text-wrap: balance;
-    font-size: 13px;
-    line-height: 16px;
-    color: var(--text-muted);
-}
+    .qr-modal__or-hint {
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        text-wrap: balance;
+        font-size: 13px;
+        line-height: 16px;
+        color: var(--text-muted);
+    }
 
-.qr-modal__username {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: fit-content;
-    margin: 8px auto 0;
-    padding: 5px 18px;
-    border-radius: 999px;
-    background-color: color-mix(in oklab, var(--theme-accent-color) 8%, transparent);
-    border: 1px solid color-mix(in oklab, var(--theme-accent-color) 16%, transparent);
-    font-weight: 600;
-    font-size: 19px;
-    line-height: 28px;
-    letter-spacing: -0.25px;
-    text-decoration: none;
-    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, translate 0.15s ease;
-}
+    .qr-modal__username {
+        display: block;
+        width: fit-content;
+        margin: 8px auto 0;
+        padding: 5px 18px;
+        border-radius: 999px;
+        background-color: var(--theme-link-bg);
+        border: 1px solid var(--theme-link-border);
+        font-weight: 600;
+        font-size: 19px;
+        line-height: 28px;
+        letter-spacing: -0.25px;
+        text-decoration: none;
+        transition: background-color var(--transition-hover),
+                    border-color var(--transition-hover),
+                    box-shadow var(--transition-hover);
+    }
 
-/* Адрес с ?direct длиннее остальных */
-.qr-modal--telegram .qr-modal__username {
-    font-size: 17px;
-}
+    /* Адрес с ?direct длиннее остальных */
+    .qr-modal--telegram .qr-modal__username {
+        font-size: 17px;
+    }
 
-.qr-modal__username:hover {
-    background-color: var(--color-brand-dark);
-    border-color: var(--color-brand-dark);
-    box-shadow: 0 6px 18px rgb(44 36 32 / 24%);
-}
+    .qr-modal__username:hover {
+        background-color: var(--color-brand-dark);
+        border-color: var(--color-brand-dark);
+        box-shadow: 0 6px 18px rgb(44 36 32 / 24%);
+    }
 
-.qr-modal__username:active {
-    translate: 0 1px;
-}
+    .qr-modal__username:active {
+        translate: 0 1px;
+    }
+        .qr-modal__link-text {
+            background-image: var(--theme-gradient);
+            background-color: var(--theme-bg-color);
+            background-clip: text;
+            color: transparent;
+            text-decoration: 1.6px underline; /* красится градиентом вместе с текстом */
+            text-underline-offset: 3px;
+            transition: color 0.2s ease,
+                        text-decoration-color 0.2s ease;
+        }
 
-.qr-modal__username-text {
-    background-image: var(--theme-gradient);
-    background-color: var(--theme-bg-color);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    text-decoration: 1.6px underline; /* красится градиентом вместе с текстом */
-    text-underline-offset: 3px;
-    transition: -webkit-text-fill-color 0.2s ease, text-decoration-color 0.2s ease;
-}
-
-.qr-modal__username:hover .qr-modal__username-text {
-    -webkit-text-fill-color: #ffffff;
-}
+        .qr-modal__username:hover .qr-modal__link-text {
+            color: #ffffff;
+        }
 
 .qr-modal__note {
     margin-top: -2px;
