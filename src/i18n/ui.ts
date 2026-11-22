@@ -251,6 +251,11 @@ export const translations = {
     ru: 'Открыть {name}',
     vi: 'Mở {name}',
   },
+  'qr_modal.telegram_note': {
+    en: '(channel direct messages)',
+    ru: '(директ канала)',
+    vi: '(tin nhắn trực tiếp của kênh)',
+  },
   'qr_modal.qr_alt': {
     en: 'QR code: chat with bunnybearbeads in {name}',
     ru: 'QR-код: чат с bunnybearbeads в {name}',

@@ -72,7 +72,7 @@ export const siteSettings: SiteSettings = {
 
   // Contact points
   contacts: {
-    telegramUrl: 'https://t.me/bunnybearbeads',
+    telegramUrl: 'https://t.me/bunnybearbeads?direct', // ?direct — сразу личные сообщения каналу, а не лента постов
     messengerUrl: 'https://m.me/bunnybearbeads',
   },
 };

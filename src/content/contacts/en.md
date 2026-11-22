@@ -9,7 +9,7 @@ telegramBox:
   heading: "Message Anh on Telegram"
   description: "Click the button below to start a chat. You can send screenshots of items you love or ask about custom sizing."
   btnText: "Open Telegram Chat (@bunnybearbeads)"
-  url: "https://t.me/bunnybearbeads"
+  url: "https://t.me/bunnybearbeads?direct"
   perks:
     - icon: "⚡"
       title: "Quick Personal Replies"

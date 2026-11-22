@@ -9,7 +9,7 @@ telegramBox:
   heading: "Написать мастеру в Telegram"
   description: "Нажмите на кнопку, чтобы открыть диалог. Можно сразу отправить скриншот понравившегося украшения из каталога или задать вопрос по размеру."
   btnText: "Открыть диалог в Telegram (@bunnybearbeads)"
-  url: "https://t.me/bunnybearbeads"
+  url: "https://t.me/bunnybearbeads?direct"
   perks:
     - icon: "⚡"
       title: "Быстрый ответ мастера"

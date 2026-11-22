@@ -9,7 +9,7 @@ telegramBox:
   heading: "Nhắn tin qua Telegram"
   description: "Bấm vào nút bên dưới để mở cuộc trò chuyện. Bạn có thể gửi ảnh sản phẩm bạn thích hoặc hỏi về kích thước."
   btnText: "Mở trò chuyện Telegram (@bunnybearbeads)"
-  url: "https://t.me/bunnybearbeads"
+  url: "https://t.me/bunnybearbeads?direct"
   perks:
     - icon: "⚡"
       title: "Phản hồi nhanh chóng"
