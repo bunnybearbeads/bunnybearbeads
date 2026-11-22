@@ -1,6 +1,6 @@
 /* Consts */
 
-/* Telegram EN (Summer / Beach) */
+/* Telegram */
 .hystmodal:has(.qr-modal--telegram) {
     --theme-gradient:
         radial-gradient(at 0% 0%, #F2AC66 0%, transparent 70%),
@@ -69,9 +69,15 @@
         var(--theme-gradient);
     background-position: right bottom, 0 0;
     background-repeat: no-repeat, no-repeat;
-    background-size: clamp(360px, 50vw, 840px) auto, cover;
+    background-size: auto, cover;
     background-blend-mode: normal, normal;
     background-color: var(--theme-bg-color) !important;
+}
+
+@media (1600px <= width) {
+    .hystmodal:has(.qr-modal--zalo)::before {
+        background-size: 1280px auto, cover;
+    }
 }
 
 .hystmodal--active:has(.qr-modal)::before {
