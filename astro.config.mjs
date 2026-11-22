@@ -79,6 +79,7 @@ function materialIconsSubset() {
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://bunnybearbeads.com',
   server: {
     host: true,
   },
