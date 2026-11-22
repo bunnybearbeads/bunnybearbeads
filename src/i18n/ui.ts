@@ -242,9 +242,9 @@ export const translations = {
     vi: 'Logo bunnybearbeads',
   },
   'qr_modal.hint': {
-    en: 'Scan with your phone or open here:',
-    ru: 'Отсканируйте телефоном или откройте здесь:',
-    vi: 'Quét bằng điện thoại hoặc mở tại đây:',
+    en: 'Or open the chat on this same device:',
+    ru: 'Или откройте чат на\u00A0этом\u00A0же устройстве:',
+    vi: 'Hoặc mở chat ngay trên thiết bị này:',
   },
   'qr_modal.open': {
     en: 'Open {name}',
