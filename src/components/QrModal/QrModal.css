@@ -57,10 +57,10 @@
 
 .hystmodal:has(.qr-modal--messenger)::before {
     background-image: var(--theme-pattern), var(--theme-gradient);
-    background-position: center center, 0 0, 0 0, 0 0, 0 0;
-    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-    background-size: cover, cover, cover, cover, cover;
-    background-blend-mode: normal, normal, normal, normal, normal;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: normal;
     background-color: var(--theme-bg-color) !important;
 }
 
