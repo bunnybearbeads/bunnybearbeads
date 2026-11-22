@@ -150,7 +150,7 @@
 
 .qr-modal__image {
     display: block;
-    margin: 12px auto 0;
+    margin: 12px auto 0; /* тихая зона QR: не меньше 4 модулей, 29px */
     width: 206px;
     height: 206px;
     object-position: -9999px;
@@ -172,7 +172,7 @@
 }
 
 .qr-modal__hint {
-    margin: 14px auto 0;
+    margin: 30px auto 0;
     text-wrap: balance;
     font-size: 13px;
     line-height: 18px;
