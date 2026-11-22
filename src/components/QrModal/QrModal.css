@@ -42,12 +42,12 @@
     }
 }
 
-/* Code */
+
+
+/* Код */
 
 .hystmodal:has(.qr-modal)::before {
-    background-image:
-        var(--theme-pattern),
-        var(--theme-gradient);
+    background-image: var(--theme-pattern), var(--theme-gradient);
     background-position: center center, 0 0, 0 0, 0 0, 0 0;
     background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
     background-size: 420px auto, cover, cover, cover, cover;
@@ -56,9 +56,7 @@
 }
 
 .hystmodal:has(.qr-modal--messenger)::before {
-    background-image:
-        var(--theme-pattern),
-        var(--theme-gradient);
+    background-image: var(--theme-pattern), var(--theme-gradient);
     background-position: center center, 0 0, 0 0, 0 0, 0 0;
     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
     background-size: cover, cover, cover, cover, cover;
@@ -67,9 +65,7 @@
 }
 
 .hystmodal:has(.qr-modal--zalo)::before {
-    background-image:
-        var(--theme-pattern),
-        var(--theme-gradient);
+    background-image: var(--theme-pattern), var(--theme-gradient);
     background-position: center center, 0 0;
     background-repeat: no-repeat;
     background-size: cover;
