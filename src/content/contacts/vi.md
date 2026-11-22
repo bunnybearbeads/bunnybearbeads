@@ -31,10 +31,10 @@ channels:
     url: "https://instagram.com/bunnybearbeads"
   email:
     label: "Email liên hệ"
-    value: "hello@bunnybearbeads.com"
+    value: "lorem ipsum"
   location:
     label: "Xưởng sáng tạo"
-    value: "Đà Nẵng, Việt Nam • Giao hàng toàn cầu"
+    value: "Đà Lạt, Việt Nam • Giao hàng toàn cầu"
 ---
 
 <p>

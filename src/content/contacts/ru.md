@@ -31,10 +31,10 @@ channels:
     url: "https://instagram.com/bunnybearbeads"
   email:
     label: "Электронная почта"
-    value: "hello@bunnybearbeads.com"
+    value: "lorem ipsum"
   location:
     label: "Локация мастерской"
-    value: "Дананг, Вьетнам • Доставка по миру"
+    value: "Далат, Вьетнам • Доставка по миру"
 ---
 
 <p>
