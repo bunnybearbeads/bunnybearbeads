@@ -39,13 +39,24 @@ const t = useTranslations(currentLang);
 <HystModal id={id} label={`${t('catalog.inquiry.order_via')} ${name}`}>
   <Window>
     <div class:list={['qr-modal', `qr-modal--${messenger}`]}>
-      <img
-        class="qr-modal__logo"
-        src={logoSrc}
-        width="108"
-        height="108"
-        alt={t('site.logo_alt')}
-      />
+      {/* Дублирует ссылку под QR: с клавиатуры и для скринридера достаточно той */}
+      <a
+        class="qr-modal__logo-link"
+        href={link}
+        data-zalo={zaloCode}
+        target="_blank"
+        rel="noopener noreferrer"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <img
+          class="qr-modal__logo"
+          src={logoSrc}
+          width="108"
+          height="108"
+          alt=""
+        />
+      </a>
       <img
         class="qr-modal__image"
         src={qrImage}
