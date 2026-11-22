@@ -119,13 +119,17 @@ const categoryItems = [
     <div class="header-bottom">
       <!-- Brand / Logo -->
       <a class="header__logo" href={translatePath('/')} aria-label="BunnyBearBeads Home">
-        <img
-          class="header__medallion"
-          src="/emblem-squared.png"
-          alt="BunnyBearBeads Logo Medallion"
-          width="96"
-          height="96"
-        />
+        {/* На десктопе имя написано рядом в шапке, поэтому лого без имени */}
+        <picture class="header__picture">
+          <source media="(740px <= width)" srcset="/logo-no-name.webp" />
+          <img
+            class="header__medallion"
+            src="/logo.webp"
+            alt="BunnyBearBeads Logo Medallion"
+            width="96"
+            height="96"
+          />
+        </picture>
         <div class="header__brand">
           BunnyBear<Accent>Beads</Accent>
         </div>

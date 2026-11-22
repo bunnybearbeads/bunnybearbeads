@@ -3,7 +3,7 @@ title: "The Art and Precision of Japanese Miyuki Beads"
 excerpt: "Discover why world-class beading artists exclusively choose Miyuki Delica cylinders for high-end jewelry."
 date: "2026-10-04"
 author: "Anna BunnyBear"
-coverImage: "/emblem-squared.png"
+coverImage: "/emblem-squared.webp"
 tags: ["Materials", "Miyuki", "Craft"]
 ---
 

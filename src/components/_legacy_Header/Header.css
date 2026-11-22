@@ -182,6 +182,10 @@
   flex-shrink: 0;
 }
 
+.header__picture {
+  display: contents;
+}
+
 .header__medallion {
   vertical-align: top;
   height: 90px;

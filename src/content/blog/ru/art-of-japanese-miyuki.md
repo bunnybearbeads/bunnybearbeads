@@ -3,7 +3,7 @@ title: "Искусство и точность японского бисера M
 excerpt: "Почему ведущие мировые мастера бисероплетения выбирают цилиндрический бисер Miyuki Delica."
 date: "2026-10-04"
 author: "Anna BunnyBear"
-coverImage: "/emblem-squared.png"
+coverImage: "/emblem-squared.webp"
 tags: ["Materials", "Miyuki", "Craft"]
 ---
 
