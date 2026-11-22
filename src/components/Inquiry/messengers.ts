@@ -23,7 +23,7 @@ export const messengers: Messenger[] = [
     url: siteSettings.contacts.telegramUrl,
     icon: '/images/messengers/telegram.svg',
     qrImage: '/images/qr/telegram.svg',
-    username: siteSettings.contacts.telegramHandle,
+    username: toAddress(siteSettings.contacts.telegramUrl),
   },
   {
     id: 'messenger',

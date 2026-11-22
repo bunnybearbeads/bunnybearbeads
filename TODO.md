@@ -4,7 +4,7 @@
 - Решить, переводить ли описания товаров (сейчас ru/vi — копия английского) или держать английскими, как названия
 - Фото вместо заглушек `emblem-squared.webp`
 - Страницы Where to buy и Legal (что должно быть — READ-ME-NOW.md)
-- Zalo: заменить заглушку `zalo.me/bunnybearbeads` и её QR, когда заработает новый номер
+- Zalo: заменить заглушку `zalo.me/84000000000` (`siteSettings.contacts.zaloUrl`) и QR `public/images/qr/zalo.svg` (в нём ещё старый адрес), когда заработает новый номер
 - Cat Food — демо-магазин; к запуску договориться или убрать
 - Дату проверки витрин (`siteSettings.partnerShops.lastCheckedAt`) обновлять раз в неделю. Она одна на все магазины
 - Написание BunnyBearBeads → bunnybearbeads в title, футере, шапке

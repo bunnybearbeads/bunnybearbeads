@@ -43,7 +43,6 @@ export interface SiteSettings {
   /** Primary contact links */
   contacts: {
     telegramUrl: string;
-    telegramHandle: string;
     messengerUrl: string;
     zaloUrl: string;
   };
@@ -75,10 +74,10 @@ export const siteSettings: SiteSettings = {
   // Contact points
   contacts: {
     telegramUrl: 'https://t.me/bunnybearbeads',
-    telegramHandle: '@bunnybearbeads',
     messengerUrl: 'https://m.me/bunnybearbeads',
-    // Заглушка: ссылку дадим, когда заведём Zalo на новый номер
-    zaloUrl: 'https://zalo.me/bunnybearbeads',
+    // Формат: zalo.me/84 + номер без первого нуля (0912 345 678 → zalo.me/84912345678)
+    // Заглушка: номер заведомо несуществующий, заменить вместе с QR, когда заведём Zalo
+    zaloUrl: 'https://zalo.me/84000000000',
   },
 };
 
