@@ -48,6 +48,7 @@ const orderedMessengers = [...messengersData].sort((a, b) => {
       <Button
         href={item.url}
         data-hystmodal={`#${item.modalId}`}
+        data-zalo={item.zaloCode}
         square={!item.isHighlighted}
         aria-label={!item.isHighlighted ? fullLabel : undefined}
         title={fullLabel}

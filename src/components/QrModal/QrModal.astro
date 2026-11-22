@@ -13,9 +13,11 @@ export interface Props {
   name: string;
   currentLang?: SupportedLanguage;
   qrImage: string;
-  /** Текст ссылки: адрес без https:// */
-  username: string;
+  /** Текст ссылки: адрес без https://. По умолчанию «Открыть {name}» */
+  username?: string;
   link: string;
+  /** Закодированный номер Zalo: ссылку подставит utils/contacts.ts */
+  zaloCode?: string;
   logoSrc?: string;
 }
 
@@ -27,6 +29,7 @@ const {
   qrImage,
   username,
   link,
+  zaloCode,
   logoSrc = '/logo.webp',
 } = Astro.props;
 
@@ -53,10 +56,11 @@ const t = useTranslations(currentLang);
       <a
         class="qr-modal__username"
         href={link}
+        data-zalo={zaloCode}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <span class="qr-modal__username-text">{username}</span>
+        <span class="qr-modal__username-text">{username ?? t('qr_modal.open').replace('{name}', name)}</span>
       </a>
     </div>
   </Window>

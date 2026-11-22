@@ -20,7 +20,7 @@
 }
 
 .gallery__control:hover:not(:disabled) {
-    background-color: var(--accent-gold);
+    background-color: var(--color-brand-dark);
     border-color: transparent;
     color: #ffffff;
 }

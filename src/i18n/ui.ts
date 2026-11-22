@@ -246,6 +246,11 @@ export const translations = {
     ru: 'Отсканируйте телефоном или откройте здесь:',
     vi: 'Quét bằng điện thoại hoặc mở tại đây:',
   },
+  'qr_modal.open': {
+    en: 'Open {name}',
+    ru: 'Открыть {name}',
+    vi: 'Mở {name}',
+  },
   'qr_modal.qr_alt': {
     en: 'QR code: chat with bunnybearbeads in {name}',
     ru: 'QR-код: чат с bunnybearbeads в {name}',

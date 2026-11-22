@@ -52,7 +52,9 @@ const description = Astro.props.description || t('site.description');
 
     <script>
       import { initModals } from '../utils/modals';
+      import { initContacts } from '../utils/contacts';
 
+      initContacts();
       initModals();
     </script>
   </body>

@@ -1,4 +1,5 @@
 import { siteSettings } from '../../config/siteSettings';
+import { encodePhone } from '../../utils/contacts';
 
 export type MessengerKey = 'messenger' | 'telegram' | 'zalo';
 
@@ -9,11 +10,23 @@ export interface Messenger {
   url: string;
   icon: string;
   qrImage: string;
-  username: string;
+  /** Текст ссылки в QR-модалке. Без него — «Открыть {name}» */
+  username?: string;
+  /** Закодированный номер: настоящую ссылку собирает utils/contacts.ts */
+  zaloCode?: string;
 }
 
 /** https://m.me/bunnybearbeads → m.me/bunnybearbeads */
 const toAddress = (url: string) => url.replace(/^https?:\/\//, '');
+
+/**
+ * Номер Zalo берём из переменной окружения ZALO_PHONE (.env локально, секрет в GitHub Actions),
+ * чтобы он не лежал в коде текстом. Формат: 84 + номер без первого нуля (0912 345 678 → 84912345678).
+ * Без переменной подставляется заведомо несуществующий номер. Импортировать только на сервере.
+ */
+const zaloPhone = (import.meta.env.ZALO_PHONE || '84000000000')
+  .replace(/\D/g, '')
+  .replace(/^0/, '84');
 
 export const messengers: Messenger[] = [
   {
@@ -38,9 +51,9 @@ export const messengers: Messenger[] = [
     id: 'zalo',
     name: 'Zalo',
     modalId: 'qr-modal-zalo',
-    url: siteSettings.contacts.zaloUrl,
+    url: 'https://zalo.me/',
     icon: '/images/messengers/zalo.svg',
     qrImage: '/images/qr/zalo.svg',
-    username: toAddress(siteSettings.contacts.zaloUrl),
+    zaloCode: encodePhone(zaloPhone),
   },
 ];
