@@ -1,52 +1,16 @@
-<svg width="1440" height="960" viewBox="0 0 1440 960" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="wave1" x1="0" y1="120" x2="1440" y2="840" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.16" />
-      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.05" />
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
-    </linearGradient>
-    <linearGradient id="wave2" x1="1440" y1="0" x2="200" y2="960" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.14" />
-      <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0.04" />
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
-    </linearGradient>
-    <linearGradient id="bubbleGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.18" />
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.03" />
-    </linearGradient>
-    <radialGradient id="orb1" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.18" />
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
-    </radialGradient>
-  </defs>
-
-  <!-- Flowing Meta/Messenger silk aura waves -->
-  <path d="M-120 740C180 580 420 820 760 640C1100 460 1240 180 1560 240V1040H-120V740Z" fill="url(#wave1)" />
-  <path d="M-80 220C240 420 580 120 920 340C1260 560 1340 320 1540 440V-80H-80V220Z" fill="url(#wave2)" />
-  <path d="M-100 520C260 360 520 660 880 460C1160 300 1320 480 1540 380" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="2" />
-  <path d="M-60 680C320 520 640 780 1020 540C1240 400 1380 520 1520 460" stroke="#FFFFFF" stroke-opacity="0.07" stroke-width="1.5" />
-
-  <!-- Ambient light orbs -->
-  <circle cx="220" cy="200" r="240" fill="url(#orb1)" />
-  <circle cx="1220" cy="760" r="280" fill="url(#orb1)" />
-
-  <!-- Subtle floating Messenger chat bubble (bottom-left) -->
-  <g transform="translate(110, 620) rotate(-10)" opacity="0.85">
-    <path d="M120 20C175.228 20 220 60.2944 220 110C220 159.706 175.228 200 120 200C103.6 200 88.1 196.4 74.4 190L36 208L45.2 171.6C29.4 155.4 20 133.8 20 110C20 60.2944 64.7715 20 120 20Z" fill="url(#bubbleGrad)" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1.5" />
-    <!-- Messenger bolt inside bubble -->
-    <path d="M138 92L112 120L94 106L68 134L98 104L116 118L138 92Z" fill="#FFFFFF" fill-opacity="0.18" />
-  </g>
-
-  <!-- Subtle floating chat bubble (top-right) -->
-  <g transform="translate(1130, 90) rotate(12)" opacity="0.75">
-    <path d="M90 16C134.183 16 170 48.2355 170 88C170 127.765 134.183 160 90 160C76.88 160 64.48 157.12 53.52 152L22.8 166.4L30.16 137.28C17.52 124.32 10 107.04 10 88C10 48.2355 45.8172 16 90 16Z" fill="url(#bubbleGrad)" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1.5" />
-    <circle cx="66" cy="88" r="7" fill="#FFFFFF" fill-opacity="0.18" />
-    <circle cx="90" cy="88" r="7" fill="#FFFFFF" fill-opacity="0.18" />
-    <circle cx="114" cy="88" r="7" fill="#FFFFFF" fill-opacity="0.18" />
-  </g>
-
-  <!-- Small secondary bubble (bottom-right) -->
-  <g transform="translate(1060, 680) rotate(-6)" opacity="0.6">
-    <rect x="0" y="0" width="128" height="76" rx="38" fill="url(#bubbleGrad)" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="1.2" />
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" fill="none">
+<defs>
+<linearGradient id="w" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".05"/><stop offset=".25" stop-color="#fff" stop-opacity=".3"/><stop offset=".55" stop-color="#fff" stop-opacity=".1"/><stop offset=".82" stop-color="#fff" stop-opacity=".34"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/></linearGradient>
+<linearGradient id="f" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".34"/><stop offset="1" stop-color="#fff" stop-opacity=".07"/></linearGradient>
+<linearGradient id="s" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".65"/><stop offset=".6" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity=".3"/></linearGradient>
+<radialGradient id="o"><stop stop-color="#fff" stop-opacity=".2"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+</defs>
+<circle cx="230" cy="190" r="300" fill="url(#o)"/>
+<circle cx="1220" cy="720" r="320" fill="url(#o)"/>
+<g stroke="url(#w)"><path d="M-40 560C260 380 480 700 760 560S1180 200 1480 300M-40 566.7C259 396.2 481.9 686.7 761.9 555.7S1182.9 210.5 1480 291.9M-40 573.3C258.1 412.4 483.8 673.3 763.8 551.4S1185.7 221 1480 283.8M-40 580C257.1 428.6 485.7 660 765.7 547.1S1188.6 231.4 1480 275.7M-40 586.7C256.2 444.8 487.6 646.7 767.6 542.9S1191.4 241.9 1480 267.6M-40 593.3C255.2 461 489.5 633.3 769.5 538.6S1194.3 252.4 1480 259.5M-40 600C254.3 477.1 491.4 620 771.4 534.3S1197.1 262.9 1480 251.4M-40 606.7C253.3 493.3 493.3 606.7 773.3 530S1200 273.3 1480 243.3M-40 613.3C252.4 509.5 495.2 593.3 775.2 525.7S1202.9 283.8 1480 235.2M-40 620C251.4 525.7 497.1 580 777.1 521.4S1205.7 294.3 1480 227.1M-40 626.7C250.5 541.9 499 566.7 779 517.1S1208.6 304.8 1480 219M-40 633.3C249.5 558.1 501 553.3 781 512.9S1211.4 315.2 1480 211M-40 640C248.6 574.3 502.9 540 782.9 508.6S1214.3 325.7 1480 202.9M-40 646.7C247.6 590.5 504.8 526.7 784.8 504.3S1217.1 336.2 1480 194.8M-40 653.3C246.7 606.7 506.7 513.3 786.7 500S1220 346.7 1480 186.7M-40 660C245.7 622.9 508.6 500 788.6 495.7S1222.9 357.1 1480 178.6M-40 666.7C244.8 639 510.5 486.7 790.5 491.4S1225.7 367.6 1480 170.5M-40 673.3C243.8 655.2 512.4 473.3 792.4 487.1S1228.6 378.1 1480 162.4M-40 680C242.9 671.4 514.3 460 794.3 482.9S1231.4 388.6 1480 154.3M-40 686.7C241.9 687.6 516.2 446.7 796.2 478.6S1234.3 399 1480 146.2M-40 693.3C241 703.8 518.1 433.3 798.1 474.3S1237.1 409.5 1480 138.1M-40 700C240 720 520 420 800 470S1240 420 1480 130"/><path opacity=".6" d="M-40 250C240 60 460 330 760 220S1200 90 1480 210M-40 242C241.3 73.3 462.7 315.3 762.7 225.3S1201.3 106 1480 200M-40 234C242.7 86.7 465.3 300.7 765.3 230.7S1202.7 122 1480 190M-40 226C244 100 468 286 768 236S1204 138 1480 180M-40 218C245.3 113.3 470.7 271.3 770.7 241.3S1205.3 154 1480 170M-40 210C246.7 126.7 473.3 256.7 773.3 246.7S1206.7 170 1480 160M-40 202C248 140 476 242 776 252S1208 186 1480 150M-40 194C249.3 153.3 478.7 227.3 778.7 257.3S1209.3 202 1480 140M-40 186C250.7 166.7 481.3 212.7 781.3 262.7S1210.7 218 1480 130M-40 178C252 180 484 198 784 268S1212 234 1480 120M-40 170C253.3 193.3 486.7 183.3 786.7 273.3S1213.3 250 1480 110M-40 162C254.7 206.7 489.3 168.7 789.3 278.7S1214.7 266 1480 100M-40 154C256 220 492 154 792 284S1216 282 1480 90M-40 146C257.3 233.3 494.7 139.3 794.7 289.3S1217.3 298 1480 80M-40 138C258.7 246.7 497.3 124.7 797.3 294.7S1218.7 314 1480 70M-40 130C260 260 500 110 800 300S1220 330 1480 60"/><path opacity=".6" d="M-40 860C300 700 560 930 840 800S1200 560 1480 690M-40 854.7C297.3 713.3 562.7 914.7 842.7 806.7S1204 573.3 1480 681.3M-40 849.3C294.7 726.7 565.3 899.3 845.3 813.3S1208 586.7 1480 672.7M-40 844C292 740 568 884 848 820S1212 600 1480 664M-40 838.7C289.3 753.3 570.7 868.7 850.7 826.7S1216 613.3 1480 655.3M-40 833.3C286.7 766.7 573.3 853.3 853.3 833.3S1220 626.7 1480 646.7M-40 828C284 780 576 838 856 840S1224 640 1480 638M-40 822.7C281.3 793.3 578.7 822.7 858.7 846.7S1228 653.3 1480 629.3M-40 817.3C278.7 806.7 581.3 807.3 861.3 853.3S1232 666.7 1480 620.7M-40 812C276 820 584 792 864 860S1236 680 1480 612M-40 806.7C273.3 833.3 586.7 776.7 866.7 866.7S1240 693.3 1480 603.3M-40 801.3C270.7 846.7 589.3 761.3 869.3 873.3S1244 706.7 1480 594.7M-40 796C268 860 592 746 872 880S1248 720 1480 586M-40 790.7C265.3 873.3 594.7 730.7 874.7 886.7S1252 733.3 1480 577.3M-40 785.3C262.7 886.7 597.3 715.3 877.3 893.3S1256 746.7 1480 568.7M-40 780C260 900 600 700 880 900S1260 760 1480 560"/></g>
+<g transform="translate(310 640) scale(1 1)"><path fill="url(#f)" stroke="url(#s)" stroke-width="1.5" d="M-34.2 94A100 100 0 1 0-86.6 50C-79.5 62-84 80-96 94c-5 6-1 11.5 6 10.5 20-2.5 36-7.5 55.800-10.5Z"/><path stroke="#fff" stroke-opacity=".5" stroke-width="20" stroke-linecap="round" d="M-38 0h0M0 0h0M38 0h0"/></g>
+<g transform="translate(1150 210) scale(-0.82 0.82)"><path fill="url(#f)" stroke="url(#s)" stroke-width="1.8" d="M-34.2 94A100 100 0 1 0-86.6 50C-79.5 62-84 80-96 94c-5 6-1 11.5 6 10.5 20-2.5 36-7.5 55.800-10.5Z"/><path stroke="#fff" stroke-opacity=".4" stroke-width="11" stroke-linecap="round" d="M-42-14h84M-42 16h50"/></g>
+<g transform="translate(1200 650) scale(-0.56 0.56)"><path fill="url(#f)" stroke="url(#s)" stroke-width="2.7" d="M-34.2 94A100 100 0 1 0-86.6 50C-79.5 62-84 80-96 94c-5 6-1 11.5 6 10.5 20-2.5 36-7.5 55.800-10.5Z"/><path fill="#fff" fill-opacity=".42" transform="translate(-48 -46) scale(4)" d="m12 21.4-1.5-1.4C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.5 11.5L12 21.4Z"/></g>
+<g transform="translate(262 236) scale(0.46 0.46)"><path fill="url(#f)" stroke="url(#s)" stroke-width="3.3" d="M-34.2 94A100 100 0 1 0-86.6 50C-79.5 62-84 80-96 94c-5 6-1 11.5 6 10.5 20-2.5 36-7.5 55.800-10.5Z"/></g>
+<circle cx="420" cy="500" r="9" fill="url(#f)" stroke="url(#s)"/><circle cx="196" cy="440" r="6" fill="url(#f)" stroke="url(#s)"/><circle cx="446" cy="774" r="13" fill="url(#f)" stroke="url(#s)"/><circle cx="1046" cy="352" r="10" fill="url(#f)" stroke="url(#s)"/><circle cx="1262" cy="470" r="14" fill="url(#f)" stroke="url(#s)"/><circle cx="1080" cy="760" r="7" fill="url(#f)" stroke="url(#s)"/><circle cx="372" cy="128" r="7" fill="url(#f)" stroke="url(#s)"/>
 </svg>
