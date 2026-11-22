@@ -42,15 +42,9 @@
                     transition: background-color var(--transition-hover);
                 }
 
-
-                .gallery__thumbnail:hover,
-                .gallery__thumbnail:focus-within {
-                    background-color: var(--accent-gold);
-                }
-
                 .gallery__thumbnail--current,
                 .gallery__thumbnail--current:hover {
-                    background-color: var(--color-brand-dark);
+                    background-color: var(--accent-gold);
                     cursor: default;
                 }
                     .gallery__thumb-image {
