@@ -166,12 +166,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgb(242 239 234 / 88%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #ffffff;
   border-radius: var(--radius-md);
-  border: 1px solid rgb(44 36 32 / 10%);
-  box-shadow: 0 10px 28px rgb(44 36 32 / 8%);
+  border: 1px solid rgb(74 47 38 / 8%);
+  box-shadow:
+    0 4px 10px -4px rgb(74 47 38 / 12%);
 }
 
 .header__logo {
@@ -278,7 +277,7 @@
   height: 38px;
   border-radius: 50%;
   border: 1px solid rgb(44 36 32 / 10%);
-  background: rgb(255 255 255 / 75%);
+  background: #faf6f2;
   color: var(--color-nav-link);
   cursor: pointer;
   text-decoration: none;
@@ -288,7 +287,7 @@
 .search-toggle-btn:hover,
 .nav-cart-icon:hover {
   color: var(--color-brand-dark);
-  background: #FFFFFF;
+  background: var(--action-bg-light-hover);
   transform: translateY(-1px);
 }
 
