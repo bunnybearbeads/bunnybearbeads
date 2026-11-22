@@ -29,7 +29,10 @@
     --theme-gradient: linear-gradient(55deg, #2B4362 0%, #516F95 100%);
     --theme-bg-color: #2B4362;
     --theme-accent-color: #516F95;
-    --theme-pattern: url('./zalo-pattern.svg');
+    --theme-pattern:
+        url('./zalo-pattern-top.svg'),
+        url('./zalo-pattern-bottom.svg'),
+        url('./zalo-pattern-back.svg');
 }
 
 /* На мобильном модалка не открывается — фон не качаем */
@@ -67,16 +70,16 @@
     background-image:
         var(--theme-pattern),
         var(--theme-gradient);
-    background-position: right bottom, 0 0;
-    background-repeat: no-repeat, no-repeat;
-    background-size: auto, cover;
-    background-blend-mode: normal, normal;
+    background-position: left top, right bottom, center center, 0 0;
+    background-repeat: no-repeat, no-repeat, repeat, no-repeat;
+    background-size: auto, auto, auto, cover;
+    background-blend-mode: normal;
     background-color: var(--theme-bg-color) !important;
 }
 
 @media (1600px <= width) {
     .hystmodal:has(.qr-modal--zalo)::before {
-        background-size: 1280px auto, cover;
+        background-size: 800px auto, 1125px auto, 1500px auto, cover;
     }
 }
 
