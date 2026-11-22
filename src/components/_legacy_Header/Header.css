@@ -166,7 +166,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #ffffff;
+  background: linear-gradient(180deg, #ffffff 35%, #fcf9f6 100%) border-box;
   border-radius: var(--radius-md);
   border: 1px solid rgb(74 47 38 / 8%);
   box-shadow: 0 4px 10px -4px rgb(74 47 38 / 12%);
