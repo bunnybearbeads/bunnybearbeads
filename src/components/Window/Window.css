@@ -4,7 +4,8 @@
     position: relative;
     box-sizing: border-box;
     background-color: #ffffff;
-    border-radius: var(--radius-md, 12px);
+    border-radius: 44px;
+    corner-shape: superellipse(1.3);
     box-shadow: 0 25px 60px rgb(0 0 0 / 20%);
 }
     .window__close {
@@ -112,6 +113,10 @@
 }
 
 @media (width < 740px) {
+
+    .window {
+        border-radius: 28px;
+    }
 
     /*.window__heading {*/
     /*    padding: 24px 24px 0 24px;*/
