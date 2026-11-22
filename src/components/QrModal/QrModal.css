@@ -144,7 +144,8 @@
     height: 108px;
     border-radius: 50%;
     background-color: var(--image-fallback);
-    box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+    box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.9),
+                0 8px 24px rgb(0 0 0 / 12%);
     object-fit: cover;
 }
 

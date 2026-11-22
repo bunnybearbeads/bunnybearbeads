@@ -5,6 +5,7 @@ import ProductDetail from '../_legacy_ProductDetail/ProductDetail.astro';
 import ProductAvailability from '../_legacy_ProductDetail/ProductAvailability.astro';
 import PartnerModals from '../_legacy_ProductDetail/PartnerModals.astro';
 import RemakeModal from '../RemakeModal/RemakeModal.astro';
+import InquiryModals from '../Inquiry/InquiryModals.astro';
 import VariantSwitcher from '../VariantSwitcher/VariantSwitcher.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { useTranslations, localize, getLocalizedUrl } from '../../i18n/utils';
@@ -136,13 +137,12 @@ const switcherItems = variants.map((v) => ({
 
       <div class="product__details">
         <div class="product-info-panel">
-          {variants.map((v, index) => (
+          {variants.map((v) => (
             <div class="product__pane" data-variant-pane={v.sku} hidden={!v.isDefault}>
               <ProductDetail
                 product={v.product}
                 productRaw={v.productRaw}
                 currentLang={currentLang}
-                withModals={index === 0}
               />
             </div>
           ))}
@@ -162,6 +162,7 @@ const switcherItems = variants.map((v) => ({
 </div>
 
 {/* Модальные окна общие для всех вариантов — рендерятся один раз, чтобы не дублировать id */}
+<InquiryModals currentLang={currentLang} />
 <PartnerModals product={defaultVariant.product} currentLang={currentLang} />
 
 {studioQty === 0 && (

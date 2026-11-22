@@ -2,28 +2,23 @@
 import './Inquiry.css';
 import Button from '../Button/Button.astro';
 import AltIcon from '../AltIcon/AltIcon.astro';
-import QrModal from '../QrModal/QrModal.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
-import { siteSettings } from '../../config/siteSettings';
+import { messengers, type MessengerKey } from './messengers';
 
 export interface Props {
   currentLang: SupportedLanguage;
   productTitle?: string;
   class?: string;
-  withModals?: boolean;
 }
 
 const {
   currentLang,
   productTitle,
   class: className,
-  withModals = true,
 } = Astro.props;
 
 const t = useTranslations(currentLang);
-
-type MessengerKey = 'messenger' | 'telegram' | 'zalo';
 
 const priorityByLang: Record<SupportedLanguage, MessengerKey> = {
   en: 'messenger',
@@ -33,52 +28,10 @@ const priorityByLang: Record<SupportedLanguage, MessengerKey> = {
 
 const highlightedKey = priorityByLang[currentLang] ?? 'telegram';
 
-interface MessengerItem {
-  id: MessengerKey;
-  name: string;
-  modalId: string;
-  url: string;
-  icon: string;
-  qrImage: string;
-  username: string;
-  isHighlighted: boolean;
-}
-
-/** https://m.me/bunnybearbeads → m.me/bunnybearbeads */
-const toAddress = (url: string) => url.replace(/^https?:\/\//, '');
-
-const messengersData: MessengerItem[] = [
-  {
-    id: 'telegram',
-    name: 'Telegram',
-    modalId: 'qr-modal-telegram',
-    url: siteSettings.contacts.telegramUrl,
-    icon: '/images/messengers/telegram.svg',
-    qrImage: '/images/qr/telegram.svg',
-    username: siteSettings.contacts.telegramHandle,
-    isHighlighted: highlightedKey === 'telegram',
-  },
-  {
-    id: 'messenger',
-    name: 'Messenger',
-    modalId: 'qr-modal-messenger',
-    url: siteSettings.contacts.messengerUrl,
-    icon: '/images/messengers/messenger.svg',
-    qrImage: '/images/qr/messenger.svg',
-    username: toAddress(siteSettings.contacts.messengerUrl),
-    isHighlighted: highlightedKey === 'messenger',
-  },
-  {
-    id: 'zalo',
-    name: 'Zalo',
-    modalId: 'qr-modal-zalo',
-    url: siteSettings.contacts.zaloUrl,
-    icon: '/images/messengers/zalo.svg',
-    qrImage: '/images/qr/zalo.svg',
-    username: toAddress(siteSettings.contacts.zaloUrl),
-    isHighlighted: highlightedKey === 'zalo',
-  },
-];
+const messengersData = messengers.map((item) => ({
+  ...item,
+  isHighlighted: item.id === highlightedKey,
+}));
 
 const orderedMessengers = [...messengersData].sort((a, b) => {
   if (a.isHighlighted) return -1;
@@ -87,7 +40,7 @@ const orderedMessengers = [...messengersData].sort((a, b) => {
 });
 ---
 
-{/* На мобильном кнопка ведёт сразу в мессенджер, на десктопе открывает QR-модалку (utils/modals.ts) */}
+{/* На мобильном кнопка ведёт сразу в мессенджер, на десктопе открывает QR-модалку (InquiryModals, utils/modals.ts) */}
 <div class:list={['inquiry', className]} role="group" aria-label={t('catalog.order_piece')}>
   {orderedMessengers.map((item) => {
     const fullLabel = `${t('catalog.inquiry.order_via')} ${item.name}`;
@@ -112,15 +65,3 @@ const orderedMessengers = [...messengersData].sort((a, b) => {
     );
   })}
 </div>
-
-{withModals && messengersData.map((item) => (
-  <QrModal
-    id={item.modalId}
-    currentLang={currentLang}
-    messenger={item.id}
-    name={item.name}
-    qrImage={item.qrImage}
-    username={item.username}
-    link={item.url}
-  />
-))}

@@ -1,0 +1,27 @@
+---
+/**
+ * QR-модалки для кнопок Inquiry. Выводятся один раз на страницу и вне панелей
+ * вариантов: внутри скрытой панели модалка открывается, но её не видно.
+ */
+import QrModal from '../QrModal/QrModal.astro';
+import { type SupportedLanguage } from '../../i18n/ui';
+import { messengers } from './messengers';
+
+interface Props {
+  currentLang: SupportedLanguage;
+}
+
+const { currentLang } = Astro.props;
+---
+
+{messengers.map((item) => (
+  <QrModal
+    id={item.modalId}
+    currentLang={currentLang}
+    messenger={item.id}
+    name={item.name}
+    qrImage={item.qrImage}
+    username={item.username}
+    link={item.url}
+  />
+))}

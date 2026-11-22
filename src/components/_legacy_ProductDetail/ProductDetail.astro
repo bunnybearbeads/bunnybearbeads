@@ -16,11 +16,9 @@ interface Props {
   product: { title: string; description?: string; price: ResolvedVariant['price'] };
   productRaw: { data: ResolvedVariant };
   currentLang: SupportedLanguage;
-  /** Рендерить QR-модалки мессенджеров. На странице с вариантами — только у первого */
-  withModals?: boolean;
 }
 
-const { product, productRaw, currentLang, withModals = true } = Astro.props;
+const { product, productRaw, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 const categoryId = productRaw.data.categoryId || 'bracelets';
 ---
@@ -53,6 +51,5 @@ const categoryId = productRaw.data.categoryId || 'bracelets';
   <Inquiry
       currentLang={currentLang}
       productTitle={product.title}
-      withModals={withModals}
   />
 </div>
