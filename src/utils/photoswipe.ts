@@ -13,6 +13,7 @@ export interface CreatePhotoSwipeOptions extends PhotoSwipeOptions {
 /**
  * Creates and returns a configured PhotoSwipe instance with project-wide defaults:
  * - Background opacity derived from CSS variable (--modal-bg / 80%)
+ * - No looping: navigation stops at the first and last slide
  * - Smooth wheelToZoom and closeOnVerticalDrag
  * - Predictable click-to-zoom (2.2x magnification even on smaller/medium images)
  * - Maximum zoom level up to 4x
@@ -24,6 +25,7 @@ export function createPhotoSwipe(options: CreatePhotoSwipeOptions): PhotoSwipe {
 
   const pswp = new PhotoSwipe({
     bgOpacity: getModalBgOpacity(),
+    loop: false,
     wheelToZoom: true,
     closeOnVerticalDrag: true,
     secondaryZoomLevel: (zoomLevel) => Math.max(1, zoomLevel.fit * 2.2),
