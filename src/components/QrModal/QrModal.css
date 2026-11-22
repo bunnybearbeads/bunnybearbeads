@@ -236,3 +236,75 @@
         .qr-modal__username:hover .qr-modal__note {
             color: #ffffff;
         }
+
+
+
+@media (1600px <= width) {
+
+    .hystmodal:has(.qr-modal--telegram)::before {
+        background-size: 500px auto, cover, cover, cover, cover;
+    }
+        .hystmodal__window:has(.qr-modal) {
+            border-top-width: 88px;
+        }
+            .hystmodal__window:has(.qr-modal) .window__body {
+                padding: 20px 20px 27px;
+            }
+
+            .hystmodal__window:has(.qr-modal) .window__close {
+                top: -19px;
+                width: 82px;
+                height: 82px;
+            }
+                .hystmodal__window:has(.qr-modal) .window__close::before {
+                    width: 48px;
+                    height: 48px;
+                }
+
+                .hystmodal__window:has(.qr-modal) .window__close .icon {
+                    font-size: 28px;
+                    line-height: 28px;
+                }
+
+    .qr-modal {
+        width: 320px; /* 320px + 2x20px паддинга у обёрточного window__body = 360px */
+    }
+        .qr-modal__logo {
+            margin-top: -108px;
+        }
+            .qr-modal__emblem {
+                width: 130px;
+                height: 130px;
+            }
+
+        .qr-modal__image {
+            margin-top: 14px;
+            width: 248px;
+            height: 248px;
+        }
+
+        .qr-modal__or-hint {
+            margin-top: 36px;
+            font-size: 15px;
+            line-height: 20px;
+        }
+
+        .qr-modal__username {
+            margin-top: 10px;
+            padding: 7px 22px;
+            font-size: 21px;
+            line-height: 31px;
+        }
+
+        .qr-modal--telegram .qr-modal__username {
+            font-size: 19px;
+        }
+            .qr-modal__link-text {
+                text-decoration-thickness: 1.7px;
+            }
+
+            .qr-modal__note {
+                font-size: 13px;
+                line-height: 18px;
+            }
+}
