@@ -9,8 +9,12 @@ const decodePhone = (code: string): string => [...atob(code)].reverse().join('')
 
 function revealZaloLinks() {
   document.querySelectorAll<HTMLAnchorElement>('a[data-zalo]').forEach((link) => {
-    link.href = `https://zalo.me/${decodePhone(link.dataset.zalo ?? '')}`;
+    const address = `zalo.me/${decodePhone(link.dataset.zalo ?? '')}`;
+    link.href = `https://${address}`;
     link.removeAttribute('data-zalo');
+
+    const text = link.querySelector('[data-zalo-text]');
+    if (text) text.textContent = address;
   });
 }
 
