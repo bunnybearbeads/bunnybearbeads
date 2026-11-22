@@ -62,7 +62,7 @@
 .blog-title a {
   text-decoration: none;
   color: var(--color-brand-dark);
-  transition: color 0.2s ease;
+  transition: color var(--transition-hover);
 }
 
 .blog-title a:hover {

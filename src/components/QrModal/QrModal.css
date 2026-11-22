@@ -98,7 +98,7 @@
                     background-color: #ffffff;
                     box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
                     opacity: 100%;
-                    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+                    transition: background-color var(--transition-hover), box-shadow var(--transition-hover);
                 }
 
                 .hystmodal__window:has(.qr-modal) .window__close:hover::before {
@@ -113,7 +113,7 @@
                     background-color: var(--theme-bg-color);
                     background-clip: text;
                     color: transparent;
-                    transition: color 0.2s ease;
+                    transition: color var(--transition-hover);
                 }
 
                 .hystmodal__window:has(.qr-modal) .window__close:hover .icon {
@@ -131,7 +131,7 @@
         margin: -90px auto 0;
         background-color: var(--image-fallback);
         border-radius: 50%;
-        transition: box-shadow 0.2s ease;
+        transition: box-shadow var(--transition-hover);
         box-shadow: 0 0 0 0.5px rgb(255 255 255 / 90%),
                     0 8px 24px rgb(0 0 0 / 12%);
     }
@@ -213,26 +213,26 @@
             color: transparent;
             text-decoration: 1.6px underline; /* красится градиентом вместе с текстом */
             text-underline-offset: 3px;
-            transition: color 0.2s ease,
-                        text-decoration-color 0.2s ease;
+            transition: color var(--transition-hover),
+                        text-decoration-color var(--transition-hover);
         }
 
         .qr-modal__username:hover .qr-modal__link-text {
             color: #ffffff;
         }
 
-.qr-modal__note {
-    margin-top: -2px;
-    padding-bottom: 3px;
-    font-weight: 400;
-    font-style: italic;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: normal;
-    color: var(--text-muted);
-    transition: color 0.2s ease;
-}
+        .qr-modal__note {
+            margin-top: -2px;
+            padding-bottom: 3px;
+            font-weight: normal;
+            font-style: italic;
+            font-size: 12px;
+            line-height: 16px;
+            letter-spacing: normal;
+            color: var(--text-muted);
+            transition: color var(--transition-hover);
+        }
 
-.qr-modal__username:hover .qr-modal__note {
-    color: #ffffff;
-}
+        .qr-modal__username:hover .qr-modal__note {
+            color: #ffffff;
+        }

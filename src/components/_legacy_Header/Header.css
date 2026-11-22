@@ -64,7 +64,7 @@
   color: var(--color-text-muted, #6B635B);
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s ease;
+  transition: color var(--transition-hover);
   padding: 2px 0;
 }
 
@@ -92,7 +92,7 @@
   color: var(--color-nav-link, #5C4A3E);
   padding: 4px 8px;
   border-radius: 6px;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background var(--transition-hover), color var(--transition-hover);
 }
 
 .lang-dropdown-toggle:hover,

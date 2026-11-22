@@ -20,7 +20,7 @@
   font-weight: 700;
   color: var(--text-muted);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color var(--transition-hover);
 }
 
 .product-breadcrumb-link:hover {
