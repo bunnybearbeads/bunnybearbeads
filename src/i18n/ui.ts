@@ -679,9 +679,9 @@ export const translations = {
     vi: 'Xưởng tại Đà Lạt, Lâm Viên',
   },
   'catalog.modal.title': {
-    en: 'About the “last checked” date',
-    ru: 'Откуда берётся дата проверки',
-    vi: 'Về ngày “kiểm tra” trên web',
+    en: 'Availability at {shop}',
+    ru: 'Наличие в\u00A0{shop}',
+    vi: 'Tình trạng hàng tại {shop}',
   },
   'catalog.modal.nm_content': {
     en: `
