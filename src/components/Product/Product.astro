@@ -82,13 +82,13 @@ const switcherItems = variants.map((v) => ({
           ))}
         </div>
         {hasSwitcher && (
-            <div class="product__variants">
-                <VariantSwitcher
-                    title={t('catalog.variants_label')}
-                    baseUrl={getLocalizedUrl(`/catalog/${entry.id}`, currentLang)}
-                    items={switcherItems}
-                />
-            </div>
+          <div class="product__variants">
+            <VariantSwitcher
+              title={t('catalog.variants_label')}
+              baseUrl={getLocalizedUrl(`/catalog/${entry.id}`, currentLang)}
+              items={switcherItems}
+            />
+          </div>
         )}
 
         <div class="product__specs">
