@@ -1,7 +1,7 @@
 ---
 import './Product.css';
 import Gallery from '../Gallery/Gallery.astro';
-import ProductDetail from '../_legacy_ProductDetail/ProductDetail.astro';
+import ProductHeader from '../ProductHeader/ProductHeader.astro';
 import ProductAvailability from '../_legacy_ProductDetail/ProductAvailability.astro';
 import PartnerModals from '../_legacy_ProductDetail/PartnerModals.astro';
 import RemakeModal from '../RemakeModal/RemakeModal.astro';
@@ -136,24 +136,22 @@ const switcherItems = variants.map((v) => ({
       </div>
 
       <div class="product__details">
-        <div class="product-info-panel">
-          {variants.map((v) => (
-            <div data-variant-pane={v.sku} hidden={!v.isDefault}>
-              <ProductDetail
-                product={v.product}
-                productRaw={v.productRaw}
-                currentLang={currentLang}
-              />
-            </div>
-          ))}
+        {variants.map((v) => (
+          <div data-variant-pane={v.sku} hidden={!v.isDefault}>
+            <ProductHeader
+              product={v.product}
+              categoryId={v.productRaw.data.categoryId}
+              currentLang={currentLang}
+            />
+          </div>
+        ))}
 
-          <ProductAvailability
-            variants={availabilityVariants}
-            defaultSku={defaultSku}
-            remakeNote={remakeNote}
-            currentLang={currentLang}
-          />
-        </div>
+        <ProductAvailability
+          variants={availabilityVariants}
+          defaultSku={defaultSku}
+          remakeNote={remakeNote}
+          currentLang={currentLang}
+        />
       </div>
     </div>
 

@@ -29,6 +29,10 @@
 
             .product__details {
                 min-width: 0;
+                padding: 36px;
+                background: var(--card-bg);
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-lg);
             }
 
         .product__related {
@@ -63,7 +67,7 @@
                     }
 
                 .product__details {
-
+                    padding: 44px;
                 }
 
             .product__related {
@@ -103,7 +107,8 @@
 
                 .product__details {
                     order: 3;
-                    margin-top: 24px;
+                    margin: 24px calc(-1 * var(--container-padding)) 0;
+                    padding: 24px var(--container-padding);
                 }
 
             .product__related {
