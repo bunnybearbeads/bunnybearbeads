@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { generateMissingPosters } from './scripts/generate-posters.mjs';
+import { exportData, watchData } from './scripts/export-data.mjs';
 
 /**
  * AI: Автоматическая генерация постеров (.jpg) для любых .mp4/.webm в каталоге товаров.
@@ -15,6 +16,24 @@ function autoVideoPosters() {
     hooks: {
       'astro:config:setup': async ({ logger }) => {
         await generateMissingPosters('./public/images/products', logger);
+      },
+    },
+  };
+}
+
+/**
+ * Мастер-данные товаров (data/ → Dropbox) → публичные src/content/. Подробно — в scripts/export-data.mjs.
+ * В dev ещё и следит за data/, так что правки в Dropbox сразу видны на сайте.
+ */
+function productData() {
+  return {
+    name: 'product-data',
+    hooks: {
+      'astro:config:setup': async ({ logger }) => {
+        await exportData(logger);
+      },
+      'astro:server:setup': ({ logger }) => {
+        watchData(logger);
       },
     },
   };
@@ -83,7 +102,7 @@ export default defineConfig({
   server: {
     host: true,
   },
-  integrations: [autoVideoPosters(), materialIconsSubset()],
+  integrations: [productData(), autoVideoPosters(), materialIconsSubset()],
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'vi', 'ru'],

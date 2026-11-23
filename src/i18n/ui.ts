@@ -481,16 +481,6 @@ export const translations = {
     ru: 'Наличие',
     vi: 'Còn hàng',
   },
-  'catalog.variants_label': {
-    en: 'Versions',
-    ru: 'Варианты',
-    vi: 'Phiên bản',
-  },
-  'catalog.variant_default': {
-    en: 'Original',
-    ru: 'Оригинал',
-    vi: 'Bản gốc',
-  },
   'catalog.filter.location_all': {
     en: 'Anywhere',
     ru: 'Везде',
@@ -617,6 +607,34 @@ export const translations = {
     en: 'Ho Chi Minh',
     ru: 'Хошимин',
     vi: 'Hồ Chí Minh',
+  },
+  // Город в предложном падеже — для строки наличия: «1 шт в Далате»
+  'geo.in.dalat': {
+    en: 'in Da Lat',
+    ru: 'в Далате',
+    vi: 'ở Đà Lạt',
+  },
+  'geo.in.danang': {
+    en: 'in Da Nang',
+    ru: 'в Дананге',
+    vi: 'ở Đà Nẵng',
+  },
+  'geo.in.hcm': {
+    en: 'in Ho Chi Minh',
+    ru: 'в Хошимине',
+    vi: 'ở Hồ Chí Minh',
+  },
+  // Строка наличия на плашке семейства, когда в мастерской нет готового:
+  // «1 шт в Дананге или ремейк за 2–4 дня», а если нигде нет — «Ремейк за 2–4 дня»
+  'family.stock_remake': {
+    en: 'remake in {days} days',
+    ru: 'ремейк за {days} дня',
+    vi: 'nhận làm trong {days} ngày',
+  },
+  'family.stock_or': {
+    en: 'or',
+    ru: 'или',
+    vi: 'hoặc',
   },
   'geo.district.lamvien': {
     en: 'Lam Vien',
@@ -785,11 +803,6 @@ export const translations = {
     en: 'Kindly note: this isn’t a custom order, but a remake along a path I’ve already walked. We can, of course, swap out the clasp or adjust the length, but changing the color palette or reworking the design would be a more involved project.',
     ru: 'Обратите внимание: это не&nbsp;индивидуальный заказ, а&nbsp;повтор по&nbsp;уже протоптанной тропинке. Мы, конечно, можем заменить замочек или скорректировать длину, но&nbsp;смена палитры или доработка дизайна&nbsp;— это, пожалуй, отдельная услуга.',
     vi: 'Bạn lưu ý một chút nha: đây là mẫu được làm, chứ không phải đơn đặt làm riêng (custom). Tụi mình hoàn toàn có thể đổi loại móc khóa hoặc chỉnh lại độ dài, nhưng nếu muốn đổi bảng màu hay biến tấu lại thiết kế thì sẽ tốn nhiều công sức hơn hẳn và tính như một đơn đặt riêng nhé.',
-  },
-  'catalog.remake_note_title': {
-    en: 'A Word from the Crafter',
-    ru: 'Слово мастера',
-    vi: 'Đôi lời từ người thợ',
   },
 
   // Blog UI

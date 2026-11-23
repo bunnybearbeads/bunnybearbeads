@@ -1,0 +1,36 @@
+---
+/**
+ * Комментарий к штукам в точке («Наличие»): текст и превью фото.
+ * Фото комментария — отдельная галерея в PhotoSwipe (листается только внутри неё).
+ */
+import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
+import { type SupportedLanguage } from '../../i18n/ui';
+import { useTranslations } from '../../i18n/utils';
+
+interface Props {
+  html?: string;
+  images: { src: string; alt: string }[];
+  currentLang: SupportedLanguage;
+}
+
+const { html, images, currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+---
+
+{html && <Wysiwyg class="option__description" smaller halved set:html={html} />}
+{images.length > 0 && (
+  <div class="option__gallery" data-option-photos>
+    {images.map((img) => (
+      <a
+        href={img.src}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="option__photo"
+        data-option-photo
+        title={t('catalog.modal.photo_zoom_hint')}
+      >
+        <img src={img.src} alt={img.alt} class="option__image" loading="lazy" />
+      </a>
+    ))}
+  </div>
+)}

@@ -3,18 +3,13 @@ import Layout from '../../../layouts/Layout.astro';
 import PageHeader from '../../../components/_legacy_PageHeader/PageHeader.astro';
 import CatalogFilters from '../../../components/_legacy_CatalogFilters/CatalogFilters.astro';
 import ProductCard from '../../../components/_legacy_ProductCard/ProductCard.astro';
-import { getStaticLangPaths, resolveLang, localize, useTranslations, getLocalizedUrl } from '../../../i18n/utils';
+import { getStaticLangPaths, resolveLang, localize, useTranslations } from '../../../i18n/utils';
 import { LOCATIONS } from '../../../config/locations';
 import {
   getProducts,
-  getVisibleVariants,
-  resolveVariant,
-  categoryKey,
   getAvailableLocations,
   getFirstImageSrc,
-  formatPrice,
 } from '../../../utils/products';
-import type { CardVariant } from '../../../components/_legacy_ProductCard/ProductCard.astro';
 
 export function getStaticPaths() {
   return getStaticLangPaths();
@@ -24,31 +19,13 @@ const { lang: langParam } = Astro.params;
 const currentLang = resolveLang(langParam);
 const t = useTranslations(currentLang);
 
-const products = (await getProducts()).map((p) => {
-  const detailUrl = getLocalizedUrl(`/catalog/${p.id}`, currentLang);
-  // Первый видимый вариант — вариант по умолчанию
-  const resolved = getVisibleVariants(p).map((v) => resolveVariant(p, v));
-  const variants: CardVariant[] = resolved.map((r, index) => {
-    const l = localize(r, currentLang);
-    return {
-      sku: r.sku,
-      href: index === 0 ? detailUrl : `${detailUrl}?v=${r.sku}`,
-      title: l.title,
-      price: formatPrice(r.price),
-      image: getFirstImageSrc(r.images),
-      categoryId: r.categoryId,
-      categoryLabel: t(categoryKey(r.categoryId)),
-      locations: getAvailableLocations(r.stockLocations),
-    };
-  });
-  return {
-    id: p.id,
-    categoryId: resolved[0].categoryId,
-    image: variants[0].image,
-    variants,
-    data: localize(resolved[0], currentLang),
-  };
-});
+const products = (await getProducts()).map((p) => ({
+  id: p.id,
+  categoryId: p.data.categoryId,
+  image: getFirstImageSrc(p.data.images),
+  locations: getAvailableLocations(p.data.stock),
+  data: localize(p.data, currentLang),
+}));
 
 // Физические места, где можно посмотреть и купить вживую
 const locations = [
@@ -86,7 +63,7 @@ const categories = [
         <ProductCard
           id={product.id}
           categoryId={product.categoryId}
-          variants={product.variants}
+          locations={product.locations}
           image={product.image}
           data={product.data}
           currentLang={currentLang}

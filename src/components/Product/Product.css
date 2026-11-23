@@ -17,7 +17,7 @@
                     min-width: 0;
                 }
 
-                .product__variants {
+                .product__family {
                     margin-top: 24px;
                     min-width: 0;
                 }
@@ -58,7 +58,7 @@
 
                     }
 
-                    .product__variants {
+                    .product__family {
                         margin-top: 32px;
                     }
 
@@ -105,7 +105,7 @@
                         margin-top: 12px;
                     }
 
-                    .product__variants {
+                    .product__family {
                         order: 2;
                     }
 
@@ -116,26 +116,23 @@
                 .product__details {
                     display: contents;
                 }
-                    .product__details-pane {
+                    .product-header {
                         display: contents;
                     }
-                        .product-header {
-                            display: contents;
+                        /* Описание, цена, кнопки — после семейства… */
+                        .product-header > * {
+                            order: 3;
                         }
-                            /* Описание, цена, кнопки — после вариантов… */
-                            .product-header > * {
-                                order: 3;
-                            }
 
-                            /* …а крошки и заголовок — в самый верх.
-                               Специфичность та же, поэтому эти правила должны идти после */
-                            .product-header__breadcrumbs {
-                                order: 0;
-                            }
+                        /* …а крошки и заголовок — в самый верх.
+                           Специфичность та же, поэтому эти правила должны идти после */
+                        .product-header__breadcrumbs {
+                            order: 0;
+                        }
 
-                            .product-header__title {
-                                order: 0;
-                            }
+                        .product-header__title {
+                            order: 0;
+                        }
 
                     .product__availability {
                         order: 3;

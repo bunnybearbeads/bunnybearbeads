@@ -4,82 +4,16 @@ import type { TranslationKey } from '../i18n/ui';
 
 export type ProductEntry = CollectionEntry<'products'>;
 export type ProductData = ProductEntry['data'];
-export type VariantData = ProductData['variants'][number];
 export type CategoryId = ProductData['categoryId'];
+export type Stock = ProductData['stock'];
 
-/** Поля, которые вариант может переопределить; иначе берутся из товара */
-const INHERITED_FIELDS = [
-  'description',
-  'price',
-  'categoryId',
-  'images',
-  'materials',
-  'materialsHtml',
-  'badge',
-] as const;
-
-/** Данные варианта с уже подставленными полями товара */
-export type ResolvedVariant = Omit<ProductData, 'variants'> &
-  Omit<VariantData, (typeof INHERITED_FIELDS)[number]> & {
-    productId: string;
-    /** Название товара без имени варианта */
-    productTitle: LocalizedString;
-  };
-
-const LANGS = ['en', 'ru', 'vi'] as const;
-
-function toLocalized(value: string | LocalizedString): LocalizedString {
-  return typeof value === 'string' ? { en: value, ru: value, vi: value } : value;
-}
-
-/** "Guaco" + "Delicato" → "Guaco Delicato" на всех языках */
-function composeTitle(title: LocalizedString, name?: string | LocalizedString): LocalizedString {
-  if (!name) return title;
-  const n = toLocalized(name);
-  return Object.fromEntries(LANGS.map((l) => [l, `${title[l]} ${n[l]}`])) as LocalizedString;
-}
-
-export function resolveVariant(product: ProductEntry, variant: VariantData): ResolvedVariant {
-  const { variants: _variants, ...base } = product.data;
-  const resolved: any = { ...base, ...variant };
-  for (const key of INHERITED_FIELDS) {
-    resolved[key] = variant[key] ?? base[key];
-  }
-  resolved.createdAt = variant.createdAt ?? base.createdAt;
-  resolved.productId = product.id;
-  resolved.productTitle = base.title;
-  resolved.title = composeTitle(base.title, variant.name);
-  return resolved as ResolvedVariant;
-}
-
-/** Первый активный вариант в наличии, иначе первый активный, иначе первый */
-export function getDefaultVariant(product: ProductEntry): VariantData {
-  const { variants } = product.data;
-  const active = variants.filter((v) => v.status === 'active');
-  return active.find((v) => v.inStock) ?? active[0] ?? variants[0];
-}
-
-/**
- * Варианты, которые показываются покупателю: активные, вариант по умолчанию первым.
- * Если активных нет (товар снят целиком), показываются все — страница не должна пустеть.
- */
-export function getVisibleVariants(product: ProductEntry): VariantData[] {
-  const { variants } = product.data;
-  const active = variants.filter((v) => v.status === 'active');
-  const list = active.length ? active : variants;
-  const def = getDefaultVariant(product);
-  return [def, ...list.filter((v) => v !== def)];
-}
-
-type StockLocations = VariantData['stockLocations'];
-
-/** Сколько штук лежит в физической точке (0, если точки нет) */
-export function getLocationQty(stock: StockLocations, locationId: string): number {
+/** Сколько штук лежит в точке (0, если точки нет) */
+export function getLocationQty(stock: Stock, locationId: string): number {
   return stock.find((s) => s.locationId === locationId)?.quantity ?? 0;
 }
 
-/** Точки, где вариант реально есть (quantity > 0) */
-export function getAvailableLocations(stock: StockLocations): string[] {
+/** Точки, где товар реально есть (quantity > 0) */
+export function getAvailableLocations(stock: Stock): string[] {
   return stock
     .filter((s) => s.quantity > 0)
     .map((s) => s.locationId);
@@ -111,37 +45,57 @@ export function formatPrice(price: number): string {
   return `${number}&nbsp;₫`;
 }
 
+/** Короткая цена для плашек: 240000 → «240k» */
+export function formatPriceShort(price: number): string {
+  return `${Number((price / 1000).toFixed(1))}k`;
+}
+
 export function categoryKey(categoryId: CategoryId): TranslationKey {
   return `cat.${categoryId.replace(/-/g, '_')}` as TranslationKey;
 }
 
-function assertUniqueSkus(products: ProductEntry[]) {
-  const seen = new Map<string, string>();
-  for (const product of products) {
-    for (const { sku } of product.data.variants) {
-      const owner = seen.get(sku);
-      if (owner) {
-        throw new Error(`Duplicate SKU "${sku}" in products "${owner}" and "${product.id}"`);
-      }
-      seen.set(sku, product.id);
-    }
-  }
-}
-
-/** Все товары, отсортированные по order. Падает при сборке, если SKU повторяется */
+/** Все товары, отсортированные по order */
 export async function getProducts(): Promise<ProductEntry[]> {
   const products = await getCollection('products');
-  assertUniqueSkus(products);
   return [...products].sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
 }
 
-/** Индекс SKU → вариант с данными товара. Основа для накладных и остатков */
-export async function getSkuIndex(): Promise<Map<string, ResolvedVariant>> {
-  const index = new Map<string, ResolvedVariant>();
-  for (const product of await getProducts()) {
-    for (const variant of product.data.variants) {
-      index.set(variant.sku, resolveVariant(product, variant));
+export interface FamilyMember {
+  product: ProductEntry;
+  note?: LocalizedString;
+}
+
+export interface Family {
+  id: string;
+  title: LocalizedString;
+  members: FamilyMember[];
+}
+
+/**
+ * Семейство товара, если товар в нём состоит. Падает при сборке, если товар
+ * указан в двух семействах или в семействе есть несуществующий товар.
+ */
+export async function getFamilyOf(productId: string): Promise<Family | undefined> {
+  const products = new Map((await getCollection('products')).map((p) => [p.id, p]));
+  const families = await getCollection('families');
+  const owners = new Map<string, string>();
+  let found: Family | undefined;
+
+  for (const family of families) {
+    const members = family.data.members.map(({ product, note }) => {
+      const entry = products.get(product.id);
+      if (!entry) throw new Error(`Family "${family.id}": unknown product "${product.id}"`);
+      const owner = owners.get(product.id);
+      if (owner) {
+        throw new Error(`Product "${product.id}" is in two families: "${owner}" and "${family.id}"`);
+      }
+      owners.set(product.id, family.id);
+      return { product: entry, note };
+    });
+    if (members.some((m) => m.product.id === productId)) {
+      found = { id: family.id, title: family.data.title, members };
     }
   }
-  return index;
+
+  return found;
 }

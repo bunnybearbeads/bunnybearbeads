@@ -1,6 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, reference, z } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { LOCATIONS } from './config/locations';
 
 const localizedString = z.object({
   en: z.string(),
@@ -8,7 +7,7 @@ const localizedString = z.object({
   vi: z.string(),
 });
 
-const locationImageSchema = z.union([
+const imageSchema = z.union([
   z.string(),
   z.object({
     src: z.string(),
@@ -17,28 +16,17 @@ const locationImageSchema = z.union([
 ]);
 
 /**
- * Где лежит вариант и сколько штук. Доставка и самовывоз из мастерской
- * доступны всегда, поэтому отдельного признака «онлайн» нет.
+ * Сколько штук лежит в точке. Генерируется из мастер-данных (data/ → Dropbox)
+ * скриптом scripts/export-data.mjs: каждая непроданная штука там — отдельная запись.
+ * Доставка и самовывоз из мастерской доступны всегда, поэтому отдельного признака «онлайн» нет.
  */
-const stockLocationSchema = z
-  .object({
-    locationId: z.enum(['dalat', 'ngay-mai', 'cat-food']),
-    quantity: z.number().int().nonnegative(),
-    /** Код товара в учётной системе партнёра */
-    partnerCode: z.string().optional(),
-    note: localizedString.optional(),
-    images: z.array(locationImageSchema).default([]),
-  })
-  .superRefine((loc, ctx) => {
-    const isPartner = LOCATIONS[loc.locationId].type === 'partner';
-    if (!isPartner && loc.partnerCode) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['partnerCode'],
-        message: `partnerCode is only allowed for partner locations, not "${loc.locationId}"`,
-      });
-    }
-  });
+const stockSchema = z.object({
+  locationId: z.enum(['dalat', 'ngay-mai', 'cat-food']),
+  quantity: z.number().int().nonnegative(),
+  /** Комментарий к штукам в этой точке: чем они немного отличаются от фото */
+  note: localizedString.optional(),
+  images: z.array(imageSchema).default([]),
+});
 
 const mediaItemSchema = z.union([
   z.string(),
@@ -51,40 +39,7 @@ const mediaItemSchema = z.union([
 
 const categoryIdSchema = z.enum(['bracelets', 'rings', 'phone-charms', 'keychains', 'other']);
 
-/**
- * SKU — неизменяемый код варианта. Попадает в накладные, поэтому после первой
- * накладной не переименовывается. Уникальность по всему каталогу проверяется
- * в src/utils/products.ts.
- */
-export const skuSchema = z
-  .string()
-  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'SKU: lowercase latin, digits and single dashes');
-
-/**
- * Вариант товара. Необязательные поля, если не указаны, наследуются от товара.
- */
-const variantSchema = z.object({
-  sku: skuSchema,
-  /** Имя варианта, дописывается к названию товара: "Guaco" + "Delicato" */
-  name: z.union([z.string(), localizedString]).optional(),
-  /** Короткая подпись для переключателя вариантов. Без неё используется name */
-  label: z.union([z.string(), localizedString]).optional(),
-  /** archived — снят с производства. Не удаляем: на него ссылаются накладные */
-  status: z.enum(['active', 'archived']).default('active'),
-  createdAt: z.string().optional(),
-  inStock: z.boolean().default(true),
-  stockLocations: z.array(stockLocationSchema),
-
-  // Наследуемые от товара
-  description: localizedString.optional(),
-  price: z.number().optional(),
-  categoryId: categoryIdSchema.optional(),
-  images: z.array(mediaItemSchema).optional(),
-  materials: z.array(z.string()).optional(),
-  materialsHtml: z.string().optional(),
-  badge: localizedString.optional(),
-});
-
+/** Товар. Имя файла — slug, он же адрес страницы: /catalog/<slug> */
 const products = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/products' }),
   schema: z.object({
@@ -95,13 +50,31 @@ const products = defineCollection({
     price: z.number(),
     categoryId: categoryIdSchema.default('bracelets'),
     images: z.array(mediaItemSchema).default([]),
+    /** Превью 40:22 для плашки в семействе */
+    thumb: z.string().optional(),
     materials: z.array(z.string()).optional(),
     materialsHtml: z.string().optional(),
     designedBy: z.string().optional(),
     badge: localizedString.optional(),
-    remakeNote: localizedString.optional(),
-    crafterNote: localizedString.optional(),
-    variants: z.array(variantSchema).min(1),
+    stock: z.array(stockSchema).default([]),
+  }),
+});
+
+/**
+ * Семейство — товары, которые показываются рядом на странице каждого из них:
+ * варианты одного изделия или изделия по одной схеме. Товар состоит не больше чем в одном семействе.
+ */
+const families = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/families' }),
+  schema: z.object({
+    title: localizedString,
+    members: z.array(
+      z.object({
+        product: reference('products'),
+        /** Чем этот товар отличается от остальных. Выводится под плашкой */
+        note: localizedString.optional(),
+      })
+    ).min(2),
   }),
 });
 
@@ -196,4 +169,4 @@ const contacts = defineCollection({
   }),
 });
 
-export const collections = { products, blog, faq, about, home, contacts };
+export const collections = { products, families, blog, faq, about, home, contacts };

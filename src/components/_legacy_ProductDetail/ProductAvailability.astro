@@ -1,12 +1,12 @@
 ---
 /**
- * Секция «Наличие» — общая для всех вариантов товара.
+ * Секция «Наличие» товара.
  *
  * - Мастерская в Далате показывается всегда: если готовых нет, предлагается повтор.
  *   Доставка по Вьетнаму, курьер по Далату и самовывоз доступны всегда.
- * - Витрины партнёров — только если там лежит хотя бы один вариант.
- * - Количество суммируется по вариантам. Если вариантов несколько, в карточке видно,
- *   какой вариант где лежит; клик по нему переключает страницу на этот вариант.
+ * - Витрины партнёров — только если там лежит хотя бы одна штука.
+ * - Под количеством — комментарий к штукам в этой точке (чем они отличаются от фото)
+ *   с фото, которые открываются в PhotoSwipe.
  */
 import './ProductDetail.css';
 import './Option.css';
@@ -21,47 +21,33 @@ import {
 } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
 import { LOCATIONS, PARTNER_LOCATIONS, type LocationId } from '../../config/locations';
-import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
+import StockNote from './StockNote.astro';
 import Icon from '../Icon/Icon.astro';
 import Link from '../Link/Link.astro';
 import DottedTitle from '../DottedTitle/DottedTitle.astro';
-
-export interface AvailabilityVariant {
-  sku: string;
-  /** Короткая подпись варианта, как в переключателе */
-  label: string;
-  /** Полное название варианта — для alt у фото */
-  title: string;
-  stockLocations: any[];
-}
+import { getLocationQty, type Stock } from '../../utils/products';
 
 interface Props {
-  variants: AvailabilityVariant[];
-  defaultSku: string;
-  /** Заметка о повторе (уже локализованная HTML-строка) */
-  remakeNote?: string;
+  stock: Stock;
+  /** Название товара — для alt у фото */
+  title: string;
   currentLang: SupportedLanguage;
 }
 
-const { variants, defaultSku, remakeNote, currentLang } = Astro.props;
+const { stock, title, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
-const showVariants = variants.length > 1;
 
-interface LocationImage {
+interface NoteImage {
   src: string;
   alt: string;
 }
 
-interface StockEntry {
-  sku: string;
-  label: string;
-  qty: number;
-  noteHtml?: string;
-  images: LocationImage[];
+interface NoteData {
+  html?: string;
+  images: NoteImage[];
 }
 
-function normalizeImages(rawImages: any[] | undefined, fallbackTitle: string): LocationImage[] {
-  if (!Array.isArray(rawImages)) return [];
+function normalizeImages(rawImages: Stock[number]['images'], fallbackTitle: string): NoteImage[] {
   return rawImages.map((img, idx) => {
     if (typeof img === 'string') return { src: img, alt: `${fallbackTitle} — ${idx + 1}` };
     const alt = img.alt
@@ -73,58 +59,38 @@ function normalizeImages(rawImages: any[] | undefined, fallbackTitle: string): L
   });
 }
 
-const escapeHtml = (s: string) =>
-  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-/** Записи о наличии всех вариантов в одной точке */
-function entriesAt(locationId: LocationId): StockEntry[] {
+/** Комментарий к штукам в точке, если он есть */
+function noteAt(locationId: LocationId): NoteData | undefined {
+  const entry = stock.find((s) => s.locationId === locationId);
+  if (!entry || (!entry.note && entry.images.length === 0)) return undefined;
   const meta = LOCATIONS[locationId];
-  return variants.flatMap((v) => {
-    const sl = v.stockLocations.find((s) => s.locationId === locationId);
-    if (!sl) return [];
-    const placeLabel = meta.shop || (meta.cityKey ? t(meta.cityKey) : '');
-    return [{
-      sku: v.sku,
-      label: v.label,
-      qty: sl.quantity ?? 0,
-      noteHtml: sl.note
-        ? (showVariants ? `<p><strong>${escapeHtml(v.label)}</strong></p>` : '') + localize(sl.note, currentLang)
-        : undefined,
-      images: normalizeImages(sl.images, `${v.title} (${placeLabel})`),
-    }];
-  });
+  const placeLabel = meta.shop || (meta.cityKey ? t(meta.cityKey) : '');
+  return {
+    html: entry.note ? localize(entry.note, currentLang) : undefined,
+    images: normalizeImages(entry.images, `${title} (${placeLabel})`),
+  };
 }
 
-const sumQty = (entries: StockEntry[]) => entries.reduce((n, e) => n + e.qty, 0);
-
 // Мастерская
-const studioEntries = entriesAt('dalat');
-const studioQty = sumQty(studioEntries);
+const studioQty = getLocationQty(stock, 'dalat');
 const isDalatInStock = studioQty > 0;
 const studioStockBadge = formatStudioStockQty(studioQty || 1, currentLang);
-const studio = {
-  stocked: studioEntries.filter((e) => e.qty > 0),
-  notes: studioEntries.filter((e) => e.noteHtml),
-  images: studioEntries.flatMap((e) => e.images),
-};
+const studioNote = noteAt('dalat');
 
 // Витрины партнёров
 let runningReadyCount = studioQty;
 const partnerCards = PARTNER_LOCATIONS.flatMap((meta) => {
-  const stocked = entriesAt(meta.id).filter((e) => e.qty > 0);
-  if (stocked.length === 0) return [];
-  const qty = sumQty(stocked);
+  const qty = getLocationQty(stock, meta.id);
+  if (qty === 0) return [];
   const badgeText = formatShowcaseStockQty(qty, runningReadyCount > 0, currentLang);
   runningReadyCount += qty;
   const lastCheckedAt = meta.lastCheckedAt || siteSettings.partnerShops.lastCheckedAt;
   return [{
     meta,
-    stocked,
     badgeText,
     lastCheckedAt,
     isOfflineCheckup: Boolean(lastCheckedAt),
-    notes: stocked.filter((e) => e.noteHtml),
-    images: stocked.flatMap((e) => e.images),
+    note: noteAt(meta.id),
   }];
 });
 
@@ -175,17 +141,9 @@ const remakeText = {
           </button>
         )}
 
-        {showVariants && studio.stocked.length > 0 && (
-          <div class="option__variants">
-            {studio.stocked.map((e) => (
-              <button
-                type="button"
-                class:list={['option__variant', { 'option__variant--current': e.sku === defaultSku }]}
-                data-variant-select={e.sku}
-              >
-                {e.label}<span class="option__variant-qty">&nbsp;·&nbsp;{formatStudioStockQty(e.qty, currentLang).qtyText}</span>
-              </button>
-            ))}
+        {studioNote && (
+          <div class="option__details">
+            <StockNote html={studioNote.html} images={studioNote.images} currentLang={currentLang} />
           </div>
         )}
       </div>
@@ -264,29 +222,6 @@ const remakeText = {
         </ul>
       </div>
 
-      {(studio.notes.length > 0 || studio.images.length > 0) && (
-        <div class="option__details">
-          {studio.notes.map((e) => (
-            <Wysiwyg class="option__description" smaller halved set:html={e.noteHtml} />
-          ))}
-          {studio.images.length > 0 && (
-            <div class="option__gallery" data-option-photos>
-              {studio.images.map((img) => (
-                <a
-                  href={img.src}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="option__photo"
-                  data-option-photo
-                  title={t('catalog.modal.photo_zoom_hint')}
-                >
-                  <img src={img.src} alt={img.alt} class="option__image" loading="lazy" />
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
     </div>
 
     {/* Витрины партнёров */}
@@ -339,58 +274,15 @@ const remakeText = {
             <div class="option__quantity">{card.badgeText}</div>
           )}
 
-          {showVariants && (
-            <div class="option__variants">
-              {card.stocked.map((e) => (
-                <button
-                  type="button"
-                  class:list={['option__variant', { 'option__variant--current': e.sku === defaultSku }]}
-                  data-variant-select={e.sku}
-                >
-                  {e.label}<span class="option__variant-qty">&nbsp;·&nbsp;{formatStudioStockQty(e.qty, currentLang).qtyText}</span>
-                </button>
-              ))}
+          {card.note && (
+            <div class="option__details">
+              <StockNote html={card.note.html} images={card.note.images} currentLang={currentLang} />
             </div>
           )}
         </div>
-
-        {(card.notes.length > 0 || card.images.length > 0) && (
-          <div class="option__details">
-            {card.notes.map((e) => (
-              <Wysiwyg class="option__description" smaller halved set:html={e.noteHtml} />
-            ))}
-            {card.images.length > 0 && (
-              <div class="option__gallery" data-option-photos>
-                {card.images.map((img) => (
-                  <a
-                    href={img.src}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="option__photo"
-                    data-option-photo
-                    title={t('catalog.modal.photo_zoom_hint')}
-                  >
-                    <img src={img.src} alt={img.alt} class="option__image" loading="lazy" />
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
       </div>
     ))}
   </div>
 </div>
-
-{remakeNote && (
-  <div class="product__remake-section">
-    <div class="product__remake-heading">
-      <DottedTitle>{t('catalog.remake_note_title')}</DottedTitle>
-    </div>
-    <div class="product__remake-note">
-      <Wysiwyg halved set:html={remakeNote} />
-    </div>
-  </div>
-)}
 
 <script src="./productDetail.client.ts"></script>

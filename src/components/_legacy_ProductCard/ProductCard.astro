@@ -4,40 +4,25 @@ import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
 import { categoryKey, formatPrice, type CategoryId } from '../../utils/products';
 
-/** Вариант для карточки: каталог подставляет тот, что подходит под фильтры */
-export interface CardVariant {
-  sku: string;
-  href: string;
-  title: string;
-  price: string;
-  image?: string;
-  categoryId: CategoryId;
-  categoryLabel: string;
-  /** Физические точки, где вариант есть в наличии */
-  locations: string[];
-}
-
 interface ProductCardData {
   title: string;
   description: string;
   price: number;
-  images?: string[];
-  inStock?: boolean;
   badge?: string;
 }
 
 interface Props {
   id: string;
   categoryId: CategoryId;
-  /** Видимые варианты товара, первый — по умолчанию. По ним фильтрует каталог */
-  variants?: CardVariant[];
+  /** Точки, где товар есть в наличии. По ним фильтрует каталог */
+  locations: string[];
   /** Первое изображение (для видео — постер) */
   image?: string;
   data: ProductCardData;
   currentLang: SupportedLanguage;
 }
 
-const { id, categoryId, variants = [], image, data, currentLang } = Astro.props;
+const { id, categoryId, locations, image, data, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 const detailUrl = getLocalizedUrl(`/catalog/${id}`, currentLang);
 
@@ -50,52 +35,35 @@ const categoryIcons: Record<string, string> = {
 const placeholderIcon = categoryIcons[categoryId] || '✨';
 ---
 
-<article class="product-card" data-variants={JSON.stringify(variants)}>
+<article class="product-card" data-category={categoryId} data-locations={locations.join(' ')}>
   {image ? (
     <div class="product-image-box">
       <img
         src={image}
         alt={data.title}
-        data-card-image
         loading="lazy"
       />
-      {data.badge ? (
-        <span class:list={['product-badge', { 'out-of-stock': !data.inStock }]}>
-          {data.badge}
-        </span>
-      ) : !data.inStock ? (
-        <span class="product-badge out-of-stock">
-          {t('catalog.out_of_stock')}
-        </span>
-      ) : null}
+      {data.badge && <span class="product-badge">{data.badge}</span>}
     </div>
   ) : (
     <div class="product-image-box product-placeholder-box">
       <span class="placeholder-icon">{placeholderIcon}</span>
-      {data.badge ? (
-        <span class:list={['product-badge', { 'out-of-stock': !data.inStock }]}>
-          {data.badge}
-        </span>
-      ) : !data.inStock ? (
-        <span class="product-badge out-of-stock">
-          {t('catalog.out_of_stock')}
-        </span>
-      ) : null}
+      {data.badge && <span class="product-badge">{data.badge}</span>}
     </div>
   )}
 
   <div class="product-details">
-    <span class="product-category" data-card-category>{t(categoryKey(categoryId))}</span>
+    <span class="product-category">{t(categoryKey(categoryId))}</span>
     <h2 class="product-title">
-      <a href={detailUrl} data-card-link data-card-title>
+      <a href={detailUrl}>
         {data.title}
       </a>
     </h2>
     <p class="product-desc">{data.description}</p>
 
     <div class="product-bottom">
-      <span class="product-price" data-card-price set:html={formatPrice(data.price)} />
-      <a href={detailUrl} class="btn btn-primary btn-sm" data-card-link>
+      <span class="product-price" set:html={formatPrice(data.price)} />
+      <a href={detailUrl} class="btn btn-primary btn-sm">
         {t('catalog.view_details')} →
       </a>
     </div>

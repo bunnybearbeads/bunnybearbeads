@@ -1,20 +1,18 @@
 ---
 /**
- * Шапка варианта товара: хлебные крошки, название, описание, цена, кнопки заказа.
- * Рендерится отдельно для каждого варианта. Наличие общее для всех вариантов —
- * см. ProductAvailability.astro.
+ * Шапка товара: хлебные крошки, название, описание, цена, кнопки заказа.
  */
 import './ProductHeader.css';
 import '../Icon/Icon.css';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
-import { categoryKey, formatPrice, type ResolvedVariant } from '../../utils/products';
+import { categoryKey, formatPrice, type CategoryId } from '../../utils/products';
 import Inquiry from '../Inquiry/Inquiry.astro';
 import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 
 interface Props {
-  product: { title: string; description?: string; price: ResolvedVariant['price'] };
-  categoryId?: ResolvedVariant['categoryId'];
+  product: { title: string; description?: string; price: number };
+  categoryId?: CategoryId;
   currentLang: SupportedLanguage;
 }
 

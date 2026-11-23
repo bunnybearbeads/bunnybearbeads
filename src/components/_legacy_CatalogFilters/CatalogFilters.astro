@@ -40,33 +40,16 @@ const groups = [
 <script>
   /**
    * Фильтры каталога: категория и место (?category=…&location=…).
-   * Карточка — это товар; в ней показывается первый вариант, подходящий под оба фильтра,
-   * и ссылка ведёт сразу на него (?v=sku). Если подходящего варианта нет, карточка скрывается.
+   * Карточка — это товар; если он не подходит под оба фильтра, карточка скрывается.
    */
   type FilterGroup = 'category' | 'location';
   type FilterState = Record<FilterGroup, string>;
-
-  interface CardVariant {
-    sku: string;
-    href: string;
-    title: string;
-    /** HTML из formatPrice() */
-    price: string;
-    image?: string;
-    categoryId: string;
-    categoryLabel: string;
-    locations: string[];
-  }
 
   const GROUPS: FilterGroup[] = ['category', 'location'];
 
   const buttons = document.querySelectorAll<HTMLButtonElement>('#catalog-filters [data-filter-group]');
   const cards = Array.from(document.querySelectorAll<HTMLElement>('#products-grid .product-card'));
   const emptyMessage = document.getElementById('catalog-empty');
-
-  const cardVariants = new Map<HTMLElement, CardVariant[]>(
-    cards.map((card) => [card, JSON.parse(card.dataset.variants || '[]') as CardVariant[]])
-  );
 
   function readState(): FilterState {
     const params = new URLSearchParams(window.location.search);
@@ -76,28 +59,12 @@ const groups = [
     };
   }
 
-  function matches(variant: CardVariant, state: FilterState): boolean {
+  function matches(card: HTMLElement, state: FilterState): boolean {
+    const locations = (card.dataset.locations || '').split(' ');
     return (
-      (state.category === 'all' || variant.categoryId === state.category) &&
-      (state.location === 'all' || variant.locations.includes(state.location))
+      (state.category === 'all' || card.dataset.category === state.category) &&
+      (state.location === 'all' || locations.includes(state.location))
     );
-  }
-
-  function showVariant(card: HTMLElement, variant: CardVariant) {
-    card.querySelectorAll<HTMLAnchorElement>('[data-card-link]').forEach((a) => {
-      a.href = variant.href;
-    });
-    const title = card.querySelector('[data-card-title]');
-    if (title) title.textContent = variant.title;
-    const price = card.querySelector('[data-card-price]');
-    if (price) price.innerHTML = variant.price;
-    const category = card.querySelector('[data-card-category]');
-    if (category) category.textContent = variant.categoryLabel;
-    const image = card.querySelector<HTMLImageElement>('[data-card-image]');
-    if (image && variant.image && image.getAttribute('src') !== variant.image) {
-      image.src = variant.image;
-      image.alt = variant.title;
-    }
   }
 
   function applyFilters(state: FilterState) {
@@ -108,12 +75,8 @@ const groups = [
 
     let visibleCount = 0;
     cards.forEach((card) => {
-      const variants = cardVariants.get(card) ?? [];
-      // Товар без данных о вариантах фильтруем как раньше — показываем всегда
-      const match = variants.length ? variants.find((v) => matches(v, state)) : undefined;
-      const isVisible = variants.length === 0 || Boolean(match);
+      const isVisible = matches(card, state);
       card.classList.toggle('hidden', !isVisible);
-      if (match) showVariant(card, match);
       if (isVisible) visibleCount += 1;
     });
 

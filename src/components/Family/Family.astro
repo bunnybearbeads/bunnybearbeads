@@ -1,0 +1,90 @@
+---
+/**
+ * Семейство товара: плашки-ссылки на все товары семейства, включая текущий.
+ * В плашке рядом с ценой — необязательный короткий комментарий «чем отличается» из файла семейства.
+ */
+import './Family.css';
+import DottedTitle from '../DottedTitle/DottedTitle.astro';
+import { type SupportedLanguage, type TranslationKey } from '../../i18n/ui';
+import { getLocalizedUrl, localize, useTranslations, formatShowcaseStockQty } from '../../i18n/utils';
+import { LOCATIONS, type LocationId } from '../../config/locations';
+import { siteSettings } from '../../config/siteSettings';
+import { formatPriceShort, getLocationQty, type Family, type Stock } from '../../utils/products';
+
+interface Props {
+  family: Family;
+  /** Товар, на странице которого выводится семейство */
+  currentId: string;
+  currentLang: SupportedLanguage;
+}
+
+const { family, currentId, currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+
+/**
+ * Наличие одной строкой: «1 шт в Далате · 2 шт в Дананге».
+ * Штуки суммируются по городам. Если в мастерской нет готового — в конце «или ремейк за 2–4 дня»,
+ * а если готового нет нигде — просто «Ремейк за 2–4 дня».
+ */
+function formatStockLine(stock: Stock): string {
+  const byCity = new Map<TranslationKey, number>();
+  for (const { locationId, quantity } of stock) {
+    const cityInKey = LOCATIONS[locationId as LocationId].cityInKey;
+    if (!quantity || !cityInKey) continue;
+    byCity.set(cityInKey, (byCity.get(cityInKey) ?? 0) + quantity);
+  }
+
+  let line = [...byCity]
+    .map(([cityInKey, qty]) => `${formatShowcaseStockQty(qty, false, currentLang)} ${t(cityInKey)}`)
+    .join(' · ');
+
+  if (getLocationQty(stock, 'dalat') === 0) {
+    const remake = t('family.stock_remake').replace('{days}', siteSettings.fulfillment.remakeDays);
+    line = line ? `${line} ${t('family.stock_or')} ${remake}` : remake;
+  }
+
+  return line.charAt(0).toUpperCase() + line.slice(1);
+}
+
+const members = family.members.map(({ product, note }) => {
+  const data = localize(product.data, currentLang);
+  return {
+    id: product.id,
+    isCurrent: product.id === currentId,
+    href: getLocalizedUrl(`/catalog/${product.id}`, currentLang),
+    title: data.title,
+    price: formatPriceShort(data.price),
+    thumb: product.data.thumb ?? '/placeholder-thumb.svg',
+    stock: formatStockLine(product.data.stock),
+    note: note ? localize(note, currentLang) : undefined,
+  };
+});
+---
+
+<div class="family">
+  <DottedTitle>{localize(family.title, currentLang)}</DottedTitle>
+  <ul class="family__list" role="list">
+    {members.map((member) => {
+      const Item = member.isCurrent ? 'div' : 'a';
+      return (
+        <li class="family__member">
+          <Item
+            class:list={['family__item', { 'family__item--current': member.isCurrent }]}
+            href={member.isCurrent ? undefined : member.href}
+            aria-current={member.isCurrent ? 'page' : undefined}
+          >
+            <img class="family__thumb" src={member.thumb} alt="" loading="lazy" />
+            <span class="family__text">
+              <span class="family__title">{member.title}</span>
+              <span class="family__meta">
+                <span class="family__price">{member.price}</span>
+                {member.note && <span class="family__note"> — {member.note}</span>}
+              </span>
+              <span class="family__stock">{member.stock}</span>
+            </span>
+          </Item>
+        </li>
+      );
+    })}
+  </ul>
+</div>

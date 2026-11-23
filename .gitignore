@@ -1,3 +1,6 @@
+# master data: symlink to Dropbox, see README «Данные товаров»
+/data
+
 # build output
 dist/
 temp/

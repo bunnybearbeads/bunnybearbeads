@@ -7,6 +7,8 @@ export interface LocationConfig {
   id: LocationId;
   type: 'studio' | 'partner';
   cityKey?: TranslationKey;
+  /** Город в предложном падеже: «в Далате» */
+  cityInKey?: TranslationKey;
   districtKey?: TranslationKey;
   shop?: string;
   lastCheckedAt?: string;
@@ -26,6 +28,7 @@ export const LOCATIONS: Record<LocationId, LocationConfig> = {
     id: 'dalat',
     type: 'studio',
     cityKey: 'geo.city.dalat',
+    cityInKey: 'geo.in.dalat',
     districtKey: 'geo.district.lamvien',
   },
   'ngay-mai': {
@@ -33,6 +36,7 @@ export const LOCATIONS: Record<LocationId, LocationConfig> = {
     type: 'partner',
     shop: 'NGÀY\u00A0MAI',
     cityKey: 'geo.city.danang',
+    cityInKey: 'geo.in.danang',
     districtKey: 'geo.district.myan',
     lastCheckedAt: siteSettings.partnerShops.lastCheckedAt,
     modalId: 'modal-checkup-ngaymai',
@@ -52,6 +56,7 @@ export const LOCATIONS: Record<LocationId, LocationConfig> = {
     type: 'partner',
     shop: 'Cat\u00A0Food',
     cityKey: 'geo.city.hcm',
+    cityInKey: 'geo.in.hcm',
     districtKey: 'geo.district.benthanh',
     lastCheckedAt: siteSettings.partnerShops.lastCheckedAt,
     modalId: 'modal-checkup-catfood',
