@@ -14,9 +14,7 @@
   },
   "price": 180000,
   "categoryId": "phone-charms",
-  "images": [
-    "/placeholder.svg"
-  ],
+  "images": [],
   "materials": [
     "Miyuki Delica seed beads",
     "Generic charm strap"
@@ -25,7 +23,8 @@
   "stock": [
     {
       "locationId": "dalat",
-      "quantity": 1
+      "quantity": 1,
+      "images": []
     }
   ]
 }

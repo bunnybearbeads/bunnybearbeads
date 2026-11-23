@@ -15,20 +15,20 @@
   "price": 320000,
   "categoryId": "bracelets",
   "images": [
-    "/images/products/solar-flare/PB090071-cleaned-and-signed.jpg",
-    "/images/products/solar-flare/PB090076-cleaned-and-signed.jpg",
+    "/images/products/solar-flare/site/PB090071-cleaned-and-signed.jpg",
+    "/images/products/solar-flare/site/PB090076-cleaned-and-signed.jpg",
     {
       "type": "video",
-      "src": "/images/products/solar-flare/sample3x4.mp4"
+      "src": "/images/products/solar-flare/site/sample3x4.mp4"
     },
-    "/images/products/solar-flare/PB090084.jpg",
-    "/images/products/solar-flare/PB090086-cleaned-and-signed.jpg",
-    "/images/products/solar-flare/temp.jpg",
-    "/images/products/solar-flare/PB090095.jpg",
-    "/images/products/solar-flare/PB090096.jpg",
-    "/images/products/solar-flare/PB090097.jpg",
-    "/images/products/solar-flare/PB090108.jpg",
-    "/images/products/solar-flare/PB090112.jpg"
+    "/images/products/solar-flare/site/PB090084.jpg",
+    "/images/products/solar-flare/site/PB090086-cleaned-and-signed.jpg",
+    "/images/products/solar-flare/site/temp.jpg",
+    "/images/products/solar-flare/site/PB090095.jpg",
+    "/images/products/solar-flare/site/PB090096.jpg",
+    "/images/products/solar-flare/site/PB090097.jpg",
+    "/images/products/solar-flare/site/PB090108.jpg",
+    "/images/products/solar-flare/site/PB090112.jpg"
   ],
   "materials": [
     "Miyuki Delica & Toho Aiko seed beads",

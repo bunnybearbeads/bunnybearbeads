@@ -14,9 +14,7 @@
   },
   "price": 185000,
   "categoryId": "phone-charms",
-  "images": [
-    "/placeholder.svg"
-  ],
+  "images": [],
   "materials": [
     "Toho Aiko seed beads",
     "Generic charm strap"
@@ -30,11 +28,13 @@
         "en": "<p>The pumpkin on this piece came out duller: the orange is more muted than in the photos.</p>",
         "ru": "<p>Тыква у этой штуки получилась тусклее: оранжевый приглушённее, чем на фото.</p>",
         "vi": "<p>Quả bí ở chiếc này hơi xỉn màu: sắc cam trầm hơn so với ảnh.</p>"
-      }
+      },
+      "images": []
     },
     {
       "locationId": "ngay-mai",
-      "quantity": 1
+      "quantity": 1,
+      "images": []
     }
   ]
 }

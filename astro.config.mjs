@@ -2,28 +2,12 @@ import { defineConfig } from 'astro/config';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { generateMissingPosters } from './scripts/generate-posters.mjs';
 import { exportData, watchData } from './scripts/export-data.mjs';
+import { reportBuildSize } from './scripts/build-size.mjs';
 
 /**
- * AI: Автоматическая генерация постеров (.jpg) для любых .mp4/.webm в каталоге товаров.
- * Срабатывает на этапе настройки конфигурации (при `astro dev` и `astro build`).
- * Создает .jpg рядом с видео, чтобы галерея использовала легковесные <img> в миниатюрах.
- */
-function autoVideoPosters() {
-  return {
-    name: 'auto-video-posters',
-    hooks: {
-      'astro:config:setup': async ({ logger }) => {
-        await generateMissingPosters('./public/images/products', logger);
-      },
-    },
-  };
-}
-
-/**
- * Мастер-данные товаров (data/ → Dropbox) → публичные src/content/. Подробно — в scripts/export-data.mjs.
- * В dev ещё и следит за data/, так что правки в Dropbox сразу видны на сайте.
+ * База изделий (data/ → Dropbox) → src/content/ и public/images/products/. Подробно — в scripts/export-data.mjs.
+ * Любая проблема в базе роняет сборку. В dev ещё и следит за data/, так что правки в Dropbox сразу видны на сайте.
  */
 function productData() {
   return {
@@ -34,6 +18,18 @@ function productData() {
       },
       'astro:server:setup': ({ logger }) => {
         watchData(logger);
+      },
+    },
+  };
+}
+
+/** После сборки — размер dist/ и прирост с прошлой сборки (scripts/build-size.mjs) */
+function buildSize() {
+  return {
+    name: 'build-size',
+    hooks: {
+      'astro:build:done': async ({ dir, logger }) => {
+        await reportBuildSize(fileURLToPath(dir), logger);
       },
     },
   };
@@ -102,7 +98,7 @@ export default defineConfig({
   server: {
     host: true,
   },
-  integrations: [productData(), autoVideoPosters(), materialIconsSubset()],
+  integrations: [productData(), materialIconsSubset(), buildSize()],
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'vi', 'ru'],

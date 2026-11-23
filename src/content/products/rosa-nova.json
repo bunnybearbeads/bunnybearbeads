@@ -14,9 +14,7 @@
   },
   "price": 150000,
   "categoryId": "phone-charms",
-  "images": [
-    "/placeholder.svg"
-  ],
+  "images": [],
   "materials": [
     "Toho Aiko – the world’s best seed beads; manufactured in Japan",
     "Colors: 49, 121, 714, 45AF",
@@ -27,11 +25,13 @@
   "stock": [
     {
       "locationId": "ngay-mai",
-      "quantity": 1
+      "quantity": 1,
+      "images": []
     },
     {
       "locationId": "cat-food",
-      "quantity": 1
+      "quantity": 1,
+      "images": []
     }
   ]
 }

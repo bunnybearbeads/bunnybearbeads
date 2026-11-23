@@ -14,9 +14,7 @@
   },
   "price": 165000,
   "categoryId": "keychains",
-  "images": [
-    "/placeholder.svg"
-  ],
+  "images": [],
   "materials": [
     "Miyuki Delica & Toho Aiko – the world’s best seed beads",
     "Delica colors: 2112  •  Aiko colors: 41, 49, 121, 124b, 131",
@@ -27,15 +25,18 @@
   "stock": [
     {
       "locationId": "dalat",
-      "quantity": 1
+      "quantity": 1,
+      "images": []
     },
     {
       "locationId": "ngay-mai",
-      "quantity": 1
+      "quantity": 1,
+      "images": []
     },
     {
       "locationId": "cat-food",
-      "quantity": 1
+      "quantity": 1,
+      "images": []
     }
   ]
 }

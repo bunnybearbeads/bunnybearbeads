@@ -14,9 +14,7 @@
   },
   "price": 210000,
   "categoryId": "phone-charms",
-  "images": [
-    "/placeholder.svg"
-  ],
+  "images": [],
   "materials": [
     "Size 15/0 seed beads",
     "Generic charm strap"
@@ -30,7 +28,8 @@
         "en": "<p>I have two versions on hand: one woven from Miyuki Delica 15/0, with the most even rows, and one from round Miyuki 15/0 beads, with a slightly softer texture. Ask which one you would like.</p>",
         "ru": "<p>У меня на руках две версии: одна из Miyuki Delica 15/0 — самые ровные ряды, другая из круглого бисера Miyuki 15/0 — фактура чуть мягче. Спросите, какую из двух вы хотите.</p>",
         "vi": "<p>Mình đang có hai phiên bản: một chiếc đan bằng Miyuki Delica 15/0 với các hàng đều nhất, một chiếc bằng hạt tròn Miyuki 15/0 với bề mặt mềm mại hơn một chút. Hãy hỏi mình bạn muốn chiếc nào nhé.</p>"
-      }
+      },
+      "images": []
     },
     {
       "locationId": "ngay-mai",
@@ -39,7 +38,8 @@
         "en": "<p>Woven from round Toho 15/0 beads.</p>",
         "ru": "<p>Сплетена из круглого бисера Toho 15/0.</p>",
         "vi": "<p>Đan bằng hạt tròn Toho 15/0.</p>"
-      }
+      },
+      "images": []
     }
   ]
 }

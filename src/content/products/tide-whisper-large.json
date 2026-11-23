@@ -15,7 +15,7 @@
   "price": 120000,
   "categoryId": "phone-charms",
   "images": [
-    "/images/products/chaos.jpg"
+    "/images/products/tide-whisper-large/site/chaos.jpg"
   ],
   "materials": [
     "Miyuki Delica 11/0 – high-quality Japanese seed beads",
@@ -27,7 +27,8 @@
   "stock": [
     {
       "locationId": "ngay-mai",
-      "quantity": 1
+      "quantity": 1,
+      "images": []
     }
   ]
 }

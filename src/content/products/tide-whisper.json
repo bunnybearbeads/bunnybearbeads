@@ -14,9 +14,7 @@
   },
   "price": 100000,
   "categoryId": "phone-charms",
-  "images": [
-    "/placeholder.svg"
-  ],
+  "images": [],
   "materials": [
     "Miyuki Delica 11/0 – high-quality Japanese seed beads",
     "Colors: 201, 658, 659, 726, 2134",
@@ -27,7 +25,8 @@
   "stock": [
     {
       "locationId": "dalat",
-      "quantity": 1
+      "quantity": 1,
+      "images": []
     }
   ]
 }

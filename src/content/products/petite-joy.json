@@ -14,9 +14,7 @@
   },
   "price": 140000,
   "categoryId": "phone-charms",
-  "images": [
-    "/placeholder.svg"
-  ],
+  "images": [],
   "materials": [
     "Toho Aiko seed beads",
     "Generic charm strap"
@@ -25,7 +23,8 @@
   "stock": [
     {
       "locationId": "dalat",
-      "quantity": 1
+      "quantity": 1,
+      "images": []
     },
     {
       "locationId": "ngay-mai",
@@ -34,7 +33,8 @@
         "en": "<p>The cream on this piece is made with Glazed Luster beads: it shines more and looks a little pearly.</p>",
         "ru": "<p>Крем у этой штуки сделан из бисера Glazed Luster: он сильнее блестит и выглядит немного перламутровым.</p>",
         "vi": "<p>Phần kem của chiếc này dùng hạt Glazed Luster: bóng hơn và hơi ánh ngọc trai.</p>"
-      }
+      },
+      "images": []
     }
   ]
 }

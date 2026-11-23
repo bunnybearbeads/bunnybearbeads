@@ -8,7 +8,8 @@
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "posters": "node scripts/generate-posters.mjs",
-    "export-data": "node scripts/export-data.mjs"
+    "export-data": "node scripts/export-data.mjs",
+    "deploy": "node scripts/deploy.mjs"
   },
   "repository": {
     "type": "git",

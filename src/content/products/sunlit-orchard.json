@@ -14,9 +14,7 @@
   },
   "price": 155000,
   "categoryId": "phone-charms",
-  "images": [
-    "/placeholder.svg"
-  ],
+  "images": [],
   "materials": [
     "Toho Aiko seed beads",
     "Generic charm strap"
@@ -30,7 +28,8 @@
         "en": "<p>One of the pieces in Da Lat is an earlier attempt with some colors switched to Toho Aiko: its fruit looks a little greener, as if not quite ripe. Ask which one you would like.</p>",
         "ru": "<p>Одна из штук в Далате — ранняя попытка, где часть цветов заменена на Toho Aiko: плод у неё зеленее, как будто ещё не дозрел. Спросите, какую из двух вы хотите.</p>",
         "vi": "<p>Một trong các chiếc ở Đà Lạt là bản làm thử, đổi vài màu sang Toho Aiko: trái trông xanh hơn, như chưa chín hẳn. Hãy hỏi mình bạn muốn chiếc nào nhé.</p>"
-      }
+      },
+      "images": []
     }
   ]
 }

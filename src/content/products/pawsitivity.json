@@ -14,9 +14,7 @@
   },
   "price": 165000,
   "categoryId": "phone-charms",
-  "images": [
-    "/placeholder.svg"
-  ],
+  "images": [],
   "materials": [
     "Toho Aiko seed beads",
     "Generic charm strap"
@@ -25,7 +23,8 @@
   "stock": [
     {
       "locationId": "dalat",
-      "quantity": 1
+      "quantity": 1,
+      "images": []
     },
     {
       "locationId": "ngay-mai",
@@ -36,9 +35,9 @@
         "vi": "<p>Chiếc này được đan bằng hạt Miyuki Delica thay vì Toho Aiko. Hạt đơn giản hơn một chút, nhưng màu trắng trong hơn, không bị ánh sữa — trông còn xinh hơn một chút.</p>"
       },
       "images": [
-        "/images/products/solar-flare/temp.jpg",
-        "/images/products/solar-flare/temp2.jpg",
-        "/images/products/solar-flare/sample3x4.jpg"
+        "/images/products/pawsitivity/notes/temp.jpg",
+        "/images/products/pawsitivity/notes/temp2.jpg",
+        "/images/products/pawsitivity/notes/sample3x4.jpg"
       ]
     }
   ]

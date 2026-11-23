@@ -1,5 +1,9 @@
-# master data: symlink to Dropbox, see README «Данные товаров»
+# product database: symlink to Dropbox, see README «Данные товаров»
 /data
+# generated from data/ by scripts/export-data.mjs
+/src/content/products/
+/src/content/families/
+/public/images/products/
 
 # build output
 dist/

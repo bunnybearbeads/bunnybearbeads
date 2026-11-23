@@ -14,9 +14,7 @@
   },
   "price": 175000,
   "categoryId": "phone-charms",
-  "images": [
-    "/placeholder.svg"
-  ],
+  "images": [],
   "materials": [
     "Toho Aiko seed beads",
     "Generic charm strap"
@@ -25,7 +23,8 @@
   "stock": [
     {
       "locationId": "dalat",
-      "quantity": 1
+      "quantity": 1,
+      "images": []
     },
     {
       "locationId": "ngay-mai",
@@ -34,7 +33,8 @@
         "en": "<p>The dog on this piece is latte-colored: warmer and lighter than in the photos.</p>",
         "ru": "<p>У этой штуки собачка цвета латте: теплее и светлее, чем на фото.</p>",
         "vi": "<p>Chú cún ở chiếc này có màu latte: ấm và sáng hơn so với ảnh.</p>"
-      }
+      },
+      "images": []
     }
   ]
 }
