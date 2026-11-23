@@ -80,18 +80,18 @@ const switcherItems = variants.map((v) => ({
               <Gallery images={v.product.images} alt={v.product.title} lang={currentLang} />
             </div>
           ))}
-          {hasSwitcher && (
-            <div class="product__variants">
-              <VariantSwitcher
-                title={t('catalog.variants_label')}
-                baseUrl={getLocalizedUrl(`/catalog/${entry.id}`, currentLang)}
-                items={switcherItems}
-              />
-            </div>
-          )}
         </div>
+        {hasSwitcher && (
+            <div class="product__variants">
+                <VariantSwitcher
+                    title={t('catalog.variants_label')}
+                    baseUrl={getLocalizedUrl(`/catalog/${entry.id}`, currentLang)}
+                    items={switcherItems}
+                />
+            </div>
+        )}
 
-        <div class="product__specs-col">
+        <div class="product__specs">
           {variants.map((v) => (
             <div data-variant-pane={v.sku} hidden={!v.isDefault}>
               <!-- Materials Section -->
@@ -157,7 +157,9 @@ const switcherItems = variants.map((v) => ({
       </div>
     </div>
 
-    <div class="product__related"></div>
+    <div class="product__related">
+
+    </div>
   </div>
 </div>
 

@@ -96,9 +96,11 @@
 /*}*/
 
 .product-specs-section {
+
+}
+
+.product-specs-section + .product-specs-section {
   margin-top: 22px;
-  padding-top: 18px;
-  border-top: 1px solid rgb(0 0 0 / 6%);
 }
 
 .specs-heading {
@@ -223,9 +225,8 @@
   /*  margin-top: 16px;*/
   /*}*/
 
-  .product-specs-section {
+  .product-specs-section + .product-specs-section {
     margin-top: 26px;
-    padding-top: 22px;
   }
 
   .specs-heading {
