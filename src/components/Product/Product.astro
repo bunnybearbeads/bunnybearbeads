@@ -146,12 +146,14 @@ const switcherItems = variants.map((v) => ({
           </div>
         ))}
 
-        <ProductAvailability
-          variants={availabilityVariants}
-          defaultSku={defaultSku}
-          remakeNote={remakeNote}
-          currentLang={currentLang}
-        />
+        <div class="product__availability">
+          <ProductAvailability
+            variants={availabilityVariants}
+            defaultSku={defaultSku}
+            remakeNote={remakeNote}
+            currentLang={currentLang}
+          />
+        </div>
       </div>
     </div>
 

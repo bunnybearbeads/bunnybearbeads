@@ -95,8 +95,7 @@
                  * Обёртки растворяются, и их содержимое становится прямыми flex-элементами
                  * .product__body — так заголовок можно поднять над галереей.
                  * Карточка у .product__details при этом пропадает сама: у display: contents нет бокса.
-                 * Внимание: здесь Product знает устройство ProductHeader (крошки, заголовок)
-                 * и то, что у ProductAvailability несколько корневых элементов.
+                 * Внимание: здесь Product знает устройство ProductHeader (крошки, заголовок).
                  */
                 .product__summary {
                     display: contents;
@@ -117,11 +116,6 @@
                 .product__details {
                     display: contents;
                 }
-                    /* Корни ProductAvailability — после вариантов */
-                    .product__details > :not(.product__details-pane) {
-                        order: 3;
-                    }
-
                     .product__details-pane {
                         display: contents;
                     }
@@ -142,6 +136,10 @@
                             .product-header__title {
                                 order: 0;
                             }
+
+                    .product__availability {
+                        order: 3;
+                    }
 
             .product__related {
 
