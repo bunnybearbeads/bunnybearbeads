@@ -42,9 +42,6 @@
     bottom: 0;
 }
 
-.gallery__control[hidden] {
-    display: none;
-}
     /* expand clickable area */
     .gallery__control::before {
         content: '';

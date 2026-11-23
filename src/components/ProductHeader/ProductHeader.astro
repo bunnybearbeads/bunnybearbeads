@@ -1,20 +1,24 @@
 ---
 /**
- * Шапка варианта товара: хлебные крошки и название.
- * Рендерится отдельно для каждого варианта.
+ * Шапка варианта товара: хлебные крошки, название, описание, цена, кнопки заказа.
+ * Рендерится отдельно для каждого варианта. Наличие общее для всех вариантов —
+ * см. ProductAvailability.astro.
  */
 import './ProductHeader.css';
+import '../Icon/Icon.css';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
-import { categoryKey, type ResolvedVariant } from '../../utils/products';
+import { categoryKey, formatPrice, type ResolvedVariant } from '../../utils/products';
+import Inquiry from '../Inquiry/Inquiry.astro';
+import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 
 interface Props {
-  title: string;
+  product: { title: string; description?: string; price: ResolvedVariant['price'] };
   categoryId?: ResolvedVariant['categoryId'];
   currentLang: SupportedLanguage;
 }
 
-const { title, categoryId = 'bracelets', currentLang } = Astro.props;
+const { product, categoryId = 'bracelets', currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 const catalogUrl = getLocalizedUrl('/catalog', currentLang);
 ---
@@ -33,5 +37,22 @@ const catalogUrl = getLocalizedUrl('/catalog', currentLang);
     </a>
   </nav>
 
-  <h1 class="product-header__title">{title}</h1>
+  <h1 class="product-header__title">{product.title}</h1>
+
+  {product.description && (
+    <div class="product-header__description">
+      <Wysiwyg>
+        {product.description}
+      </Wysiwyg>
+    </div>
+  )}
+
+  <div class="product-header__price" set:html={formatPrice(product.price)} />
+
+  <div class="product-header__actions">
+    <Inquiry
+      currentLang={currentLang}
+      productTitle={product.title}
+    />
+  </div>
 </div>
