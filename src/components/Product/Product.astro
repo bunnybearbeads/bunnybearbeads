@@ -76,7 +76,7 @@ const switcherItems = variants.map((v) => ({
       <div class="product__summary">
         <div class="product__gallery">
           {variants.map((v) => (
-            <div class="product__pane" data-variant-pane={v.sku} hidden={!v.isDefault}>
+            <div data-variant-pane={v.sku} hidden={!v.isDefault}>
               <Gallery images={v.product.images} alt={v.product.title} lang={currentLang} />
             </div>
           ))}
@@ -93,7 +93,7 @@ const switcherItems = variants.map((v) => ({
 
         <div class="product__specs-col">
           {variants.map((v) => (
-            <div class="product__pane" data-variant-pane={v.sku} hidden={!v.isDefault}>
+            <div data-variant-pane={v.sku} hidden={!v.isDefault}>
               <!-- Materials Section -->
               {(v.productRaw.data.materialsHtml || (v.product.materials && v.product.materials.length > 0)) && (
                 <div class="product-specs-section">
@@ -138,7 +138,7 @@ const switcherItems = variants.map((v) => ({
       <div class="product__details">
         <div class="product-info-panel">
           {variants.map((v) => (
-            <div class="product__pane" data-variant-pane={v.sku} hidden={!v.isDefault}>
+            <div data-variant-pane={v.sku} hidden={!v.isDefault}>
               <ProductDetail
                 product={v.product}
                 productRaw={v.productRaw}
