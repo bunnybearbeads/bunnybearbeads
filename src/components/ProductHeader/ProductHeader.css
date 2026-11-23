@@ -40,25 +40,6 @@
         color: var(--heading-color);
     }
 
-    .product-header__description {
-        margin-top: 22px;
-        font-size: 14.5px;
-        line-height: 1.75;
-        color: var(--text-dark);
-    }
-
-    .product-header__price {
-        margin-top: 22px;
-        font-family: var(--font-serif);
-        font-size: 32px;
-        font-weight: 700;
-        color: var(--color-brand-dark);
-    }
-
-    .product-header__actions {
-        margin-top: 28px;
-    }
-
 
 @media (1600px <= width) {
     .product-header__breadcrumbs {
@@ -72,20 +53,6 @@
     .product-header__title {
         margin-top: 12px;
         font-size: 42px;
-    }
-
-    .product-header__description {
-        margin-top: 26px;
-        font-size: 17.5px;
-    }
-
-    .product-header__price {
-        margin-top: 26px;
-        font-size: 40px;
-    }
-
-    .product-header__actions {
-        margin-top: 35px;
     }
 }
 

@@ -8,9 +8,27 @@
             display: grid;
             align-items: start;
             grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-            gap: 24px;
+            /* auto — по высоте шапки, 1fr — забирает лишнюю высоту левой колонки,
+               чтобы шапка и детали стыковались без зазора */
+            grid-template-rows: auto 1fr;
+            grid-template-areas:
+                "summary head"
+                "summary details";
+            column-gap: 24px;
         }
+            /* Шапка и детали вместе выглядят одной карточкой */
+            .product__head {
+                grid-area: head;
+                min-width: 0;
+                padding: 36px 36px 0;
+                background: var(--card-bg);
+                border: 1px solid var(--glass-border);
+                border-bottom: 0;
+                border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            }
+
             .product__summary {
+                grid-area: summary;
                 min-width: 0;
             }
                 .product__gallery {
@@ -28,11 +46,15 @@
                 }
 
             .product__details {
+                grid-area: details;
                 min-width: 0;
-                padding: 36px;
+                /* Нахлёст на шапку: иначе на дробной границе виден шов от сглаживания */
+                margin-top: -1px;
+                padding: 22px 36px 36px;
                 background: var(--card-bg);
                 border: 1px solid var(--glass-border);
-                border-radius: var(--radius-lg);
+                border-top: 0;
+                border-radius: 0 0 var(--radius-lg) var(--radius-lg);
             }
 
         .product__related {
@@ -49,8 +71,12 @@
 
         }
             .product__body {
-                gap: 40px;
+                column-gap: 40px;
             }
+                .product__head {
+                    padding: 44px 44px 0;
+                }
+
                 .product__summary {
 
                 }
@@ -67,7 +93,7 @@
                     }
 
                 .product__details {
-                    padding: 44px;
+                    padding: 26px 44px 44px;
                 }
 
             .product__related {
@@ -90,11 +116,20 @@
                 flex-direction: column;
                 gap: 0;
             }
+                .product__head {
+                    order: 0;
+                    padding: 0;
+                    background: none;
+                    border: 0;
+                    border-radius: 0;
+                }
+
                 .product__summary {
                     display: contents;
                 }
                     .product__gallery {
                         order: 1;
+                        margin-top: 12px;
                     }
 
                     .product__variants {
@@ -107,8 +142,11 @@
 
                 .product__details {
                     order: 3;
-                    margin: 24px calc(-1 * var(--container-padding)) 0;
-                    padding: 24px var(--container-padding);
+                    margin-top: 24px;
+                    padding: 0;
+                    background: none;
+                    border: 0;
+                    border-radius: 0;
                 }
 
             .product__related {

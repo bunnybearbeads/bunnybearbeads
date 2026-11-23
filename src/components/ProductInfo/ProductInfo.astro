@@ -1,0 +1,41 @@
+---
+/**
+ * Описание, цена и кнопки заказа варианта товара.
+ * Рендерится отдельно для каждого варианта. Отступа сверху у первого блока нет —
+ * расстояние до соседей задаёт Product.
+ */
+import './ProductInfo.css';
+import '../Icon/Icon.css';
+import { type SupportedLanguage } from '../../i18n/ui';
+import { formatPrice, type ResolvedVariant } from '../../utils/products';
+import Inquiry from '../Inquiry/Inquiry.astro';
+import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  price: ResolvedVariant['price'];
+  currentLang: SupportedLanguage;
+}
+
+const { title, description, price, currentLang } = Astro.props;
+---
+
+<div class="product-info">
+  {description && (
+    <div class="product-info__description">
+      <Wysiwyg>
+        {description}
+      </Wysiwyg>
+    </div>
+  )}
+
+  <div class="product-info__price" set:html={formatPrice(price)} />
+
+  <div class="product-info__actions">
+    <Inquiry
+      currentLang={currentLang}
+      productTitle={title}
+    />
+  </div>
+</div>
