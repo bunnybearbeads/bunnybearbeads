@@ -98,25 +98,9 @@
                  * Внимание: здесь Product знает устройство ProductHeader (крошки, заголовок)
                  * и то, что у ProductAvailability несколько корневых элементов.
                  */
-                .product__summary,
-                .product__details,
-                .product__details-pane,
-                .product-header {
+                .product__summary {
                     display: contents;
                 }
-                    /* Всё из деталей — после вариантов: описание, цена, кнопки, наличие… */
-                    .product-header > *,
-                    .product__details > :not(.product__details-pane) {
-                        order: 3;
-                    }
-
-                    /* …кроме крошек и заголовка — они в самый верх.
-                       Специфичность та же, поэтому правило должно идти после */
-                    .product-header__breadcrumbs,
-                    .product-header__title {
-                        order: 0;
-                    }
-
                     .product__gallery {
                         order: 1;
                         margin-top: 12px;
@@ -129,6 +113,35 @@
                     .product__specs {
                         order: 4;
                     }
+
+                .product__details {
+                    display: contents;
+                }
+                    /* Корни ProductAvailability — после вариантов */
+                    .product__details > :not(.product__details-pane) {
+                        order: 3;
+                    }
+
+                    .product__details-pane {
+                        display: contents;
+                    }
+                        .product-header {
+                            display: contents;
+                        }
+                            /* Описание, цена, кнопки — после вариантов… */
+                            .product-header > * {
+                                order: 3;
+                            }
+
+                            /* …а крошки и заголовок — в самый верх.
+                               Специфичность та же, поэтому эти правила должны идти после */
+                            .product-header__breadcrumbs {
+                                order: 0;
+                            }
+
+                            .product-header__title {
+                                order: 0;
+                            }
 
             .product__related {
 
