@@ -1,7 +1,7 @@
 ---
 title: "Привет!"
 subtitle: "Меня зовут Anh. Для странников из других королевств — Amber.<br class=\"desktop-only\"> Я плету из бисера."
-seoTitle: "Обо мне — BunnyBearBeads"
+seoTitle: "Обо мне — bunnybearbeads"
 seoDesc: "Привет! Меня зовут Anh (Amber). Я плету из японского бисера двухслойные брелоки для телефонов, милые аксессуары и украшения."
 ---
 

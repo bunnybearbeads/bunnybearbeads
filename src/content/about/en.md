@@ -1,8 +1,8 @@
 ---
 title: "Hi!"
 subtitle: "My name is Anh. For wanderers from other kingdoms, I’m Amber.<br class=\"desktop-only\"> I do seed bead weaving!"
-seoTitle: "About Me — BunnyBearBeads"
-seoDesc: "Meet Anh (Amber), the beader behind BunnyBearBeads. Handcrafted seed bead phone charms, cute jewelry, and lots of love."
+seoTitle: "About Me — bunnybearbeads"
+seoDesc: "Meet Anh (Amber), the beader behind bunnybearbeads. Handcrafted seed bead phone charms, cute jewelry, and lots of love."
 ---
 
 <p>

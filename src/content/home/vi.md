@@ -1,11 +1,11 @@
 ---
-seoTitle: "BunnyBearBeads — Trang sức cườm thủ công nghệ thuật"
+seoTitle: "bunnybearbeads — Trang sức cườm thủ công nghệ thuật"
 seoDesc: "Trang sức cườm handmade độc bản, dây charm điện thoại, nhẫn và phụ kiện tinh xảo từ Anh (Amber)."
 hero:
   titlePrefix: "Chào mừng bạn đến với thế giới "
   titleAccent: "hạt cườm tinh xảo!"
   greeting: "Xin chào! Mình là Anh (Amber)"
-  tagline: "người sáng lập thương hiệu BunnyBearBeads."
+  tagline: "người sáng lập thương hiệu bunnybearbeads."
   authorName: "Anh"
   authorRole: "Nghệ nhân đan hạt cườm thủ công"
   badgeCrafted: "100% Thủ công"
@@ -13,7 +13,7 @@ hero:
   btnExplore: "Xem danh mục"
   btnOrder: "Liên hệ đặt làm"
 featuresTitle: "Tỉ mỉ trong từng đường kim mũi chỉ"
-featuresSubtitle: "Lý do trang sức BunnyBearBeads luôn chứa đựng tình yêu và tâm huyết"
+featuresSubtitle: "Lý do trang sức bunnybearbeads luôn chứa đựng tình yêu và tâm huyết"
 features:
   - icon: "💎"
     title: "Nguyên liệu cao cấp"

@@ -185,9 +185,9 @@ export const translations = {
 
   // Site meta
   'site.title': {
-    en: 'BunnyBearBeads — Handcrafted Beadwork & Artisan Jewelry',
-    ru: 'BunnyBearBeads — Авторские украшения из бисера & Аксессуары',
-    vi: 'BunnyBearBeads — Trang sức cườm thủ công & Phụ kiện',
+    en: 'bunnybearbeads — Handcrafted Beadwork & Artisan Jewelry',
+    ru: 'bunnybearbeads — Авторские украшения из бисера & Аксессуары',
+    vi: 'bunnybearbeads — Trang sức cườm thủ công & Phụ kiện',
   },
   'site.description': {
     en: 'Unique handmade beadwork jewelry, custom phone charms, rings, and accessories.',
@@ -856,14 +856,14 @@ export const translations = {
     vi: 'Mọi điều bạn cần biết về đặt làm riêng, chất liệu, thanh toán, giao hàng và triết lý thủ công chân thật',
   },
   'faq.seo_title': {
-    en: 'FAQ — Frequently Asked Questions | BunnyBearBeads',
-    ru: 'Частые вопросы (FAQ) — BunnyBearBeads',
-    vi: 'Câu Hỏi Thường Gặp (FAQ) — BunnyBearBeads',
+    en: 'FAQ — Frequently Asked Questions | bunnybearbeads',
+    ru: 'Частые вопросы (FAQ) — bunnybearbeads',
+    vi: 'Câu Hỏi Thường Gặp (FAQ) — bunnybearbeads',
   },
   'faq.seo_desc': {
-    en: 'Answers to common questions about custom orders, beads & materials, hardware, payment, and shipping at BunnyBearBeads.',
-    ru: 'Ответы на частые вопросы об индивидуальных заказах, материалах, фурнитуре, оплате и доставке в BunnyBearBeads.',
-    vi: 'Giải đáp thắc mắc về đặt làm theo yêu cầu, mua hạt cườm, thanh toán tài khoản ngân hàng Việt Nam và vận chuyển tại BunnyBearBeads.',
+    en: 'Answers to common questions about custom orders, beads & materials, hardware, payment, and shipping at bunnybearbeads.',
+    ru: 'Ответы на частые вопросы об индивидуальных заказах, материалах, фурнитуре, оплате и доставке в bunnybearbeads.',
+    vi: 'Giải đáp thắc mắc về đặt làm theo yêu cầu, mua hạt cườm, thanh toán tài khoản ngân hàng Việt Nam và vận chuyển tại bunnybearbeads.',
   },
   'faq.cta_heading': {
     en: 'Still have questions or an idea?',
@@ -957,9 +957,9 @@ export const translations = {
 
   // Footer
   'footer.copyright': {
-    en: '© 2026 BunnyBearBeads — Artisan Beadwork Studio. Crafted with love 💖',
-    ru: '© 2026 BunnyBearBeads — Мастерская авторского бисероплетения. Сделано с любовью 💖',
-    vi: '© 2026 BunnyBearBeads — Xưởng thủ công cườm nghệ thuật. Làm bằng cả trái tim 💖',
+    en: '© 2026 bunnybearbeads — Artisan Beadwork Studio. Crafted with love 💖',
+    ru: '© 2026 bunnybearbeads — Мастерская авторского бисероплетения. Сделано с любовью 💖',
+    vi: '© 2026 bunnybearbeads — Xưởng thủ công cườm nghệ thuật. Làm bằng cả trái tim 💖',
   },
 
 } as const;

@@ -19,7 +19,7 @@ const LOCATIONS = ['atelier', 'ngay-mai', 'cat-food'];
 const text = () => ({ en: '', ru: '', vi: '' });
 /** Фото — список путей через запятую; пустой — просто [] */
 const images = () => [];
-const comment = () => ({ note: text(), commentImages: images() });
+const comment = () => ({ note: text(), noteImages: images() });
 
 /** Порядок и пустые значения полей. Функция — чтобы у каждого файла были свои объекты */
 const PRODUCT = () => ({
@@ -32,21 +32,23 @@ const PRODUCT = () => ({
   thumb: '',
   images: images(),
   designedBy: '',
+  /** Размер — произвольный текст, можно HTML, не переводится */
+  size: '',
   /** Материалы — строки HTML (одна строка массива — одна строка текста) */
   materials: [],
   locationNotes: {},
-  remake: { price: '', note: text(), memo: '', commentImages: images() },
+  remake: { price: '', note: text(), noteImages: images(), memo: '' },
   items: [],
 });
 
 const ITEM = () => ({
   id: '',
-  maker: '',
   price: '',
   location: '',
   /** Только у штук у партнёров — там обязательно; у штук в мастерской поля нет */
   consignedAt: '',
   craftedAt: '',
+  maker: '',
   memo: '',
   out: { type: '', date: '', paid: '', memo: '' },
 });
@@ -81,7 +83,7 @@ function compactImages(value) {
   if (!isPlainObject(value)) return value;
   return Object.fromEntries(
     Object.entries(value).map(([key, v]) =>
-      [key, (key === 'images' || key === 'commentImages') && Array.isArray(v) && v.every((x) => x === '') ? [] : compactImages(v)],
+      [key, (key === 'images' || key === 'noteImages') && Array.isArray(v) && v.every((x) => x === '') ? [] : compactImages(v)],
     ),
   );
 }

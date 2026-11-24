@@ -1,6 +1,6 @@
 ---
-seoTitle: "Контакты & Связь в Telegram — BunnyBearBeads"
-seoDesc: "Прямая связь с мастером BunnyBearBeads в Telegram. Заказ украшений, вопросы по наличию и доставке."
+seoTitle: "Контакты & Связь в Telegram — bunnybearbeads"
+seoDesc: "Прямая связь с мастером bunnybearbeads в Telegram. Заказ украшений, вопросы по наличию и доставке."
 title: "Связаться с мастерской"
 subtitle: "Все заказы, консультации и оформление доставки проходят напрямую в Telegram"
 introHeading: "Живое и быстрое общение"

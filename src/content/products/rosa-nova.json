@@ -19,7 +19,7 @@
       "ru": "Бисер 45AF из оригинала сняли с производства. Могу заказать остатки — это около месяца, — или заменить на близкий оттенок и сплести в обычный срок.",
       "vi": "Hạt 45AF trong mẫu gốc đã ngừng sản xuất. Mình có thể đặt số hạt còn lại — mất khoảng một tháng — hoặc thay bằng màu gần giống và đan trong thời gian thường lệ."
     },
-    "commentImages": [
+    "noteImages": [
       "/images/products/rosa-nova/notes/remake-temp.jpg"
     ]
   },
@@ -27,12 +27,12 @@
     {
       "locationId": "ngay-mai",
       "quantity": 1,
-      "commentImages": []
+      "noteImages": []
     },
     {
       "locationId": "cat-food",
       "quantity": 1,
-      "commentImages": []
+      "noteImages": []
     }
   ]
 }

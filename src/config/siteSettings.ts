@@ -1,7 +1,7 @@
 /**
  * Global Site Settings & Operational Schedule
  *
- * Central configuration file for BunnyBearBeads.
+ * Central configuration file for bunnybearbeads.
  * Edit working hours, delivery defaults, and store settings here.
  * Changes here automatically propagate to localized strings and client-side cutoff logic.
  */

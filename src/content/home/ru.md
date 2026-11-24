@@ -1,11 +1,11 @@
 ---
-seoTitle: "BunnyBearBeads — Авторские украшения из бисера & Рукоделие"
+seoTitle: "bunnybearbeads — Авторские украшения из бисера & Рукоделие"
 seoDesc: "Уникальные авторские украшения из бисера ручной работы, фончармы на телефон, кольца и браслеты от Anh (Amber)."
 hero:
   titlePrefix: "Приветствую вас в мире "
   titleAccent: "изящного бисера!"
   greeting: "Здравствуйте! Меня зовут Anh (Amber)"
-  tagline: "я создатель бренда BunnyBearBeads."
+  tagline: "я создатель бренда bunnybearbeads."
   authorName: "Anh / Amber"
   authorRole: "Мастер художественного бисероплетения"
   badgeCrafted: "100% Handcrafted"
@@ -13,7 +13,7 @@ hero:
   btnExplore: "Смотреть каталог"
   btnOrder: "Написать мастеру"
 featuresTitle: "Особый подход к каждому стежку"
-featuresSubtitle: "Почему изделия из бисера BunnyBearBeads создаются с любовью"
+featuresSubtitle: "Почему изделия из бисера bunnybearbeads создаются с любовью"
 features:
   - icon: "💎"
     title: "Премиум материалы"

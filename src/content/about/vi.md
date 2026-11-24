@@ -1,8 +1,8 @@
 ---
 title: "Xin chào!"
 subtitle: "Mình là Anh.<br class=\"desktop-only\"> Mình đan hạt cườm!"
-seoTitle: "Về Mình — BunnyBearBeads"
-seoDesc: "Gặp gỡ Anh (Amber), người sáng lập BunnyBearBeads. Dây charm điện thoại hạt cườm 2 lớp, phụ kiện thủ công xinh xắn và tràn ngập tình yêu."
+seoTitle: "Về Mình — bunnybearbeads"
+seoDesc: "Gặp gỡ Anh (Amber), người sáng lập bunnybearbeads. Dây charm điện thoại hạt cườm 2 lớp, phụ kiện thủ công xinh xắn và tràn ngập tình yêu."
 ---
 
 <p>

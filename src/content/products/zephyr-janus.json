@@ -16,17 +16,17 @@
     {
       "locationId": "atelier",
       "quantity": 1,
-      "commentImages": []
+      "noteImages": []
     },
     {
       "locationId": "ngay-mai",
       "quantity": 1,
-      "commentImages": []
+      "noteImages": []
     },
     {
       "locationId": "cat-food",
       "quantity": 1,
-      "commentImages": []
+      "noteImages": []
     }
   ]
 }

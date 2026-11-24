@@ -8,7 +8,7 @@
     "ru": "Крошечный динозавр из бисера 15/0 — самая тонкая работа из всех наших.",
     "vi": "Chú khủng long tí hon đan từ hạt 15/0 — chi tiết nhỏ nhất mà tụi mình làm."
   },
-  "designedBy": "BunnyBearBeads",
+  "designedBy": "bunnybearbeads",
   "materials": "<ul>\n  <li>Size 15/0 seed beads</li>\n  <li>Generic charm strap</li>\n</ul>",
   "images": [],
   "price": 210000,
@@ -21,7 +21,7 @@
         "ru": "У меня на руках две версии: одна из Miyuki Delica 15/0 — самые ровные ряды, другая из круглого бисера Miyuki 15/0 — фактура чуть мягче. Спросите, какую из двух вы хотите.",
         "vi": "Mình đang có hai phiên bản: một chiếc đan bằng Miyuki Delica 15/0 với các hàng đều nhất, một chiếc bằng hạt tròn Miyuki 15/0 với bề mặt mềm mại hơn một chút. Hãy hỏi mình bạn muốn chiếc nào nhé."
       },
-      "commentImages": []
+      "noteImages": []
     },
     {
       "locationId": "ngay-mai",
@@ -31,7 +31,7 @@
         "ru": "Сплетена из круглого бисера Toho 15/0.",
         "vi": "Đan bằng hạt tròn Toho 15/0."
       },
-      "commentImages": []
+      "noteImages": []
     }
   ]
 }

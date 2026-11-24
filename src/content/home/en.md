@@ -1,11 +1,11 @@
 ---
-seoTitle: "BunnyBearBeads — Handcrafted Beadwork & Artisan Jewelry"
+seoTitle: "bunnybearbeads — Handcrafted Beadwork & Artisan Jewelry"
 seoDesc: "Unique handmade seed bead jewelry, phone charms, rings, and accessories crafted by Anh (Amber)."
 hero:
   titlePrefix: "Welcome to the world of "
   titleAccent: "delicate beadwork!"
   greeting: "Hello! My name is Anh (Amber)"
-  tagline: "I am the creator and maker behind BunnyBearBeads."
+  tagline: "I am the creator and maker behind bunnybearbeads."
   authorName: "Anh / Amber"
   authorRole: "Seed Bead Artisan"
   badgeCrafted: "100% Handcrafted"
@@ -13,7 +13,7 @@ hero:
   btnExplore: "Explore Catalog"
   btnOrder: "Get in Touch"
 featuresTitle: "Dedication to Every Single Stitch"
-featuresSubtitle: "Why BunnyBearBeads jewelry is created with genuine love and care"
+featuresSubtitle: "Why bunnybearbeads jewelry is created with genuine love and care"
 features:
   - icon: "💎"
     title: "Premium Materials"

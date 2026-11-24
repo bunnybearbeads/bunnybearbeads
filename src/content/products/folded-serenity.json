@@ -8,7 +8,7 @@
     "ru": "Сложенная, как бумажный журавлик, спокойная, как гладь пруда.",
     "vi": "Gấp như hạc giấy, tĩnh lặng như mặt hồ."
   },
-  "designedBy": "BunnyBearBeads",
+  "designedBy": "bunnybearbeads",
   "materials": "<ul>\n  <li>Miyuki Delica seed beads</li>\n  <li>Generic charm strap</li>\n</ul>",
   "images": [],
   "price": 180000,
@@ -16,7 +16,7 @@
     {
       "locationId": "atelier",
       "quantity": 1,
-      "commentImages": []
+      "noteImages": []
     }
   ]
 }

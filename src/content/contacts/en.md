@@ -1,5 +1,5 @@
 ---
-seoTitle: "Contacts & Telegram — BunnyBearBeads"
+seoTitle: "Contacts & Telegram — bunnybearbeads"
 seoDesc: "Contact Anh (Amber) directly via Telegram for orders, custom pieces, and questions."
 title: "Get in Touch"
 subtitle: "All orders, custom requests, and consultations are handled directly via Telegram"

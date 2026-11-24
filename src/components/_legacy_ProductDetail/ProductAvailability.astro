@@ -49,7 +49,7 @@ interface NoteData {
   images: NoteImage[];
 }
 
-function normalizeImages(rawImages: Stock[number]['commentImages'], fallbackTitle: string): NoteImage[] {
+function normalizeImages(rawImages: Stock[number]['noteImages'], fallbackTitle: string): NoteImage[] {
   return rawImages.map((img, idx) => {
     if (typeof img === 'string') return { src: img, alt: `${fallbackTitle} — ${idx + 1}` };
     const alt = img.alt
@@ -64,12 +64,12 @@ function normalizeImages(rawImages: Stock[number]['commentImages'], fallbackTitl
 /** Комментарий к штукам в точке, если он есть */
 function noteAt(locationId: LocationId): NoteData | undefined {
   const entry = stock.find((s) => s.locationId === locationId);
-  if (!entry || (!entry.note && entry.commentImages.length === 0)) return undefined;
+  if (!entry || (!entry.note && entry.noteImages.length === 0)) return undefined;
   const meta = LOCATIONS[locationId];
   const placeLabel = meta.shop || (meta.cityKey ? t(meta.cityKey) : '');
   return {
     html: entry.note ? localize(entry.note, currentLang) : undefined,
-    images: normalizeImages(entry.commentImages, `${title} (${placeLabel})`),
+    images: normalizeImages(entry.noteImages, `${title} (${placeLabel})`),
   };
 }
 
@@ -81,10 +81,10 @@ const studioNote = isDalatInStock ? noteAt('atelier') : remakeNote();
 
 /** Комментарий к ремейку: как и к точке — текст и фото */
 function remakeNote(): NoteData | undefined {
-  if (!remake || (!remake.note && remake.commentImages.length === 0)) return undefined;
+  if (!remake || (!remake.note && remake.noteImages.length === 0)) return undefined;
   return {
     html: remake.note ? localize(remake.note, currentLang) : undefined,
-    images: normalizeImages(remake.commentImages, `${title} (${t('catalog.studio_card_title')})`),
+    images: normalizeImages(remake.noteImages, `${title} (${t('catalog.studio_card_title')})`),
   };
 }
 

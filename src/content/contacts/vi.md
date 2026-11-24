@@ -1,5 +1,5 @@
 ---
-seoTitle: "Liên Hệ & Telegram — BunnyBearBeads"
+seoTitle: "Liên Hệ & Telegram — bunnybearbeads"
 seoDesc: "Liên hệ trực tiếp với Anh (Amber) qua Telegram để đặt trang sức và tư vấn."
 title: "Liên Hệ Với Chúng Mình"
 subtitle: "Mọi đơn hàng, tư vấn và hỗ trợ đều được xử lý trực tiếp qua Telegram"

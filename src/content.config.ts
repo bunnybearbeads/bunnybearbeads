@@ -25,7 +25,7 @@ const stockSchema = z.object({
   quantity: z.number().int().nonnegative(),
   /** Комментарий к штукам в этой точке: чем они немного отличаются от фото */
   note: localizedString.optional(),
-  commentImages: z.array(imageSchema).default([]),
+  noteImages: z.array(imageSchema).default([]),
 });
 
 const mediaItemSchema = z.union([
@@ -54,12 +54,14 @@ const products = defineCollection({
       price: z.number(),
       /** Комментарий к ремейку — выводится в карточке мастерской, как комментарий к точке */
       note: localizedString.optional(),
-      commentImages: z.array(imageSchema).default([]),
+      noteImages: z.array(imageSchema).default([]),
     }).optional(),
     categoryId: categoryIdSchema.default('bracelets'),
     images: z.array(mediaItemSchema).default([]),
     /** Превью 40:22 для плашки в семействе */
     thumb: z.string().optional(),
+    /** Размер — произвольный текст с HTML */
+    size: z.string().optional(),
     /** Материалы — HTML (в базе — массив строк, экспорт склеивает) */
     materials: z.string().optional(),
     /** Автор схемы — просто имя, без HTML */

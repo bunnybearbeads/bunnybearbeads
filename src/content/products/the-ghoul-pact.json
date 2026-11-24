@@ -8,7 +8,7 @@
     "ru": "Тыква на Хэллоуин, заключившая договор с дружелюбным упырём.",
     "vi": "Quả bí ngô Halloween đã ký giao ước với một con ma thân thiện."
   },
-  "designedBy": "BunnyBearBeads",
+  "designedBy": "bunnybearbeads",
   "materials": "<ul>\n  <li>Toho Aiko seed beads</li>\n  <li>Generic charm strap</li>\n</ul>",
   "images": [],
   "price": 185000,
@@ -21,12 +21,12 @@
         "ru": "Тыква у этой штуки получилась тусклее: оранжевый приглушённее, чем на фото.",
         "vi": "Quả bí ở chiếc này hơi xỉn màu: sắc cam trầm hơn so với ảnh."
       },
-      "commentImages": []
+      "noteImages": []
     },
     {
       "locationId": "ngay-mai",
       "quantity": 1,
-      "commentImages": []
+      "noteImages": []
     }
   ]
 }

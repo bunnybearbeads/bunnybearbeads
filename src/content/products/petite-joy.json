@@ -8,7 +8,7 @@
     "ru": "Крошечный капкейк с завитком крема — сладость без калорий.",
     "vi": "Một chiếc cupcake tí hon với lớp kem xoáy — ngọt ngào mà không lo calo."
   },
-  "designedBy": "BunnyBearBeads",
+  "designedBy": "bunnybearbeads",
   "materials": "<ul>\n  <li>Toho Aiko seed beads</li>\n  <li>Generic charm strap</li>\n</ul>",
   "images": [],
   "price": 140000,
@@ -16,7 +16,7 @@
     {
       "locationId": "atelier",
       "quantity": 1,
-      "commentImages": []
+      "noteImages": []
     },
     {
       "locationId": "ngay-mai",
@@ -26,7 +26,7 @@
         "ru": "Крем у этой штуки сделан из бисера Glazed Luster: он сильнее блестит и выглядит немного перламутровым.",
         "vi": "Phần kem của chiếc này dùng hạt Glazed Luster: bóng hơn và hơi ánh ngọc trai."
       },
-      "commentImages": []
+      "noteImages": []
     }
   ]
 }
