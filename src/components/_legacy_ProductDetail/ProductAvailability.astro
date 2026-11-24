@@ -74,10 +74,10 @@ function noteAt(locationId: LocationId): NoteData | undefined {
 }
 
 // Мастерская
-const studioQty = getLocationQty(stock, 'dalat');
+const studioQty = getLocationQty(stock, 'atelier');
 const isDalatInStock = studioQty > 0;
 const studioStockBadge = formatStudioStockQty(studioQty || 1, currentLang);
-const studioNote = isDalatInStock ? noteAt('dalat') : remakeNote();
+const studioNote = isDalatInStock ? noteAt('atelier') : remakeNote();
 
 /** Комментарий к ремейку: как и к точке — текст и фото */
 function remakeNote(): NoteData | undefined {

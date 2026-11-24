@@ -22,7 +22,7 @@ const t = useTranslations(currentLang);
 const raw = entry.data;
 const product = localize(raw, currentLang);
 const family = await getFamilyOf(entry.id);
-const studioQty = getLocationQty(raw.stock, 'dalat');
+const studioQty = getLocationQty(raw.stock, 'atelier');
 const canRemake = studioQty === 0;
 ---
 
@@ -42,20 +42,12 @@ const canRemake = studioQty === 0;
 
         <div class="product__specs">
           <!-- Materials Section -->
-          {(raw.materialsHtml || (product.materials && product.materials.length > 0)) && (
+          {raw.materials && (
             <div class="product-specs-section">
               <strong class="specs-heading">
                 {t('catalog.materials_label')}
               </strong>
-              {raw.materialsHtml ? (
-                <div class="materials-html-content" set:html={raw.materialsHtml} />
-              ) : (
-                <div class="materials-tags">
-                  {product.materials.map((mat: string) => (
-                    <span class="material-tag">{mat}</span>
-                  ))}
-                </div>
-              )}
+              <div class="materials-html-content" set:html={raw.materials} />
             </div>
           )}
 

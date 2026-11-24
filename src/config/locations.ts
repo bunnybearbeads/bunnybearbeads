@@ -1,7 +1,8 @@
 import type { TranslationKey } from '../i18n/ui';
 import { siteSettings } from './siteSettings';
 
-export type LocationId = 'dalat' | 'ngay-mai' | 'cat-food';
+/** atelier — своя мастерская (сейчас в Далате): id не привязан к городу на случай переезда */
+export type LocationId = 'atelier' | 'ngay-mai' | 'cat-food';
 
 export interface LocationConfig {
   id: LocationId;
@@ -24,8 +25,8 @@ export interface LocationConfig {
 }
 
 export const LOCATIONS: Record<LocationId, LocationConfig> = {
-  dalat: {
-    id: 'dalat',
+  atelier: {
+    id: 'atelier',
     type: 'studio',
     cityKey: 'geo.city.dalat',
     cityInKey: 'geo.in.dalat',

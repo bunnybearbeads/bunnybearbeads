@@ -41,9 +41,11 @@ const OUT_MEDIA = path.join(ROOT, 'public/images/products');
 const MEDIA_URL = '/images/products';
 
 /** Порядок точек в данных и на сайте. Должен совпадать с src/config/locations.ts */
-const LOCATION_ORDER = ['dalat', 'ngay-mai', 'cat-food'];
+/** atelier — своя мастерская (сейчас в Далате): id не привязан к городу на случай переезда */
+const LOCATION_ORDER = ['atelier', 'ngay-mai', 'cat-food'];
 const MAKERS = ['bunny', 'bear'];
 const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+const CODE_RE = /^[A-Z]{3,4}$/;
 /**
  * Дата может быть неполной: точная (2026-11-01), только месяц (2026-11 — например, NGÀY MAI сообщает
  * продажи за месяц без дат) или только год (2024 — для старых записей)
@@ -54,7 +56,7 @@ const VIDEO_RE = /\.(mp4|webm|ogg|mov)$/i;
 /** Конфликтные копии Dropbox: «file (Tony's conflicted copy 2026-11-23).json», в русском интерфейсе — «конфликтующая копия» */
 const CONFLICT_RE = /conflicted copy|конфликтующая копия/i;
 /** Служебные поля, которые на сайт не попадают никогда */
-const PRIVATE_FIELDS = ['slug', 'site', 'items', 'locationNotes', 'remake'];
+const PRIVATE_FIELDS = ['slug', 'code', 'site', 'items', 'locationNotes', 'remake'];
 /** Исход штуки (`out.type`): продана, подарена, брак или потеря, оставили себе */
 const OUT_TYPES = ['sold', 'gift', 'lost', 'kept'];
 const OUT_FIELDS = ['type', 'date', 'paid', 'memo'];
@@ -99,6 +101,7 @@ async function collect(dataDir, errors, logger) {
   const media = new Map(); // путь в public → исходный файл
   const slugOwners = new Map(); // slug → папка
   const itemOwners = new Map(); // id штуки → slug
+  const codeOwners = new Map(); // код изделия → папка
 
   const folders = (await fsp.readdir(dataDir, { withFileTypes: true }))
     .filter((e) => e.isDirectory() && !e.name.startsWith('_') && !e.name.startsWith('.'))
@@ -136,6 +139,16 @@ async function collect(dataDir, errors, logger) {
     if (slugOwners.has(slug)) errors.push(`${where}: slug "${slug}" is already used by "${slugOwners.get(slug)}"`);
     slugOwners.set(slug, folder);
 
+    // Код изделия — 3–4 заглавные латинские буквы, из него id штук: PWST01, PWST02…
+    if (typeof data.code !== 'string' || !CODE_RE.test(data.code)) {
+      errors.push(`${where}: "code" must be 3–4 capital latin letters, e.g. PWST, got ${JSON.stringify(data.code)}`);
+    } else if (codeOwners.has(data.code)) {
+      errors.push(`${where}: code "${data.code}" is already used by "${codeOwners.get(data.code)}"`);
+    } else {
+      codeOwners.set(data.code, folder);
+    }
+
+    if ('materialsHtml' in data) errors.push(`${where}: "materialsHtml" is gone — put the HTML into "materials"`);
     if (typeof data.site !== 'boolean') errors.push(`${where}: "site" must be true or false`);
 
     // Описание и комментарии — один абзац: обёртку (<p class="product-header__description"> и т. п.) даёт сайт
@@ -182,6 +195,8 @@ async function collect(dataDir, errors, logger) {
           };
 
     const publicData = Object.fromEntries(Object.entries(data).filter(([key]) => !PRIVATE_FIELDS.includes(key)));
+    // Материалы — HTML; в JSON удобнее массивом строк, на сайт уходят одной строкой
+    if (Array.isArray(data.materials)) publicData.materials = data.materials.join('\n');
     publicData.images = (data.images ?? []).map((item, i) => mapMedia(item, `images[${i}]`));
     if (data.thumb) publicData.thumb = toUrl(data.thumb, 'thumb');
     for (const entry of stock) {
@@ -246,6 +261,9 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
       errors.push(`${at}: id is required`);
       return;
     }
+    if (CODE_RE.test(data.code ?? '') && !new RegExp(`^${data.code}\\d{2}$`).test(item.id)) {
+      errors.push(`${at}: id must be the product code and two digits, e.g. ${data.code}01, got "${item.id}"`);
+    }
     if (itemOwners.has(item.id)) errors.push(`${at}: item id "${item.id}" is already used in "${itemOwners.get(item.id)}"`);
     itemOwners.set(item.id, slug);
     if (!MAKERS.includes(item.maker)) errors.push(`${at}: "maker" must be one of ${MAKERS.join(', ')}`);
@@ -280,8 +298,8 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
       return;
     }
     // Партнёрам штуки отдаются на консигнацию — дата передачи нужна для накладных
-    if (item.location === 'dalat') {
-      if ('consignedAt' in item) errors.push(`${at}: "consignedAt" only for partner shops, the piece is in Dalat`);
+    if (item.location === 'atelier') {
+      if ('consignedAt' in item) errors.push(`${at}: "consignedAt" only for partner shops, the piece is in the atelier`);
     } else if (!isPartialDate(item.consignedAt)) {
       errors.push(`${at}: "consignedAt" is required at "${item.location}": when it was handed over, 2026-11-01, 2026-11 or 2026`);
     }
@@ -294,9 +312,9 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
   // поэтому ремейк есть всегда, даже если штуки лежат у партнёров. Материалы считаем всегда доступными;
   // если что-то не так — пишем в remake.note, остальное решается в мессенджере.
   // Поле remake необязательно (своя цена, комментарий), но пока штука в Далате есть, его быть не должно
-  const inDalat = available.has('dalat');
-  if (inDalat && 'remake' in data) {
-    errors.push(`${where}: "remake" only when nothing is available in Dalat — clear it while a piece is there`);
+  const inAtelier = available.has('atelier');
+  if (inAtelier && 'remake' in data) {
+    errors.push(`${where}: "remake" only when nothing is available in the atelier — clear it while a piece is there`);
   }
   const remake = data.remake ?? {};
   const extra = Object.keys(remake).filter((key) => !REMAKE_FIELDS.includes(key));
@@ -342,7 +360,7 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
   return {
     stock,
     price,
-    ...(!inDalat
+    ...(!inAtelier
       ? {
           remake: {
             price: remakePrice,

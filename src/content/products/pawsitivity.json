@@ -8,16 +8,13 @@
     "ru": "Маленькая лапка, полная хорошего настроения. Повесьте на телефон — и каждый звонок начнётся с улыбки.",
     "vi": "Một bàn chân nhỏ đầy niềm vui. Treo lên điện thoại để mỗi cuộc gọi đều bắt đầu bằng nụ cười."
   },
-  "materials": [
-    "Toho Aiko seed beads",
-    "Generic charm strap"
-  ],
+  "materials": "<ul>\n  <li>Toho Aiko seed beads</li>\n  <li>Generic charm strap</li>\n</ul>",
   "designedBy": "BunnyBearBeads",
   "images": [],
   "price": 150000,
   "stock": [
     {
-      "locationId": "dalat",
+      "locationId": "atelier",
       "quantity": 3,
       "note": {
         "en": "Woven from Toho Aiko, just like in the photos. The only difference: the ears came out a shade lighter — you can see it in the close-up.",

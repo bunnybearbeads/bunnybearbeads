@@ -8,16 +8,13 @@
     "ru": "Крошечный капкейк с завитком крема — сладость без калорий.",
     "vi": "Một chiếc cupcake tí hon với lớp kem xoáy — ngọt ngào mà không lo calo."
   },
-  "materials": [
-    "Toho Aiko seed beads",
-    "Generic charm strap"
-  ],
+  "materials": "<ul>\n  <li>Toho Aiko seed beads</li>\n  <li>Generic charm strap</li>\n</ul>",
   "designedBy": "BunnyBearBeads",
   "images": [],
   "price": 140000,
   "stock": [
     {
-      "locationId": "dalat",
+      "locationId": "atelier",
       "quantity": 1,
       "commentImages": []
     },

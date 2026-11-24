@@ -21,7 +21,7 @@ const imageSchema = z.union([
  * Доставка и самовывоз из мастерской доступны всегда, поэтому отдельного признака «онлайн» нет.
  */
 const stockSchema = z.object({
-  locationId: z.enum(['dalat', 'ngay-mai', 'cat-food']),
+  locationId: z.enum(['atelier', 'ngay-mai', 'cat-food']),
   quantity: z.number().int().nonnegative(),
   /** Комментарий к штукам в этой точке: чем они немного отличаются от фото */
   note: localizedString.optional(),
@@ -60,8 +60,8 @@ const products = defineCollection({
     images: z.array(mediaItemSchema).default([]),
     /** Превью 40:22 для плашки в семействе */
     thumb: z.string().optional(),
-    materials: z.array(z.string()).optional(),
-    materialsHtml: z.string().optional(),
+    /** Материалы — HTML (в базе — массив строк, экспорт склеивает) */
+    materials: z.string().optional(),
     /** Автор схемы — просто имя, без HTML */
     designedBy: z.string().optional(),
     stock: z.array(stockSchema).default([]),

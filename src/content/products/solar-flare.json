@@ -24,12 +24,7 @@
     "/images/products/solar-flare/site/PB090108.jpg",
     "/images/products/solar-flare/site/PB090112.jpg"
   ],
-  "materials": [
-    "Miyuki Delica & Toho Aiko seed beads",
-    "14K Gold-filled findings & clasp",
-    "High-tenacity japonés beading thread"
-  ],
-  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: DB0031, DB0202  •  Aiko colors: 1022, 457</strong></span><br />\n<span class=\"mat-accessory\">Hypoallergenic gold-plated stainless steel hardware</span>",
+  "materials": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: DB0031, DB0202  •  Aiko colors: 1022, 457</strong></span><br />\n<span class=\"mat-accessory\">Hypoallergenic gold-plated stainless steel hardware</span>",
   "designedBy": "BunnyBearBeads",
   "price": 380000,
   "remake": {

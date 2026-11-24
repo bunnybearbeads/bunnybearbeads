@@ -8,16 +8,13 @@
     "ru": "Тыква на Хэллоуин, заключившая договор с дружелюбным упырём.",
     "vi": "Quả bí ngô Halloween đã ký giao ước với một con ma thân thiện."
   },
-  "materials": [
-    "Toho Aiko seed beads",
-    "Generic charm strap"
-  ],
+  "materials": "<ul>\n  <li>Toho Aiko seed beads</li>\n  <li>Generic charm strap</li>\n</ul>",
   "designedBy": "BunnyBearBeads",
   "images": [],
   "price": 185000,
   "stock": [
     {
-      "locationId": "dalat",
+      "locationId": "atelier",
       "quantity": 1,
       "note": {
         "en": "The pumpkin on this piece came out duller: the orange is more muted than in the photos.",

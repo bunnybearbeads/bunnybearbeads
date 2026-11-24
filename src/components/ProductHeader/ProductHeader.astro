@@ -37,7 +37,7 @@ const catalogUrl = getLocalizedUrl('/catalog', currentLang);
   <h1 class="product-header__title">{product.title}</h1>
 
   {product.description && (
-    <p class="product-header__description">{product.description}</p>
+    <p class="product-header__description" set:html={product.description} />
   )}
 
   <div class="product-header__price" set:html={formatPrice(product.price)} />

@@ -38,7 +38,7 @@ function formatStockLine(stock: Stock): string {
     .map(([cityInKey, qty]) => `${formatShowcaseStockQty(qty, false, currentLang)} ${t(cityInKey)}`)
     .join(' · ');
 
-  if (getLocationQty(stock, 'dalat') === 0) {
+  if (getLocationQty(stock, 'atelier') === 0) {
     const remake = t('family.stock_remake').replace('{days}', siteSettings.fulfillment.remakeDays);
     line = line ? `${line} ${t('family.stock_or')} ${remake}` : remake;
   }

@@ -56,7 +56,8 @@ const placeholderIcon = categoryIcons[categoryId] || '✨';
         {data.title}
       </a>
     </h2>
-    <p class="product-desc">{data.description}</p>
+    {/* В описании бывают строчные теги — в анонсе карточки только текст */}
+    <p class="product-desc">{data.description.replace(/<[^>]+>/g, '')}</p>
 
     <div class="product-bottom">
       <span class="product-price" set:html={formatPrice(data.price)} />

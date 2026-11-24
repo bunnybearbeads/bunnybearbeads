@@ -8,16 +8,13 @@
     "ru": "Благородный пёсик, который спокойно и уверенно охраняет ваш телефон.",
     "vi": "Chú cún nhỏ đầy phong thái, lặng lẽ canh giữ chiếc điện thoại của bạn."
   },
-  "materials": [
-    "Toho Aiko seed beads",
-    "Generic charm strap"
-  ],
+  "materials": "<ul>\n  <li>Toho Aiko seed beads</li>\n  <li>Generic charm strap</li>\n</ul>",
   "designedBy": "BunnyBearBeads",
   "images": [],
   "price": 175000,
   "stock": [
     {
-      "locationId": "dalat",
+      "locationId": "atelier",
       "quantity": 1,
       "commentImages": []
     },

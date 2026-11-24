@@ -8,18 +8,13 @@
     "ru": "Tuxedo, check; white shirt, check. This little acrobat is permanently dressed to impress! Rocking a sharp look that says he’s always ready for a gala—or a high-speed chase. Whether it’s 3 AM zoomies or an intense battle with a shoelace, he brings his own brand of high-fashion entertainment to every moment.",
     "vi": "Tuxedo, check; white shirt, check. This little acrobat is permanently dressed to impress! Rocking a sharp look that says he’s always ready for a gala—or a high-speed chase. Whether it’s 3 AM zoomies or an intense battle with a shoelace, he brings his own brand of high-fashion entertainment to every moment."
   },
-  "materials": [
-    "Miyuki Delica & Toho Aiko – the world’s best seed beads",
-    "Delica colors: 2114  •  Aiko colors: 21, 41, 49 2156S",
-    "Generic keyring"
-  ],
-  "materialsHtml": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 2114  •  Aiko colors: 21, 41, 49 2156S</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
+  "materials": "<span class=\"mat-beads\">Miyuki Delica & Toho Aiko – the world’s best seed beads</span><br />\n<span class=\"mat-colors\"><strong>Delica colors: 2114  •  Aiko colors: 21, 41, 49 2156S</strong></span><br />\n<span class=\"mat-accessory\">Generic keyring</span>",
   "designedBy": "Бижутерия Лапками",
   "images": [],
   "price": 195000,
   "stock": [
     {
-      "locationId": "dalat",
+      "locationId": "atelier",
       "quantity": 1,
       "commentImages": []
     },

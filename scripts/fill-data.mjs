@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = path.join(ROOT, 'data');
-const LOCATIONS = ['dalat', 'ngay-mai', 'cat-food'];
+const LOCATIONS = ['atelier', 'ngay-mai', 'cat-food'];
 
 const text = () => ({ en: '', ru: '', vi: '' });
 /** Фото — список путей через запятую; пустой — просто [] */
@@ -28,11 +28,13 @@ const PRODUCT = () => ({
   categoryId: '',
   title: '',
   slug: '',
+  /** 3–4 заглавные буквы, из него id штук: PWST01 */
+  code: '',
   description: text(),
   images: images(),
   thumb: '',
-  materials: ['', '', ''],
-  materialsHtml: '',
+  /** Материалы — строки HTML (одна строка массива — одна строка текста) */
+  materials: [],
   designedBy: '',
   locationNotes: {},
   remake: { price: '', note: text(), memo: '', commentImages: images() },
@@ -44,6 +46,7 @@ const ITEM = () => ({
   maker: '',
   price: '',
   location: '',
+  /** Только у штук у партнёров — там обязательно; у штук в мастерской поля нет */
   consignedAt: '',
   craftedAt: '',
   memo: '',
@@ -87,7 +90,7 @@ function compactImages(value) {
 
 /**
  * Комментарии к точкам: заполненные остаются, пустые убираются. Если заполненных нет —
- * одна пустышка (dalat), чтобы было что скопировать: ключ меняется на нужную точку
+ * одна пустышка (atelier), чтобы было что скопировать: ключ меняется на нужную точку
  */
 function fillLocationNotes(notes = {}) {
   const filled = Object.entries(notes).filter(([, note]) => !isBlank(note));
@@ -114,7 +117,11 @@ for (const folder of fs.readdirSync(dataDir).sort()) {
   const data = JSON.parse(fs.readFileSync(file, 'utf8'));
   const result = fill(PRODUCT(), data);
   result.locationNotes = fillLocationNotes(data.locationNotes);
-  result.items = (data.items ?? []).map((item) => fill(ITEM(), item));
+  result.items = (data.items ?? []).map((item) => {
+    const filled = fill(ITEM(), item);
+    if (filled.location === LOCATIONS[0] && filled.consignedAt === '') delete filled.consignedAt;
+    return filled;
+  });
   if (write(file, result)) changed += 1;
 }
 
