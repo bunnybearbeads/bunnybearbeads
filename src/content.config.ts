@@ -8,13 +8,18 @@ const localizedString = z.object({
   vi: z.string(),
 });
 
-const imageSchema = z.union([
-  z.string(),
-  z.object({
-    src: z.string(),
-    alt: z.union([z.string(), localizedString]).optional(),
-  }),
-]);
+/**
+ * Фото, сжатое экспортом в несколько размеров (scripts/photos.mjs): файлы `${base}-${ширина}.avif|.jpg`.
+ * width/height — оригинала, для пропорции. Выводить через src/components/Photo/Photo.astro
+ */
+const photoSchema = z.object({
+  type: z.literal('photo'),
+  base: z.string(),
+  widths: z.array(z.number()).nonempty(),
+  width: z.number(),
+  height: z.number(),
+  alt: z.union([z.string(), localizedString]).optional(),
+});
 
 /**
  * Сколько штук лежит в точке. Генерируется из базы изделий (data/ → Dropbox)
@@ -26,17 +31,16 @@ const stockSchema = z.object({
   quantity: z.number().int().nonnegative(),
   /** Комментарий к штукам в этой точке: чем они немного отличаются от фото */
   note: localizedString.optional(),
-  noteImages: z.array(imageSchema).default([]),
+  noteImages: z.array(photoSchema).default([]),
 });
 
-const mediaItemSchema = z.union([
-  z.string(),
-  z.object({
-    type: z.enum(['image', 'video']).default('image'),
-    src: z.string(),
-    poster: z.string().optional(),
-  }),
-]);
+/** Видео копируется как есть; постер без своего — кадр из видео рядом (.jpg, scripts/generate-posters.mjs) */
+const videoSchema = z.object({
+  type: z.literal('video'),
+  src: z.string(),
+  poster: z.string().optional(),
+});
+const mediaItemSchema = z.discriminatedUnion('type', [photoSchema, videoSchema]);
 
 
 /** Товар. Имя файла — slug, он же адрес страницы: /catalog/<slug> */
@@ -55,12 +59,12 @@ const products = defineCollection({
       price: z.number(),
       /** Комментарий к ремейку — выводится в карточке мастерской, как комментарий к точке */
       note: localizedString.optional(),
-      noteImages: z.array(imageSchema).default([]),
+      noteImages: z.array(photoSchema).default([]),
     }).optional(),
     category: z.enum(CATEGORIES),
     images: z.array(mediaItemSchema).default([]),
     /** Превью 40:22 для плашки в семействе */
-    thumb: z.string().optional(),
+    thumb: photoSchema.optional(),
     /** Размер — произвольный текст с HTML */
     size: z.string().optional(),
     /** Материалы — HTML (в базе — массив строк, экспорт склеивает) */

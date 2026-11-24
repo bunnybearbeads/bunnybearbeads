@@ -3,6 +3,8 @@ import './ProductCard.css';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
 import { formatPrice } from '../../utils/products';
+import Photo from '../Photo/Photo.astro';
+import type { Photo as PhotoData } from '../../utils/photos';
 import { CATEGORY_SECTION, categoryKey, type Category } from '../../config/categories';
 
 interface ProductCardData {
@@ -16,8 +18,8 @@ interface Props {
   category: Category;
   /** Точки, где товар есть в наличии. По ним фильтрует каталог */
   locations: string[];
-  /** Первое изображение (для видео — постер) */
-  image?: string;
+  /** Первое фото; если первым идёт видео — путь к постеру */
+  image?: PhotoData | string;
   data: ProductCardData;
   currentLang: SupportedLanguage;
 }
@@ -39,11 +41,11 @@ const placeholderIcon = categoryIcons[category];
 <article class="product-card" data-category={CATEGORY_SECTION[category]} data-locations={locations.join(' ')}>
   {image ? (
     <div class="product-image-box">
-      <img
-        src={image}
-        alt={data.title}
-        loading="lazy"
-      />
+      {typeof image === 'string' ? (
+        <img src={image} alt={data.title} loading="lazy" />
+      ) : (
+        <Photo photo={image} sizes="(width < 740px) 100vw, 440px" maxWidth={1440} alt={data.title} loading="lazy" />
+      )}
     </div>
   ) : (
     <div class="product-image-box product-placeholder-box">

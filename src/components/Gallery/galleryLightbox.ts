@@ -24,7 +24,7 @@
  */
 
 import type { EmblaCarouselType } from 'embla-carousel';
-import { isMobile, createPhotoSwipe } from '../../utils';
+import { isMobile, createPhotoSwipe, largePhoto } from '../../utils';
 import type { VideoPlaybackState } from './types';
 
 export interface OpenPhotoSwipeOptions {
@@ -91,12 +91,14 @@ export function openPhotoSwipe({
 
     const img = slide.querySelector<HTMLImageElement>('img.gallery__image');
     const imgSrc = img?.currentSrc || img?.src || '';
+    // В лайтбоксе — самый большой размер (data-pswp-*, Photo.astro), в том формате, что браузер выбрал на странице
+    const large = img ? largePhoto(img) : undefined;
     return {
-      src: imgSrc,
-      width: img?.naturalWidth || 1200,
-      height: img?.naturalHeight || 1600,
+      src: large?.src || imgSrc,
+      width: large?.width || img?.naturalWidth || 1200,
+      height: large?.height || img?.naturalHeight || 1600,
       alt: img?.alt || '',
-      msrc: img?.src || imgSrc,
+      msrc: imgSrc,
       element: img || undefined,
     };
   });

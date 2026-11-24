@@ -69,6 +69,22 @@ export function createPhotoSwipe(options: CreatePhotoSwipeOptions): PhotoSwipe {
   return pswp;
 }
 
+/**
+ * Большой размер фото для лайтбокса из data-pswp-* (Photo.astro): AVIF, если браузер уже выбрал AVIF
+ * для фото на странице (значит, умеет), иначе JPEG. Не загружено — смотрим другие фото страницы
+ */
+export function largePhoto(el: HTMLElement): { src: string; width: number; height: number } | undefined {
+  const { pswpAvif, pswpJpg, pswpWidth, pswpHeight } = el.dataset;
+  if (!pswpJpg) return undefined;
+  const img = el instanceof HTMLImageElement ? el : el.querySelector('img');
+  const chosen = img?.currentSrc || document.querySelector<HTMLImageElement>('picture.photo img')?.currentSrc || '';
+  return {
+    src: chosen.endsWith('.avif') && pswpAvif ? pswpAvif : pswpJpg,
+    width: Number(pswpWidth),
+    height: Number(pswpHeight),
+  };
+}
+
 export interface OpenSimpleLightboxOptions {
   items: HTMLAnchorElement[];
   initialIndex?: number;
@@ -94,10 +110,11 @@ export function openSimpleLightbox({
       item.dataset.cropped !== undefined ||
       (img && window.getComputedStyle(img).objectFit === 'cover')
     );
+    const large = largePhoto(item);
     return {
-      src: item.href || img?.currentSrc || img?.src || '',
-      width: naturalW > 0 ? naturalW : 1200,
-      height: naturalH > 0 ? naturalH : 900,
+      src: large?.src || item.href || img?.currentSrc || img?.src || '',
+      width: large?.width || (naturalW > 0 ? naturalW : 1200),
+      height: large?.height || (naturalH > 0 ? naturalH : 900),
       alt: img?.alt || '',
       msrc: img?.src || item.href || '',
       element: img || item,
@@ -114,7 +131,7 @@ export function openSimpleLightbox({
   // Resolve real dimensions asynchronously for any image that wasn't decoded yet
   items.forEach((item, idx) => {
     const img = item.querySelector<HTMLImageElement>('img');
-    if (img && img.naturalWidth > 0) return;
+    if (item.dataset.pswpWidth || (img && img.naturalWidth > 0)) return;
     const src = dataSource[idx]?.src;
     if (!src) return;
     const probe = new Image();

@@ -16,8 +16,8 @@
  *   - src/content/products/<slug>.json — без items, memo, дат, maker; штуки в наличии свёрнуты в количество
  *     и цену по точкам, плюс цена в шапке и ремейк (статус и цена);
  *   - src/content/families/<id>.json;
- *   - public/images/products/<slug>/<путь из JSON изделия> — копии указанных фото и видео
- *     (+ постеры к видео, scripts/generate-posters.mjs).
+ *   - public/images/products/<slug>/<путь из JSON изделия> — фото, сжатые в несколько размеров
+ *     (AVIF + JPEG, scripts/photos.mjs), и копии видео (+ постеры к ним, scripts/generate-posters.mjs).
  * Всё это генерируется и лежит в .gitignore.
  *
  * Любая проблема в базе роняет сборку со списком всего, что надо поправить:
@@ -34,6 +34,7 @@ import fsp from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { generateMissingPosters } from './generate-posters.mjs';
+import { photoFiles, photoWidths, readPhotoSize, syncPhotos } from './photos.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 /** DATA_DEMO=1 — демо-база data/_demo вместо настоящей (`npm run dev:demo`) */
@@ -45,6 +46,8 @@ const OUT_PRODUCTS = path.join(ROOT, 'src/content/products');
 const OUT_FAMILIES = path.join(ROOT, 'src/content/families');
 const OUT_MEDIA = path.join(ROOT, 'public/images/products');
 const MEDIA_URL = '/images/products';
+/** Кэш сжатых фото (что и из какого оригинала уже сжато) — вне git, только на этом компьютере */
+const PHOTO_CACHE = path.join(ROOT, 'node_modules/.cache/bunnybearbeads', IS_DEMO ? 'photos-demo.json' : 'photos.json');
 
 /** Порядок точек в данных и на сайте. Должен совпадать с src/config/locations.ts */
 /** atelier — своя мастерская (сейчас в Далате): id не привязан к городу на случай переезда */
@@ -65,6 +68,10 @@ const PARTIAL_DATE_RE = /^(\d{4})(?:-(?:(0[1-9]|1[0-2])(?:-(\d{2}))?|Q[1-4]|H[12
 const DATE_FORMATS = '2026-11-01, 2026-11, 2026-Q3, 2026-H1 or 2026';
 const BLOCK_TAG_RE = /<\/?(p|div|ul|ol|li|h[1-6]|blockquote)\b/i;
 const VIDEO_RE = /\.(mp4|webm|ogg|mov)$/i;
+/** Фото изделия (images) — строго 3:4, вертикальные: под эту пропорцию свёрстаны галерея и карточки */
+const PHOTO_RATIO = { width: 3, height: 4 };
+/** Точно 3:4, без допуска: 2213×2952 не проходит — кадрировать до 2211×2948 */
+const isPortraitRatio = (width, height) => width * PHOTO_RATIO.height === height * PHOTO_RATIO.width;
 /** Конфликтные копии Dropbox: «file (Tony's conflicted copy 2026-11-23).json», в русском интерфейсе — «конфликтующая копия» */
 const CONFLICT_RE = /conflicted copy|конфликтующая копия/i;
 /** Служебные поля, которые на сайт не попадают никогда */
@@ -115,6 +122,8 @@ async function collect(dataDir, errors, logger) {
   const hiddenSlugs = new Set(); // изделия с "site": false
   const titleOwners = new Map(); // название без учёта регистра → папка
   const itemOwners = new Map(); // id штуки → slug
+  const photos = new Map(); // фото → копии разных размеров: путь в public без ширины и расширения → { source, widths }
+  const photoReads = []; // размер фото читается в конце, все файлы разом
 
   const folders = (await fsp.readdir(dataDir, { withFileTypes: true }))
     .filter((e) => e.isDirectory() && !e.name.startsWith('_') && !e.name.startsWith('.'))
@@ -193,10 +202,10 @@ async function collect(dataDir, errors, logger) {
     }
 
     // Пути к файлам в JSON изделия — относительно папки изделия
-    const toUrl = (rel, field) => {
+    const checkPath = (rel, field) => {
       if (typeof rel !== 'string' || !rel || path.isAbsolute(rel) || rel.split(/[\\/]/).includes('..')) {
         errors.push(`${where}, ${field}: path must be relative to the folder, got ${JSON.stringify(rel)}`);
-        return rel;
+        return null;
       }
       const source = path.join(folderPath, rel);
       const stat = fs.statSync(source, { throwIfNoEntry: false });
@@ -206,24 +215,47 @@ async function collect(dataDir, errors, logger) {
         // Файл-заглушка Dropbox: место на диске не занято, содержимое только в облаке
         errors.push(`${where}, ${field}: file is online-only in Dropbox, make the folder available offline: ${rel}`);
       }
-      const target = `${slug}/${rel.split(path.sep).join('/')}`;
-      media.set(target, source);
-      return `${MEDIA_URL}/${target}`;
+      return { source, target: `${slug}/${rel.split(path.sep).join('/')}` };
     };
-    const mapMedia = (item, field) =>
-      typeof item === 'string'
-        ? toUrl(item, field)
-        : {
-            ...item,
-            src: toUrl(item.src, `${field}.src`),
-            ...(item.poster ? { poster: toUrl(item.poster, `${field}.poster`) } : {}),
-          };
+    // Видео и постеры к ним — копируются как есть
+    const toUrl = (rel, field) => {
+      const file = checkPath(rel, field);
+      if (!file) return rel;
+      media.set(file.target, file.source);
+      return `${MEDIA_URL}/${file.target}`;
+    };
+    // Фото — сжимаются в несколько размеров (scripts/photos.mjs). Размеры дописываются в конце, после чтения файлов.
+    // portrait: фото изделия, строго 3:4
+    const toPhoto = (rel, field, { portrait = false, alt } = {}) => {
+      const photo = { type: 'photo', base: '', widths: [], width: 0, height: 0, ...(alt ? { alt } : {}) };
+      const file = checkPath(rel, field);
+      if (!file) return photo;
+      const base = file.target.replace(/\.[^./]+$/, '');
+      photo.base = `${MEDIA_URL}/${base}`;
+      photos.set(base, { source: file.source, widths: photo.widths });
+      photoReads.push({ photo, where, field, rel, source: file.source, portrait });
+      return photo;
+    };
+    const isVideo = (item) => (typeof item === 'string' ? VIDEO_RE.test(item) : item?.type === 'video' || VIDEO_RE.test(item?.src ?? ''));
+    const mapMedia = (item, field, options = {}) => {
+      if (isVideo(item)) {
+        const src = typeof item === 'string' ? item : item.src;
+        return {
+          type: 'video',
+          src: toUrl(src, typeof item === 'string' ? field : `${field}.src`),
+          ...(item.poster ? { poster: toUrl(item.poster, `${field}.poster`) } : {}),
+        };
+      }
+      return typeof item === 'string'
+        ? toPhoto(item, field, options)
+        : toPhoto(item?.src, `${field}.src`, { ...options, alt: item?.alt });
+    };
 
     const publicData = Object.fromEntries(Object.entries(data).filter(([key]) => !PRIVATE_FIELDS.includes(key)));
     // Материалы — HTML; в JSON удобнее массивом строк, на сайт уходят одной строкой
     if (Array.isArray(data.materials)) publicData.materials = data.materials.join('\n');
-    publicData.images = (data.images ?? []).map((item, i) => mapMedia(item, `images[${i}]`));
-    if (data.thumb) publicData.thumb = toUrl(data.thumb, 'thumb');
+    publicData.images = (data.images ?? []).map((item, i) => mapMedia(item, `images[${i}]`, { portrait: true }));
+    if (data.thumb) publicData.thumb = toPhoto(data.thumb, 'thumb');
     for (const entry of stock) {
       entry.noteImages = (entry.noteImages ?? []).map((item, i) => mapMedia(item, `locationNotes.${entry.locationId}.noteImages[${i}]`));
     }
@@ -258,7 +290,36 @@ async function collect(dataDir, errors, logger) {
     if (members.length >= 2) families.set(id, { $comment: GENERATED_NOTE, ...data, members });
   }
 
-  return { products, families, media };
+  for (const error of await Promise.all(photoReads.map(readPhoto))) {
+    if (error) errors.push(error);
+  }
+
+  return { products, families, media, photos };
+}
+
+/**
+ * Размер фото → в публичные данные (ширины копий, пропорция для разметки). У фото изделия ещё и проверка 3:4.
+ * Поворот из EXIF учитывается: телефон пишет 4032×3024 + «повернуть», а это вертикальный кадр
+ */
+async function readPhoto({ photo, where, field, rel, source, portrait }) {
+  if (!fs.existsSync(source)) return null; // «файл не найден» уже в списке ошибок
+  let size;
+  try {
+    size = await readPhotoSize(source);
+  } catch {
+    return `${where}, ${field}: cannot read the image (JPEG, PNG or TIFF): ${rel}`;
+  }
+  const { width, height } = size;
+  photo.width = width;
+  photo.height = height;
+  photo.widths.push(...photoWidths(width));
+  if (!portrait || isPortraitRatio(width, height)) return null;
+  // Подсказка: самый большой кадр 3:4, который помещается в фото
+  const fitWidth = Math.floor(height / PHOTO_RATIO.height) * PHOTO_RATIO.width;
+  const crop = fitWidth <= width
+    ? `${fitWidth}×${(fitWidth / PHOTO_RATIO.width) * PHOTO_RATIO.height}`
+    : `${Math.floor(width / PHOTO_RATIO.width) * PHOTO_RATIO.width}×${Math.floor(width / PHOTO_RATIO.width) * PHOTO_RATIO.height}`;
+  return `${where}, ${field}: photo must be exactly 3:4 (portrait), got ${width}×${height}: ${rel} — e.g. crop to ${crop}`;
 }
 
 /**
@@ -463,9 +524,10 @@ async function writeJsonDir(dir, entries) {
 }
 
 /** Копирует фото и видео, если файл новый или изменился; лишнее удаляет. Постеры видео не трогает */
-async function syncMedia(media) {
+async function syncMedia(media, photos) {
   let changed = 0;
-  const keep = new Set();
+  // Копии фото сжимает syncPhotos — здесь они только не удаляются как лишние
+  const keep = new Set([...photos].flatMap(([base, { widths }]) => photoFiles(base, widths)));
   for (const [target, source] of media) {
     keep.add(target);
     if (VIDEO_RE.test(target)) keep.add(target.replace(/\.[^.]+$/, '.jpg')); // постер от generate-posters
@@ -511,19 +573,21 @@ export async function exportData(logger = console) {
   }
   const dataDir = fs.realpathSync(DATA_DIR);
   const errors = [];
-  const { products, families, media } = await collect(dataDir, errors, logger);
+  const { products, families, media, photos } = await collect(dataDir, errors, logger);
   if (errors.length) throw new DataErrors(errors);
 
+  const compressed = await syncPhotos(photos, OUT_MEDIA, PHOTO_CACHE, logger);
   const changed =
     (await writeJsonDir(OUT_PRODUCTS, products)) +
     (await writeJsonDir(OUT_FAMILIES, families)) +
-    (await syncMedia(media));
+    (await syncMedia(media, photos)) +
+    compressed;
   // Постеры для видео, у которых нет своего (кадр через ffmpeg, рядом с копией видео)
   await generateMissingPosters(OUT_MEDIA, logger);
 
   logger.info(
     (IS_DEMO ? 'DEMO data: ' : '') +
-    `${products.size} product(s), ${families.size} famil${families.size === 1 ? 'y' : 'ies'}, ${media.size} media file(s)` +
+    `${products.size} product(s), ${families.size} famil${families.size === 1 ? 'y' : 'ies'}, ${photos.size} photo(s), ${media.size} video file(s)` +
       (changed ? ` — ${changed} change(s) written` : ' — up to date'),
   );
   return true;

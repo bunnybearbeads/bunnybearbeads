@@ -5,6 +5,7 @@
  */
 import './Family.css';
 import DottedTitle from '../DottedTitle/DottedTitle.astro';
+import Photo from '../Photo/Photo.astro';
 import { type SupportedLanguage, type TranslationKey } from '../../i18n/ui';
 import { getLocalizedUrl, localize, useTranslations, formatShowcaseStockQty } from '../../i18n/utils';
 import { LOCATIONS, type LocationId } from '../../config/locations';
@@ -54,7 +55,7 @@ const members = family.members.map(({ product, note }) => {
     href: getLocalizedUrl(`/catalog/${product.id}`, currentLang),
     title: data.title,
     price: formatPriceShort(data.price),
-    thumb: product.data.thumb ?? '/placeholder-thumb.svg',
+    thumb: product.data.thumb,
     stock: formatStockLine(product.data.stock),
     note: note ? localize(note, currentLang) : undefined,
   };
@@ -73,7 +74,11 @@ const members = family.members.map(({ product, note }) => {
             href={member.isCurrent ? undefined : member.href}
             aria-current={member.isCurrent ? 'page' : undefined}
           >
-            <img class="family__thumb" src={member.thumb} alt="" loading="lazy" />
+            {member.thumb ? (
+              <Photo class="family__thumb" photo={member.thumb} sizes="80px" maxWidth={720} alt="" loading="lazy" />
+            ) : (
+              <img class="family__thumb" src="/placeholder-thumb.svg" alt="" loading="lazy" />
+            )}
             <span class="family__text">
               <span class="family__title">{member.title}</span>
               <span class="family__meta">

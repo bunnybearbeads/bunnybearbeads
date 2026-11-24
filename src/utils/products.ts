@@ -18,17 +18,11 @@ export function getAvailableLocations(stock: Stock): string[] {
     .map((s) => s.locationId);
 }
 
-/** Путь к первому изображению (для видео — его постер) */
-export function getFirstImageSrc(images: ProductData['images']): string | undefined {
+/** Первое фото для карточки каталога; если первым идёт видео — путь к его постеру */
+export function getFirstImage(images: ProductData['images']): NonNullable<ProductData['thumb']> | string | undefined {
   const first = images[0];
-  if (!first) return undefined;
-  if (typeof first === 'string') {
-    return /\.(mp4|webm|ogg|mov)$/i.test(first) ? first.replace(/\.[^.]+$/, '.jpg') : first;
-  }
-  if (first.type === 'video' || /\.(mp4|webm|ogg|mov)$/i.test(first.src)) {
-    return first.poster ?? first.src.replace(/\.[^.]+$/, '.jpg');
-  }
-  return first.src;
+  if (!first || first.type === 'photo') return first;
+  return first.poster ?? first.src.replace(/\.[^.]+$/, '.jpg');
 }
 
 /**
@@ -49,10 +43,17 @@ export function formatPriceShort(price: number): string {
   return `${Number((price / 1000).toFixed(1))}k`;
 }
 
-/** Все товары, отсортированные по order */
+/**
+ * Все товары: по order (без него — 99, в конец), при равном order — по названию.
+ * Порядок загрузки коллекции не гарантирован, поэтому без второго ключа товары могли бы переезжать
+ */
 export async function getProducts(): Promise<ProductEntry[]> {
   const products = await getCollection('products');
-  return [...products].sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+  return [...products].sort(
+    (a, b) =>
+      (a.data.order ?? 99) - (b.data.order ?? 99) ||
+      a.data.title.localeCompare(b.data.title, 'en', { sensitivity: 'base' }),
+  );
 }
 
 export interface FamilyMember {

@@ -22,6 +22,7 @@ import {
 import { siteSettings } from '../../config/siteSettings';
 import { LOCATIONS, PARTNER_LOCATIONS, type LocationId } from '../../config/locations';
 import StockNote from './StockNote.astro';
+import type { Photo } from '../../utils/photos';
 import Icon from '../Icon/Icon.astro';
 import Link from '../Link/Link.astro';
 import DottedTitle from '../DottedTitle/DottedTitle.astro';
@@ -40,7 +41,7 @@ const { stock, remake, title, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 
 interface NoteImage {
-  src: string;
+  photo: Photo;
   alt: string;
 }
 
@@ -51,13 +52,12 @@ interface NoteData {
 
 function normalizeImages(rawImages: Stock[number]['noteImages'], fallbackTitle: string): NoteImage[] {
   return rawImages.map((img, idx) => {
-    if (typeof img === 'string') return { src: img, alt: `${fallbackTitle} — ${idx + 1}` };
     const alt = img.alt
       ? typeof img.alt === 'string'
         ? img.alt
         : localize(img.alt, currentLang)
       : `${fallbackTitle} — ${idx + 1}`;
-    return { src: img.src, alt };
+    return { photo: img, alt };
   });
 }
 

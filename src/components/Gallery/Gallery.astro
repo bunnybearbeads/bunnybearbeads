@@ -3,11 +3,14 @@ import './Gallery.css';
 import './GalleryArrows.css';
 import 'photoswipe/style.css';
 import Icon from '../Icon/Icon.astro';
+import Photo from '../Photo/Photo.astro';
+import { photoLarge } from '../../utils/photos';
+import type { ProductData } from '../../utils/products';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 interface Props {
-  images: (string | { type?: 'image' | 'video'; src: string; poster?: string })[];
+  images: ProductData['images'];
   alt: string;
   lang?: SupportedLanguage;
 }
@@ -16,32 +19,12 @@ const { images = [], alt, lang } = Astro.props;
 const currentLang = lang || getLangFromUrl(Astro.url);
 const t = useTranslations(currentLang);
 
-interface MediaItem {
-  type: 'image' | 'video';
-  src: string;
-  poster?: string;
-}
+// Постер видео без своего — кадр из видео рядом (.jpg), его делает scripts/generate-posters.mjs при экспорте
+const posterOf = (video: Extract<ProductData['images'][number], { type: 'video' }>) =>
+  video.poster ?? video.src.replace(/\.[^.]+$/, '.jpg');
 
-// AI: Автоматическое определение постера для видео.
-// Интеграция сборки (scripts/generate-posters.mjs через ffmpeg-static) автоматически создает одноименный .jpg
-// для любого .mp4/.webm в каталоге товаров. Вручную указывать постер не требуется, но при наличии кастомного
-// поля poster оно имеет приоритет.
-const items: MediaItem[] = images.map((item) => {
-  if (typeof item === 'string') {
-    const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(item);
-    return {
-      type: isVideo ? 'video' : 'image',
-      src: item,
-      poster: isVideo ? item.replace(/\.[^.]+$/, '.jpg') : undefined,
-    };
-  }
-  const isVideo = item.type === 'video' || /\.(mp4|webm|ogg|mov)$/i.test(item.src);
-  return {
-    type: isVideo ? 'video' : 'image',
-    src: item.src,
-    poster: item.poster || (isVideo ? item.src.replace(/\.[^.]+$/, '.jpg') : undefined),
-  };
-});
+/** Галерея — фото изделия на странице. Ширина на странице: на мобильном — весь экран, на десктопе — ~560px */
+const STAGE_SIZES = '(width < 740px) 100vw, 560px';
 ---
 
 <div class="gallery" data-gallery>
@@ -59,8 +42,7 @@ const items: MediaItem[] = images.map((item) => {
 
     <div class="gallery__nav-viewport" data-gallery-thumbs>
       <div class="gallery__nav-ribbon" aria-label={t('gallery.thumbs_ribbon')}>
-        {items.map((item, index) => {
-          const thumbSrc = item.type === 'video' ? (item.poster || item.src) : item.src;
+        {images.map((item, index) => {
           const mediaLabel = item.type === 'video' ? t('gallery.video') : t('gallery.photo');
           return (
             <button
@@ -75,12 +57,23 @@ const items: MediaItem[] = images.map((item) => {
               tabindex="-1"
               type="button"
             >
-              <img
-                class="gallery__thumb-image"
-                src={thumbSrc}
-                alt={`${alt} — ${t('gallery.preview')} ${index + 1}`}
-                loading={index >= 5 ? 'lazy' : undefined}
-              />
+              {item.type === 'video' ? (
+                <img
+                  class="gallery__thumb-image"
+                  src={posterOf(item)}
+                  alt={`${alt} — ${t('gallery.preview')} ${index + 1}`}
+                  loading={index >= 5 ? 'lazy' : undefined}
+                />
+              ) : (
+                <Photo
+                  class="gallery__thumb-image"
+                  photo={item}
+                  sizes="98px"
+                  maxWidth={720}
+                  alt={`${alt} — ${t('gallery.preview')} ${index + 1}`}
+                  loading={index >= 5 ? 'lazy' : undefined}
+                />
+              )}
               {item.type === 'video' && (
                 <span class="gallery__thumb-play" aria-hidden="true">
                   <Icon name="play_arrow" />
@@ -118,13 +111,13 @@ const items: MediaItem[] = images.map((item) => {
     <div class="gallery__viewport">
       <div class="gallery__strut" data-gallery-main>
         <div class="gallery__ribbon">
-          {items.map((item, index) => (
+          {images.map((item, index) => (
             <div class="gallery__item">
               {item.type === 'video' ? (
                 <video
                   class="gallery__image gallery__image--video"
                   src={item.src}
-                  poster={item.poster}
+                  poster={posterOf(item)}
                   autoplay
                   loop
                   muted
@@ -141,12 +134,18 @@ const items: MediaItem[] = images.map((item) => {
                   <Icon name="open_in_full" />
                 </button>
               ) : (
-                <img
+                <Photo
                   class="gallery__image"
-                  src={item.src}
+                  photo={item}
+                  sizes={STAGE_SIZES}
+                  maxWidth={1440}
                   alt={index === 0 ? alt : `${alt} — ${t('gallery.photo')} ${index + 1}`}
                   fetchpriority={index === 0 ? 'high' : 'low'}
                   loading={index === 0 ? undefined : 'lazy'}
+                  data-pswp-avif={photoLarge(item).avif}
+                  data-pswp-jpg={photoLarge(item).jpg}
+                  data-pswp-width={photoLarge(item).width}
+                  data-pswp-height={photoLarge(item).height}
                 />
               )}
             </div>

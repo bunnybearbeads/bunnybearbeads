@@ -6,10 +6,12 @@
  */
 import { type SupportedLanguage } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
+import Photo from '../Photo/Photo.astro';
+import { photoLarge, type Photo as PhotoData } from '../../utils/photos';
 
 interface Props {
   html?: string;
-  images: { src: string; alt: string }[];
+  images: { photo: PhotoData; alt: string }[];
   currentLang: SupportedLanguage;
 }
 
@@ -22,14 +24,18 @@ const t = useTranslations(currentLang);
   <div class="option__gallery" data-option-photos>
     {images.map((img) => (
       <a
-        href={img.src}
+        href={photoLarge(img.photo).jpg}
+        data-pswp-avif={photoLarge(img.photo).avif}
+        data-pswp-jpg={photoLarge(img.photo).jpg}
+        data-pswp-width={photoLarge(img.photo).width}
+        data-pswp-height={photoLarge(img.photo).height}
         target="_blank"
         rel="noopener noreferrer"
         class="option__photo"
         data-option-photo
         title={t('catalog.modal.photo_zoom_hint')}
       >
-        <img src={img.src} alt={img.alt} class="option__image" loading="lazy" />
+        <Photo photo={img.photo} sizes="84px" maxWidth={720} alt={img.alt} class="option__image" loading="lazy" />
       </a>
     ))}
   </div>
