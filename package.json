@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "dev:restart": "node scripts/dev-restart.mjs",
+    "dev:demo": "DATA_DEMO=1 node scripts/dev-restart.mjs",
     "start": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",

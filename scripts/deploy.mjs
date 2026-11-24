@@ -22,6 +22,8 @@ function fail(message) {
   process.exit(1);
 }
 
+if (process.env.DATA_DEMO) fail('DATA_DEMO is set: the demo data must never be published');
+
 const remote = git(['remote', 'get-url', 'origin']);
 const commit = git(['rev-parse', '--short', 'HEAD']);
 const branch = git(['rev-parse', '--abbrev-ref', 'HEAD']);

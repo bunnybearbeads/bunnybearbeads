@@ -7,7 +7,7 @@ import { CATEGORY_SECTION, categoryKey, type Category } from '../../config/categ
 
 interface ProductCardData {
   title: string;
-  description: string;
+  description?: string;
   price: number;
 }
 
@@ -59,7 +59,7 @@ const placeholderIcon = categoryIcons[category];
       </a>
     </h2>
     {/* В описании бывают строчные теги — в анонсе карточки только текст */}
-    <p class="product-desc">{data.description.replace(/<[^>]+>/g, '')}</p>
+    <p class="product-desc">{(data.description ?? '').replace(/<[^>]+>/g, '')}</p>
 
     <div class="product-bottom">
       <span class="product-price" set:html={formatPrice(data.price)} />

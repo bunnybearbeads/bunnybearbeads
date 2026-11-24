@@ -4,11 +4,13 @@
  * `data/` — симлинк на папку в Dropbox, в git она не попадает. Одно изделие — одна папка:
  *
  *   data/
- *     Solar Flare/
- *       Solar Flare.json ← данные изделия, имя = имя папки: данные сайта, штуки (items), memo, даты
+ *     Lumi/
+ *       Lumi.json ← данные изделия, имя = имя папки: данные сайта, штуки (items), memo, даты
  *       site/…           ← фото и видео; на сайт попадают только файлы, указанные в JSON изделия
  *       …              ← что угодно ещё: процесс, схемы, черновики
  *     _families/*.json ← семейства (папки с «_» в начале — служебные, не изделия)
+ *     _demo/           ← демо-база той же структуры: примеры сложных случаев. На сайт — только
+ *                        с DATA_DEMO=1 (`npm run dev:demo`), вместо настоящей базы
  *
  * На сайт уходят только изделия с `"site": true`:
  *   - src/content/products/<slug>.json — без items, memo, дат, maker; штуки в наличии свёрнуты в количество
@@ -20,7 +22,9 @@
  *
  * Любая проблема в базе роняет сборку со списком всего, что надо поправить:
  * битый JSON, конфликтная копия Dropbox, файл не найден или не скачан («только онлайн»),
- * дубль slug или id штуки, неизвестная точка, семейство ссылается на товар не с сайта.
+ * дубль slug или id штуки, неизвестная точка, семейство ссылается на неизвестный товар.
+ * Изделия с `"site": false` в семействах просто не показываются; семейство, где на сайте
+ * меньше двух изделий, на сайт не уходит.
  *
  * Запускается сам при `astro dev` и `astro build` (интеграция в astro.config.mjs), в dev ещё и
  * следит за `data/`. Вручную: `npm run export-data`.
@@ -32,7 +36,9 @@ import { fileURLToPath } from 'node:url';
 import { generateMissingPosters } from './generate-posters.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const DATA_DIR = path.join(ROOT, 'data');
+/** DATA_DEMO=1 — демо-база data/_demo вместо настоящей (`npm run dev:demo`) */
+export const IS_DEMO = Boolean(process.env.DATA_DEMO);
+const DATA_DIR = IS_DEMO ? path.join(ROOT, 'data', '_demo') : path.join(ROOT, 'data');
 const FAMILIES_DIR = '_families';
 
 const OUT_PRODUCTS = path.join(ROOT, 'src/content/products');
@@ -53,9 +59,10 @@ const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const ITEM_ID_RE = /^[A-Z]{3,4}\d{2}$/;
 /**
  * Дата может быть неполной: точная (2026-11-01), только месяц (2026-11 — например, NGÀY MAI сообщает
- * продажи за месяц без дат) или только год (2024 — для старых записей)
+ * продажи за месяц без дат), квартал (2026-Q3), полугодие (2026-H1) или только год (2024 — для старых записей)
  */
-const PARTIAL_DATE_RE = /^(\d{4})(?:-(0[1-9]|1[0-2])(?:-(\d{2}))?)?$/;
+const PARTIAL_DATE_RE = /^(\d{4})(?:-(?:(0[1-9]|1[0-2])(?:-(\d{2}))?|Q[1-4]|H[12]))?$/;
+const DATE_FORMATS = '2026-11-01, 2026-11, 2026-Q3, 2026-H1 or 2026';
 const BLOCK_TAG_RE = /<\/?(p|div|ul|ol|li|h[1-6]|blockquote)\b/i;
 const VIDEO_RE = /\.(mp4|webm|ogg|mov)$/i;
 /** Конфликтные копии Dropbox: «file (Tony's conflicted copy 2026-11-23).json», в русском интерфейсе — «конфликтующая копия» */
@@ -105,6 +112,7 @@ async function collect(dataDir, errors, logger) {
   const products = new Map(); // slug → публичные данные (только site: true)
   const media = new Map(); // путь в public → исходный файл
   const slugOwners = new Map(); // slug → папка
+  const hiddenSlugs = new Set(); // изделия с "site": false
   const titleOwners = new Map(); // название без учёта регистра → папка
   const itemOwners = new Map(); // id штуки → slug
 
@@ -115,7 +123,7 @@ async function collect(dataDir, errors, logger) {
 
   for (const folder of folders) {
     const folderPath = path.join(dataDir, folder);
-    // JSON изделия называется как папка: «Solar Flare/Solar Flare.json»
+    // JSON изделия называется как папка: «Lumi/Lumi.json»
     const fileName = `${folder}.json`;
     const file = path.join(folderPath, fileName);
     if (!fs.existsSync(file)) {
@@ -143,7 +151,7 @@ async function collect(dataDir, errors, logger) {
     }
     if (slugOwners.has(slug)) errors.push(`${where}: slug "${slug}" is already used by "${slugOwners.get(slug)}"`);
     slugOwners.set(slug, folder);
-    // Название тоже уникально, без учёта регистра и лишних пробелов: Rosa Nova и rosa  nova — одно и то же
+    // Название тоже уникально, без учёта регистра и лишних пробелов: Wild Rose и wild  rose — одно и то же
     if (typeof data.title === 'string') {
       const titleKey = data.title.trim().replace(/\s+/g, ' ').toLowerCase();
       if (titleOwners.has(titleKey)) errors.push(`${where}: title "${data.title}" is already used by "${titleOwners.get(titleKey)}"`);
@@ -153,6 +161,9 @@ async function collect(dataDir, errors, logger) {
     if ('materialsHtml' in data) errors.push(`${where}: "materialsHtml" is gone — put the HTML into "materials"`);
     if (typeof data.site !== 'boolean') errors.push(`${where}: "site" must be true or false`);
 
+    if (data.description !== undefined && typeof data.description !== 'string') {
+      errors.push(`${where}: "description" is one English string for now, like "title" — no translations`);
+    }
     // Описание и комментарии — один абзац: обёртку (<p class="product-header__description"> и т. п.) даёт сайт
     const texts = [
       ['description', data.description],
@@ -172,7 +183,10 @@ async function collect(dataDir, errors, logger) {
     }
 
     const { stock, price, remake } = toSales(data, where, itemOwners, slug, errors, logger);
-    if (data.site !== true) continue;
+    if (data.site !== true) {
+      hiddenSlugs.add(slug);
+      continue;
+    }
     // На сайте у изделия должно быть хотя бы одно фото: заглушки в галерее нет
     if (!Array.isArray(data.images) || data.images.length === 0) {
       errors.push(`${where}: "images" is empty — a product on the site needs at least one photo (or set "site": false)`);
@@ -233,18 +247,15 @@ async function collect(dataDir, errors, logger) {
     const data = withoutEmpty(raw, `${FAMILIES_DIR}/${file}`, errors) ?? {};
     for (const [i, member] of (data.members ?? []).entries()) {
       const where = `${FAMILIES_DIR}/${file}, members[${i}]`;
-      if (!products.has(member.product)) {
-        const folder = slugOwners.get(member.product);
-        errors.push(folder
-          ? `${where}: "${member.product}" is not on the site ("site": false or has errors)`
-          : `${where}: unknown product "${member.product}"`);
-      }
+      // "site": false — изделие просто не показывается в семействе; с ошибками — о них уже сказано выше
+      if (!slugOwners.has(member.product)) errors.push(`${where}: unknown product "${member.product}"`);
       if (familyOf.has(member.product)) {
         errors.push(`${where}: "${member.product}" is already in family "${familyOf.get(member.product)}"`);
       }
       familyOf.set(member.product, id);
     }
-    families.set(id, { $comment: GENERATED_NOTE, ...data });
+    const members = (data.members ?? []).filter((member) => products.has(member.product));
+    if (members.length >= 2) families.set(id, { $comment: GENERATED_NOTE, ...data, members });
   }
 
   return { products, families, media };
@@ -283,7 +294,7 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
     }
     if (!isPrice(item.price)) errors.push(`${at}: "price" must be a positive number of dong, got ${JSON.stringify(item.price)}`);
     if ('createdAt' in item) errors.push(`${at}: "createdAt" is now "craftedAt"`);
-    else if (!isPartialDate(item.craftedAt)) errors.push(`${at}: "craftedAt" must be 2026-11-01, 2026-11 or 2026, got ${JSON.stringify(item.craftedAt)}`);
+    else if (!isPartialDate(item.craftedAt)) errors.push(`${at}: "craftedAt" must be ${DATE_FORMATS}, got ${JSON.stringify(item.craftedAt)}`);
 
     // Исход — один объект out: { type, date, paid?, memo? }. Нет out — штука в наличии
     const out = item.out;
@@ -295,7 +306,7 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
         errors.push(`${at}: "out" must be an object { "type", "date" }`);
       } else {
         if (!OUT_TYPES.includes(out.type)) errors.push(`${at}: "out.type" must be one of ${OUT_TYPES.join(', ')}, got ${JSON.stringify(out.type)}`);
-        if (!isPartialDate(out.date)) errors.push(`${at}: "out.date" must be 2026-11-01, 2026-11 or 2026, got ${JSON.stringify(out.date)}`);
+        if (!isPartialDate(out.date)) errors.push(`${at}: "out.date" must be ${DATE_FORMATS}, got ${JSON.stringify(out.date)}`);
         // paid — сколько реально получено, обязательно всегда: у продажи обычно равно price, у остальных исходов — 0
         if (!(Number.isInteger(out.paid) && out.paid >= 0)) {
           errors.push(`${at}: "out.paid" is required: how much was actually paid, in dong (0 for gift, lost, kept)`);
@@ -315,7 +326,7 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
     if (item.location === 'atelier') {
       if ('consignedAt' in item) errors.push(`${at}: "consignedAt" only for partner shops, the piece is in the atelier`);
     } else if (!isPartialDate(item.consignedAt)) {
-      errors.push(`${at}: "consignedAt" is required at "${item.location}": when it was handed over, 2026-11-01, 2026-11 or 2026`);
+      errors.push(`${at}: "consignedAt" is required at "${item.location}": when it was handed over, ${DATE_FORMATS}`);
     }
     if (out !== undefined) return;
     if (!available.has(item.location)) available.set(item.location, []);
@@ -496,7 +507,7 @@ async function syncMedia(media) {
  */
 export async function exportData(logger = console) {
   if (!fs.existsSync(DATA_DIR)) {
-    throw new Error('data/ not found: link it to the Dropbox folder (README, «Данные товаров»)');
+    throw new Error(`${path.relative(ROOT, DATA_DIR)}/ not found: link data/ to the Dropbox folder (README, «Данные товаров»)`);
   }
   const dataDir = fs.realpathSync(DATA_DIR);
   const errors = [];
@@ -511,6 +522,7 @@ export async function exportData(logger = console) {
   await generateMissingPosters(OUT_MEDIA, logger);
 
   logger.info(
+    (IS_DEMO ? 'DEMO data: ' : '') +
     `${products.size} product(s), ${families.size} famil${families.size === 1 ? 'y' : 'ies'}, ${media.size} media file(s)` +
       (changed ? ` — ${changed} change(s) written` : ' — up to date'),
   );

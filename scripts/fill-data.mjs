@@ -29,7 +29,8 @@ const PRODUCT = () => ({
   slug: '',
   /** charm, bracelet, ring, earrings, pen-wrap */
   category: '',
-  description: text(),
+  /** По-английски, как title: переводов пока нет */
+  description: '',
   thumb: '',
   images: images(),
   designedBy: '',
@@ -112,32 +113,38 @@ function write(file, data) {
 }
 
 let changed = 0;
-const dataDir = fs.realpathSync(DATA_DIR);
 
-for (const folder of fs.readdirSync(dataDir).sort()) {
-  const file = path.join(dataDir, folder, `${folder}.json`);
-  if (folder.startsWith('_') || folder.startsWith('.') || !fs.existsSync(file)) continue;
-  const data = JSON.parse(fs.readFileSync(file, 'utf8'));
-  const result = fill(PRODUCT(), data);
-  result.locationNotes = fillLocationNotes(data.locationNotes);
-  result.items = (data.items ?? []).map((item) => {
-    const filled = fill(ITEM(), item);
-    if (filled.location === LOCATIONS[0] && filled.consignedAt === '') delete filled.consignedAt;
-    if (result.category !== 'charm' && filled.attachTo === '') delete filled.attachTo;
-    return filled;
-  });
-  if (write(file, result)) changed += 1;
-}
-
-const familiesDir = path.join(dataDir, '_families');
-if (fs.existsSync(familiesDir)) {
-  for (const name of fs.readdirSync(familiesDir).filter((f) => f.endsWith('.json')).sort()) {
-    const file = path.join(familiesDir, name);
+/** Настоящая база и демо-база data/_demo — одинаковой структуры */
+function fillBase(dataDir) {
+  for (const folder of fs.readdirSync(dataDir).sort()) {
+    const file = path.join(dataDir, folder, `${folder}.json`);
+    if (folder.startsWith('_') || folder.startsWith('.') || !fs.existsSync(file)) continue;
     const data = JSON.parse(fs.readFileSync(file, 'utf8'));
-    const result = fill(FAMILY(), data);
-    result.members = (data.members ?? []).map((member) => fill(MEMBER(), member));
+    const result = fill(PRODUCT(), data);
+    result.locationNotes = fillLocationNotes(data.locationNotes);
+    result.items = (data.items ?? []).map((item) => {
+      const filled = fill(ITEM(), item);
+      if (filled.location === LOCATIONS[0] && filled.consignedAt === '') delete filled.consignedAt;
+      if (result.category !== 'charm' && filled.attachTo === '') delete filled.attachTo;
+      return filled;
+    });
     if (write(file, result)) changed += 1;
   }
+
+  const familiesDir = path.join(dataDir, '_families');
+  if (fs.existsSync(familiesDir)) {
+    for (const name of fs.readdirSync(familiesDir).filter((f) => f.endsWith('.json')).sort()) {
+      const file = path.join(familiesDir, name);
+      const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+      const result = fill(FAMILY(), data);
+      result.members = (data.members ?? []).map((member) => fill(MEMBER(), member));
+      if (write(file, result)) changed += 1;
+    }
+  }
 }
+
+const realDir = fs.realpathSync(DATA_DIR);
+fillBase(realDir);
+if (fs.existsSync(path.join(realDir, '_demo'))) fillBase(path.join(realDir, '_demo'));
 
 console.log(changed ? `filled ${changed} file(s)` : 'all files already have every field');
