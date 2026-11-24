@@ -8,9 +8,12 @@
     "ru": "Крошечный капкейк с завитком крема — сладость без калорий.",
     "vi": "Một chiếc cupcake tí hon với lớp kem xoáy — ngọt ngào mà không lo calo."
   },
+  "images": [
+    "/images/products/petite-joy/site/temp-1.jpg",
+    "/images/products/petite-joy/site/temp-2.jpg"
+  ],
   "designedBy": "bunnybearbeads",
   "materials": "<ul>\n  <li>Toho Aiko seed beads</li>\n  <li>Generic charm strap</li>\n</ul>",
-  "images": [],
   "price": 140000,
   "stock": [
     {

@@ -8,9 +8,12 @@
     "ru": "Тыква на Хэллоуин, заключившая договор с дружелюбным упырём.",
     "vi": "Quả bí ngô Halloween đã ký giao ước với một con ma thân thiện."
   },
+  "images": [
+    "/images/products/the-ghoul-pact/site/temp-1.jpg",
+    "/images/products/the-ghoul-pact/site/temp-2.jpg"
+  ],
   "designedBy": "bunnybearbeads",
   "materials": "<ul>\n  <li>Toho Aiko seed beads</li>\n  <li>Generic charm strap</li>\n</ul>",
-  "images": [],
   "price": 185000,
   "stock": [
     {

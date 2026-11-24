@@ -8,9 +8,12 @@
     "ru": "Спелый плод из солнечного сада, тёплый, как вечер в конце лета.",
     "vi": "Trái chín từ khu vườn nắng, ấm áp như buổi chiều cuối hạ."
   },
+  "images": [
+    "/images/products/sunlit-orchard/site/temp-1.jpg",
+    "/images/products/sunlit-orchard/site/temp-2.jpg"
+  ],
   "designedBy": "bunnybearbeads",
   "materials": "<ul>\n  <li>Toho Aiko seed beads</li>\n  <li>Generic charm strap</li>\n</ul>",
-  "images": [],
   "price": 155000,
   "stock": [
     {

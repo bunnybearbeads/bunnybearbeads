@@ -164,6 +164,10 @@ async function collect(dataDir, errors, logger) {
 
     const { stock, price, remake } = toSales(data, where, itemOwners, slug, errors, logger);
     if (data.site !== true) continue;
+    // На сайте у изделия должно быть хотя бы одно фото: заглушки в галерее нет
+    if (!Array.isArray(data.images) || data.images.length === 0) {
+      errors.push(`${where}: "images" is empty — a product on the site needs at least one photo (or set "site": false)`);
+    }
 
     // Пути к файлам в JSON изделия — относительно папки изделия
     const toUrl = (rel, field) => {
