@@ -1,5 +1,6 @@
 import { defineCollection, reference, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { CATEGORIES } from './config/categories';
 
 const localizedString = z.object({
   en: z.string(),
@@ -37,7 +38,6 @@ const mediaItemSchema = z.union([
   }),
 ]);
 
-const categoryIdSchema = z.enum(['bracelets', 'rings', 'phone-charms', 'keychains', 'other']);
 
 /** Товар. Имя файла — slug, он же адрес страницы: /catalog/<slug> */
 const products = defineCollection({
@@ -56,7 +56,7 @@ const products = defineCollection({
       note: localizedString.optional(),
       noteImages: z.array(imageSchema).default([]),
     }).optional(),
-    categoryId: categoryIdSchema.default('bracelets'),
+    category: z.enum(CATEGORIES),
     images: z.array(mediaItemSchema).default([]),
     /** Превью 40:22 для плашки в семействе */
     thumb: z.string().optional(),

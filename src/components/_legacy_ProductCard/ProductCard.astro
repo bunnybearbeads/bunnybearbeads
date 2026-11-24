@@ -2,7 +2,8 @@
 import './ProductCard.css';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
-import { categoryKey, formatPrice, type CategoryId } from '../../utils/products';
+import { formatPrice } from '../../utils/products';
+import { CATEGORY_SECTION, categoryKey, type Category } from '../../config/categories';
 
 interface ProductCardData {
   title: string;
@@ -12,7 +13,7 @@ interface ProductCardData {
 
 interface Props {
   id: string;
-  categoryId: CategoryId;
+  category: Category;
   /** Точки, где товар есть в наличии. По ним фильтрует каталог */
   locations: string[];
   /** Первое изображение (для видео — постер) */
@@ -21,20 +22,21 @@ interface Props {
   currentLang: SupportedLanguage;
 }
 
-const { id, categoryId, locations, image, data, currentLang } = Astro.props;
+const { id, category, locations, image, data, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 const detailUrl = getLocalizedUrl(`/catalog/${id}`, currentLang);
 
-const categoryIcons: Record<string, string> = {
-  'phone-charms': '📱',
-  keychains: '🔑',
-  rings: '💍',
-  bracelets: '📿',
+const categoryIcons: Record<Category, string> = {
+  charm: '📱',
+  bracelet: '📿',
+  ring: '💍',
+  earrings: '✨',
+  'pen-wrap': '🖊️',
 };
-const placeholderIcon = categoryIcons[categoryId] || '✨';
+const placeholderIcon = categoryIcons[category];
 ---
 
-<article class="product-card" data-category={categoryId} data-locations={locations.join(' ')}>
+<article class="product-card" data-category={CATEGORY_SECTION[category]} data-locations={locations.join(' ')}>
   {image ? (
     <div class="product-image-box">
       <img
@@ -50,7 +52,7 @@ const placeholderIcon = categoryIcons[categoryId] || '✨';
   )}
 
   <div class="product-details">
-    <span class="product-category">{t(categoryKey(categoryId))}</span>
+    <span class="product-category">{t(categoryKey(category))}</span>
     <h2 class="product-title">
       <a href={detailUrl}>
         {data.title}

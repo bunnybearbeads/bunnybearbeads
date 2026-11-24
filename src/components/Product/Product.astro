@@ -75,7 +75,7 @@ const canRemake = studioQty === 0;
       <div class="product__details">
         <ProductHeader
           product={product}
-          categoryId={raw.categoryId}
+          category={raw.category}
           currentLang={currentLang}
         />
 
@@ -103,7 +103,6 @@ const canRemake = studioQty === 0;
   <RemakeModal
     product={product}
     currentLang={currentLang}
-    categoryId={raw.categoryId}
     remakeDays={siteSettings.fulfillment.remakeDays}
   />
 )}

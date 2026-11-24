@@ -9,14 +9,12 @@ import { siteSettings } from '../../config/siteSettings';
 interface Props {
   product: { title: string };
   currentLang: SupportedLanguage;
-  categoryId?: string;
   remakeDays?: string;
 }
 
 const {
   product,
   currentLang,
-  categoryId = 'bracelets',
   remakeDays = siteSettings.fulfillment.remakeDays,
 } = Astro.props;
 

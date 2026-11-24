@@ -44,6 +44,10 @@ const MEDIA_URL = '/images/products';
 /** atelier — своя мастерская (сейчас в Далате): id не привязан к городу на случай переезда */
 const LOCATION_ORDER = ['atelier', 'ngay-mai', 'cat-food'];
 const MAKERS = ['bunny', 'bear'];
+/** Категории изделий, в единственном числе. Должны совпадать с src/config/categories.ts */
+const CATEGORIES = ['charm', 'bracelet', 'ring', 'earrings', 'pen-wrap'];
+/** На что носится брелок: у каждой штуки-брелока обязательно, у остальных категорий поля нет */
+const ATTACH_TO = ['keys', 'phone', 'mirror', 'bag'];
 const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 /** id штуки: 3–4 заглавные буквы (обычно первые согласные названия) и две цифры, PWST01 */
 const ITEM_ID_RE = /^[A-Z]{3,4}\d{2}$/;
@@ -162,6 +166,11 @@ async function collect(dataDir, errors, logger) {
       if (value && BLOCK_TAG_RE.test(JSON.stringify(value))) errors.push(`${where}, ${field}: no <p>, <div> or other block tags: one paragraph, the site wraps it`);
     }
 
+    if ('categoryId' in data) errors.push(`${where}: "categoryId" is now "category"`);
+    if (!CATEGORIES.includes(data.category)) {
+      errors.push(`${where}: "category" must be one of ${CATEGORIES.join(', ')}, got ${JSON.stringify(data.category)}`);
+    }
+
     const { stock, price, remake } = toSales(data, where, itemOwners, slug, errors, logger);
     if (data.site !== true) continue;
     // На сайте у изделия должно быть хотя бы одно фото: заглушки в галерее нет
@@ -267,6 +276,11 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
     if (itemOwners.has(item.id)) errors.push(`${at}: item id "${item.id}" is already used in "${itemOwners.get(item.id)}"`);
     itemOwners.set(item.id, slug);
     if (!MAKERS.includes(item.maker)) errors.push(`${at}: "maker" must be one of ${MAKERS.join(', ')}`);
+    if (data.category === 'charm') {
+      if (!ATTACH_TO.includes(item.attachTo)) errors.push(`${at}: "attachTo" is required for a charm: one of ${ATTACH_TO.join(', ')}`);
+    } else if ('attachTo' in item) {
+      errors.push(`${at}: "attachTo" is only for charms, this product is "${data.category}"`);
+    }
     if (!isPrice(item.price)) errors.push(`${at}: "price" must be a positive number of dong, got ${JSON.stringify(item.price)}`);
     if ('createdAt' in item) errors.push(`${at}: "createdAt" is now "craftedAt"`);
     else if (!isPartialDate(item.craftedAt)) errors.push(`${at}: "craftedAt" must be 2026-11-01, 2026-11 or 2026, got ${JSON.stringify(item.craftedAt)}`);

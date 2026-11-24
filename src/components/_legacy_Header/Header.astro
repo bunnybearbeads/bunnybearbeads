@@ -1,4 +1,5 @@
 ---
+import { SECTIONS, categoryKey } from '../../config/categories';
 import './Header.css';
 import Accent from '../_legacy_Accent/Accent.astro';
 import { languages, type SupportedLanguage } from '../../i18n/ui';
@@ -28,34 +29,12 @@ const topNavItems = [
   { href: translatePath('/faq'), label: t('nav.faq'), isActive: currentCleanPath.startsWith('/faq') },
 ];
 
-// Main Catalog Categories
-const categoryItems = [
-  {
-    href: translatePath('/catalog?category=bracelets'),
-    label: t('cat.bracelets'),
-    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'bracelets',
-  },
-  {
-    href: translatePath('/catalog?category=rings'),
-    label: t('cat.rings'),
-    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'rings',
-  },
-  {
-    href: translatePath('/catalog?category=phone-charms'),
-    label: t('cat.phone_charms'),
-    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'phone-charms',
-  },
-  {
-    href: translatePath('/catalog?category=keychains'),
-    label: t('cat.keychains'),
-    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'keychains',
-  },
-  {
-    href: translatePath('/catalog?category=other'),
-    label: t('cat.other'),
-    isActive: currentCleanPath.startsWith('/catalog') && currentCategory === 'other',
-  },
-];
+// Main Catalog Categories — разделы каталога (src/config/categories.ts)
+const categoryItems = SECTIONS.map((id) => ({
+  href: translatePath(`/catalog?category=${id}`),
+  label: t(categoryKey(id)),
+  isActive: currentCleanPath.startsWith('/catalog') && currentCategory === id,
+}));
 ---
 
 {headerSticky && <div class="site-header-spacer" aria-hidden="true" />}

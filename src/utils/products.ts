@@ -1,10 +1,8 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import type { LocalizedString } from '../i18n/utils';
-import type { TranslationKey } from '../i18n/ui';
 
 export type ProductEntry = CollectionEntry<'products'>;
 export type ProductData = ProductEntry['data'];
-export type CategoryId = ProductData['categoryId'];
 export type Stock = ProductData['stock'];
 export type Remake = ProductData['remake'];
 
@@ -49,10 +47,6 @@ export function formatPrice(price: number): string {
 /** Короткая цена для плашек: 240000 → «240k» */
 export function formatPriceShort(price: number): string {
   return `${Number((price / 1000).toFixed(1))}k`;
-}
-
-export function categoryKey(categoryId: CategoryId): TranslationKey {
-  return `cat.${categoryId.replace(/-/g, '_')}` as TranslationKey;
 }
 
 /** Все товары, отсортированные по order */

@@ -6,16 +6,17 @@ import './ProductHeader.css';
 import '../Icon/Icon.css';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
-import { categoryKey, formatPrice, type CategoryId } from '../../utils/products';
+import { formatPrice } from '../../utils/products';
+import { CATEGORY_SECTION, categoryKey, type Category } from '../../config/categories';
 import Inquiry from '../Inquiry/Inquiry.astro';
 
 interface Props {
   product: { title: string; description?: string; price: number };
-  categoryId?: CategoryId;
+  category: Category;
   currentLang: SupportedLanguage;
 }
 
-const { product, categoryId = 'bracelets', currentLang } = Astro.props;
+const { product, category, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 const catalogUrl = getLocalizedUrl('/catalog', currentLang);
 ---
@@ -27,10 +28,11 @@ const catalogUrl = getLocalizedUrl('/catalog', currentLang);
     </a>
     <span class="product-header__breadcrumb-sep" aria-hidden="true">→</span>
     <a
-      href={`${catalogUrl}?category=${categoryId}`}
+      href={`${catalogUrl}?category=${CATEGORY_SECTION[category]}`}
       class="product-header__breadcrumb product-header__breadcrumb--category"
     >
-      {t(categoryKey(categoryId))}
+      {/* Ссылка — на раздел каталога, подпись — настоящая категория («Серьги», даже если раздел «Разное») */}
+      {t(categoryKey(category))}
     </a>
   </nav>
 

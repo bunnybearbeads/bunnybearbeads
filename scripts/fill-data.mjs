@@ -27,7 +27,8 @@ const PRODUCT = () => ({
   order: '',
   title: '',
   slug: '',
-  categoryId: '',
+  /** charm, bracelet, ring, earrings, pen-wrap */
+  category: '',
   description: text(),
   thumb: '',
   images: images(),
@@ -48,6 +49,8 @@ const ITEM = () => ({
   /** Только у штук у партнёров — там обязательно; у штук в мастерской поля нет */
   consignedAt: '',
   craftedAt: '',
+  /** Только у брелоков (category: charm) — там обязательно: keys, phone, mirror, bag */
+  attachTo: '',
   maker: '',
   memo: '',
   out: { type: '', date: '', paid: '', memo: '' },
@@ -120,6 +123,7 @@ for (const folder of fs.readdirSync(dataDir).sort()) {
   result.items = (data.items ?? []).map((item) => {
     const filled = fill(ITEM(), item);
     if (filled.location === LOCATIONS[0] && filled.consignedAt === '') delete filled.consignedAt;
+    if (result.category !== 'charm' && filled.attachTo === '') delete filled.attachTo;
     return filled;
   });
   if (write(file, result)) changed += 1;

@@ -21,7 +21,7 @@ seoDesc: "Привет! Меня зовут Anh (Amber). Я плету из яп
 
 <div style="margin: 20px 0 32px 0;">
   <a 
-    href="/ru/catalog?category=phone-charms"
+    href="/ru/catalog?category=charm"
     style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--color-brand-accent, #c05621); text-decoration: underline; text-underline-offset: 4px;"
   >
     📱 смотреть брелоки в каталоге →

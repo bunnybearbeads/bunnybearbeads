@@ -147,25 +147,31 @@ export const translations = {
     ru: 'Всё',
     vi: 'Tất cả',
   },
-  'cat.bracelets': {
+  // Ключи — категории в единственном числе (src/config/categories.ts), подписи — во множественном
+  'cat.charm': {
+    en: 'Charms',
+    ru: 'Брелоки',
+    vi: 'Móc treo charm',
+  },
+  'cat.bracelet': {
     en: 'Bracelets',
     ru: 'Браслеты',
     vi: 'Vòng tay',
   },
-  'cat.rings': {
+  'cat.ring': {
     en: 'Rings',
     ru: 'Кольца',
     vi: 'Nhẫn',
   },
-  'cat.phone_charms': {
-    en: 'Phone Charms',
-    ru: 'Фончармы (на телефон)',
-    vi: 'Dây đeo điện thoại (Phone Charms)',
+  'cat.earrings': {
+    en: 'Earrings',
+    ru: 'Серьги',
+    vi: 'Bông tai',
   },
-  'cat.keychains': {
-    en: 'Keychains',
-    ru: 'Брелоки на ключи',
-    vi: 'Móc khóa',
+  'cat.pen_wrap': {
+    en: 'Pen wraps',
+    ru: 'Обмотки для ручек',
+    vi: 'Bọc bút',
   },
   'cat.other': {
     en: 'Other',

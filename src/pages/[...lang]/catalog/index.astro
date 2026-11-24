@@ -1,4 +1,5 @@
 ---
+import { SECTIONS, categoryKey } from '../../../config/categories';
 import Layout from '../../../layouts/Layout.astro';
 import PageHeader from '../../../components/_legacy_PageHeader/PageHeader.astro';
 import CatalogFilters from '../../../components/_legacy_CatalogFilters/CatalogFilters.astro';
@@ -21,7 +22,7 @@ const t = useTranslations(currentLang);
 
 const products = (await getProducts()).map((p) => ({
   id: p.id,
-  categoryId: p.data.categoryId,
+  category: p.data.category,
   image: getFirstImageSrc(p.data.images),
   locations: getAvailableLocations(p.data.stock),
   data: localize(p.data, currentLang),
@@ -38,13 +39,10 @@ const locations = [
     })),
 ];
 
+// Фильтр — по разделам каталога, а не по категориям базы: серьги и обмотки — в «Разном»
 const categories = [
   { id: 'all', label: t('cat.all') },
-  { id: 'bracelets', label: t('cat.bracelets') },
-  { id: 'rings', label: t('cat.rings') },
-  { id: 'phone-charms', label: t('cat.phone_charms') },
-  { id: 'keychains', label: t('cat.keychains') },
-  { id: 'other', label: t('cat.other') },
+  ...SECTIONS.map((id) => ({ id, label: t(categoryKey(id)) })),
 ];
 ---
 
@@ -62,7 +60,7 @@ const categories = [
       {products.map((product) => (
         <ProductCard
           id={product.id}
-          categoryId={product.categoryId}
+          category={product.category}
           locations={product.locations}
           image={product.image}
           data={product.data}
