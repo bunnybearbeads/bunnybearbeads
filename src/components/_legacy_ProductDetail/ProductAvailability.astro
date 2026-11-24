@@ -2,11 +2,11 @@
 /**
  * Секция «Наличие» товара.
  *
- * - Мастерская в Далате показывается всегда: если готовых нет, предлагается повтор.
- *   Доставка по Вьетнаму, курьер по Далату и самовывоз доступны всегда.
+ * - Мастерская в Далате показывается всегда: если готовых нет — ремейк. Он есть всегда, даже если штуки
+ *   лежат у партнёров: все заказы и доставка по Вьетнаму — из Далата, партнёры ничего не отправляют.
+ *   Доставка, курьер и самовывоз из мастерской доступны всегда.
+ * - Под количеством — комментарий: к штукам в точке или, если в мастерской пусто, к ремейку.
  * - Витрины партнёров — только если там лежит хотя бы одна штука.
- * - Под количеством — комментарий к штукам в этой точке (чем они отличаются от фото)
- *   с фото, которые открываются в PhotoSwipe.
  */
 import './ProductDetail.css';
 import './Option.css';
@@ -25,16 +25,18 @@ import StockNote from './StockNote.astro';
 import Icon from '../Icon/Icon.astro';
 import Link from '../Link/Link.astro';
 import DottedTitle from '../DottedTitle/DottedTitle.astro';
-import { getLocationQty, type Stock } from '../../utils/products';
+import { getLocationQty, type Remake, type Stock } from '../../utils/products';
 
 interface Props {
   stock: Stock;
+  /** Есть, только когда в Далате штук нет */
+  remake?: Remake;
   /** Название товара — для alt у фото */
   title: string;
   currentLang: SupportedLanguage;
 }
 
-const { stock, title, currentLang } = Astro.props;
+const { stock, remake, title, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 
 interface NoteImage {
@@ -47,7 +49,7 @@ interface NoteData {
   images: NoteImage[];
 }
 
-function normalizeImages(rawImages: Stock[number]['images'], fallbackTitle: string): NoteImage[] {
+function normalizeImages(rawImages: Stock[number]['commentImages'], fallbackTitle: string): NoteImage[] {
   return rawImages.map((img, idx) => {
     if (typeof img === 'string') return { src: img, alt: `${fallbackTitle} — ${idx + 1}` };
     const alt = img.alt
@@ -62,12 +64,12 @@ function normalizeImages(rawImages: Stock[number]['images'], fallbackTitle: stri
 /** Комментарий к штукам в точке, если он есть */
 function noteAt(locationId: LocationId): NoteData | undefined {
   const entry = stock.find((s) => s.locationId === locationId);
-  if (!entry || (!entry.note && entry.images.length === 0)) return undefined;
+  if (!entry || (!entry.note && entry.commentImages.length === 0)) return undefined;
   const meta = LOCATIONS[locationId];
   const placeLabel = meta.shop || (meta.cityKey ? t(meta.cityKey) : '');
   return {
     html: entry.note ? localize(entry.note, currentLang) : undefined,
-    images: normalizeImages(entry.images, `${title} (${placeLabel})`),
+    images: normalizeImages(entry.commentImages, `${title} (${placeLabel})`),
   };
 }
 
@@ -75,7 +77,17 @@ function noteAt(locationId: LocationId): NoteData | undefined {
 const studioQty = getLocationQty(stock, 'dalat');
 const isDalatInStock = studioQty > 0;
 const studioStockBadge = formatStudioStockQty(studioQty || 1, currentLang);
-const studioNote = noteAt('dalat');
+const studioNote = isDalatInStock ? noteAt('dalat') : remakeNote();
+
+/** Комментарий к ремейку: как и к точке — текст и фото */
+function remakeNote(): NoteData | undefined {
+  if (!remake || (!remake.note && remake.commentImages.length === 0)) return undefined;
+  return {
+    html: remake.note ? localize(remake.note, currentLang) : undefined,
+    images: normalizeImages(remake.commentImages, `${title} (${t('catalog.studio_card_title')})`),
+  };
+}
+
 
 // Витрины партнёров
 let runningReadyCount = studioQty;

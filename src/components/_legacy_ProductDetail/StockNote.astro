@@ -1,9 +1,9 @@
 ---
 /**
  * Комментарий к штукам в точке («Наличие»): текст и превью фото.
+ * Текст — один абзац без Wysiwyg (он для больших текстов в несколько абзацев).
  * Фото комментария — отдельная галерея в PhotoSwipe (листается только внутри неё).
  */
-import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
 
@@ -17,7 +17,7 @@ const { html, images, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 ---
 
-{html && <Wysiwyg class="option__description" smaller halved set:html={html} />}
+{html && <p class="option__description" set:html={html} />}
 {images.length > 0 && (
   <div class="option__gallery" data-option-photos>
     {images.map((img) => (

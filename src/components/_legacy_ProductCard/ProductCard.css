@@ -56,27 +56,6 @@
   transform: scale(1.04);
 }
 
-.product-badge {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background: rgb(255 255 255 / 95%);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgb(158 125 88 / 30%);
-  color: var(--color-brand-dark);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 11px;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgb(0 0 0 / 6%);
-}
-
-.product-badge.out-of-stock {
-  color: #8F5143;
-  border-color: rgb(143 81 67 / 35%);
-  background: #FDF9F7;
-}
-
 .product-details {
   padding: 22px;
   display: flex;
@@ -152,13 +131,6 @@
 
   .placeholder-icon {
     font-size: 62px;
-  }
-
-  .product-badge {
-    top: 18px;
-    right: 18px;
-    font-size: 13px;
-    padding: 5px 13px;
   }
 
   .product-details {

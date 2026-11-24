@@ -23,6 +23,7 @@ const raw = entry.data;
 const product = localize(raw, currentLang);
 const family = await getFamilyOf(entry.id);
 const studioQty = getLocationQty(raw.stock, 'dalat');
+const canRemake = studioQty === 0;
 ---
 
 <div class="product">
@@ -71,7 +72,7 @@ const studioQty = getLocationQty(raw.stock, 'dalat');
               {raw.designedBy && (
                 <div class="credit-row">
                   <span class="credit-label">{t('catalog.designed_by')}:</span>
-                  <span class="credit-val" set:html={raw.designedBy} />
+                  <span class="credit-val">{raw.designedBy}</span>
                 </div>
               )}
             </div>
@@ -89,6 +90,7 @@ const studioQty = getLocationQty(raw.stock, 'dalat');
         <div class="product__availability">
           <ProductAvailability
             stock={raw.stock}
+            remake={raw.remake}
             title={product.title}
             currentLang={currentLang}
           />
@@ -105,7 +107,7 @@ const studioQty = getLocationQty(raw.stock, 'dalat');
 <InquiryModals currentLang={currentLang} />
 <PartnerModals product={product} currentLang={currentLang} />
 
-{studioQty === 0 && (
+{canRemake && (
   <RemakeModal
     product={product}
     currentLang={currentLang}

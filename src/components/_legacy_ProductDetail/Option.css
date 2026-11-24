@@ -152,22 +152,11 @@
             gap: 10px;
         }
             .option__description {
+                margin: 0;
+                overflow-wrap: break-word;
+                font-size: var(--body-font-size-smaller);
+                line-height: var(--body-line-height-smaller);
                 color: var(--color-text-main);
-            }
-
-            .option__description h4 {
-                margin: 14px 0 6px;
-                font-size: 1em;
-                font-weight: bold;
-                color: var(--color-brand-dark);
-            }
-
-            .option__description h4:first-child {
-                margin-top: 0;
-            }
-
-            .option__description h4:last-child {
-                margin-bottom: 0;
             }
 
             .option__gallery {

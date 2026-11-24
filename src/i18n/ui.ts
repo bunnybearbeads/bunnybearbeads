@@ -318,7 +318,7 @@ export const translations = {
   },
   'catalog.remake_order': {
     en: 'Request a remake',
-    ru: 'Заказать к ремейку',
+    ru: 'Заказать повтор',
     vi: 'Đặt làm lại (Remake)',
   },
   'catalog.offline_at': {
@@ -625,10 +625,10 @@ export const translations = {
     vi: 'ở Hồ Chí Minh',
   },
   // Строка наличия на плашке семейства, когда в мастерской нет готового:
-  // «1 шт в Дананге или ремейк за 2–4 дня», а если нигде нет — «Ремейк за 2–4 дня»
+  // «1 шт в Дананге или повтор за 2–4 дня», а если нигде нет — «Повтор за 2–4 дня»
   'family.stock_remake': {
     en: 'remake in {days} days',
-    ru: 'ремейк за {days} дня',
+    ru: 'повтор за {days} дня',
     vi: 'nhận làm trong {days} ngày',
   },
   'family.stock_or': {

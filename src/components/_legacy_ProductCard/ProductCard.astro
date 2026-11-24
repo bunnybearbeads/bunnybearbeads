@@ -8,7 +8,6 @@ interface ProductCardData {
   title: string;
   description: string;
   price: number;
-  badge?: string;
 }
 
 interface Props {
@@ -43,12 +42,10 @@ const placeholderIcon = categoryIcons[categoryId] || '✨';
         alt={data.title}
         loading="lazy"
       />
-      {data.badge && <span class="product-badge">{data.badge}</span>}
     </div>
   ) : (
     <div class="product-image-box product-placeholder-box">
       <span class="placeholder-icon">{placeholderIcon}</span>
-      {data.badge && <span class="product-badge">{data.badge}</span>}
     </div>
   )}
 

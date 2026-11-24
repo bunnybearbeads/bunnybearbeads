@@ -9,7 +9,8 @@
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "posters": "node scripts/generate-posters.mjs",
     "export-data": "node scripts/export-data.mjs",
-    "deploy": "node scripts/deploy.mjs"
+    "deploy": "node scripts/deploy.mjs",
+    "fill-data": "node scripts/fill-data.mjs"
   },
   "repository": {
     "type": "git",

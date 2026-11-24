@@ -6,6 +6,7 @@ export type ProductEntry = CollectionEntry<'products'>;
 export type ProductData = ProductEntry['data'];
 export type CategoryId = ProductData['categoryId'];
 export type Stock = ProductData['stock'];
+export type Remake = ProductData['remake'];
 
 /** Сколько штук лежит в точке (0, если точки нет) */
 export function getLocationQty(stock: Stock, locationId: string): number {

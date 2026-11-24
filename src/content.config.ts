@@ -17,7 +17,7 @@ const imageSchema = z.union([
 
 /**
  * Сколько штук лежит в точке. Генерируется из базы изделий (data/ → Dropbox)
- * скриптом scripts/export-data.mjs: каждая непроданная штука там — отдельная запись.
+ * скриптом scripts/export-data.mjs: каждая штука в наличии там — отдельная запись со своей ценой.
  * Доставка и самовывоз из мастерской доступны всегда, поэтому отдельного признака «онлайн» нет.
  */
 const stockSchema = z.object({
@@ -25,7 +25,7 @@ const stockSchema = z.object({
   quantity: z.number().int().nonnegative(),
   /** Комментарий к штукам в этой точке: чем они немного отличаются от фото */
   note: localizedString.optional(),
-  images: z.array(imageSchema).default([]),
+  commentImages: z.array(imageSchema).default([]),
 });
 
 const mediaItemSchema = z.union([
@@ -44,18 +44,26 @@ const products = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/products' }),
   schema: z.object({
     order: z.number().default(99),
-    createdAt: z.string().optional(),
-    title: localizedString,
+    /** Название — всегда по-английски, не переводится */
+    title: z.string(),
     description: localizedString,
+    /** Цена в шапке, каталоге и на плашке семейства, считается при экспорте: штуки в наличии (у всех одна цена) → ремейк */
     price: z.number(),
+    /** Ремейк — есть всегда, когда в Далате штук нет (иначе поля нет): заказы и доставка — только из Далата */
+    remake: z.object({
+      price: z.number(),
+      /** Комментарий к ремейку — выводится в карточке мастерской, как комментарий к точке */
+      note: localizedString.optional(),
+      commentImages: z.array(imageSchema).default([]),
+    }).optional(),
     categoryId: categoryIdSchema.default('bracelets'),
     images: z.array(mediaItemSchema).default([]),
     /** Превью 40:22 для плашки в семействе */
     thumb: z.string().optional(),
     materials: z.array(z.string()).optional(),
     materialsHtml: z.string().optional(),
+    /** Автор схемы — просто имя, без HTML */
     designedBy: z.string().optional(),
-    badge: localizedString.optional(),
     stock: z.array(stockSchema).default([]),
   }),
 });
