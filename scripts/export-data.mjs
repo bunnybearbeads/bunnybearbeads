@@ -45,7 +45,8 @@ const MEDIA_URL = '/images/products';
 const LOCATION_ORDER = ['atelier', 'ngay-mai', 'cat-food'];
 const MAKERS = ['bunny', 'bear'];
 const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
-const CODE_RE = /^[A-Z]{3,4}$/;
+/** id штуки: 3–4 заглавные буквы (обычно первые согласные названия) и две цифры, PWST01 */
+const ITEM_ID_RE = /^[A-Z]{3,4}\d{2}$/;
 /**
  * Дата может быть неполной: точная (2026-11-01), только месяц (2026-11 — например, NGÀY MAI сообщает
  * продажи за месяц без дат) или только год (2024 — для старых записей)
@@ -56,7 +57,7 @@ const VIDEO_RE = /\.(mp4|webm|ogg|mov)$/i;
 /** Конфликтные копии Dropbox: «file (Tony's conflicted copy 2026-11-23).json», в русском интерфейсе — «конфликтующая копия» */
 const CONFLICT_RE = /conflicted copy|конфликтующая копия/i;
 /** Служебные поля, которые на сайт не попадают никогда */
-const PRIVATE_FIELDS = ['slug', 'code', 'site', 'items', 'locationNotes', 'remake'];
+const PRIVATE_FIELDS = ['slug', 'site', 'items', 'locationNotes', 'remake'];
 /** Исход штуки (`out.type`): продана, подарена, брак или потеря, оставили себе */
 const OUT_TYPES = ['sold', 'gift', 'lost', 'kept'];
 const OUT_FIELDS = ['type', 'date', 'paid', 'memo'];
@@ -100,8 +101,8 @@ async function collect(dataDir, errors, logger) {
   const products = new Map(); // slug → публичные данные (только site: true)
   const media = new Map(); // путь в public → исходный файл
   const slugOwners = new Map(); // slug → папка
+  const titleOwners = new Map(); // название без учёта регистра → папка
   const itemOwners = new Map(); // id штуки → slug
-  const codeOwners = new Map(); // код изделия → папка
 
   const folders = (await fsp.readdir(dataDir, { withFileTypes: true }))
     .filter((e) => e.isDirectory() && !e.name.startsWith('_') && !e.name.startsWith('.'))
@@ -138,14 +139,11 @@ async function collect(dataDir, errors, logger) {
     }
     if (slugOwners.has(slug)) errors.push(`${where}: slug "${slug}" is already used by "${slugOwners.get(slug)}"`);
     slugOwners.set(slug, folder);
-
-    // Код изделия — 3–4 заглавные латинские буквы, из него id штук: PWST01, PWST02…
-    if (typeof data.code !== 'string' || !CODE_RE.test(data.code)) {
-      errors.push(`${where}: "code" must be 3–4 capital latin letters, e.g. PWST, got ${JSON.stringify(data.code)}`);
-    } else if (codeOwners.has(data.code)) {
-      errors.push(`${where}: code "${data.code}" is already used by "${codeOwners.get(data.code)}"`);
-    } else {
-      codeOwners.set(data.code, folder);
+    // Название тоже уникально, без учёта регистра и лишних пробелов: Rosa Nova и rosa  nova — одно и то же
+    if (typeof data.title === 'string') {
+      const titleKey = data.title.trim().replace(/\s+/g, ' ').toLowerCase();
+      if (titleOwners.has(titleKey)) errors.push(`${where}: title "${data.title}" is already used by "${titleOwners.get(titleKey)}"`);
+      titleOwners.set(titleKey, folder);
     }
 
     if ('materialsHtml' in data) errors.push(`${where}: "materialsHtml" is gone — put the HTML into "materials"`);
@@ -261,9 +259,7 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
       errors.push(`${at}: id is required`);
       return;
     }
-    if (CODE_RE.test(data.code ?? '') && !new RegExp(`^${data.code}\\d{2}$`).test(item.id)) {
-      errors.push(`${at}: id must be the product code and two digits, e.g. ${data.code}01, got "${item.id}"`);
-    }
+    if (!ITEM_ID_RE.test(item.id)) errors.push(`${at}: id must be 3–4 capital letters and two digits, e.g. PWST01, got "${item.id}"`);
     if (itemOwners.has(item.id)) errors.push(`${at}: item id "${item.id}" is already used in "${itemOwners.get(item.id)}"`);
     itemOwners.set(item.id, slug);
     if (!MAKERS.includes(item.maker)) errors.push(`${at}: "maker" must be one of ${MAKERS.join(', ')}`);

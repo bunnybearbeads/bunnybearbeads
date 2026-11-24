@@ -25,17 +25,15 @@ const comment = () => ({ note: text(), commentImages: images() });
 const PRODUCT = () => ({
   site: false,
   order: '',
-  categoryId: '',
   title: '',
   slug: '',
-  /** 3–4 заглавные буквы, из него id штук: PWST01 */
-  code: '',
+  categoryId: '',
   description: text(),
-  images: images(),
   thumb: '',
+  images: images(),
+  designedBy: '',
   /** Материалы — строки HTML (одна строка массива — одна строка текста) */
   materials: [],
-  designedBy: '',
   locationNotes: {},
   remake: { price: '', note: text(), memo: '', commentImages: images() },
   items: [],
