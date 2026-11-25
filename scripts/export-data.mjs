@@ -19,7 +19,7 @@
  *     и цену по точкам, плюс цена в шапке и ремейк (статус и цена);
  *   - src/content/families/<id>.json;
  *   - public/images/products/<slug>/<путь из JSON изделия> — фото, сжатые в несколько размеров
- *     (AVIF + JPEG, scripts/photos.mjs), и копии видео (+ постеры к ним, scripts/generate-posters.mjs).
+ *     (JPEG, scripts/photos.mjs), и копии видео (+ постеры к ним, scripts/generate-posters.mjs).
  * Всё это генерируется и лежит в .gitignore.
  *
  * Любая проблема в базе роняет сборку со списком всего, что надо поправить:
@@ -336,7 +336,7 @@ async function readPhoto({ photo, where, field, rel, source, ratio }) {
   const { width, height } = size;
   photo.width = width;
   photo.height = height;
-  photo.widths.push(...photoWidths(width));
+  photo.widths.push(...photoWidths(width, { thumb: ratio === THUMB_RATIO }));
   if (!ratio || isRatio(width, height, ratio)) return null;
   // Подсказка: самый большой кадр нужной пропорции, который помещается в фото
   const units = Math.min(Math.floor(width / ratio.width), Math.floor(height / ratio.height));
@@ -650,12 +650,33 @@ export function watchData(logger = console) {
   globalThis.__productDataWatcher?.close();
   if (!fs.existsSync(DATA_DIR)) return;
   let timer;
-  // Симлинк: следим за настоящей папкой в Dropbox
-  globalThis.__productDataWatcher = fs.watch(fs.realpathSync(DATA_DIR), { recursive: true }, () => {
+  let running = false;
+  let again = false;
+  // Экспорты не идут параллельно: изменение во время экспорта — ещё один экспорт после него
+  const run = async () => {
+    if (running) {
+      again = true;
+      return;
+    }
+    running = true;
+    try {
+      await exportData(logger);
+    } catch (error) {
+      logger.error(error.message);
+    } finally {
+      running = false;
+      if (again) {
+        again = false;
+        run();
+      }
+    }
+  };
+  // Симлинк: следим за настоящей папкой в Dropbox. Скрытые файлы и папки (.idea — WebStorm пишет туда
+  // постоянно, .DS_Store, служебные файлы Dropbox) на сайт не влияют — иначе экспорт крутится без конца
+  globalThis.__productDataWatcher = fs.watch(fs.realpathSync(DATA_DIR), { recursive: true }, (_event, file) => {
+    if (file && String(file).split(/[\\/]/).some((part) => part.startsWith('.'))) return;
     clearTimeout(timer);
-    timer = setTimeout(() => {
-      exportData(logger).catch((error) => logger.error(error.message));
-    }, 300);
+    timer = setTimeout(run, 300);
   });
 }
 

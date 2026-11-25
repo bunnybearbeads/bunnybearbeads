@@ -1,41 +1,19 @@
 ---
 /**
- * Фото из базы: <picture> с AVIF и запасным JPEG, размеры через srcset — браузер скачивает
- * один файл нужного размера и формата.
- *
- * Классы и атрибуты (class, loading, fetchpriority, data-*) ставятся на <img>: стили и скрипты
- * работают с ним, как раньше. <picture> — с display: contents, в раскладке его нет.
- *
- * sizes — какой ширины фото на странице, по нему браузер выбирает файл: «98px»,
- * «(width < 740px) 100vw, 560px». Ширина и высота — для пропорции, чтобы место было занято до загрузки.
+ * Фото из базы — обычный <img> с одним файлом: small (180×240) или large (1080×1440).
+ * Обе копии под Retina с сильным сжатием, обычный экран получает тот же файл (scripts/photos.mjs).
+ * Ширина и высота — для пропорции, чтобы место было занято до загрузки.
  */
-import './Photo.css';
 import type { HTMLAttributes } from 'astro/types';
-import { photoSrcset, photoUrl, type Photo } from '../../utils/photos';
+import { photoUrl, type Photo, type PhotoSize } from '../../utils/photos';
 
 interface Props extends Omit<HTMLAttributes<'img'>, 'src' | 'srcset' | 'sizes' | 'width' | 'height'> {
   photo: Photo;
-  sizes: string;
+  size: PhotoSize;
   alt: string;
-  /** Не предлагать браузеру файлы шире этого: для мелких мест, где 2160 точно не нужен */
-  maxWidth?: number;
 }
 
-const { photo, sizes, alt, maxWidth, ...attrs } = Astro.props;
-// Без JS и без srcset — средний размер JPEG
-const fallback = photoUrl(photo, Math.min(720, maxWidth ?? Infinity), 'jpg');
+const { photo, size, alt, ...attrs } = Astro.props;
 ---
 
-<picture class="photo">
-  <source type="image/avif" srcset={photoSrcset(photo, 'avif', maxWidth)} sizes={sizes} />
-  <img
-    {...attrs}
-    src={fallback}
-    srcset={photoSrcset(photo, 'jpg', maxWidth)}
-    sizes={sizes}
-    width={photo.width}
-    height={photo.height}
-    alt={alt}
-    decoding="async"
-  />
-</picture>
+<img {...attrs} src={photoUrl(photo, size)} width={photo.width} height={photo.height} alt={alt} decoding="async" />

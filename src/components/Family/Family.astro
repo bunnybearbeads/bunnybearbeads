@@ -75,7 +75,7 @@ const members = family.members.map(({ product, note }) => {
             aria-current={member.isCurrent ? 'page' : undefined}
           >
             {member.thumb ? (
-              <Photo class="family__thumb" photo={member.thumb} sizes="80px" maxWidth={720} alt="" loading="lazy" />
+              <Photo class="family__thumb" photo={member.thumb} size="large" alt="" loading="lazy" />
             ) : (
               <img class="family__thumb" src="/placeholder-thumb.svg" alt="" loading="lazy" />
             )}

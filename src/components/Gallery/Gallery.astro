@@ -22,9 +22,6 @@ const t = useTranslations(currentLang);
 // Постер видео без своего — кадр из видео рядом (.jpg), его делает scripts/generate-posters.mjs при экспорте
 const posterOf = (video: Extract<ProductData['gallery'][number], { type: 'video' }>) =>
   video.poster ?? video.src.replace(/\.[^.]+$/, '.jpg');
-
-/** Галерея — фото изделия на странице. Ширина на странице: на мобильном — весь экран, на десктопе — ~560px */
-const STAGE_SIZES = '(width < 740px) 100vw, 560px';
 ---
 
 <div class="gallery" data-gallery>
@@ -68,8 +65,7 @@ const STAGE_SIZES = '(width < 740px) 100vw, 560px';
                 <Photo
                   class="gallery__thumb-image"
                   photo={item}
-                  sizes="98px"
-                  maxWidth={720}
+                  size="small"
                   alt={`${alt} — ${t('gallery.preview')} ${index + 1}`}
                   loading={index >= 5 ? 'lazy' : undefined}
                 />
@@ -137,13 +133,11 @@ const STAGE_SIZES = '(width < 740px) 100vw, 560px';
                 <Photo
                   class="gallery__image"
                   photo={item}
-                  sizes={STAGE_SIZES}
-                  maxWidth={1440}
+                  size="large"
                   alt={index === 0 ? alt : `${alt} — ${t('gallery.photo')} ${index + 1}`}
                   fetchpriority={index === 0 ? 'high' : 'low'}
                   loading={index === 0 ? undefined : 'lazy'}
-                  data-pswp-avif={photoLarge(item).avif}
-                  data-pswp-jpg={photoLarge(item).jpg}
+                  data-pswp-src={photoLarge(item).src}
                   data-pswp-width={photoLarge(item).width}
                   data-pswp-height={photoLarge(item).height}
                 />

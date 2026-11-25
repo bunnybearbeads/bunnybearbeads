@@ -24,9 +24,8 @@ const t = useTranslations(currentLang);
   <div class="option__gallery" data-option-photos>
     {images.map((img) => (
       <a
-        href={photoLarge(img.photo).jpg}
-        data-pswp-avif={photoLarge(img.photo).avif}
-        data-pswp-jpg={photoLarge(img.photo).jpg}
+        href={photoLarge(img.photo).src}
+        data-pswp-src={photoLarge(img.photo).src}
         data-pswp-width={photoLarge(img.photo).width}
         data-pswp-height={photoLarge(img.photo).height}
         target="_blank"
@@ -35,7 +34,7 @@ const t = useTranslations(currentLang);
         data-option-photo
         title={t('catalog.modal.photo_zoom_hint')}
       >
-        <Photo photo={img.photo} sizes="84px" maxWidth={720} alt={img.alt} class="option__image" loading="lazy" />
+        <Photo photo={img.photo} size="small" alt={img.alt} class="option__image" loading="lazy" />
       </a>
     ))}
   </div>

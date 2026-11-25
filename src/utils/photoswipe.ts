@@ -69,20 +69,11 @@ export function createPhotoSwipe(options: CreatePhotoSwipeOptions): PhotoSwipe {
   return pswp;
 }
 
-/**
- * Большой размер фото для лайтбокса из data-pswp-* (Photo.astro): AVIF, если браузер уже выбрал AVIF
- * для фото на странице (значит, умеет), иначе JPEG. Не загружено — смотрим другие фото страницы
- */
+/** Большой размер фото для лайтбокса из data-pswp-* (photoLarge в utils/photos.ts) */
 export function largePhoto(el: HTMLElement): { src: string; width: number; height: number } | undefined {
-  const { pswpAvif, pswpJpg, pswpWidth, pswpHeight } = el.dataset;
-  if (!pswpJpg) return undefined;
-  const img = el instanceof HTMLImageElement ? el : el.querySelector('img');
-  const chosen = img?.currentSrc || document.querySelector<HTMLImageElement>('picture.photo img')?.currentSrc || '';
-  return {
-    src: chosen.endsWith('.avif') && pswpAvif ? pswpAvif : pswpJpg,
-    width: Number(pswpWidth),
-    height: Number(pswpHeight),
-  };
+  const { pswpSrc, pswpWidth, pswpHeight } = el.dataset;
+  if (!pswpSrc) return undefined;
+  return { src: pswpSrc, width: Number(pswpWidth), height: Number(pswpHeight) };
 }
 
 export interface OpenSimpleLightboxOptions {

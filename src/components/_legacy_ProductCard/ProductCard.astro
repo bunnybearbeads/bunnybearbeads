@@ -45,7 +45,7 @@ const placeholderIcon = categoryIcons[category];
       {typeof image === 'string' ? (
         <img src={image} alt={data.title} loading="lazy" />
       ) : (
-        <Photo photo={image} sizes="(width < 740px) 100vw, 440px" maxWidth={1440} alt={data.title} loading="lazy" />
+        <Photo photo={image} size="large" alt={data.title} loading="lazy" />
       )}
     </a>
   ) : (

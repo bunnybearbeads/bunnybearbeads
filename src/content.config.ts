@@ -9,7 +9,7 @@ const localizedString = z.object({
 });
 
 /**
- * Фото, сжатое экспортом в несколько размеров (scripts/photos.mjs): файлы `${base}-${ширина}.avif|.jpg`.
+ * Фото, сжатое экспортом в несколько размеров (scripts/photos.mjs): файлы `${base}-${ширина}.jpg`.
  * width/height — оригинала, для пропорции. Выводить через src/components/Photo/Photo.astro
  */
 const photoSchema = z.object({
