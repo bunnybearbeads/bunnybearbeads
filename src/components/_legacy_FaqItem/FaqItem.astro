@@ -4,12 +4,14 @@ import './FaqItem.css';
 interface Props {
   icon: string;
   question: string;
+  /** Якорь вопроса: /faq#warranty. Имя файла без языка */
+  id?: string;
 }
 
-const { icon, question } = Astro.props;
+const { icon, question, id } = Astro.props;
 ---
 
-<article class="content-card faq-card">
+<article class="content-card faq-card" id={id}>
   <div class="faq-card__inner">
     <div class="faq-card__icon" aria-hidden="true">
       {icon}

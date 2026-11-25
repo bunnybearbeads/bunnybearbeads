@@ -302,7 +302,19 @@ export const translations = {
     ru: 'Доставка',
     vi: 'Giao hàng',
   },
-  // Статичный комментарий на странице каждого брелока (category: charm) — о сменном креплении
+  // Секция «Полезно знать» под галереей товара — ссылки на модалки и FAQ (ProductGuides)
+  'catalog.good_to_know': {
+    en: 'Good to know',
+    ru: 'Полезно знать',
+    vi: 'Điều bạn nên biết',
+  },
+  // Модалка на странице каждого брелока (category: charm) — о сменном креплении (GuideModal)
+  /** Строка под списком «Полезно знать» — текстом, не ссылкой. Ограничение одно на все изделия */
+  'catalog.age_limit': {
+    en: 'Contains small parts: for ages 6 and up',
+    ru: 'Есть мелкие детали: для детей от&nbsp;6&nbsp;лет',
+    vi: 'Có chi tiết nhỏ: dành cho trẻ từ 6 tuổi trở lên',
+  },
   'catalog.charm_attachment.title': {
     en: 'Phone, keys or bag',
     ru: 'Крепление можно поменять',
@@ -321,6 +333,50 @@ export const translations = {
       <p>Mỗi lần giao hàng, mình đều để lại ở cửa hàng đối tác một hộp phụ kiện nhỏ: khoen kèm dây xích để treo chìa khóa, dây đeo cho điện thoại và móc càng cua để treo lên túi xách. Nếu kiểu móc gắn trong ảnh chưa hợp với bạn, cứ nói với nhân viên, họ sẽ đổi ngay tại chỗ. Khi đặt hàng online, hãy nhắn trong chat nếu bạn muốn đổi móc gắn.</p>
       <p>Chỉ cần lưu ý kích thước sản phẩm: charm nhỏ dễ bị lọt thỏm trên túi lớn, còn charm to có thể vướng víu khi treo điện thoại hay chùm chìa khóa. Trong ảnh có đặt kèm một chiếc nắp chai để bạn dễ hình dung.</p>
     `,
+  },
+  // Модалка у брелоков: как изнашиваются и чего ждать. По карточке, которая вкладывается в заказ
+  'catalog.charm_durability.title': {
+    en: 'Durability & care',
+    ru: 'Прочность и уход',
+    vi: 'Độ bền và bảo quản',
+  },
+  'catalog.charm_durability.text': {
+    en: `
+      <p>I use seed beads of exceptional quality, but they are still glass, often with decorative finishes. Here’s what to expect:</p>
+      <ul>
+        <li><strong>As a keychain:</strong> expect wear from constant knocks. With a small set of keys it can last for years, but heavy bunches or a motorbike key greatly increase the risk of beads breaking.</li>
+        <li><strong>As a phone charm:</strong> constant friction in pockets and bags is a harsh environment. Some finishes (mostly metallic) may wear off over time, and lighter colors may pick up dirt.</li>
+        <li><strong>As a bag or backpack charm:</strong> long exposure to direct sunlight may make some colors fade.</li>
+      </ul>
+      <p>Despite all this, don’t be afraid to enjoy your charm! It was made to live an everyday life and wear its little scars. Some wear is inevitable — it’s part of its journey as your daily companion, and no reason not to use it with pleasure.</p>
+      <p>Every piece is handmade, so small irregularities are to be expected.</p>
+    `,
+    ru: `
+      <p>Я&nbsp;использую бисер исключительного качества, но&nbsp;это всё равно стекло, часто с&nbsp;декоративным покрытием. Вот чего стоит ожидать:</p>
+      <ul>
+        <li><strong>На&nbsp;ключах:</strong> брелок изнашивается от&nbsp;постоянных ударов. С&nbsp;небольшой связкой он&nbsp;прослужит годы, а&nbsp;с&nbsp;тяжёлой связкой или на&nbsp;ключе от&nbsp;мотобайка риск, что бисерины треснут, гораздо выше.</li>
+        <li><strong>На&nbsp;телефоне:</strong> постоянное трение в&nbsp;кармане или сумке&nbsp;— суровые условия. Некоторые покрытия (в&nbsp;основном металлизированные) со&nbsp;временем могут стереться, а&nbsp;светлые цвета&nbsp;— загрязниться.</li>
+        <li><strong>На&nbsp;сумке или рюкзаке:</strong> от&nbsp;долгого прямого солнца некоторые цвета могут выгореть.</li>
+      </ul>
+      <p>Несмотря на&nbsp;всё это, не&nbsp;бойтесь носить брелок! Он&nbsp;сделан, чтобы жить обычной жизнью и&nbsp;собирать следы ежедневного использования. Небольшой износ неизбежен&nbsp;— это часть его пути как вашего спутника на&nbsp;каждый день и&nbsp;не&nbsp;повод отказываться от&nbsp;удовольствия его носить.</p>
+      <p>Каждое изделие сделано вручную, так что небольшие неровности возможны.</p>
+    `,
+    vi: `
+      <p>Mình dùng hạt cườm chất lượng rất cao, nhưng đó vẫn là thủy tinh, thường có lớp phủ trang trí. Đây là những điều bạn nên biết:</p>
+      <ul>
+        <li><strong>Treo chìa khóa:</strong> charm sẽ bị mòn do va chạm liên tục. Với vài chiếc chìa nhỏ, charm có thể bền nhiều năm, nhưng nếu treo chùm chìa nặng hoặc chìa khóa xe máy thì nguy cơ hạt bị vỡ cao hơn nhiều.</li>
+        <li><strong>Treo điện thoại:</strong> ma sát liên tục trong túi quần hay túi xách khá khắc nghiệt. Một số lớp phủ (chủ yếu là ánh kim) có thể bong dần, và màu sáng có thể bị bám bẩn theo thời gian.</li>
+        <li><strong>Treo túi xách hoặc ba lô:</strong> phơi nắng trực tiếp lâu ngày có thể làm một số màu bị phai.</li>
+      </ul>
+      <p>Dù vậy, bạn đừng ngại dùng charm nhé! Nó được làm ra để theo bạn mỗi ngày và mang những dấu vết của cuộc sống thường ngày. Hao mòn một chút là điều khó tránh — đó cũng là một phần hành trình của người bạn đồng hành này, và không phải lý do để bạn bớt vui khi dùng nó.</p>
+      <p>Mỗi sản phẩm đều làm thủ công nên có thể có vài điểm chưa đều.</p>
+    `,
+  },
+  /** Ссылка в «Полезно знать» — на FAQ целиком: гарантия, доставка, оплата и остальное */
+  'catalog.faq_link': {
+    en: 'Warranty, shipping and more',
+    ru: 'Гарантия, доставка и другие вопросы',
+    vi: 'Bảo hành, giao hàng và các câu hỏi khác',
   },
   'catalog.credits': {
     en: 'Credits',

@@ -35,6 +35,9 @@
   --body-font-size-smaller: 14px;
   --body-line-height-smaller: 20px;
 
+  --body-font-size-smallest: 13px;
+  --body-line-height-smallest: 18px;
+
   --modal-backdrop-opacity: 80%;
   --modal-bg: rgb(0 0 0 / var(--modal-backdrop-opacity));
 
@@ -87,6 +90,8 @@
     --body-line-height: 25px;
     --body-font-size-smaller: 15px;
     --body-line-height-smaller: 22px;
+    --body-font-size-smallest: 14px;
+    --body-line-height-smallest: 20px;
   }
 }
 

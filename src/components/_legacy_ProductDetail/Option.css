@@ -154,8 +154,8 @@
             .option__description {
                 margin: 0;
                 overflow-wrap: break-word;
-                font-size: var(--body-font-size-smaller);
-                line-height: var(--body-line-height-smaller);
+                font-size: var(--body-font-size-smallest);
+                line-height: var(--body-line-height-smallest);
                 color: var(--color-text-main);
             }
 
