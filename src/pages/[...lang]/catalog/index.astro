@@ -23,7 +23,7 @@ const t = useTranslations(currentLang);
 const products = (await getProducts()).map((p) => ({
   id: p.id,
   category: p.data.category,
-  image: getFirstImage(p.data.images),
+  image: getFirstImage(p.data.gallery),
   locations: getAvailableLocations(p.data.stock),
   data: localize(p.data, currentLang),
 }));

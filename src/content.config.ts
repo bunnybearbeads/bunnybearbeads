@@ -62,15 +62,16 @@ const products = defineCollection({
       noteImages: z.array(photoSchema).default([]),
     }).optional(),
     category: z.enum(CATEGORIES),
-    images: z.array(mediaItemSchema).default([]),
+    /** Фото и видео изделия — галерея на странице, первое — обложка в каталоге */
+    gallery: z.array(mediaItemSchema).default([]),
     /** Превью 40:22 для плашки в семействе */
     thumb: photoSchema.optional(),
     /** Размер — произвольный текст с HTML */
     size: z.string().optional(),
-    /** Материалы — HTML (в базе — массив строк, экспорт склеивает) */
+    /** Материалы — HTML последней штуки в наличии, иначе последней штуки в списке. В базе — у штук */
     materials: z.string().optional(),
     /** Автор схемы — просто имя, без HTML */
-    designedBy: z.string().optional(),
+    designer: z.string().optional(),
     stock: z.array(stockSchema).default([]),
   }),
 });

@@ -39,18 +39,19 @@ const placeholderIcon = categoryIcons[category];
 ---
 
 <article class="product-card" data-category={CATEGORY_SECTION[category]} data-locations={locations.join(' ')}>
+  {/* Фото — тоже ссылка на товар. Из обхода с клавиатуры и для скринридера убрана: та же ссылка есть в названии */}
   {image ? (
-    <div class="product-image-box">
+    <a class="product-image-box" href={detailUrl} tabindex="-1" aria-hidden="true">
       {typeof image === 'string' ? (
         <img src={image} alt={data.title} loading="lazy" />
       ) : (
         <Photo photo={image} sizes="(width < 740px) 100vw, 440px" maxWidth={1440} alt={data.title} loading="lazy" />
       )}
-    </div>
+    </a>
   ) : (
-    <div class="product-image-box product-placeholder-box">
+    <a class="product-image-box product-placeholder-box" href={detailUrl} tabindex="-1" aria-hidden="true">
       <span class="placeholder-icon">{placeholderIcon}</span>
-    </div>
+    </a>
   )}
 
   <div class="product-details">

@@ -68,7 +68,7 @@ export async function syncPhotos(photos, outDir, cacheFile, logger = console) {
     if (!fresh) todo.push({ base, source, widths });
   }
 
-  if (todo.length) logger.info(`photos: compressing ${todo.length} photo(s), AVIF is slow — about a few seconds each`);
+  if (todo.length) logger.info(`фото: сжимаю ${todo.length} шт., AVIF небыстрый — по несколько секунд на фото`);
   // По два фото за раз: sharp и так раскладывает кодирование по ядрам
   const queue = [...todo];
   const worker = async () => {

@@ -29,9 +29,9 @@ const bold = (text) => (process.stdout.isTTY && !process.env.NO_COLOR ? `\x1b[1m
 
 export function formatSize(bytes) {
   const abs = Math.abs(bytes);
-  if (abs >= 1024 ** 3) return `${(bytes / 1024 ** 3).toFixed(2)} GB`;
-  if (abs >= 1024 ** 2) return `${(bytes / 1024 ** 2).toFixed(1)} MB`;
-  return `${Math.round(bytes / 1024)} KB`;
+  if (abs >= 1024 ** 3) return `${(bytes / 1024 ** 3).toFixed(2)} ГБ`;
+  if (abs >= 1024 ** 2) return `${(bytes / 1024 ** 2).toFixed(1)} МБ`;
+  return `${Math.round(bytes / 1024)} КБ`;
 }
 
 export async function listFiles(dir) {
@@ -62,19 +62,19 @@ export async function reportBuildSize(distDir, logger = console) {
 
   const previous = JSON.parse(await fsp.readFile(HISTORY_FILE, 'utf8').catch(() => 'null'));
   const delta = previous ? total - previous.total : null;
-  const deltaText = delta === null ? '' : ` (${delta >= 0 ? '+' : '−'}${formatSize(Math.abs(delta))} since last build)`;
+  const deltaText = delta === null ? '' : ` (${delta >= 0 ? '+' : '−'}${formatSize(Math.abs(delta))} с прошлой сборки)`;
 
   const largest = [...files].sort((a, b) => b.size - a.size).slice(0, 5);
 
-  logger.info(`dist: ${bold(formatSize(total))} in ${files.length} files${deltaText}`);
+  logger.info(`dist: ${bold(formatSize(total))}, файлов: ${files.length}${deltaText}`);
   logger.info(`  ${[...groups].map(([name, size]) => `${name} ${formatSize(size)}`).join(' · ')}`);
-  logger.info(`  largest: ${largest.map((f) => `${f.path} ${formatSize(f.size)}`).join(', ')}`);
+  logger.info(`  самые большие: ${largest.map((f) => `${f.path} ${formatSize(f.size)}`).join(', ')}`);
 
   if (total > SITE_WARN) {
-    logger.warn(`dist is ${Math.round((total / SITE_LIMIT) * 100)}% of the GitHub Pages limit (1 GB)`);
+    logger.warn(`dist — ${Math.round((total / SITE_LIMIT) * 100)}% от лимита GitHub Pages (1 ГБ)`);
   }
   for (const file of files.filter((f) => f.size > FILE_LIMIT)) {
-    logger.warn(`${file.path} is ${formatSize(file.size)}: GitHub does not accept files over 100 MB`);
+    logger.warn(`${file.path} — ${formatSize(file.size)}: GitHub не принимает файлы больше 100 МБ`);
   }
 
   fs.mkdirSync(path.dirname(HISTORY_FILE), { recursive: true });

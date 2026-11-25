@@ -69,13 +69,13 @@ function materialIconsSubset() {
         }
 
         if (iconSet.size === 0) {
-          logger.info('No Material Icons found in build output.');
+          logger.info('иконок Material Symbols в сборке нет');
           return;
         }
 
         // Google Fonts requires icon_names to be sorted alphabetically
         const sortedIcons = Array.from(iconSet).sort().join(',');
-        logger.info(`Subsetted ${iconSet.size} Material Icon(s): ${sortedIcons}`);
+        logger.info(`иконки Material Symbols — оставлено ${iconSet.size}: ${sortedIcons}`);
 
         for (const file of htmlFiles) {
           const content = await fs.readFile(file, 'utf8');

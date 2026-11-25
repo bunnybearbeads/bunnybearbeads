@@ -10,7 +10,7 @@ import { type SupportedLanguage } from '../../i18n/ui';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 interface Props {
-  images: ProductData['images'];
+  images: ProductData['gallery'];
   alt: string;
   lang?: SupportedLanguage;
 }
@@ -20,7 +20,7 @@ const currentLang = lang || getLangFromUrl(Astro.url);
 const t = useTranslations(currentLang);
 
 // Постер видео без своего — кадр из видео рядом (.jpg), его делает scripts/generate-posters.mjs при экспорте
-const posterOf = (video: Extract<ProductData['images'][number], { type: 'video' }>) =>
+const posterOf = (video: Extract<ProductData['gallery'][number], { type: 'video' }>) =>
   video.poster ?? video.src.replace(/\.[^.]+$/, '.jpg');
 
 /** Галерея — фото изделия на странице. Ширина на странице: на мобильном — весь экран, на десктопе — ~560px */

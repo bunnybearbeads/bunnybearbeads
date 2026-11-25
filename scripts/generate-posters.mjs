@@ -43,7 +43,7 @@ export async function generateMissingPosters(dir = './public/images/products', l
       try {
         const relVideo = path.relative(process.cwd(), videoPath);
         const relPoster = path.relative(process.cwd(), posterPath);
-        logger.info(`[video-posters] Generating poster: ${relVideo} -> ${relPoster}`);
+        logger.info(`[постеры] делаю постер: ${relVideo} → ${relPoster}`);
         execFileSync(
           ffmpegPath,
           [
@@ -62,9 +62,9 @@ export async function generateMissingPosters(dir = './public/images/products', l
           ],
           { stdio: 'ignore' }
         );
-        logger.info(`[video-posters] Created: ${relPoster}`);
+        logger.info(`[постеры] готово: ${relPoster}`);
       } catch (err) {
-        logger.error(`[video-posters] Failed to generate poster for ${videoPath}:`, err);
+        logger.error(`[постеры] не удалось сделать постер для ${videoPath}:`, err);
       }
     }
   }
@@ -73,6 +73,6 @@ export async function generateMissingPosters(dir = './public/images/products', l
 // Standalone execution: `node scripts/generate-posters.mjs`
 if (process.argv[1] && process.argv[1].endsWith('generate-posters.mjs')) {
   generateMissingPosters().then(() => {
-    console.log('[video-posters] Done.');
+    console.log('[постеры] готово');
   });
 }

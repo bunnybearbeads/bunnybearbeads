@@ -22,20 +22,20 @@ function fail(message) {
   process.exit(1);
 }
 
-if (process.env.DATA_DEMO) fail('DATA_DEMO is set: the demo data must never be published');
+if (process.env.DATA_DEMO) fail('задан DATA_DEMO — демо-базу публиковать нельзя');
 
 const remote = git(['remote', 'get-url', 'origin']);
 const commit = git(['rev-parse', '--short', 'HEAD']);
 const branch = git(['rev-parse', '--abbrev-ref', 'HEAD']);
 const dirty = git(['status', '--porcelain']) !== '';
-if (dirty) console.warn('deploy: there are uncommitted changes, they will be published too');
+if (dirty) console.warn('deploy: есть незакоммиченные изменения, они тоже будут опубликованы');
 
 const build = spawnSync('npm', ['run', 'build'], { cwd: ROOT, stdio: 'inherit' });
-if (build.status !== 0) fail('build failed, nothing was published');
+if (build.status !== 0) fail('сборка упала, ничего не опубликовано');
 
 const tooLarge = (await listFiles(DIST)).filter((f) => f.size > FILE_LIMIT);
 if (tooLarge.length) {
-  fail(`GitHub does not accept files over 100 MB:\n${tooLarge.map((f) => `  ${f.path} ${formatSize(f.size)}`).join('\n')}`);
+  fail(`GitHub не принимает файлы больше 100 МБ:\n${tooLarge.map((f) => `  ${f.path} ${formatSize(f.size)}`).join('\n')}`);
 }
 
 // Без .nojekyll GitHub Pages прогоняет ветку через Jekyll, и папка _astro/ пропадает
@@ -55,4 +55,4 @@ try {
   fs.rmSync(path.join(DIST, '.git'), { recursive: true, force: true });
 }
 
-console.log(`\ndeploy: published ${commit}${dirty ? ' (with uncommitted changes)' : ''} to ${BRANCH}`);
+console.log(`\ndeploy: опубликован ${commit}${dirty ? ' (с незакоммиченными изменениями)' : ''} в ${BRANCH}`);

@@ -8,9 +8,11 @@
  *       Lumi.json ← данные изделия, имя = имя папки: данные сайта, штуки (items), memo, даты
  *       site/…           ← фото и видео; на сайт попадают только файлы, указанные в JSON изделия
  *       …              ← что угодно ещё: процесс, схемы, черновики
- *     _families/*.json ← семейства (папки с «_» в начале — служебные, не изделия)
- *     _demo/           ← демо-база той же структуры: примеры сложных случаев. На сайт — только
- *                        с DATA_DEMO=1 (`npm run dev:demo`), вместо настоящей базы
+ *     _system/         ← служебное (папки с «_» в начале — не изделия):
+ *       families/*.json  ← семейства
+ *       *.schema.json    ← подсказки для редактора (scripts/data-rules.mjs)
+ *       demo/            ← демо-база той же структуры (со своей _system): примеры сложных случаев.
+ *                          На сайт — только с DATA_DEMO=1 (`npm run dev:demo`), вместо настоящей базы
  *
  * На сайт уходят только изделия с `"site": true`:
  *   - src/content/products/<slug>.json — без items, memo, дат, maker; штуки в наличии свёрнуты в количество
@@ -35,12 +37,15 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { generateMissingPosters } from './generate-posters.mjs';
 import { photoFiles, photoWidths, readPhotoSize, syncPhotos } from './photos.mjs';
+import {
+  ATTACH_TO, CATEGORIES, DATE_FORMATS, DEMO_DIR, FAMILIES_DIR, ITEM_ID_RE, LOCATION_ORDER, MAKERS, OUT_TYPES, PARTIAL_DATE_RE, SLUG_RE,
+  THUMB_EXTENSIONS, THUMBS_DIR, schemaFiles, thumbKey,
+} from './data-rules.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-/** DATA_DEMO=1 — демо-база data/_demo вместо настоящей (`npm run dev:demo`) */
+/** DATA_DEMO=1 — демо-база data/_system/demo вместо настоящей (`npm run dev:demo`) */
 export const IS_DEMO = Boolean(process.env.DATA_DEMO);
-const DATA_DIR = IS_DEMO ? path.join(ROOT, 'data', '_demo') : path.join(ROOT, 'data');
-const FAMILIES_DIR = '_families';
+const DATA_DIR = IS_DEMO ? path.join(ROOT, 'data', DEMO_DIR) : path.join(ROOT, 'data');
 
 const OUT_PRODUCTS = path.join(ROOT, 'src/content/products');
 const OUT_FAMILIES = path.join(ROOT, 'src/content/families');
@@ -49,35 +54,18 @@ const MEDIA_URL = '/images/products';
 /** Кэш сжатых фото (что и из какого оригинала уже сжато) — вне git, только на этом компьютере */
 const PHOTO_CACHE = path.join(ROOT, 'node_modules/.cache/bunnybearbeads', IS_DEMO ? 'photos-demo.json' : 'photos.json');
 
-/** Порядок точек в данных и на сайте. Должен совпадать с src/config/locations.ts */
-/** atelier — своя мастерская (сейчас в Далате): id не привязан к городу на случай переезда */
-const LOCATION_ORDER = ['atelier', 'ngay-mai', 'cat-food'];
-const MAKERS = ['bunny', 'bear'];
-/** Категории изделий, в единственном числе. Должны совпадать с src/config/categories.ts */
-const CATEGORIES = ['charm', 'bracelet', 'ring', 'earrings', 'pen-wrap'];
-/** На что носится брелок: у каждой штуки-брелока обязательно, у остальных категорий поля нет */
-const ATTACH_TO = ['keys', 'phone', 'mirror', 'bag'];
-const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
-/** id штуки: 3–4 заглавные буквы (обычно первые согласные названия) и две цифры, PWST01 */
-const ITEM_ID_RE = /^[A-Z]{3,4}\d{2}$/;
-/**
- * Дата может быть неполной: точная (2026-11-01), только месяц (2026-11 — например, NGÀY MAI сообщает
- * продажи за месяц без дат), квартал (2026-Q3), полугодие (2026-H1) или только год (2024 — для старых записей)
- */
-const PARTIAL_DATE_RE = /^(\d{4})(?:-(?:(0[1-9]|1[0-2])(?:-(\d{2}))?|Q[1-4]|H[12]))?$/;
-const DATE_FORMATS = '2026-11-01, 2026-11, 2026-Q3, 2026-H1 or 2026';
 const BLOCK_TAG_RE = /<\/?(p|div|ul|ol|li|h[1-6]|blockquote)\b/i;
 const VIDEO_RE = /\.(mp4|webm|ogg|mov)$/i;
-/** Фото изделия (images) — строго 3:4, вертикальные: под эту пропорцию свёрстаны галерея и карточки */
+/** Фото изделия (gallery) — строго 3:4, вертикальные: под эту пропорцию свёрстаны галерея и карточки */
 const PHOTO_RATIO = { width: 3, height: 4 };
-/** Точно 3:4, без допуска: 2213×2952 не проходит — кадрировать до 2211×2948 */
-const isPortraitRatio = (width, height) => width * PHOTO_RATIO.height === height * PHOTO_RATIO.width;
+/** Превью для плашки семейства (thumb) — 40:22, то есть 20:11: 240×132 */
+const THUMB_RATIO = { width: 20, height: 11 };
+/** Точно, без допуска: 2213×2952 не проходит как 3:4 — кадрировать до 2211×2948 */
+const isRatio = (width, height, ratio) => width * ratio.height === height * ratio.width;
 /** Конфликтные копии Dropbox: «file (Tony's conflicted copy 2026-11-23).json», в русском интерфейсе — «конфликтующая копия» */
 const CONFLICT_RE = /conflicted copy|конфликтующая копия/i;
 /** Служебные поля, которые на сайт не попадают никогда */
-const PRIVATE_FIELDS = ['slug', 'site', 'items', 'locationNotes', 'remake'];
-/** Исход штуки (`out.type`): продана, подарена, брак или потеря, оставили себе */
-const OUT_TYPES = ['sold', 'gift', 'lost', 'kept'];
+const PRIVATE_FIELDS = ['$schema', 'slug', 'site', 'items', 'locationNotes', 'remake'];
 const OUT_FIELDS = ['type', 'date', 'paid', 'memo'];
 const REMAKE_FIELDS = ['price', 'note', 'noteImages', 'memo'];
 
@@ -85,7 +73,7 @@ const GENERATED_NOTE = 'Generated by scripts/export-data.mjs from data/. Do not 
 
 class DataErrors extends Error {
   constructor(errors) {
-    super(`Product data has ${errors.length} problem(s):\n${errors.map((e) => `  - ${e}`).join('\n')}`);
+    super(`В базе изделий проблем: ${errors.length}. Сайт не собран, поправьте:\n${errors.map((e) => `  - ${e}`).join('\n')}`);
   }
 }
 
@@ -113,7 +101,7 @@ async function readJson(file, errors) {
 async function collect(dataDir, errors, logger) {
   // Конфликтные копии — по всей базе, включая фото
   await walkFiles(dataDir, (file, name) => {
-    if (CONFLICT_RE.test(name)) errors.push(`Dropbox conflicted copy, resolve it: ${path.relative(dataDir, file)}`);
+    if (CONFLICT_RE.test(name)) errors.push(`конфликтная копия Dropbox — разберитесь, какая версия правильная, лишнюю удалите: ${path.relative(dataDir, file)}`);
   });
 
   const products = new Map(); // slug → публичные данные (только site: true)
@@ -124,6 +112,18 @@ async function collect(dataDir, errors, logger) {
   const itemOwners = new Map(); // id штуки → slug
   const photos = new Map(); // фото → копии разных размеров: путь в public без ширины и расширения → { source, widths }
   const photoReads = []; // размер фото читается в конце, все файлы разом
+  // Превью thumb: ключ имени (thumbKey) → файл в _thumbs. Лишние файлы (изделий ещё нет) не мешают
+  const thumbsDir = path.join(dataDir, THUMBS_DIR);
+  const thumbs = new Map();
+  if (fs.existsSync(thumbsDir)) {
+    for (const name of (await fsp.readdir(thumbsDir)).sort()) {
+      const ext = path.extname(name).toLowerCase();
+      if (!THUMB_EXTENSIONS.includes(ext)) continue;
+      const key = thumbKey(name.slice(0, -ext.length));
+      if (thumbs.has(key)) errors.push(`${THUMBS_DIR}: два thumb для одного изделия: ${path.basename(thumbs.get(key))} и ${name}`);
+      else thumbs.set(key, path.join(thumbsDir, name));
+    }
+  }
 
   const folders = (await fsp.readdir(dataDir, { withFileTypes: true }))
     .filter((e) => e.isDirectory() && !e.name.startsWith('_') && !e.name.startsWith('.'))
@@ -139,39 +139,43 @@ async function collect(dataDir, errors, logger) {
       const otherJson = (await fsp.readdir(folderPath)).filter((f) => f.endsWith('.json'));
       if (otherJson.length) {
         // Скорее всего, папку переименовали, а JSON — нет: молча терять изделие с сайта нельзя
-        errors.push(`"${folder}": expected ${fileName}, found ${otherJson.join(', ')} — rename it after the folder`);
+        errors.push(`«${folder}»: нет ${fileName}, есть ${otherJson.join(', ')} — JSON называется как папка, переименуйте`);
       } else {
-        logger.warn(`"${folder}": no ${fileName}, skipped`);
+        logger.warn(`«${folder}»: нет ${fileName}, папка пропущена`);
       }
       continue;
     }
     const raw = await readJson(file, errors);
     if (!raw) continue;
 
-    const where = `"${folder}"`;
+    const where = `«${folder}»`;
     // Пустые поля из шаблона (npm run fill-data) — то же, что их отсутствие
     const data = withoutEmpty(raw, where, errors) ?? {};
     const before = errors.length;
     const { slug } = data;
 
     if (typeof slug !== 'string' || !SLUG_RE.test(slug)) {
-      errors.push(`${where}: slug must be lowercase latin, digits and dashes, got ${JSON.stringify(slug)}`);
+      errors.push(`${where}: slug — латиница строчными, цифры и дефисы, а сейчас ${JSON.stringify(slug)}`);
       continue;
     }
-    if (slugOwners.has(slug)) errors.push(`${where}: slug "${slug}" is already used by "${slugOwners.get(slug)}"`);
+    if (slugOwners.has(slug)) errors.push(`${where}: slug «${slug}» уже занят изделием «${slugOwners.get(slug)}»`);
     slugOwners.set(slug, folder);
     // Название тоже уникально, без учёта регистра и лишних пробелов: Wild Rose и wild  rose — одно и то же
     if (typeof data.title === 'string') {
       const titleKey = data.title.trim().replace(/\s+/g, ' ').toLowerCase();
-      if (titleOwners.has(titleKey)) errors.push(`${where}: title "${data.title}" is already used by "${titleOwners.get(titleKey)}"`);
+      if (titleOwners.has(titleKey)) errors.push(`${where}: название «${data.title}» уже есть у «${titleOwners.get(titleKey)}»`);
       titleOwners.set(titleKey, folder);
     }
 
-    if ('materialsHtml' in data) errors.push(`${where}: "materialsHtml" is gone — put the HTML into "materials"`);
-    if (typeof data.site !== 'boolean') errors.push(`${where}: "site" must be true or false`);
+    if ('images' in data) errors.push(`${where}: поле "images" теперь называется "gallery"`);
+    if ('thumb' in data) errors.push(`${where}: уберите поле "thumb" — thumb берётся из ${THUMBS_DIR}/${folder}.png`);
+    if ('materialsHtml' in data) errors.push(`${where}: поля "materialsHtml" больше нет — HTML в "materials" каждой штуки`);
+    if ('materials' in data) errors.push(`${where}: "materials" теперь у штук (items), у каждой свои — уберите из изделия`);
+    if ('designedBy' in data) errors.push(`${where}: поле "designedBy" теперь называется "designer"`);
+    if (typeof data.site !== 'boolean') errors.push(`${where}: "site" — true или false`);
 
     if (data.description !== undefined && typeof data.description !== 'string') {
-      errors.push(`${where}: "description" is one English string for now, like "title" — no translations`);
+      errors.push(`${where}: "description" — пока одна строка по-английски, как "title", без переводов`);
     }
     // Описание и комментарии — один абзац: обёртку (<p class="product-header__description"> и т. п.) даёт сайт
     const texts = [
@@ -179,41 +183,41 @@ async function collect(dataDir, errors, logger) {
       ['remake.note', data.remake?.note],
       ...Object.entries(data.locationNotes ?? {}).map(([loc, n]) => [`locationNotes.${loc}.note`, n?.note]),
     ];
-    if (typeof data.designedBy === 'string' && /<[a-z/!]/i.test(data.designedBy)) {
-      errors.push(`${where}: "designedBy" is plain text, just the designer's name — no HTML`);
+    if (typeof data.designer === 'string' && /<[a-z/!]/i.test(data.designer)) {
+      errors.push(`${where}: "designer" — просто имя автора схемы, без HTML`);
     }
     for (const [field, value] of texts) {
-      if (value && BLOCK_TAG_RE.test(JSON.stringify(value))) errors.push(`${where}, ${field}: no <p>, <div> or other block tags: one paragraph, the site wraps it`);
+      if (value && BLOCK_TAG_RE.test(JSON.stringify(value))) errors.push(`${where}, ${field}: без <p>, <div> и других блочных тегов — один абзац, обёртку даёт сайт`);
     }
 
-    if ('categoryId' in data) errors.push(`${where}: "categoryId" is now "category"`);
+    if ('categoryId' in data) errors.push(`${where}: поле "categoryId" теперь называется "category"`);
     if (!CATEGORIES.includes(data.category)) {
-      errors.push(`${where}: "category" must be one of ${CATEGORIES.join(', ')}, got ${JSON.stringify(data.category)}`);
+      errors.push(`${where}: "category" — одно из ${CATEGORIES.join(', ')}, а сейчас ${JSON.stringify(data.category)}`);
     }
 
-    const { stock, price, remake } = toSales(data, where, itemOwners, slug, errors, logger);
+    const { stock, price, remake, materials } = toSales(data, where, itemOwners, slug, errors, logger);
     if (data.site !== true) {
       hiddenSlugs.add(slug);
       continue;
     }
     // На сайте у изделия должно быть хотя бы одно фото: заглушки в галерее нет
-    if (!Array.isArray(data.images) || data.images.length === 0) {
-      errors.push(`${where}: "images" is empty — a product on the site needs at least one photo (or set "site": false)`);
+    if (!Array.isArray(data.gallery) || data.gallery.length === 0) {
+      errors.push(`${where}: "gallery" пустая — изделию на сайте нужно хотя бы одно фото (или "site": false)`);
     }
 
     // Пути к файлам в JSON изделия — относительно папки изделия
     const checkPath = (rel, field) => {
       if (typeof rel !== 'string' || !rel || path.isAbsolute(rel) || rel.split(/[\\/]/).includes('..')) {
-        errors.push(`${where}, ${field}: path must be relative to the folder, got ${JSON.stringify(rel)}`);
+        errors.push(`${where}, ${field}: путь — относительно папки изделия, без «..», а сейчас ${JSON.stringify(rel)}`);
         return null;
       }
       const source = path.join(folderPath, rel);
       const stat = fs.statSync(source, { throwIfNoEntry: false });
       if (!stat?.isFile()) {
-        errors.push(`${where}, ${field}: file not found: ${rel}`);
+        errors.push(`${where}, ${field}: файл не найден: ${rel}`);
       } else if (stat.size > 0 && stat.blocks === 0) {
         // Файл-заглушка Dropbox: место на диске не занято, содержимое только в облаке
-        errors.push(`${where}, ${field}: file is online-only in Dropbox, make the folder available offline: ${rel}`);
+        errors.push(`${where}, ${field}: файл в Dropbox «только онлайн» — сделайте папку доступной офлайн: ${rel}`);
       }
       return { source, target: `${slug}/${rel.split(path.sep).join('/')}` };
     };
@@ -225,16 +229,18 @@ async function collect(dataDir, errors, logger) {
       return `${MEDIA_URL}/${file.target}`;
     };
     // Фото — сжимаются в несколько размеров (scripts/photos.mjs). Размеры дописываются в конце, после чтения файлов.
-    // portrait: фото изделия, строго 3:4
-    const toPhoto = (rel, field, { portrait = false, alt } = {}) => {
+    // ratio: точная пропорция (фото изделия — 3:4), иначе любая
+    const addPhoto = (file, field, rel, { ratio, alt } = {}) => {
       const photo = { type: 'photo', base: '', widths: [], width: 0, height: 0, ...(alt ? { alt } : {}) };
-      const file = checkPath(rel, field);
-      if (!file) return photo;
       const base = file.target.replace(/\.[^./]+$/, '');
       photo.base = `${MEDIA_URL}/${base}`;
       photos.set(base, { source: file.source, widths: photo.widths });
-      photoReads.push({ photo, where, field, rel, source: file.source, portrait });
+      photoReads.push({ photo, where, field, rel, source: file.source, ratio });
       return photo;
+    };
+    const toPhoto = (rel, field, options) => {
+      const file = checkPath(rel, field);
+      return file ? addPhoto(file, field, rel, options) : { type: 'photo', base: '', widths: [], width: 0, height: 0 };
     };
     const isVideo = (item) => (typeof item === 'string' ? VIDEO_RE.test(item) : item?.type === 'video' || VIDEO_RE.test(item?.src ?? ''));
     const mapMedia = (item, field, options = {}) => {
@@ -252,10 +258,21 @@ async function collect(dataDir, errors, logger) {
     };
 
     const publicData = Object.fromEntries(Object.entries(data).filter(([key]) => !PRIVATE_FIELDS.includes(key)));
-    // Материалы — HTML; в JSON удобнее массивом строк, на сайт уходят одной строкой
-    if (Array.isArray(data.materials)) publicData.materials = data.materials.join('\n');
-    publicData.images = (data.images ?? []).map((item, i) => mapMedia(item, `images[${i}]`, { portrait: true }));
-    if (data.thumb) publicData.thumb = toPhoto(data.thumb, 'thumb');
+    if (materials) publicData.materials = materials;
+    publicData.gallery = (data.gallery ?? []).map((item, i) => mapMedia(item, `gallery[${i}]`, { ratio: PHOTO_RATIO }));
+    // thumb — из _thumbs по имени папки. На сайте копия называется по slug: имя файла может быть служебным
+    const thumbFile = thumbs.get(thumbKey(folder));
+    if (!thumbFile) {
+      errors.push(`${where}: нет thumb — изделию на сайте нужен ${THUMBS_DIR}/${folder}.png (40:22, например 240×132)`);
+    } else {
+      const stat = fs.statSync(thumbFile);
+      const rel = `${THUMBS_DIR}/${path.basename(thumbFile)}`;
+      if (stat.size > 0 && stat.blocks === 0) {
+        errors.push(`${where}, thumb: файл в Dropbox «только онлайн» — сделайте ${THUMBS_DIR} доступной офлайн: ${rel}`);
+      } else {
+        publicData.thumb = addPhoto({ source: thumbFile, target: `${slug}/thumb${path.extname(thumbFile).toLowerCase()}` }, 'thumb', rel, { ratio: THUMB_RATIO });
+      }
+    }
     for (const entry of stock) {
       entry.noteImages = (entry.noteImages ?? []).map((item, i) => mapMedia(item, `locationNotes.${entry.locationId}.noteImages[${i}]`));
     }
@@ -280,14 +297,21 @@ async function collect(dataDir, errors, logger) {
     for (const [i, member] of (data.members ?? []).entries()) {
       const where = `${FAMILIES_DIR}/${file}, members[${i}]`;
       // "site": false — изделие просто не показывается в семействе; с ошибками — о них уже сказано выше
-      if (!slugOwners.has(member.product)) errors.push(`${where}: unknown product "${member.product}"`);
+      if (!slugOwners.has(member.product)) errors.push(`${where}: нет изделия со slug «${member.product}»`);
       if (familyOf.has(member.product)) {
-        errors.push(`${where}: "${member.product}" is already in family "${familyOf.get(member.product)}"`);
+        errors.push(`${where}: «${member.product}» уже в семействе «${familyOf.get(member.product)}» — изделие может быть только в одном`);
       }
       familyOf.set(member.product, id);
     }
     const members = (data.members ?? []).filter((member) => products.has(member.product));
-    if (members.length >= 2) families.set(id, { $comment: GENERATED_NOTE, ...data, members });
+    const { $schema, ...familyData } = data;
+    if (members.length >= 2) {
+      families.set(id, { $comment: GENERATED_NOTE, ...familyData, members });
+    } else {
+      // Плашка семейства — выбор между изделиями: из одного выбирать нечего
+      const shown = members.length ? `только ${members.map((m) => m.product).join(', ')}` : 'ни одного';
+      logger.warn(`семейство «${id}» на сайте не показывается: из его изделий на сайте ${shown}, а нужно минимум два ("site": true)`);
+    }
   }
 
   for (const error of await Promise.all(photoReads.map(readPhoto))) {
@@ -301,25 +325,24 @@ async function collect(dataDir, errors, logger) {
  * Размер фото → в публичные данные (ширины копий, пропорция для разметки). У фото изделия ещё и проверка 3:4.
  * Поворот из EXIF учитывается: телефон пишет 4032×3024 + «повернуть», а это вертикальный кадр
  */
-async function readPhoto({ photo, where, field, rel, source, portrait }) {
+async function readPhoto({ photo, where, field, rel, source, ratio }) {
   if (!fs.existsSync(source)) return null; // «файл не найден» уже в списке ошибок
   let size;
   try {
     size = await readPhotoSize(source);
   } catch {
-    return `${where}, ${field}: cannot read the image (JPEG, PNG or TIFF): ${rel}`;
+    return `${where}, ${field}: не удалось прочитать картинку (нужен JPEG, PNG или TIFF): ${rel}`;
   }
   const { width, height } = size;
   photo.width = width;
   photo.height = height;
   photo.widths.push(...photoWidths(width));
-  if (!portrait || isPortraitRatio(width, height)) return null;
-  // Подсказка: самый большой кадр 3:4, который помещается в фото
-  const fitWidth = Math.floor(height / PHOTO_RATIO.height) * PHOTO_RATIO.width;
-  const crop = fitWidth <= width
-    ? `${fitWidth}×${(fitWidth / PHOTO_RATIO.width) * PHOTO_RATIO.height}`
-    : `${Math.floor(width / PHOTO_RATIO.width) * PHOTO_RATIO.width}×${Math.floor(width / PHOTO_RATIO.width) * PHOTO_RATIO.height}`;
-  return `${where}, ${field}: photo must be exactly 3:4 (portrait), got ${width}×${height}: ${rel} — e.g. crop to ${crop}`;
+  if (!ratio || isRatio(width, height, ratio)) return null;
+  // Подсказка: самый большой кадр нужной пропорции, который помещается в фото
+  const units = Math.min(Math.floor(width / ratio.width), Math.floor(height / ratio.height));
+  const crop = `${units * ratio.width}×${units * ratio.height}`;
+  const name = ratio === THUMB_RATIO ? 'thumb должен быть строго 40:22' : 'фото должно быть строго 3:4, вертикальное';
+  return `${where}, ${field}: ${name}, а сейчас ${width}×${height}: ${rel} — например, обрежьте до ${crop}`;
 }
 
 /**
@@ -331,65 +354,79 @@ async function readPhoto({ photo, where, field, rel, source, portrait }) {
 function toSales(data, where, itemOwners, slug, errors, logger) {
   // Даты, мастер и цена — только у штук, а хотя бы одна штука есть всегда (её сплели)
   for (const field of ['craftedAt', 'createdAt', 'maker']) {
-    if (field in data) errors.push(`${where}: "${field}" belongs to items, remove it from the product`);
+    if (field in data) errors.push(`${where}: "${field}" — поле штуки (items), уберите из изделия`);
   }
-  if ('price' in data) errors.push(`${where}: "price" belongs to items; remake price is "remake.price"`);
+  if ('price' in data) errors.push(`${where}: "price" — поле штуки (items); цена ремейка — "remake.price"`);
   const items = Array.isArray(data.items) ? data.items : [];
-  if (items.length === 0) errors.push(`${where}: "items" must list at least one piece (gone ones stay with their date)`);
+  if (items.length === 0) errors.push(`${where}: в "items" нужна хотя бы одна штука (ушедшие не удаляются, у них out)`);
 
   const available = new Map(); // точка → цены штук в наличии (должны совпадать)
+  // Материалы — у каждой штуки свои (HTML; в JSON массивом строк, склеиваются в одну строку)
+  let lastMaterials;
+  let lastAvailableMaterials;
   items.forEach((item, index) => {
     const at = `${where}, items[${index}]`;
     if (!item.id) {
-      errors.push(`${at}: id is required`);
+      errors.push(`${at}: нет id`);
       return;
     }
-    if (!ITEM_ID_RE.test(item.id)) errors.push(`${at}: id must be 3–4 capital letters and two digits, e.g. PWST01, got "${item.id}"`);
-    if (itemOwners.has(item.id)) errors.push(`${at}: item id "${item.id}" is already used in "${itemOwners.get(item.id)}"`);
+    if (!ITEM_ID_RE.test(item.id)) errors.push(`${at}: id — 3–4 заглавные латинские буквы и две цифры, например PWST01, а сейчас «${item.id}»`);
+    if (itemOwners.has(item.id)) errors.push(`${at}: id «${item.id}» уже есть у штуки в «${itemOwners.get(item.id)}»`);
     itemOwners.set(item.id, slug);
-    if (!MAKERS.includes(item.maker)) errors.push(`${at}: "maker" must be one of ${MAKERS.join(', ')}`);
+    if (!MAKERS.includes(item.maker)) errors.push(`${at}: "maker" — одно из ${MAKERS.join(', ')}`);
     if (data.category === 'charm') {
-      if (!ATTACH_TO.includes(item.attachTo)) errors.push(`${at}: "attachTo" is required for a charm: one of ${ATTACH_TO.join(', ')}`);
+      if (!ATTACH_TO.includes(item.attachTo)) errors.push(`${at}: у брелока нужен "attachTo" — одно из ${ATTACH_TO.join(', ')}`);
     } else if ('attachTo' in item) {
-      errors.push(`${at}: "attachTo" is only for charms, this product is "${data.category}"`);
+      errors.push(`${at}: "attachTo" — только у брелоков (charm), а это «${data.category}»`);
     }
-    if (!isPrice(item.price)) errors.push(`${at}: "price" must be a positive number of dong, got ${JSON.stringify(item.price)}`);
-    if ('createdAt' in item) errors.push(`${at}: "createdAt" is now "craftedAt"`);
-    else if (!isPartialDate(item.craftedAt)) errors.push(`${at}: "craftedAt" must be ${DATE_FORMATS}, got ${JSON.stringify(item.craftedAt)}`);
+    if (!isPrice(item.price)) errors.push(`${at}: "price" — цена в донгах числом без кавычек, а сейчас ${JSON.stringify(item.price)}`);
+    if ('createdAt' in item) errors.push(`${at}: поле "createdAt" теперь называется "craftedAt"`);
+    else if (!isPartialDate(item.craftedAt)) errors.push(`${at}: "craftedAt" — дата в формате ${DATE_FORMATS}, а сейчас ${JSON.stringify(item.craftedAt)}`);
 
     // Исход — один объект out: { type, date, paid?, memo? }. Нет out — штука в наличии
     const out = item.out;
     for (const field of ['soldAt', 'giftedAt', 'lostAt', 'keptAt', 'paid']) {
-      if (field in item) errors.push(`${at}: "${field}" is now part of "out": { "type", "date", "paid", "memo" }`);
+      if (field in item) errors.push(`${at}: "${field}" теперь внутри "out": { "type", "date", "paid", "memo" }`);
     }
     if (out !== undefined) {
       if (typeof out !== 'object' || out === null) {
-        errors.push(`${at}: "out" must be an object { "type", "date" }`);
+        errors.push(`${at}: "out" — объект { "type", "date", "paid" }`);
       } else {
-        if (!OUT_TYPES.includes(out.type)) errors.push(`${at}: "out.type" must be one of ${OUT_TYPES.join(', ')}, got ${JSON.stringify(out.type)}`);
-        if (!isPartialDate(out.date)) errors.push(`${at}: "out.date" must be ${DATE_FORMATS}, got ${JSON.stringify(out.date)}`);
+        if (!OUT_TYPES.includes(out.type)) errors.push(`${at}: "out.type" — одно из ${OUT_TYPES.join(', ')}, а сейчас ${JSON.stringify(out.type)}`);
+        if (!isPartialDate(out.date)) errors.push(`${at}: "out.date" — дата в формате ${DATE_FORMATS}, а сейчас ${JSON.stringify(out.date)}`);
         // paid — сколько реально получено, обязательно всегда: у продажи обычно равно price, у остальных исходов — 0
         if (!(Number.isInteger(out.paid) && out.paid >= 0)) {
-          errors.push(`${at}: "out.paid" is required: how much was actually paid, in dong (0 for gift, lost, kept)`);
+          errors.push(`${at}: нужен "out.paid" — сколько реально получено, в донгах числом (0 для gift, lost, kept)`);
         } else if (out.type !== 'sold' && out.paid !== 0) {
-          errors.push(`${at}: "out.paid" must be 0 for "${out.type}"`);
+          errors.push(`${at}: у «${out.type}» "out.paid" должен быть 0`);
         }
         const extra = Object.keys(out).filter((key) => !OUT_FIELDS.includes(key));
-        if (extra.length) errors.push(`${at}: unknown field(s) in "out": ${extra.join(', ')}`);
+        if (extra.length) errors.push(`${at}: лишние поля в "out": ${extra.join(', ')}`);
+      }
+    }
+
+    let materials;
+    if ('materials' in item) {
+      if (Array.isArray(item.materials) && item.materials.every((line) => typeof line === 'string')) {
+        materials = item.materials.join('\n');
+        lastMaterials = materials;
+      } else {
+        errors.push(`${at}: "materials" — список строк HTML`);
       }
     }
 
     if (!LOCATION_ORDER.includes(item.location)) {
-      errors.push(`${at}: unknown location "${item.location}"`);
+      errors.push(`${at}: неизвестная точка «${item.location}» — одна из ${LOCATION_ORDER.join(', ')}`);
       return;
     }
     // Партнёрам штуки отдаются на консигнацию — дата передачи нужна для накладных
     if (item.location === 'atelier') {
-      if ('consignedAt' in item) errors.push(`${at}: "consignedAt" only for partner shops, the piece is in the atelier`);
+      if ('consignedAt' in item) errors.push(`${at}: "consignedAt" — только у штук у партнёров, а эта в мастерской`);
     } else if (!isPartialDate(item.consignedAt)) {
-      errors.push(`${at}: "consignedAt" is required at "${item.location}": when it was handed over, ${DATE_FORMATS}`);
+      errors.push(`${at}: у штуки в «${item.location}» нужен "consignedAt" — когда передана, в формате ${DATE_FORMATS}`);
     }
     if (out !== undefined) return;
+    if (materials) lastAvailableMaterials = materials;
     if (!available.has(item.location)) available.set(item.location, []);
     available.get(item.location).push(item.price);
   });
@@ -400,37 +437,37 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
   // Поле remake необязательно (своя цена, комментарий), но пока штука в Далате есть, его быть не должно
   const inAtelier = available.has('atelier');
   if (inAtelier && 'remake' in data) {
-    errors.push(`${where}: "remake" only when nothing is available in the atelier — clear it while a piece is there`);
+    errors.push(`${where}: "remake" — только когда в мастерской нет штук; пока штука там есть, очистите`);
   }
   const remake = data.remake ?? {};
   const extra = Object.keys(remake).filter((key) => !REMAKE_FIELDS.includes(key));
-  if (extra.length) errors.push(`${where}: unknown field(s) in "remake": ${extra.join(', ')}`);
-  if ('price' in remake && !isPrice(remake.price)) errors.push(`${where}: "remake.price" must be a positive number of dong`);
+  if (extra.length) errors.push(`${where}: лишние поля в "remake": ${extra.join(', ')}`);
+  if ('price' in remake && !isPrice(remake.price)) errors.push(`${where}: "remake.price" — цена в донгах числом без кавычек`);
 
   // Цена. Все штуки в наличии — по одной цене, где бы ни лежали: иначе сборка падает
   const availablePrices = [...new Set([...available.values()].flat())];
   if (availablePrices.length > 1) {
     const byLocation = [...available].map(([loc, prices]) => `${loc}: ${[...new Set(prices)].join(', ')}`).join('; ');
-    errors.push(`${where}: available pieces must have the same price, got ${byLocation}`);
+    errors.push(`${where}: у штук в наличии цена должна быть одна, а сейчас ${byLocation}`);
   }
   // Политика магазина: цена везде и для всех одна. Есть штуки в наличии — ремейк стоит столько же;
   // поднять цену ремейка = поднять её и у штук в наличии
   if (availablePrices.length && 'price' in remake && remake.price !== availablePrices[0]) {
-    errors.push(`${where}: "remake.price" ${remake.price} differs from available pieces (${availablePrices.join(', ')}) — one price everywhere`);
+    errors.push(`${where}: "remake.price" ${remake.price} не совпадает с ценой штук в наличии (${availablePrices.join(', ')}) — цена везде одна`);
   }
   // Цена ремейка: штуки в наличии, а если в наличии ничего нет — remake.price, тогда она обязательна.
   // Цены ушедших штук на цену сайта не влияют: это история (для накладных и отчётов)
   if (!availablePrices.length && !('price' in remake)) {
-    errors.push(`${where}: nothing is available — set "remake.price"`);
+    errors.push(`${where}: в наличии ничего нет — укажите "remake.price"`);
   }
   const remakePrice = availablePrices[0] ?? remake.price;
 
   const locationNotes = data.locationNotes ?? {};
   for (const locationId of Object.keys(locationNotes)) {
     if (!LOCATION_ORDER.includes(locationId)) {
-      errors.push(`${where}, locationNotes: unknown location "${locationId}"`);
+      errors.push(`${where}, locationNotes: неизвестная точка «${locationId}»`);
     } else if (!available.has(locationId) && data.site === true) {
-      logger.warn(`${where}: note for "${locationId}" is not shown, nothing available there`);
+      logger.warn(`${where}: комментарий к «${locationId}» на сайте не виден — там нет штук в наличии`);
     }
   }
 
@@ -443,9 +480,14 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
   // Цена в шапке, каталоге и на плашке семейства: штуки в наличии → ремейк
   const price = availablePrices[0] ?? remakePrice;
 
+  // Материалы на сайте — одни: последней штуки в наличии (по порядку в items), а если в наличии ничего нет —
+  // последней штуки в списке, у которой они заполнены: ремейк делается как она. Как показывать разные — TODO.md
+  const materials = lastAvailableMaterials ?? lastMaterials;
+
   return {
     stock,
     price,
+    materials,
     ...(!inAtelier
       ? {
           remake: {
@@ -475,7 +517,7 @@ function withoutEmpty(value, where, errors, field = '') {
       const filled = keys.filter((lang) => value[lang].trim() !== '');
       if (filled.length === 0) return undefined;
       if (filled.length < 3) {
-        errors.push(`${where}, ${field}: translation missing for ${keys.filter((l) => !filled.includes(l)).join(', ')}`);
+        errors.push(`${where}, ${field}: не хватает перевода: ${keys.filter((l) => !filled.includes(l)).join(', ')}`);
       }
       return value;
     }
@@ -569,12 +611,18 @@ async function syncMedia(media, photos) {
  */
 export async function exportData(logger = console) {
   if (!fs.existsSync(DATA_DIR)) {
-    throw new Error(`${path.relative(ROOT, DATA_DIR)}/ not found: link data/ to the Dropbox folder (README, «Данные товаров»)`);
+    throw new Error(`нет папки ${path.relative(ROOT, DATA_DIR)}/ — сделайте data/ ссылкой на папку в Dropbox (README, «Данные товаров»)`);
   }
   const dataDir = fs.realpathSync(DATA_DIR);
   const errors = [];
   const { products, families, media, photos } = await collect(dataDir, errors, logger);
   if (errors.length) throw new DataErrors(errors);
+  // Схемы для подсказок в редакторе пишет fill-data, а не сборка: сборка в базу не пишет
+  for (const [name, content] of Object.entries(schemaFiles(dataDir))) {
+    if (!fs.existsSync(path.join(dataDir, name)) || fs.readFileSync(path.join(dataDir, name), 'utf8') !== content) {
+      logger.warn(`${name} устарела — запустите npm run fill-data, чтобы обновить подсказки в редакторе`);
+    }
+  }
 
   const compressed = await syncPhotos(photos, OUT_MEDIA, PHOTO_CACHE, logger);
   const changed =
@@ -586,9 +634,9 @@ export async function exportData(logger = console) {
   await generateMissingPosters(OUT_MEDIA, logger);
 
   logger.info(
-    (IS_DEMO ? 'DEMO data: ' : '') +
-    `${products.size} product(s), ${families.size} famil${families.size === 1 ? 'y' : 'ies'}, ${photos.size} photo(s), ${media.size} video file(s)` +
-      (changed ? ` — ${changed} change(s) written` : ' — up to date'),
+    (IS_DEMO ? 'ДЕМО-база: ' : '') +
+    `изделий: ${products.size}, семейств: ${families.size}, фото: ${photos.size}, видео: ${media.size}` +
+      (changed ? ` — обновлено файлов: ${changed}` : ' — без изменений'),
   );
   return true;
 }

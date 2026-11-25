@@ -31,7 +31,7 @@ const canRemake = studioQty === 0;
     <div class="product__body">
       <div class="product__summary">
         <div class="product__gallery">
-          <Gallery images={raw.images} alt={product.title} lang={currentLang} />
+          <Gallery images={raw.gallery} alt={product.title} lang={currentLang} />
         </div>
 
         {family && (
@@ -61,10 +61,10 @@ const canRemake = studioQty === 0;
                 <span class="credit-label">{t('catalog.crafted_by')}:</span>
                 <strong class="credit-val brand-craft">bunnybearbeads</strong>
               </div>
-              {raw.designedBy && (
+              {raw.designer && (
                 <div class="credit-row">
                   <span class="credit-label">{t('catalog.designed_by')}:</span>
-                  <span class="credit-val">{raw.designedBy}</span>
+                  <span class="credit-val">{raw.designer}</span>
                 </div>
               )}
             </div>

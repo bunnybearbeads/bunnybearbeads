@@ -19,7 +19,7 @@ export function getAvailableLocations(stock: Stock): string[] {
 }
 
 /** Первое фото для карточки каталога; если первым идёт видео — путь к его постеру */
-export function getFirstImage(images: ProductData['images']): NonNullable<ProductData['thumb']> | string | undefined {
+export function getFirstImage(images: ProductData['gallery']): NonNullable<ProductData['thumb']> | string | undefined {
   const first = images[0];
   if (!first || first.type === 'photo') return first;
   return first.poster ?? first.src.replace(/\.[^.]+$/, '.jpg');
@@ -80,10 +80,10 @@ export async function getFamilyOf(productId: string): Promise<Family | undefined
   for (const family of families) {
     const members = family.data.members.map(({ product, note }) => {
       const entry = products.get(product.id);
-      if (!entry) throw new Error(`Family "${family.id}": unknown product "${product.id}"`);
+      if (!entry) throw new Error(`семейство «${family.id}»: нет изделия «${product.id}»`);
       const owner = owners.get(product.id);
       if (owner) {
-        throw new Error(`Product "${product.id}" is in two families: "${owner}" and "${family.id}"`);
+        throw new Error(`изделие «${product.id}» в двух семействах: «${owner}» и «${family.id}»`);
       }
       owners.set(product.id, family.id);
       return { product: entry, note };
