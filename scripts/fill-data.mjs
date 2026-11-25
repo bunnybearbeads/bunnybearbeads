@@ -38,9 +38,10 @@ const PRODUCT = () => ({
   /** По-английски, как title: переводов пока нет */
   description: '',
   gallery: images(),
-  designer: '',
   /** Размер — произвольный текст, можно HTML, не переводится */
   size: '',
+  /** Кто сделал: craft — кто сплёл (пока всегда bunnybearbeads), design — автор схемы, photo — автор фото, по желанию; можно добавить другие роли */
+  credits: { craft: 'bunnybearbeads', design: '', photo: '' },
   locationNotes: {},
   remake: { price: '', note: text(), noteImages: images(), memo: '' },
   items: [],

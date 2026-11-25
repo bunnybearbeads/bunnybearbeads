@@ -24,6 +24,21 @@ const product = localize(raw, currentLang);
 const family = await getFamilyOf(entry.id);
 const studioQty = getLocationQty(raw.stock, 'atelier');
 const canRemake = studioQty === 0;
+
+const BRAND = 'bunnybearbeads';
+/** Подписи известных ролей переведены; любая другая роль выводится как записана в базе, с заглавной */
+const CREDIT_LABELS: Record<string, Parameters<typeof t>[0]> = {
+  design: 'catalog.designed_by',
+  craft: 'catalog.crafted_by',
+  photo: 'catalog.photo_by',
+};
+// Сначала кто сплёл, потом автор схемы, остальные роли — как в базе
+const { craft, design, ...otherCredits } = raw.credits;
+const creditRows = Object.entries({ craft, design, ...otherCredits }).map(([role, name]) => ({
+  label: CREDIT_LABELS[role] ? t(CREDIT_LABELS[role]) : role.charAt(0).toUpperCase() + role.slice(1),
+  name,
+}));
+const showCredits = creditRows.some(({ name }) => name !== BRAND);
 ---
 
 <div class="product">
@@ -51,24 +66,22 @@ const canRemake = studioQty === 0;
             </div>
           )}
 
-          <!-- Credits Section -->
-          <div class="product-specs-section credits-section">
-            <strong class="specs-heading">
-              {t('catalog.credits')}
-            </strong>
-            <div class="credits-box">
-              <div class="credit-row">
-                <span class="credit-label">{t('catalog.crafted_by')}:</span>
-                <strong class="credit-val brand-craft">bunnybearbeads</strong>
+          <!-- Credits Section: всё своё (все имена — bunnybearbeads) — секции нет -->
+          {showCredits && (
+            <div class="product-specs-section credits-section">
+              <strong class="specs-heading">
+                {t('catalog.credits')}
+              </strong>
+              <div class="credits-box">
+                {creditRows.map(({ label, name }) => (
+                  <div class="credit-row">
+                    <span class="credit-label">{label}:</span>
+                    <span class:list={['credit-val', { 'brand-craft': name === BRAND }]}>{name}</span>
+                  </div>
+                ))}
               </div>
-              {raw.designer && (
-                <div class="credit-row">
-                  <span class="credit-label">{t('catalog.designed_by')}:</span>
-                  <span class="credit-val">{raw.designer}</span>
-                </div>
-              )}
             </div>
-          </div>
+          )}
         </div>
       </div>
 

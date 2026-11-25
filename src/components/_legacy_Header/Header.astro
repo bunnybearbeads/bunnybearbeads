@@ -18,9 +18,6 @@ const translatePath = useTranslatedPath(currentLang);
 
 const currentCleanPath = stripLangFromPath(url.pathname);
 
-// Current query param for category
-const currentCategory = url.searchParams.get('category');
-
 // Top Secondary Navigation
 const topNavItems = [
   { href: translatePath('/about'), label: t('nav.about'), isActive: currentCleanPath.startsWith('/about') },
@@ -30,11 +27,16 @@ const topNavItems = [
 ];
 
 // Main Catalog Categories — разделы каталога (src/config/categories.ts)
-const categoryItems = SECTIONS.map((id) => ({
-  href: translatePath(`/catalog?category=${id}`),
-  label: t(categoryKey(id)),
-  isActive: currentCleanPath.startsWith('/catalog') && currentCategory === id,
-}));
+// Первым — весь каталог без фильтра. Подсветку текущего раздела ставит скрипт ниже: страница каталога
+// статическая, ?category при сборке не виден
+const categoryItems = [
+  { id: 'all', href: translatePath('/catalog'), label: t('cat.all') },
+  ...SECTIONS.map((id) => ({
+    id,
+    href: translatePath(`/catalog?category=${id}`),
+    label: t(categoryKey(id)),
+  })),
+];
 ---
 
 {headerSticky && <div class="site-header-spacer" aria-hidden="true" />}
@@ -119,7 +121,7 @@ const categoryItems = SECTIONS.map((id) => ({
         <ul class="category-links">
           {categoryItems.map((cat) => (
             <li>
-              <a href={cat.href} class={cat.isActive ? 'active' : ''}>
+              <a href={cat.href} data-header-category={cat.id}>
                 {cat.label}
               </a>
             </li>
@@ -200,7 +202,7 @@ const categoryItems = SECTIONS.map((id) => ({
       <ul class="category-links">
         {categoryItems.map((cat) => (
           <li>
-            <a href={cat.href} class={cat.isActive ? 'active' : ''}>
+            <a href={cat.href} data-header-category={cat.id}>
               {cat.label}
             </a>
           </li>
@@ -241,6 +243,20 @@ const categoryItems = SECTIONS.map((id) => ({
 </header>
 
 <script>
+  // Подсветка раздела каталога в шапке — по ?category в адресе. Фильтры каталога меняют адрес без перезагрузки
+  // и сообщают об этом событием catalog:filter
+  const CATALOG_PATH_RE = /^\/(?:[a-z]{2}\/)?catalog\/?$/;
+  function syncCategoryLinks() {
+    const isCatalog = CATALOG_PATH_RE.test(window.location.pathname);
+    const current = new URLSearchParams(window.location.search).get('category') || 'all';
+    document.querySelectorAll<HTMLAnchorElement>('[data-header-category]').forEach((link) => {
+      link.classList.toggle('active', isCatalog && link.dataset.headerCategory === current);
+    });
+  }
+  syncCategoryLinks();
+  window.addEventListener('popstate', syncCategoryLinks);
+  document.addEventListener('catalog:filter', syncCategoryLinks);
+
   // Mobile menu toggle
   const toggleBtn = document.getElementById('mobile-nav-toggle');
   const mobileMenu = document.getElementById('mobile-nav-menu');

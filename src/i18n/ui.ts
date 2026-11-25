@@ -317,6 +317,11 @@ export const translations = {
     ru: 'Designed by',
     vi: 'Designed by',
   },
+  'catalog.photo_by': {
+    en: 'Photo by',
+    ru: 'Photo by',
+    vi: 'Photo by',
+  },
   'catalog.pcs': {
     en: 'pcs',
     ru: 'шт',

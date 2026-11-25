@@ -134,8 +134,17 @@ export function productSchema() {
       category: choice(CATEGORIES, 'Категория, в единственном числе (earrings — пара)'),
       description: { type: 'string', description: 'Описание по-английски, один абзац без <p> и <div>' },
       gallery: media('Фото и видео изделия, первое — обложка в каталоге. Фото строго 3:4, вертикальные'),
-      designer: { type: 'string', description: 'Автор схемы — просто имя, без HTML' },
       size: { type: 'string', description: 'Размер — произвольный текст, можно HTML, не переводится' },
+      credits: {
+        type: 'object',
+        description: 'Кто сделал — просто имена, без HTML. craft и design обязательны, остальное — любые пары, на сайте выводятся все по порядку. Если все — bunnybearbeads, секции нет',
+        properties: {
+          craft: { type: 'string', description: 'Кто сплёл, обязательно. Пока всегда bunnybearbeads' },
+          design: { type: 'string', description: 'Автор схемы, обязательно' },
+          photo: { type: 'string', description: 'Автор фото, по желанию' },
+        },
+        additionalProperties: { type: 'string', description: 'Ещё кто-то: ключ — роль (выводится подписью), значение — имя' },
+      },
       locationNotes: {
         type: 'object',
         description: 'Комментарий для посетителей к штукам в точке — ключ: точка',

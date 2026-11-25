@@ -171,7 +171,9 @@ async function collect(dataDir, errors, logger) {
     if ('thumb' in data) errors.push(`${where}: уберите поле "thumb" — thumb берётся из ${THUMBS_DIR}/${folder}.png`);
     if ('materialsHtml' in data) errors.push(`${where}: поля "materialsHtml" больше нет — HTML в "materials" каждой штуки`);
     if ('materials' in data) errors.push(`${where}: "materials" теперь у штук (items), у каждой свои — уберите из изделия`);
-    if ('designedBy' in data) errors.push(`${where}: поле "designedBy" теперь называется "designer"`);
+    if ('designedBy' in data || 'designer' in data) {
+      errors.push(`${where}: автор схемы теперь в "credits": { "design": "…", "craft": "bunnybearbeads", "photo": "" }`);
+    }
     if (typeof data.site !== 'boolean') errors.push(`${where}: "site" — true или false`);
 
     if (data.description !== undefined && typeof data.description !== 'string') {
@@ -183,9 +185,7 @@ async function collect(dataDir, errors, logger) {
       ['remake.note', data.remake?.note],
       ...Object.entries(data.locationNotes ?? {}).map(([loc, n]) => [`locationNotes.${loc}.note`, n?.note]),
     ];
-    if (typeof data.designer === 'string' && /<[a-z/!]/i.test(data.designer)) {
-      errors.push(`${where}: "designer" — просто имя автора схемы, без HTML`);
-    }
+    checkCredits(data.credits, where, errors);
     for (const [field, value] of texts) {
       if (value && BLOCK_TAG_RE.test(JSON.stringify(value))) errors.push(`${where}, ${field}: без <p>, <div> и других блочных тегов — один абзац, обёртку даёт сайт`);
     }
@@ -504,6 +504,27 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
  * Убирает пустые значения: "", пустые массивы и объекты, массивы из пустых строк,
  * переводы { en: "", ru: "", vi: "" }. Наполовину заполненный перевод — ошибка: забыли язык.
  */
+/**
+ * credits — кто сделал: design (автор схемы) и craft (кто сплёл) обязательны, остальное — по желанию и любое
+ * (photo — автор фото, можно добавить автора видео, соавтора…). Сайт выводит все пары по порядку.
+ * Только имена текстом, без HTML. Если все имена — bunnybearbeads, сайт секцию не выводит
+ */
+const CREDIT_REQUIRED = ['craft', 'design'];
+
+function checkCredits(credits, where, errors) {
+  if (typeof credits !== 'object' || credits === null || Array.isArray(credits)) {
+    errors.push(`${where}: нет "credits" — нужны "craft" (кто сплёл) и "design" (автор схемы), остальное — по желанию`);
+    return;
+  }
+  for (const key of CREDIT_REQUIRED) {
+    if (credits[key] === undefined) errors.push(`${where}, credits.${key}: обязательно`);
+  }
+  for (const [key, value] of Object.entries(credits)) {
+    if (typeof value !== 'string') errors.push(`${where}, credits.${key}: имя строкой`);
+    else if (/<[a-z/!]/i.test(value)) errors.push(`${where}, credits.${key}: просто имя, без HTML`);
+  }
+}
+
 function withoutEmpty(value, where, errors, field = '') {
   if (value === '' || value === null) return undefined;
   if (Array.isArray(value)) {

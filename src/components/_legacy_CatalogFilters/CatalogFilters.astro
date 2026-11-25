@@ -81,6 +81,8 @@ const groups = [
     });
 
     if (emptyMessage) emptyMessage.hidden = visibleCount > 0;
+    // Шапка подсвечивает текущий раздел по адресу
+    document.dispatchEvent(new CustomEvent('catalog:filter'));
   }
 
   buttons.forEach((btn) => {
