@@ -302,6 +302,26 @@ export const translations = {
     ru: 'Доставка',
     vi: 'Giao hàng',
   },
+  // Статичный комментарий на странице каждого брелока (category: charm) — о сменном креплении
+  'catalog.charm_attachment.title': {
+    en: 'Phone, keys or bag',
+    ru: 'Крепление можно поменять',
+    vi: 'Có thể đổi móc gắn',
+  },
+  'catalog.charm_attachment.text': {
+    en: `
+      <p>Along with my pieces, I leave a little box of spare parts in partner shops: rings with chains for keys, loops for phones and lobster clasps for bags. If the way the charm hangs in the photos doesn’t work for you, just tell the staff and they’ll swap it on the spot. When ordering online, mention in the chat how you’d like to wear it.</p>
+      <p>Just keep the size of the charm in mind: a small one can get lost on a big bag, while a large one may get in the way on a phone or a bunch of keys. There’s a bottle cap in the photos for scale.</p>
+    `,
+    ru: `
+      <p>Вместе с&nbsp;изделиями я&nbsp;оставляю в&nbsp;партнёрских магазинах коробочку с&nbsp;запчастями: кольца с&nbsp;цепочкой&nbsp;— для ключей, петельки&nbsp;— для телефона, карабины&nbsp;— для сумки. Если крепление на&nbsp;фото вам не&nbsp;подходит, скажите об&nbsp;этом в&nbsp;магазине, и&nbsp;его поменяют на&nbsp;месте. При заказе онлайн просто напишите в&nbsp;чате, какое крепление хотите.</p>
+      <p>Только учитывайте размер брелока: маленький может потеряться на&nbsp;большой сумке, а&nbsp;крупный будет мешать на&nbsp;телефоне или связке ключей. Чтобы размер было проще представить, на&nbsp;фото рядом лежит крышечка от&nbsp;бутылки.</p>
+    `,
+    vi: `
+      <p>Mỗi lần giao hàng, mình đều để lại ở cửa hàng đối tác một hộp phụ kiện nhỏ: khoen kèm dây xích để treo chìa khóa, dây đeo cho điện thoại và móc càng cua để treo lên túi xách. Nếu kiểu móc gắn trong ảnh chưa hợp với bạn, cứ nói với nhân viên, họ sẽ đổi ngay tại chỗ. Khi đặt hàng online, hãy nhắn trong chat nếu bạn muốn đổi móc gắn.</p>
+      <p>Chỉ cần lưu ý kích thước sản phẩm: charm nhỏ dễ bị lọt thỏm trên túi lớn, còn charm to có thể vướng víu khi treo điện thoại hay chùm chìa khóa. Trong ảnh có đặt kèm một chiếc nắp chai để bạn dễ hình dung.</p>
+    `,
+  },
   'catalog.credits': {
     en: 'Credits',
     ru: 'Credits',

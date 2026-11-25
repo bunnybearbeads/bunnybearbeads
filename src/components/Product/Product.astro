@@ -2,6 +2,7 @@
 import './Product.css';
 import Gallery from '../Gallery/Gallery.astro';
 import Family from '../Family/Family.astro';
+import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
 import ProductHeader from '../ProductHeader/ProductHeader.astro';
 import ProductAvailability from '../_legacy_ProductDetail/ProductAvailability.astro';
 import PartnerModals from '../_legacy_ProductDetail/PartnerModals.astro';
@@ -56,6 +57,16 @@ const showCredits = creditRows.some(({ name }) => name !== BRAND);
         )}
 
         <div class="product__specs">
+          <!-- Брелоки: о сменном креплении — один текст для всех -->
+          {raw.category === 'charm' && (
+            <div class="product-specs-section">
+              <strong class="specs-heading">
+                {t('catalog.charm_attachment.title')}
+              </strong>
+              <Wysiwyg smaller set:html={t('catalog.charm_attachment.text')} />
+            </div>
+          )}
+
           <!-- Materials Section -->
           {raw.materials && (
             <div class="product-specs-section">
