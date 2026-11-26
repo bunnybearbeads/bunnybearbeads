@@ -544,17 +544,18 @@ export const translations = {
     ru: 'замака',
     vi: 'hợp kim zamac',
   },
-  // Вместо цветов бисера, если они секрет автора схемы (colorsPublic: no)
+  // Вместо цветов бисера, если они секрет автора схемы (colorsPublic: no). {designer} — автор схемы из credits.design
   'materials.colors_secret': {
-    en: 'The color palette is the pattern designer’s secret, so it isn’t shown here. You’ll find it on the printed card that comes with your piece.',
-    ru: 'Подбор цветов — секрет автора схемы, поэтому здесь его нет. Он указан на печатной карточке, которая приходит вместе с изделием.',
-    vi: 'Bảng màu là bí mật của tác giả mẫu nên không được công khai ở đây. Bạn sẽ tìm thấy nó trên tấm thiệp in đi kèm sản phẩm.',
+    en: 'The bead palette for this pattern isn’t disclosed — it’s part of a paid design by {designer}. Only the buyer will find it on the enclosed card.',
+    ru: 'Подбор бисера для этой схемы не разглашается — это часть платного дизайна от {designer}. Его увидит только покупатель на вложенной карточке.',
+    vi: 'Bảng màu hạt của mẫu này không được tiết lộ — đó là một phần của thiết kế trả phí của {designer}. Chỉ người mua mới thấy được trên tấm thiệp đi kèm.',
   },
-  // Под цветами бисера, если оригинальный подбор — часть платной схемы, а бисер заменён своим (colorsPublic: replaced)
+  // Под цветами бисера, если оригинальный подбор — часть платной схемы, а бисер заменён своим (colorsPublic: replaced).
+  // {designer} — автор схемы из credits.design
   'materials.colors_replaced': {
-    en: 'The original bead palette for this pattern isn’t disclosed — it’s part of a paid design. But this piece uses my own color mix, so the list above is mine.',
-    ru: 'Изначальный подбор бисера для этой схемы не разглашается — это часть платного дизайна, но в этом изделии использован мой собственный микс, так что список цветов выше — мой.',
-    vi: 'Bảng màu hạt gốc của mẫu này không được tiết lộ — đó là một phần của thiết kế trả phí. Nhưng sản phẩm này dùng bảng màu của riêng mình, nên danh sách màu ở trên là của mình.',
+    en: 'The original bead palette for this pattern isn’t disclosed — it’s part of a paid design by {designer}, but this is my own color mix.',
+    ru: 'Изначальный подбор бисера для этой схемы не разглашается — это часть платного дизайна от {designer}, но здесь мой собственный микс.',
+    vi: 'Bảng màu hạt gốc của mẫu này không được tiết lộ — đó là một phần của thiết kế trả phí của {designer}, nhưng đây là bảng màu của riêng mình.',
   },
   // Когда бисера два: {name} — короткое название, «Delica»
   'materials.colors_of': {

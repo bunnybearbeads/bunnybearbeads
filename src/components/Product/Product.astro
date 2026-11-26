@@ -27,7 +27,7 @@ const product = localize(raw, currentLang);
 const family = await getFamilyOf(entry.id);
 const studioQty = getLocationQty(raw.stock, 'atelier');
 const canRemake = studioQty === 0;
-const materials = raw.materials ? materialsHtml(raw.materials, t) : '';
+const materials = raw.materials ? materialsHtml(raw.materials, t, raw.credits.design) : '';
 
 /**
  * «Полезно знать» под галереей: 2–4 ссылки. С html — модалка с этим текстом (заголовок = подпись ссылки),

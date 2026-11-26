@@ -205,11 +205,12 @@ function findingsItems(findings: Findings | undefined, t: T): string[] {
   return braceletItems(findings.bracelet ?? [], t);
 }
 
-export function materialsHtml(materials: Materials, t: T): string {
+/** designer — автор схемы (credits.design): называется в пояснении про платный дизайн */
+export function materialsHtml(materials: Materials, t: T, designer = ''): string {
   const { beads, colorsPublic, additionalBeads, threads, findings } = materials;
   const beadItems = beads.length === 2 ? [beadPair(beads, t)] : beads.map((bead) => singleBead(bead, t));
   // Пояснение — строкой под бисером (под последним, если бисер по пунктам)
-  const colorsNote = colorsPublic === 'no' ? t('materials.colors_secret') : colorsPublic === 'replaced' ? t('materials.colors_replaced') : '';
+  const colorsNote = colorsPublic === 'no' ? t('materials.colors_secret').replace('{designer}', escapeHtml(designer)) : colorsPublic === 'replaced' ? t('materials.colors_replaced').replace('{designer}', escapeHtml(designer)) : '';
   if (colorsNote && beadItems.length) beadItems[beadItems.length - 1] += `<span class="materials-html-content__note">${colorsNote}</span>`;
   const items = [
     ...beadItems,
