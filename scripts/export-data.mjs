@@ -34,7 +34,10 @@
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
+import ffmpegPath from 'ffmpeg-static';
 import { generateMissingPosters } from './generate-posters.mjs';
 import { photoFiles, photoWidths, readPhotoSize, syncPhotos } from './photos.mjs';
 import {
@@ -56,6 +59,7 @@ const PHOTO_CACHE = path.join(ROOT, 'node_modules/.cache/bunnybearbeads', IS_DEM
 
 const BLOCK_TAG_RE = /<\/?(p|div|ul|ol|li|h[1-6]|blockquote)\b/i;
 const VIDEO_RE = /\.(mp4|webm|ogg|mov)$/i;
+const execFileAsync = promisify(execFile);
 /** Фото изделия (gallery) — строго 3:4, вертикальные: под эту пропорцию свёрстаны галерея и карточки */
 const PHOTO_RATIO = { width: 3, height: 4 };
 /** Превью для плашки семейства (thumb) — 40:22, то есть 20:11: 240×132 */
@@ -610,6 +614,26 @@ async function writeJsonDir(dir, entries) {
   return changed;
 }
 
+/**
+ * Копия видео без метаданных: в ролике с телефона записаны геолокация, модель, дата. Фото чистит sharp
+ * (photos.mjs), а видео ffmpeg переупаковывает без пережатия: берёт только картинку и звук
+ * (служебные дорожки iPhone тоже могут нести координаты), метаданные и главы отбрасывает
+ */
+async function copyVideoWithoutMetadata(source, dest) {
+  const tmp = `${dest}.tmp${path.extname(dest)}`;
+  try {
+    await execFileAsync(ffmpegPath, [
+      '-y', '-loglevel', 'error', '-i', source,
+      '-map', '0:v', '-map', '0:a?', '-map_metadata', '-1', '-map_chapters', '-1',
+      '-c', 'copy', ...(/\.(mp4|mov)$/i.test(dest) ? ['-movflags', '+faststart'] : []), tmp,
+    ]);
+    await fsp.rename(tmp, dest);
+  } catch (err) {
+    await fsp.rm(tmp, { force: true });
+    throw new Error(`не удалось скопировать видео без метаданных: ${source}\n${err.stderr || err.message}`);
+  }
+}
+
 /** Копирует фото и видео, если файл новый или изменился; лишнее удаляет. Постеры видео не трогает */
 async function syncMedia(media, photos) {
   let changed = 0;
@@ -621,10 +645,14 @@ async function syncMedia(media, photos) {
     const dest = path.join(OUT_MEDIA, target);
     const src = fs.statSync(source);
     const dst = fs.statSync(dest, { throwIfNoEntry: false });
-    // utimes округляет время до миллисекунды, поэтому сравниваем с допуском
-    if (dst && dst.size === src.size && Math.abs(dst.mtimeMs - src.mtimeMs) < 1) continue;
+    const isVideo = VIDEO_RE.test(target);
+    // utimes округляет время до миллисекунды, поэтому сравниваем с допуском. Копия видео без метаданных
+    // по размеру отличается от исходника — у видео сверяем только время
+    const sameTime = dst && Math.abs(dst.mtimeMs - src.mtimeMs) < 1;
+    if (sameTime && (isVideo || dst.size === src.size)) continue;
     await fsp.mkdir(path.dirname(dest), { recursive: true });
-    await fsp.copyFile(source, dest);
+    if (isVideo) await copyVideoWithoutMetadata(source, dest);
+    else await fsp.copyFile(source, dest);
     await fsp.utimes(dest, src.atime, src.mtime);
     changed += 1;
   }
