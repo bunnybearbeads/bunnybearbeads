@@ -30,13 +30,11 @@
 }
 
 .materials-html-content {
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--color-brand-dark);
-  background: rgb(255 255 255 / 60%);
   padding: 12px 16px;
+  background: rgb(255 255 255 / 60%);
   border-radius: var(--radius-sm);
   border: 1px solid rgb(0 0 0 / 5%);
+  color: var(--color-brand-dark);
 }
 
 /* Пояснение под цветами бисера (секрет автора схемы, свой микс) — src/utils/materials.ts */
@@ -49,21 +47,6 @@
   color: var(--text-muted);
 }
 
-.materials-html-content .mat-beads {
-  font-weight: 600;
-  color: var(--color-brand-dark);
-}
-
-.materials-html-content .mat-colors {
-  color: var(--link-color);
-  font-size: 12px;
-}
-
-.materials-html-content .mat-accessory {
-  color: var(--text-muted);
-  font-style: italic;
-}
-
 .credits-box {
   display: flex;
   flex-direction: column;
@@ -72,28 +55,6 @@
   padding: 12px 16px;
   border-radius: var(--radius-sm);
   border: 1px solid rgb(0 0 0 / 5%);
-}
-
-.credit-row {
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.credit-label {
-  color: var(--text-muted);
-}
-
-.brand-craft {
-  color: var(--color-brand-dark);
-  font-weight: 700;
-}
-
-.credit-val a {
-  color: var(--link-color);
-  text-decoration: underline;
-  font-weight: 600;
 }
 
 /* ==========================================================================
@@ -121,21 +82,15 @@
     margin-bottom: 11px;
   }
 
-  .materials-html-content,
   .credits-box {
-    font-size: 16px;
     padding: 15px 20px;
   }
 
-  .materials-html-content .mat-colors {
-    font-size: 15px;
+  .materials-html-content {
+    padding: 15px 20px;
   }
 
   .materials-html-content__note {
     margin-bottom: 5px;
-  }
-
-  .credit-row {
-    font-size: 15.5px;
   }
 }

@@ -42,8 +42,8 @@
 
     .product-header__description {
         margin-top: 22px;
-        font-size: 14.5px;
-        line-height: 1.75;
+        font-size: var(--body-font-size);
+        line-height: var(--body-line-height);
         color: var(--text-dark);
     }
 
@@ -76,7 +76,6 @@
 
     .product-header__description {
         margin-top: 26px;
-        font-size: 17.5px;
     }
 
     .product-header__price {

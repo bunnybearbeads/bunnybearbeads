@@ -1,5 +1,6 @@
 ---
 import './Product.css';
+import '../Wysiwyg/Wysiwyg.css';
 import Gallery from '../Gallery/Gallery.astro';
 import Family from '../Family/Family.astro';
 import GuideModal from '../GuideModal/GuideModal.astro';
@@ -82,7 +83,7 @@ const showCredits = creditRows.some(({ name }) => name !== BRAND);
               <strong class="specs-heading">
                 {t('catalog.materials_label')}
               </strong>
-              <div class="materials-html-content" set:html={materials} />
+              <div class="materials-html-content wysiwyg wysiwyg--smaller wysiwyg--smaller-list-items-margin" set:html={materials} />
             </div>
           )}
 
@@ -92,13 +93,12 @@ const showCredits = creditRows.some(({ name }) => name !== BRAND);
               <strong class="specs-heading">
                 {t('catalog.credits')}
               </strong>
-              <div class="credits-box">
-                {creditRows.map(({ label, name }) => (
-                  <div class="credit-row">
-                    <span class="credit-label">{label}:</span>
-                    <span class:list={['credit-val', { 'brand-craft': name === BRAND }]}>{name}</span>
-                  </div>
-                ))}
+              <div class="credits-box wysiwyg wysiwyg--smaller wysiwyg--smaller-list-items-margin">
+                <ul>
+                  {creditRows.map(({ label, name }) => (
+                    <li>{label}: <strong>{name}</strong></li>
+                  ))}
+                </ul>
               </div>
             </div>
           )}
