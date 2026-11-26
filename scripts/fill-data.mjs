@@ -14,7 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BRACELET_PARTS, DEMO_DIR, FAMILIES_DIR, FAMILY_SCHEMA_REF, LOCATION_ORDER, PRODUCT_SCHEMA_REF, schemaFiles } from './data-rules.mjs';
+import { BRACELET_PARTS, SIZE_FIELDS, DEMO_DIR, FAMILIES_DIR, FAMILY_SCHEMA_REF, LOCATION_ORDER, PRODUCT_SCHEMA_REF, schemaFiles } from './data-rules.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = path.join(ROOT, 'data');
@@ -38,7 +38,7 @@ const PRODUCT = () => ({
   /** По-английски, как title: переводов пока нет */
   description: '',
   gallery: images(),
-  /** Размер — произвольный текст, можно HTML, не переводится */
+  /** Размер и вес — по категории: числа, длины в см, вес в г (поля — SIZE_FIELDS в data-rules.mjs) */
   size: '',
   /** Кто сделал: craft — кто сплёл (пока всегда bunnybearbeads), design — автор схемы, photo — автор фото, по желанию; можно добавить другие роли */
   credits: { craft: 'bunnybearbeads', design: '', photo: '' },
@@ -62,6 +62,14 @@ const ITEM = () => ({
   materials: { beads: {}, colorsPublic: 'yes', additionalBeads: {}, threads: {}, findings: '' },
   out: { type: '', date: '', paid: '', privateNote: '' },
 });
+
+/** Размер и вес по категории: все поля, пустыми (видно, что вписать); заполненное не трогаем */
+function fillSize(size, category) {
+  const fields = SIZE_FIELDS[category];
+  if (!fields) return size;
+  const empty = Object.fromEntries(Object.keys(fields).map((key) => [key, '']));
+  return size === '' || isPlainObject(size) ? fill(empty, size === '' ? {} : size) : size;
+}
 
 /**
  * Фурнитура по категории: у брелка и серёг — строка, у браслета — все детали пустыми (видно, что можно вписать),
@@ -144,6 +152,7 @@ function fillBase(dataDir) {
     result.$schema = PRODUCT_SCHEMA_REF;
     // thumb больше не поле: берётся из _thumbs по имени папки. Заполненное оставляем — сборка подскажет
     if (isBlank(result.thumb)) delete result.thumb;
+    result.size = fillSize(result.size, result.category);
     result.locationNotes = fillLocationNotes(data.locationNotes);
     result.items = (data.items ?? []).map((item) => {
       const filled = fill(ITEM(), item);

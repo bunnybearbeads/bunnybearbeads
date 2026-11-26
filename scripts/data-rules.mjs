@@ -234,6 +234,39 @@ const comment = (description) => ({
   additionalProperties: false,
 });
 
+/**
+ * Размер и вес изделия (`size`) — один объект, поля по категории. Длины — в сантиметрах, вес — в граммах,
+ * числа можно дробные (1.2). Подписи и единицы переводит сайт (src/utils/size.ts); обхват запястья у браслета
+ * сайт считает сам из длины
+ */
+const WEIGHT = { weight: 'Вес, г' };
+export const SIZE_FIELDS = {
+  bracelet: { width: 'Ширина, см', length: 'Длина, см', ...WEIGHT },
+  charm: { width: 'Ширина без крепления, см', height: 'Высота без крепления, см', ...WEIGHT },
+  ring: {
+    beads: 'Ширина в бисеринах',
+    fingerFrom: 'Обхват пальца от, см',
+    fingerTo: 'Обхват пальца до, см',
+    sizeFrom: 'Размер кольца от',
+    sizeTo: 'Размер кольца до (один размер — как sizeFrom)',
+    ...WEIGHT,
+  },
+  earrings: { width: 'Ширина, см', length: 'Длина, см', ...WEIGHT },
+  'pen-wrap': { width: 'Ширина, см', length: 'Длина, см', ...WEIGHT },
+};
+
+/** Подсказка для size по категории изделия */
+function sizeSchema(category) {
+  const fields = SIZE_FIELDS[category];
+  const number = (description) => ({ description, anyOf: [{ type: 'number', exclusiveMinimum: 0 }, empty] });
+  return {
+    type: 'object',
+    description: 'Размер и вес: числа без кавычек, длины в см, вес в г, можно дробные (1.2). Нет значения — пусто',
+    properties: Object.fromEntries(Object.entries(fields).map(([key, hint]) => [key, number(hint)])),
+    additionalProperties: false,
+  };
+}
+
 /** Подсказка для materials.findings по категории изделия */
 function findingsSchema(category) {
   if (category === 'charm') return choice(Object.keys(CHARM_FINDINGS), 'Крепление брелка');
@@ -273,7 +306,7 @@ export function productSchema() {
       category: choice(CATEGORIES, 'Категория, в единственном числе (earrings — пара)'),
       description: { type: 'string', description: 'Описание по-английски, один абзац без <p> и <div>' },
       gallery: media('Фото и видео изделия, первое — обложка в каталоге. Фото строго 3:4, вертикальные'),
-      size: { type: 'string', description: 'Размер — произвольный текст, можно HTML, не переводится' },
+      size: { description: 'Размер и вес — поля зависят от category: длины в см, вес в г' },
       credits: {
         type: 'object',
         description: 'Кто сделал — просто имена, без HTML. craft и design обязательны, остальное — любые пары, на сайте выводятся все по порядку. Если все — bunnybearbeads, секции нет',
@@ -307,7 +340,12 @@ export function productSchema() {
     // Фурнитура у штук — своя для каждой категории
     allOf: CATEGORIES.map((category) => ({
       if: { properties: { category: { const: category } }, required: ['category'] },
-      then: { properties: { items: { items: { properties: { materials: { properties: { findings: findingsSchema(category) } } } } } } },
+      then: {
+        properties: {
+          size: sizeSchema(category),
+          items: { items: { properties: { materials: { properties: { findings: findingsSchema(category) } } } } },
+        },
+      },
     })),
     definitions: {
       item: {

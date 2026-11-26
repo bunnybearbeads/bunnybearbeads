@@ -15,6 +15,7 @@ import { getLocalizedUrl, useTranslations, localize } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
 import { type ProductEntry, getFamilyOf, getLocationQty } from '../../utils/products';
 import { materialsHtml } from '../../utils/materials';
+import { sizeSection } from '../../utils/size';
 
 interface Props {
   entry: ProductEntry;
@@ -28,6 +29,7 @@ const product = localize(raw, currentLang);
 const family = await getFamilyOf(entry.id);
 const studioQty = getLocationQty(raw.stock, 'atelier');
 const canRemake = studioQty === 0;
+const size = sizeSection(raw.size, t, currentLang);
 const materials = raw.materials ? materialsHtml(raw.materials, t, raw.credits.design) : '';
 
 /**
@@ -76,6 +78,15 @@ const showCredits = creditRows.some(({ name }) => name !== BRAND);
 
         <div class="product__specs">
           <ProductGuides class="product-specs-section" heading={t('catalog.good_to_know')} guides={guides} note={t('catalog.age_limit')} />
+
+          {size.html && (
+            <div class="product-specs-section">
+              <strong class="specs-heading">
+                {size.heading}
+              </strong>
+              <div class="size-box wysiwyg wysiwyg--smaller wysiwyg--smaller-list-items-margin" set:html={size.html} />
+            </div>
+          )}
 
           <!-- Materials Section -->
           {materials && (

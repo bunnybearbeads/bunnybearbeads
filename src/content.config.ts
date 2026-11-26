@@ -66,8 +66,19 @@ const products = defineCollection({
     gallery: z.array(mediaItemSchema).default([]),
     /** Превью 40:22 для плашки в семействе */
     thumb: photoSchema.optional(),
-    /** Размер — произвольный текст с HTML */
-    size: z.string().optional(),
+    /** Размер и вес: kind — категория, длины в см, вес в г (подписи и обхват запястья — src/utils/size.ts) */
+    size: z.object({
+      kind: z.string(),
+      width: z.number().optional(),
+      height: z.number().optional(),
+      length: z.number().optional(),
+      weight: z.number().optional(),
+      beads: z.number().optional(),
+      fingerFrom: z.number().optional(),
+      fingerTo: z.number().optional(),
+      sizeFrom: z.number().optional(),
+      sizeTo: z.number().optional(),
+    }).optional(),
     /**
      * Материалы последней штуки в наличии, иначе последней штуки в списке. В базе — у штук.
      * HTML собирает src/utils/materials.ts

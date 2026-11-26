@@ -41,7 +41,7 @@ import ffmpegPath from 'ffmpeg-static';
 import { generateMissingPosters } from './generate-posters.mjs';
 import { photoFiles, photoWidths, readPhotoSize, syncPhotos } from './photos.mjs';
 import {
-  ADDITIONAL_BEAD_COLORS, ADDITIONAL_BEAD_TYPES, ATTACH_TO, BEAD_TYPES, BRACELET_PARTS, braceletOptions, CATEGORIES, CHARM_FINDINGS, COLORS_PUBLIC, DATE_FORMATS, DEMO_DIR, FAMILIES_DIR, ITEM_ID_RE, LOCATION_ORDER, MAKERS, MATERIAL_FIELDS, OUT_TYPES, THREAD_TYPES, PARTIAL_DATE_RE, SLUG_RE,
+  ADDITIONAL_BEAD_COLORS, ADDITIONAL_BEAD_TYPES, ATTACH_TO, BEAD_TYPES, BRACELET_PARTS, braceletOptions, CATEGORIES, CHARM_FINDINGS, COLORS_PUBLIC, SIZE_FIELDS, DATE_FORMATS, DEMO_DIR, FAMILIES_DIR, ITEM_ID_RE, LOCATION_ORDER, MAKERS, MATERIAL_FIELDS, OUT_TYPES, THREAD_TYPES, PARTIAL_DATE_RE, SLUG_RE,
   THUMB_EXTENSIONS, THUMBS_DIR, schemaFiles, thumbKey,
 } from './data-rules.mjs';
 
@@ -71,6 +71,12 @@ const CONFLICT_RE = /conflicted copy|конфликтующая копия/i;
 /** Служебные поля, которые на сайт не попадают никогда */
 const PRIVATE_FIELDS = ['$schema', 'slug', 'site', 'items', 'locationNotes', 'remake'];
 const OUT_FIELDS = ['type', 'date', 'paid', 'privateNote'];
+/** Обязательно у изделий с "site": true (credits — отдельно, в checkCredits) */
+const SITE_REQUIRED = [
+  ['description', 'описание'],
+  ['gallery', 'хотя бы одно фото'],
+  ['size', 'размер и вес'],
+];
 const REMAKE_FIELDS = ['price', 'publicNote', 'publicNoteImages', 'privateNote'];
 /** Старые имена комментариев: в базе теперь видно, что попадает на сайт (public), а что нет (private) */
 const RENAMED_NOTES = { note: 'publicNote', noteImages: 'publicNoteImages', memo: 'privateNote' };
@@ -212,7 +218,8 @@ async function collect(dataDir, errors, logger) {
       ['remake.publicNote', data.remake?.publicNote],
       ...Object.entries(data.locationNotes ?? {}).map(([loc, n]) => [`locationNotes.${loc}.publicNote`, n?.publicNote]),
     ];
-    checkCredits(data.credits, where, errors);
+    // credits обязательны у изделий на сайте; у скрытых — по желанию, но если есть, проверяются
+    if (data.site === true || data.credits !== undefined) checkCredits(data.credits, where, errors, data.site === true);
     for (const [field, value] of texts) {
       if (value && BLOCK_TAG_RE.test(JSON.stringify(value))) errors.push(`${where}, ${field}: без <p>, <div> и других блочных тегов — один абзац, обёртку даёт сайт`);
     }
@@ -227,9 +234,10 @@ async function collect(dataDir, errors, logger) {
       hiddenSlugs.add(slug);
       continue;
     }
-    // На сайте у изделия должно быть хотя бы одно фото: заглушки в галерее нет
-    if (!Array.isArray(data.gallery) || data.gallery.length === 0) {
-      errors.push(`${where}: "gallery" пустая — изделию на сайте нужно хотя бы одно фото (или "site": false)`);
+    // Изделию на сайте нужны описание, фото (заглушки в галерее нет), размер, вес и credits (проверены выше).
+    // У скрытых ("site": false) всё это можно заполнить потом. Пустое значение — то же, что отсутствие
+    for (const [field, what] of SITE_REQUIRED) {
+      if (data[field] === undefined) errors.push(`${where}: изделию на сайте нужен "${field}" — ${what} (или "site": false)`);
     }
 
     // Пути к файлам в JSON изделия — относительно папки изделия
@@ -286,6 +294,11 @@ async function collect(dataDir, errors, logger) {
 
     const publicData = Object.fromEntries(Object.entries(data).filter(([key]) => !PRIVATE_FIELDS.includes(key)));
     if (materials) publicData.materials = materials;
+    const size = toSize(data.size, where, errors, data.category);
+    if (size) publicData.size = size;
+    else delete publicData.size;
+    if ('weight' in data) errors.push(`${where}: "weight" теперь внутри "size": { …, "weight": 4.5 }`);
+    if (data.size !== undefined && size && size.weight === undefined) errors.push(`${where}: изделию на сайте нужен вес — "size.weight" в граммах`);
     publicData.gallery = (data.gallery ?? []).map((item, i) => mapMedia(item, `gallery[${i}]`, { ratio: PHOTO_RATIO }));
     // thumb — из _thumbs по имени папки. На сайте копия называется по slug: имя файла может быть служебным
     const thumbFile = thumbs.get(thumbKey(folder));
@@ -525,6 +538,28 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
 const BEAD_COLORS_FIELD_RE = /(^|\.)materials\.(beads|additionalBeads|threads)\.[^[\]]+$/;
 
 /**
+ * Размер и вес — по категории (SIZE_FIELDS): числа, длины в см, вес в г → { kind: category, …поля }.
+ * Подписи, единицы и обхват запястья — на сайте (src/utils/size.ts)
+ */
+function toSize(size, where, errors, category) {
+  if (size === undefined) return undefined;
+  const fields = SIZE_FIELDS[category];
+  if (!fields) return undefined; // неизвестная категория — о ней уже сказано
+  if (typeof size !== 'object' || size === null || Array.isArray(size)) {
+    errors.push(`${where}, size: объект с числами: { ${Object.keys(fields).map((k) => `"${k}": …`).join(', ')} }`);
+    return undefined;
+  }
+  const result = {};
+  for (const [key, value] of Object.entries(size)) {
+    if (key === 'wristFrom') errors.push(`${where}, size.wristFrom: уберите — обхват запястья сайт считает сам из длины`);
+    else if (!(key in fields)) errors.push(`${where}, size: лишнее поле «${key}» — можно ${Object.keys(fields).join(', ')}`);
+    else if (typeof value !== 'number' || !(value > 0)) errors.push(`${where}, size.${key}: число без кавычек больше нуля, а сейчас ${JSON.stringify(value)}`);
+    else result[key] = value;
+  }
+  return Object.keys(result).length ? { kind: category, ...result } : undefined;
+}
+
+/**
  * Фурнитура — по категории: у брелка — одно из CHARM_FINDINGS, у серёг — строка, у браслета — детали из
  * BRACELET_PARTS («Tarin Thomas 18K gold-plated brass»), у колец и обмоток для ручек её нет
  */
@@ -691,12 +726,13 @@ function toMaterials(materials, at, errors, category) {
  */
 const CREDIT_REQUIRED = ['craft', 'design'];
 
-function checkCredits(credits, where, errors) {
+/** required — у изделий на сайте: credits, craft и design обязательны; у скрытых — только формат того, что вписано */
+function checkCredits(credits, where, errors, required = true) {
   if (typeof credits !== 'object' || credits === null || Array.isArray(credits)) {
     errors.push(`${where}: нет "credits" — нужны "craft" (кто сплёл) и "design" (автор схемы), остальное — по желанию`);
     return;
   }
-  for (const key of CREDIT_REQUIRED) {
+  for (const key of required ? CREDIT_REQUIRED : []) {
     if (credits[key] === undefined) errors.push(`${where}, credits.${key}: обязательно`);
   }
   for (const [key, value] of Object.entries(credits)) {

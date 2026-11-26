@@ -287,6 +287,79 @@ export const translations = {
     ru: 'Характеристики и материалы',
     vi: 'Chất liệu & Thông số',
   },
+  // Размер и вес изделия (src/utils/size.ts). {value} — число с единицей («1,2 см»).
+  // Обхват запястья у браслета сайт считает сам: длина / 1.1
+  // Заголовок секции: смотря что есть — размер, вес или оба
+  'size.heading': {
+    en: 'Size',
+    ru: 'Размер',
+    vi: 'Kích thước',
+  },
+  'size.heading_weight': {
+    en: 'Weight',
+    ru: 'Вес',
+    vi: 'Trọng lượng',
+  },
+  'size.heading_both': {
+    en: 'Size & weight',
+    ru: 'Размер и вес',
+    vi: 'Kích thước & trọng lượng',
+  },
+  'size.weight': {
+    en: 'Weight: {value}',
+    ru: 'Вес: {value}',
+    vi: 'Trọng lượng: {value}',
+  },
+  'size.g': {
+    en: '{value} g',
+    ru: '{value} г',
+    vi: '{value} g',
+  },
+  'size.cm': {
+    en: '{value} cm',
+    ru: '{value} см',
+    vi: '{value} cm',
+  },
+  'size.width': {
+    en: 'Width: {value}',
+    ru: 'Ширина: {value}',
+    vi: 'Chiều rộng: {value}',
+  },
+  'size.height': {
+    en: 'Height: {value}',
+    ru: 'Высота: {value}',
+    vi: 'Chiều cao: {value}',
+  },
+  'size.length': {
+    en: 'Length: {value}',
+    ru: 'Длина: {value}',
+    vi: 'Chiều dài: {value}',
+  },
+  'size.wrist_from': {
+    en: 'Fits wrists from {value}',
+    ru: 'На запястье от {value}',
+    vi: 'Vừa cổ tay từ {value}',
+  },
+  'size.charm': {
+    en: '{width} × {height}, without the attachment',
+    ru: '{width} × {height} без учёта крепления',
+    vi: '{width} × {height}, không tính móc',
+  },
+  'size.ring_beads': {
+    en: 'Width: {value} beads',
+    ru: 'Ширина в бисеринах: {value}',
+    vi: 'Chiều rộng: {value} hạt',
+  },
+  'size.ring_finger': {
+    en: 'Fits finger circumference {value}',
+    ru: 'На палец с обхватом {value}',
+    vi: 'Vừa ngón tay có chu vi {value}',
+  },
+  'size.ring_size': {
+    en: 'Ring size {value}',
+    ru: 'Размер {value}',
+    vi: 'Cỡ nhẫn {value}',
+  },
   // Материалы (src/utils/materials.ts): названия бисера не переводятся, переводятся приписки
   'materials.beads_note': {
     en: 'high-quality Japanese seed beads',
