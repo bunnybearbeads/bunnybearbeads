@@ -8,5 +8,5 @@ order: 2
   Hiện tại mình chưa bán lẻ nguyên liệu chính thức, vì việc kinh doanh vật liệu đòi hỏi chuẩn bị kỹ lưỡng, mặt bằng và kho bãi.
 </p>
 <p>
-  Tuy nhiên! Nếu bạn muốn tự tay tập đan thử hoặc đang cần gấp vài gram mã màu cườm Nhật cụ thể nào đó, mình hiểu rất rõ cảm giác khó tìm cườm đúng lúc như thế nào. Cứ nhắn cho mình nhé — biết đâu mình có thể san sẻ một ít từ bộ sưu tập cá nhân của mình.
+  Tuy nhiên! Nếu bạn muốn tự tay tập đan thử hoặc đang cần gấp vài gram mã màu cườm Nhật cụ thể nào đó, mình hiểu rất rõ cảm giác khó tìm cườm đúng lúc như thế nào. <a class="link" href="/vi/contacts" data-hystmodal="#modal-contact" data-modal-always>Cứ nhắn cho mình</a> nhé — biết đâu mình có thể san sẻ một ít từ bộ sưu tập cá nhân của mình.
 </p>

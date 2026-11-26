@@ -42,6 +42,8 @@ export interface SiteSettings {
   fulfillment: FulfillmentConfig;
   /** С какого возраста изделия (мелкие детали): подставляется в тексты вместо {age} */
   ageLimit: number;
+  /** Когда я на связи (по времени Вьетнама), часы 0–23 — модалка «Напишите мне» */
+  onlineHours: { from: number; to: number };
   /** Primary contact links */
   contacts: {
     telegramUrl: string;
@@ -74,6 +76,9 @@ export const siteSettings: SiteSettings = {
 
   // Мелкие детали: для детей от этого возраста (раздел «Прочность, уход и предостережения», {age} в ui.ts)
   ageLimit: 8,
+
+  // На связи в мессенджерах: «я онлайн с 10 утра до 8 вечера» (src/components/ContactModal)
+  onlineHours: { from: 10, to: 20 },
 
   // Contact points
   contacts: {

@@ -51,7 +51,7 @@ const tKey = (key: string) => t(key as TranslationKey);
       </div>
     </div>
   )}
-  <p class="bracelet-clasps__swap">{t('catalog.clasps.swap')}</p>
+  <p class="bracelet-clasps__swap" set:html={t('catalog.clasps.swap')} />
 
   <ul class="bracelet-clasps__list">
   {CLASPS.map((id) => (

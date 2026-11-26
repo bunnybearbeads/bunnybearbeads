@@ -3,6 +3,11 @@
   gap: 8px;
 }
 
+/* В модалках: первая кнопка с подписью, остальные с названием мессенджера; переносятся, если не влезают */
+.inquiry--expanded {
+  flex-wrap: wrap;
+}
+
 .inquiry .button:not(.button--square) .alt-icon {
   margin-left: -6px;
 }

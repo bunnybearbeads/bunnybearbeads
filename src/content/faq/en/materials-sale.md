@@ -8,5 +8,5 @@ order: 2
   Right now, I don't officially sell supplies, as running a retail shop requires serious preparation, a commercial space, and proper inventory.
 </p>
 <p>
-  However! If you want to try weaving something yourself, or urgently need just a couple of grams of a specific Japanese bead color code, I know firsthand how painful it is to find exact beads on short notice. Drop me a message — I might be able to share some from my personal stash.
+  However! If you want to try weaving something yourself, or urgently need just a couple of grams of a specific Japanese bead color code, I know firsthand how painful it is to find exact beads on short notice. <a class="link" href="/contacts" data-hystmodal="#modal-contact" data-modal-always>Drop me a message</a> — I might be able to share some from my personal stash.
 </p>

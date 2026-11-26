@@ -217,6 +217,18 @@ export const translations = {
     ru: 'В наличии',
     vi: 'Còn hàng',
   },
+  // Модалка «Напишите мне» (src/components/ContactModal) — выдержка из контактов
+  'contact_modal.title': {
+    en: 'Message me',
+    ru: 'Напишите мне',
+    vi: 'Nhắn cho mình',
+  },
+  // {from}, {to} — часы из siteSettings.onlineHours («10 утра», «8 вечера»)
+  'contact_modal.text': {
+    en: '<p>I’m online from {from} to {to}, Vietnam time. I’ll reply as soon as I pick up my phone.</p>',
+    ru: '<p>Я&nbsp;на&nbsp;связи с&nbsp;{from} до&nbsp;{to} по&nbsp;Вьетнаму. Отвечу, как только возьму телефон в&nbsp;руки.</p>',
+    vi: '<p>Mình online từ {from} đến {to}. Mình sẽ trả lời ngay khi cầm điện thoại lên nhé.</p>',
+  },
   'catalog.order_piece': {
     en: 'Order / Inquire',
     ru: 'Заказать',
@@ -231,6 +243,16 @@ export const translations = {
     en: 'Order via',
     ru: 'Заказать в',
     vi: 'Đặt qua',
+  },
+  'catalog.inquiry.write_via': {
+    en: 'Message via',
+    ru: 'Написать в',
+    vi: 'Nhắn qua',
+  },
+  'catalog.inquiry.write': {
+    en: 'Message',
+    ru: 'Написать',
+    vi: 'Nhắn tin',
   },
   'catalog.inquiry.order': {
     en: 'Order',
@@ -665,15 +687,15 @@ export const translations = {
   },
   'catalog.charm_attachment.text': {
     en: `
-      <p>Along with my pieces, I leave a little box of spare parts in partner shops: rings with chains for keys, loops for phones and lobster clasps for bags. If the way the charm hangs in the photos doesn’t work for you, just tell the staff and they’ll swap it on the spot. When ordering online, mention in the chat how you’d like to wear it.</p>
+      <p>Along with my pieces, I leave a little box of spare parts in partner shops: rings with chains for keys, loops for phones and lobster clasps for bags. If the way the charm hangs in the photos doesn’t work for you, just tell the staff and they’ll swap it on the spot. When ordering online, <a class="link" href="/contacts" data-hystmodal="#modal-contact" data-modal-always>mention in the chat</a> how you’d like to wear it.</p>
       <p>Just keep the size of the charm in mind: a small one can get lost on a big bag, while a large one may get in the way on a phone or a bunch of keys. There’s a bottle cap in the photos for scale.</p>
     `,
     ru: `
-      <p>Вместе с&nbsp;изделиями я&nbsp;оставляю в&nbsp;партнёрских магазинах коробочку с&nbsp;запчастями: кольца с&nbsp;цепочкой&nbsp;— для ключей, петельки&nbsp;— для телефона, карабины&nbsp;— для сумки. Если крепление на&nbsp;фото вам не&nbsp;подходит, скажите об&nbsp;этом в&nbsp;магазине, и&nbsp;его поменяют на&nbsp;месте. При заказе онлайн просто напишите в&nbsp;чате, какое крепление хотите.</p>
+      <p>Вместе с&nbsp;изделиями я&nbsp;оставляю в&nbsp;партнёрских магазинах коробочку с&nbsp;запчастями: кольца с&nbsp;цепочкой&nbsp;— для ключей, петельки&nbsp;— для телефона, карабины&nbsp;— для сумки. Если крепление на&nbsp;фото вам не&nbsp;подходит, скажите об&nbsp;этом в&nbsp;магазине, и&nbsp;его поменяют на&nbsp;месте. При заказе онлайн просто <a class="link" href="/ru/contacts" data-hystmodal="#modal-contact" data-modal-always>напишите в&nbsp;чате</a>, какое крепление хотите.</p>
       <p>Только учитывайте размер брелка: маленький может потеряться на&nbsp;большой сумке, а&nbsp;крупный будет мешать на&nbsp;телефоне или связке ключей. Чтобы размер было проще представить, на&nbsp;фото рядом лежит крышечка от&nbsp;бутылки.</p>
     `,
     vi: `
-      <p>Mỗi lần giao hàng, mình đều để lại ở cửa hàng đối tác một hộp phụ kiện nhỏ: khoen kèm dây xích để treo chìa khóa, dây đeo cho điện thoại và móc càng cua để treo lên túi xách. Nếu kiểu móc gắn trong ảnh chưa hợp với bạn, cứ nói với nhân viên, họ sẽ đổi ngay tại chỗ. Khi đặt hàng online, hãy nhắn trong chat nếu bạn muốn đổi móc gắn.</p>
+      <p>Mỗi lần giao hàng, mình đều để lại ở cửa hàng đối tác một hộp phụ kiện nhỏ: khoen kèm dây xích để treo chìa khóa, dây đeo cho điện thoại và móc càng cua để treo lên túi xách. Nếu kiểu móc gắn trong ảnh chưa hợp với bạn, cứ nói với nhân viên, họ sẽ đổi ngay tại chỗ. Khi đặt hàng online, <a class="link" href="/vi/contacts" data-hystmodal="#modal-contact" data-modal-always>hãy nhắn trong chat</a> nếu bạn muốn đổi móc gắn.</p>
       <p>Chỉ cần lưu ý kích thước sản phẩm: charm nhỏ dễ bị lọt thỏm trên túi lớn, còn charm to có thể vướng víu khi treo điện thoại hay chùm chìa khóa. Trong ảnh có đặt kèm một chiếc nắp chai để bạn dễ hình dung.</p>
     `,
   },
@@ -691,9 +713,9 @@ export const translations = {
     vi: '<strong>Xích kèm khóa tôm</strong> là kiểu khóa tiêu chuẩn của vòng tay, nhưng tự cài bằng một tay khá khó. Hãy nhớ mẹo dùng kẹp tăm này nhé (mình sẽ để sẵn một chiếc trong hộp). Dù vậy, vẫn cần chút khéo tay, nên nếu độ dài phù hợp, bạn có thể đổi khóa.',
   },
   'catalog.clasps.swap': {
-    en: 'Along with my bracelets, I leave spare clasps in partner shops. If the clasp in the photos doesn’t work for you, just tell the staff and they’ll swap it on the spot — the design usually allows it. When ordering online, mention in the chat which clasp you’d like. Here are the options:',
-    ru: 'Вместе с браслетами я оставляю в партнёрских магазинах запасные застёжки. Если застёжка на фото вам не подходит, скажите об этом в магазине, и её поменяют на месте: обычно дизайн позволяет это сделать. При заказе онлайн просто напишите в чате, какую застёжку хотите. Вот какие они бывают:',
-    vi: 'Cùng với vòng tay, mình để lại ở cửa hàng đối tác vài kiểu khóa dự phòng. Nếu khóa trong ảnh chưa hợp với bạn, cứ nói với nhân viên, họ sẽ đổi ngay tại chỗ — thường thì thiết kế của vòng cho phép làm vậy. Khi đặt hàng online, hãy nhắn trong chat kiểu khóa bạn muốn. Dưới đây là các lựa chọn:',
+    en: 'Along with my bracelets, I leave spare clasps in partner shops. If the clasp in the photos doesn’t work for you, just tell the staff and they’ll swap it on the spot — the design usually allows it. When ordering online, <a class="link" href="/contacts" data-hystmodal="#modal-contact" data-modal-always>mention in the chat</a> which clasp you’d like. Here are the options:',
+    ru: 'Вместе с браслетами я оставляю в партнёрских магазинах запасные застёжки. Если застёжка на фото вам не подходит, скажите об этом в магазине, и её поменяют на месте: обычно дизайн позволяет это сделать. При заказе онлайн просто <a class="link" href="/ru/contacts" data-hystmodal="#modal-contact" data-modal-always>напишите в чате</a>, какую застёжку хотите. Вот какие они бывают:',
+    vi: 'Cùng với vòng tay, mình để lại ở cửa hàng đối tác vài kiểu khóa dự phòng. Nếu khóa trong ảnh chưa hợp với bạn, cứ nói với nhân viên, họ sẽ đổi ngay tại chỗ — thường thì thiết kế của vòng cho phép làm vậy. Khi đặt hàng online, <a class="link" href="/vi/contacts" data-hystmodal="#modal-contact" data-modal-always>hãy nhắn trong chat</a> kiểu khóa bạn muốn. Dưới đây là các lựa chọn:',
   },
   'catalog.clasps.bobby_pin': {
     en: 'Anchor the chain with a bobby pin to help clasp it solo (see photo).',
@@ -917,21 +939,21 @@ export const translations = {
     en: `
       <ul>
         <li>Please note this is a handmade item — some irregularities are to be expected.</li>
-        <li>Metal parts may cause skin reactions for some. Contact me; I may be able to redesign the piece to be metal-free.</li>
+        <li>Metal parts may cause skin reactions for some. <a class="link" href="/contacts" data-hystmodal="#modal-contact" data-modal-always>Contact me</a>; I may be able to redesign the piece to be metal-free.</li>
         <li>Choking hazard due to small parts. Suitable for ages {age} and up. Adult supervision recommended.</li>
       </ul>
     `,
     ru: `
       <ul>
         <li>Это изделие ручной работы, так что небольшие неровности возможны.</li>
-        <li>У&nbsp;некоторых людей металлические детали вызывают раздражение кожи. Напишите мне&nbsp;— возможно, браслет получится переделать без металла.</li>
+        <li>У&nbsp;некоторых людей металлические детали вызывают раздражение кожи. <a class="link" href="/ru/contacts" data-hystmodal="#modal-contact" data-modal-always>Напишите мне</a>&nbsp;— возможно, браслет получится переделать без металла.</li>
         <li>Есть мелкие детали&nbsp;— опасно при проглатывании. Для детей от&nbsp;{age}&nbsp;лет, под присмотром взрослых.</li>
       </ul>
     `,
     vi: `
       <ul>
         <li>Đây là sản phẩm làm thủ công nên có thể có vài điểm chưa đều.</li>
-        <li>Chi tiết kim loại có thể gây kích ứng da ở một số người. Hãy liên hệ với mình — có thể mình sẽ làm lại vòng mà không dùng kim loại.</li>
+        <li>Chi tiết kim loại có thể gây kích ứng da ở một số người. <a class="link" href="/vi/contacts" data-hystmodal="#modal-contact" data-modal-always>Hãy liên hệ với mình</a> — có thể mình sẽ làm lại vòng mà không dùng kim loại.</li>
         <li>Có chi tiết nhỏ, nguy cơ hóc nghẹt. Phù hợp cho trẻ từ {age} tuổi trở lên, nên có người lớn giám sát.</li>
       </ul>
     `,
@@ -980,21 +1002,21 @@ export const translations = {
     en: `
       <ul>
         <li>Please note this is a handmade item — some irregularities are to be expected.</li>
-        <li>Metal ear wires may cause skin reactions for some. Contact me; I may be able to swap findings with alternative options.</li>
+        <li>Metal ear wires may cause skin reactions for some. <a class="link" href="/contacts" data-hystmodal="#modal-contact" data-modal-always>Contact me</a>; I may be able to swap findings with alternative options.</li>
         <li>Choking hazard due to small parts. Suitable for ages {age} and up. Adult supervision recommended.</li>
       </ul>
     `,
     ru: `
       <ul>
         <li>Это изделие ручной работы, так что небольшие неровности возможны.</li>
-        <li>У&nbsp;некоторых людей металлические швензы вызывают раздражение кожи. Напишите мне&nbsp;— возможно, получится заменить их&nbsp;другой фурнитурой.</li>
+        <li>У&nbsp;некоторых людей металлические швензы вызывают раздражение кожи. <a class="link" href="/ru/contacts" data-hystmodal="#modal-contact" data-modal-always>Напишите мне</a>&nbsp;— возможно, получится заменить их&nbsp;другой фурнитурой.</li>
         <li>Есть мелкие детали&nbsp;— опасно при проглатывании. Для детей от&nbsp;{age}&nbsp;лет, под присмотром взрослых.</li>
       </ul>
     `,
     vi: `
       <ul>
         <li>Đây là sản phẩm làm thủ công nên có thể có vài điểm chưa đều.</li>
-        <li>Móc tai bằng kim loại có thể gây kích ứng da ở một số người. Hãy liên hệ với mình — có thể mình sẽ đổi sang loại móc khác.</li>
+        <li>Móc tai bằng kim loại có thể gây kích ứng da ở một số người. <a class="link" href="/vi/contacts" data-hystmodal="#modal-contact" data-modal-always>Hãy liên hệ với mình</a> — có thể mình sẽ đổi sang loại móc khác.</li>
         <li>Có chi tiết nhỏ, nguy cơ hóc nghẹt. Phù hợp cho trẻ từ {age} tuổi trở lên, nên có người lớn giám sát.</li>
       </ul>
     `,

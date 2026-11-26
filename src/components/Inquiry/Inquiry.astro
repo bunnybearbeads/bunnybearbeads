@@ -9,12 +9,18 @@ import { messengers, type MessengerKey } from './messengers';
 export interface Props {
   currentLang: SupportedLanguage;
   productTitle?: string;
+  /** Подписи кнопок: «Заказать в …» (по умолчанию) или «Написать в …» — в модалке связи */
+  action?: 'order' | 'write';
+  /** Для модалок: все кнопки раскрыты — первая с подписью «Написать в …», остальные — «В Messenger» */
+  expanded?: boolean;
   class?: string;
 }
 
 const {
   currentLang,
   productTitle,
+  action = 'order',
+  expanded = false,
   class: className,
 } = Astro.props;
 
@@ -25,6 +31,10 @@ const priorityByLang: Record<SupportedLanguage, MessengerKey> = {
   ru: 'telegram',
   vi: 'zalo',
 };
+
+/** «В Messenger», «Via Messenger», «Qua Zalo» — подпись остальных кнопок в раскрытом виде */
+const via = t('catalog.inquiry.via');
+const viaLabel = via.charAt(0).toUpperCase() + via.slice(1);
 
 const highlightedKey = priorityByLang[currentLang] ?? 'telegram';
 
@@ -40,16 +50,18 @@ const orderedMessengers = [...messengersData].sort((a, b) => {
 });
 ---
 
-{/* На мобильном кнопка ведёт сразу в мессенджер, на десктопе открывает QR-модалку (InquiryModals, utils/modals.ts) */}
-<div class:list={['inquiry', className]} role="group" aria-label={t('catalog.order_piece')}>
+{/* На мобильном кнопка ведёт сразу в мессенджер, на десктопе открывает QR-модалку (InquiryModals, utils/modals.ts).
+    data-stacked — QR открывается поверх модалки, из которой нажали (связь, повтор): Esc и крестик возвращают в неё */}
+<div class:list={['inquiry', { 'inquiry--expanded': expanded }, className]} role="group" aria-label={t('catalog.order_piece')}>
   {orderedMessengers.map((item) => {
-    const fullLabel = `${t('catalog.inquiry.order_via')} ${item.name}`;
+    const fullLabel = `${t(action === 'write' ? 'catalog.inquiry.write_via' : 'catalog.inquiry.order_via')} ${item.name}`;
     return (
       <Button
         href={item.url}
         data-hystmodal={`#${item.modalId}`}
+        data-stacked
         data-zalo={item.zaloCode}
-        square={!item.isHighlighted}
+        square={!expanded && !item.isHighlighted}
         aria-label={!item.isHighlighted ? fullLabel : undefined}
         title={fullLabel}
       >
@@ -57,9 +69,11 @@ const orderedMessengers = [...messengersData].sort((a, b) => {
           src={item.icon}
           alt=""
         />
-        {item.isHighlighted && (
+        {expanded && !item.isHighlighted ? (
+          <span class="inquiry__label">{viaLabel} {item.name}</span>
+        ) : item.isHighlighted && (
           <span class="inquiry__label">
-            {t('catalog.inquiry.order')}<span class="inquiry__channel"> {t('catalog.inquiry.via')} {item.name}</span>
+            {t(action === 'write' ? 'catalog.inquiry.write' : 'catalog.inquiry.order')}<span class="inquiry__channel"> {t('catalog.inquiry.via')} {item.name}</span>
           </span>
         )}
       </Button>
