@@ -4,12 +4,15 @@ import Icon from '../Icon/Icon.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 interface Props {
-  heading?: string;
+  /** Заголовок окна — строкой; выводится <h3 class="window__title"> в начале тела */
+  title?: string;
+  /** id заголовка — на него ссылается aria-labelledby у HystModal */
+  titleId?: string;
   floatedCrossButton?: boolean;
   class?: string;
 }
 
-const { heading, floatedCrossButton, class: className } = Astro.props;
+const { title, titleId, floatedCrossButton, class: className } = Astro.props;
 const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
@@ -17,12 +20,12 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   <button class="window__close" type="button" data-hystclose aria-label={t('window.close')}>
     <Icon name="close" />
   </button>
-  {heading && (
-    <div class="window__heading">
-      {heading}
-    </div>
-  )}
   <div class="window__body">
+    {title && (
+      <h3 class="window__title" id={titleId}>
+        {title}
+      </h3>
+    )}
     <slot />
   </div>
 </div>

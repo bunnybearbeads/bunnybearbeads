@@ -1,0 +1,30 @@
+---
+/**
+ * Содержимое модалки «Напишите мне» (ContactModal): короткий текст и кнопки мессенджеров «Написать в …».
+ * Как Availability, но уже — текста мало
+ */
+import './MessageMe.css';
+import Wysiwyg from '../Wysiwyg/Wysiwyg.astro';
+import Inquiry from '../Inquiry/Inquiry.astro';
+import { type SupportedLanguage } from '../../i18n/ui';
+
+interface Props {
+  currentLang: SupportedLanguage;
+  contentHtml: string;
+  class?: string;
+}
+
+const { currentLang, contentHtml, class: className } = Astro.props;
+---
+
+<div class:list={['message-me', className]}>
+  <Wysiwyg
+    class="message-me__description"
+    halved
+    set:html={contentHtml}
+  />
+
+  <div class="message-me__inquiry">
+    <Inquiry currentLang={currentLang} write />
+  </div>
+</div>

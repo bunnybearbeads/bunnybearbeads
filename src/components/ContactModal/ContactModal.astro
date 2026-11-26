@@ -1,6 +1,6 @@
 ---
 /**
- * Небольшая модалка «Напишите мне»: когда я на связи (siteSettings.onlineHours) и кнопки мессенджеров (Inquiry, «Написать в …»).
+ * Небольшая модалка «Напишите мне»: когда я на связи (siteSettings.onlineHours) и кнопки мессенджеров (Inquiry, как на странице товара, но «Написать в …»).
  * Подключена в Layout — одна на страницу. Открывается ссылками в текстах:
  * <a class="link" href="/ru/contacts" data-hystmodal="#modal-contact" data-modal-always>напишите мне</a>
  * (data-modal-always — модалка и на телефоне, а не переход по href; без JS ссылка ведёт на контакты)
@@ -9,7 +9,7 @@
 import '../Link/Link.css';
 import HystModal from '../HystModal/HystModal.astro';
 import Window from '../Window/Window.astro';
-import Availability from '../Availability/Availability.astro';
+import MessageMe from '../MessageMe/MessageMe.astro';
 import { type SupportedLanguage } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
@@ -34,12 +34,7 @@ const text = t('contact_modal.text').replace('{from}', hour(from)).replace('{to}
 ---
 
 <HystModal id="modal-contact" labelledby="modal-contact-title">
-  <Window>
-    <Availability
-      title={t('contact_modal.title')}
-      titleId="modal-contact-title"
-      contentHtml={text}
-      inquiry={{ currentLang, action: 'write', expanded: true }}
-    />
+  <Window title={t('contact_modal.title')} titleId="modal-contact-title">
+    <MessageMe currentLang={currentLang} contentHtml={text} />
   </Window>
 </HystModal>

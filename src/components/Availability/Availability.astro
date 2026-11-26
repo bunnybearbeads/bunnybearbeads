@@ -15,9 +15,6 @@ export interface AvailabilityAction {
 export interface AvailabilityInquiry {
   currentLang: SupportedLanguage;
   productTitle?: string;
-  action?: 'order' | 'write';
-  /** Все кнопки мессенджеров раскрыты (Inquiry expanded) */
-  expanded?: boolean;
 }
 
 export interface AvailabilityGallery {
@@ -30,8 +27,6 @@ export interface AvailabilityGallery {
 }
 
 interface Props {
-  title: string;
-  titleId?: string;
   contentHtml: string;
   action?: AvailabilityAction;
   inquiry?: AvailabilityInquiry;
@@ -41,8 +36,6 @@ interface Props {
 }
 
 const {
-  title,
-  titleId,
   contentHtml,
   action,
   inquiry,
@@ -53,10 +46,6 @@ const {
 ---
 
 <div class:list={['availability', className]}>
-  <h3 class="availability__title" id={titleId}>
-    {title}
-  </h3>
-
   <Wysiwyg
     class="availability__description"
     halved
@@ -68,8 +57,6 @@ const {
       <Inquiry
         currentLang={inquiry.currentLang}
         productTitle={inquiry.productTitle}
-        action={inquiry.action}
-        expanded={inquiry.expanded}
       />
     </div>
   ) : action ? (

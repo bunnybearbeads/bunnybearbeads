@@ -1,0 +1,26 @@
+.message-me {
+    width: 420px;
+    max-width: 100%;
+}
+    .message-me__inquiry {
+        margin-top: 24px;
+    }
+
+
+/* Мониторы: шрифты ×1,1–1,15, отступы ×1,2–1,3, ширины ×1,13–1,2 */
+@media (1600px <= width) {
+    .message-me {
+        width: 480px;
+    }
+        .message-me__inquiry {
+            margin-top: 30px;
+        }
+}
+
+
+@media (width < 740px) {
+
+    .message-me {
+        width: 376px;
+    }
+}

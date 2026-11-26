@@ -225,9 +225,9 @@ export const translations = {
   },
   // {from}, {to} — часы из siteSettings.onlineHours («10 утра», «8 вечера»)
   'contact_modal.text': {
-    en: '<p>I’m online from {from} to {to}, Vietnam time. I’ll reply as soon as I pick up my phone.</p>',
-    ru: '<p>Я&nbsp;на&nbsp;связи с&nbsp;{from} до&nbsp;{to} по&nbsp;Вьетнаму. Отвечу, как только возьму телефон в&nbsp;руки.</p>',
-    vi: '<p>Mình online từ {from} đến {to}. Mình sẽ trả lời ngay khi cầm điện thoại lên nhé.</p>',
+    en: '<p>I’m usually online from {from} to {to}, Vietnam time. And I’ll be sure to reply as soon as I check my phone.</p>',
+    ru: '<p>Обычно я&nbsp;на&nbsp;связи с&nbsp;{from} до&nbsp;{to} по&nbsp;Вьетнаму. И&nbsp;я&nbsp;обязательно отвечу, как только загляну в&nbsp;телефон.</p>',
+    vi: '<p>Mình thường online từ {from} đến {to}. Và mình nhất định sẽ trả lời ngay khi xem điện thoại nha.</p>',
   },
   'catalog.order_piece': {
     en: 'Order / Inquire',

@@ -39,8 +39,6 @@ const action = loc.mapsUrl && loc.modalMapsKey ? {
 ---
 
 <Availability
-  title={t('catalog.modal.title').replace('{shop}', loc.shop)}
-  titleId={`${loc.modalId}-title`}
   contentHtml={t(loc.modalContentKey).replace('{item}', product.title)}
   action={action}
   gallery={gallery}

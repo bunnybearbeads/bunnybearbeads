@@ -4,6 +4,7 @@ import { PARTNER_LOCATIONS } from '../../config/locations';
 import HystModal from '../HystModal/HystModal.astro';
 import Window from '../Window/Window.astro';
 import Checkup from '../Checkup/Checkup.astro';
+import { useTranslations } from '../../i18n/utils';
 
 interface Props {
   product: { title: string };
@@ -11,11 +12,12 @@ interface Props {
 }
 
 const { product, currentLang } = Astro.props;
+const t = useTranslations(currentLang);
 ---
 
 {PARTNER_LOCATIONS.map((loc) => (
   <HystModal id={loc.modalId} labelledby={`${loc.modalId}-title`}>
-    <Window>
+    <Window title={t('catalog.modal.title').replace('{shop}', loc.shop)} titleId={`${loc.modalId}-title`}>
       <Checkup
         loc={loc}
         product={product}

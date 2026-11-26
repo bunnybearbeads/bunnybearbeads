@@ -33,15 +33,12 @@ const noteHtml = t('catalog.modal.remake_note');
 ---
 
 <HystModal id="modal-remake" labelledby="modal-remake-title">
-  <Window>
+  <Window title={t('catalog.modal.remake_title')} titleId="modal-remake-title">
     <Availability
-      title={t('catalog.modal.remake_title')}
-      titleId="modal-remake-title"
       contentHtml={remakeContent}
       inquiry={{
         currentLang,
         productTitle: product.title,
-        expanded: true,
       }}
       noteHtml={noteHtml}
     />
