@@ -12,7 +12,7 @@
     font-family: inherit;
     font-weight: 600;
     font-size: 14px;
-    line-height: 20px;
+    line-height: 20px; /* самой кнопке он не важен, но пусть совпадает с размерами иконок */
     letter-spacing: inherit;
     color: #FFFFFF;
     text-align: center;
@@ -92,7 +92,7 @@
 /*.button--smaller {*/
 /*    padding: 9px 18px;*/
 /*    font-size: 12px;*/
-/*    line-height: 18px;*/
+/*    line-height: 18px; размер иконок */
 /*    gap: 7px;*/
 /*}*/
 /**/
