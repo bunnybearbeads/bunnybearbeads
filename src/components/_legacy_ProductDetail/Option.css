@@ -147,7 +147,7 @@
         /* Комментарии к штукам — сразу под количеством */
         .option__details {
             display: flex;
-            margin-top: 12px;
+            margin-top: 10px;
             flex-direction: column;
             gap: 10px;
         }
@@ -300,7 +300,7 @@
                     }
 
             .option__details {
-                margin-top: 14px;
+                margin-top: 12px;
                 gap: 12px;
             }
                 .option__description {

@@ -8,7 +8,7 @@
  * (в демо-базе — свои копии).
  * Каждый JSON ссылается на свою полем `"$schema"` — его вписывает `npm run fill-data`. Редактор по нему
  * подсказывает поля и значения (Ctrl+Пробел), показывает описание при наведении и подчёркивает ошибки.
- * Схема — только подсказка: всё, что в ней не выразить (attachTo только у брелоков, consignedAt только
+ * Схема — только подсказка: всё, что в ней не выразить (attachTo только у брелков, consignedAt только
  * у партнёров, одна цена у штук в наличии…), проверяет сборка.
  */
 import fs from 'node:fs';
@@ -20,7 +20,7 @@ export const LOCATION_ORDER = ['atelier', 'ngay-mai', 'cat-food'];
 export const MAKERS = ['bunny', 'bear'];
 /** Категории изделий, в единственном числе. Должны совпадать с src/config/categories.ts */
 export const CATEGORIES = ['charm', 'bracelet', 'ring', 'earrings', 'pen-wrap'];
-/** На что носится брелок: у каждой штуки-брелока обязательно, у остальных категорий поля нет */
+/** На что носится брелок: у каждой штуки-брелка обязательно, у остальных категорий поля нет */
 export const ATTACH_TO = ['keys', 'phone', 'mirror', 'bag'];
 /** Исход штуки (`out.type`): продана, подарена, брак или потеря, оставили себе */
 export const OUT_TYPES = ['sold', 'gift', 'lost', 'kept'];
@@ -174,7 +174,7 @@ export function productSchema() {
           location: choice(LOCATION_ORDER, 'Где лежит: atelier — своя мастерская, остальные — партнёры'),
           craftedAt: date('Когда сплетена'),
           consignedAt: date('Только у штук у партнёров: когда передана'),
-          attachTo: choice(ATTACH_TO, 'Только у брелоков: на что сделана'),
+          attachTo: choice(ATTACH_TO, 'Только у брелков: на что сделана'),
           maker: choice(MAKERS, 'Кто сплёл'),
           memo: { type: 'string', description: 'Для себя, на сайт не попадает' },
           materials: html('Материалы штуки — строки HTML. На сайте — материалы последней штуки в наличии'),

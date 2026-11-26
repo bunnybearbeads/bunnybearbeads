@@ -375,9 +375,9 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
     itemOwners.set(item.id, slug);
     if (!MAKERS.includes(item.maker)) errors.push(`${at}: "maker" — одно из ${MAKERS.join(', ')}`);
     if (data.category === 'charm') {
-      if (!ATTACH_TO.includes(item.attachTo)) errors.push(`${at}: у брелока нужен "attachTo" — одно из ${ATTACH_TO.join(', ')}`);
+      if (!ATTACH_TO.includes(item.attachTo)) errors.push(`${at}: у брелка нужен "attachTo" — одно из ${ATTACH_TO.join(', ')}`);
     } else if ('attachTo' in item) {
-      errors.push(`${at}: "attachTo" — только у брелоков (charm), а это «${data.category}»`);
+      errors.push(`${at}: "attachTo" — только у брелков (charm), а это «${data.category}»`);
     }
     if (!isPrice(item.price)) errors.push(`${at}: "price" — цена в донгах числом без кавычек, а сейчас ${JSON.stringify(item.price)}`);
     if ('createdAt' in item) errors.push(`${at}: поле "createdAt" теперь называется "craftedAt"`);

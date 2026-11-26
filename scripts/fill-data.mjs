@@ -54,7 +54,7 @@ const ITEM = () => ({
   craftedAt: '',
   /** Только у штук у партнёров — там обязательно; у штук в мастерской поля нет */
   consignedAt: '',
-  /** Только у брелоков (category: charm) — там обязательно: keys, phone, mirror, bag */
+  /** Только у брелков (category: charm) — там обязательно: keys, phone, mirror, bag */
   attachTo: '',
   maker: '',
   memo: '',

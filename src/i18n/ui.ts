@@ -150,7 +150,7 @@ export const translations = {
   // Ключи — категории в единственном числе (src/config/categories.ts), подписи — во множественном
   'cat.charm': {
     en: 'Charms',
-    ru: 'Брелоки',
+    ru: 'Брелки',
     vi: 'Móc treo charm',
   },
   'cat.bracelet': {
@@ -308,7 +308,7 @@ export const translations = {
     ru: 'Полезно знать',
     vi: 'Điều bạn nên biết',
   },
-  // Модалка на странице каждого брелока (category: charm) — о сменном креплении (GuideModal)
+  // Модалка на странице каждого брелка (category: charm) — о сменном креплении (GuideModal)
   /** Строка под списком «Полезно знать» — текстом, не ссылкой. Ограничение одно на все изделия */
   'catalog.age_limit': {
     en: 'Contains small parts: for ages 6 and up',
@@ -327,14 +327,14 @@ export const translations = {
     `,
     ru: `
       <p>Вместе с&nbsp;изделиями я&nbsp;оставляю в&nbsp;партнёрских магазинах коробочку с&nbsp;запчастями: кольца с&nbsp;цепочкой&nbsp;— для ключей, петельки&nbsp;— для телефона, карабины&nbsp;— для сумки. Если крепление на&nbsp;фото вам не&nbsp;подходит, скажите об&nbsp;этом в&nbsp;магазине, и&nbsp;его поменяют на&nbsp;месте. При заказе онлайн просто напишите в&nbsp;чате, какое крепление хотите.</p>
-      <p>Только учитывайте размер брелока: маленький может потеряться на&nbsp;большой сумке, а&nbsp;крупный будет мешать на&nbsp;телефоне или связке ключей. Чтобы размер было проще представить, на&nbsp;фото рядом лежит крышечка от&nbsp;бутылки.</p>
+      <p>Только учитывайте размер брелка: маленький может потеряться на&nbsp;большой сумке, а&nbsp;крупный будет мешать на&nbsp;телефоне или связке ключей. Чтобы размер было проще представить, на&nbsp;фото рядом лежит крышечка от&nbsp;бутылки.</p>
     `,
     vi: `
       <p>Mỗi lần giao hàng, mình đều để lại ở cửa hàng đối tác một hộp phụ kiện nhỏ: khoen kèm dây xích để treo chìa khóa, dây đeo cho điện thoại và móc càng cua để treo lên túi xách. Nếu kiểu móc gắn trong ảnh chưa hợp với bạn, cứ nói với nhân viên, họ sẽ đổi ngay tại chỗ. Khi đặt hàng online, hãy nhắn trong chat nếu bạn muốn đổi móc gắn.</p>
       <p>Chỉ cần lưu ý kích thước sản phẩm: charm nhỏ dễ bị lọt thỏm trên túi lớn, còn charm to có thể vướng víu khi treo điện thoại hay chùm chìa khóa. Trong ảnh có đặt kèm một chiếc nắp chai để bạn dễ hình dung.</p>
     `,
   },
-  // Модалка у брелоков: как изнашиваются и чего ждать. По карточке, которая вкладывается в заказ
+  // Модалка у брелков: как изнашиваются и чего ждать. По карточке, которая вкладывается в заказ
   'catalog.charm_durability.title': {
     en: 'Durability & care',
     ru: 'Прочность и уход',
