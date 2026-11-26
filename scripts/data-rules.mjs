@@ -115,7 +115,7 @@ const media = (description) => ({
 const comment = (description) => ({
   description,
   type: 'object',
-  properties: { note: text('Один абзац, без <p> и <div>'), noteImages: media('Фото к комментарию') },
+  properties: { publicNote: text('Один абзац, без <p> и <div>'), publicNoteImages: media('Фото к комментарию') },
   additionalProperties: false,
 });
 
@@ -156,9 +156,9 @@ export function productSchema() {
         description: 'Ремейк — только когда в мастерской нет ни одной штуки',
         properties: {
           price: price('Цена ремейка в донгах, число без кавычек'),
-          note: text('Комментарий к ремейку для посетителей, один абзац'),
-          noteImages: media('Фото к комментарию ремейка'),
-          memo: { type: 'string', description: 'Для себя, на сайт не попадает' },
+          publicNote: text('Комментарий к ремейку для посетителей, один абзац'),
+          publicNoteImages: media('Фото к комментарию ремейка'),
+          privateNote: { type: 'string', description: 'Для себя, на сайт не попадает' },
         },
         additionalProperties: false,
       },
@@ -176,7 +176,7 @@ export function productSchema() {
           consignedAt: date('Только у штук у партнёров: когда передана'),
           attachTo: choice(ATTACH_TO, 'Только у брелков: на что сделана'),
           maker: choice(MAKERS, 'Кто сплёл'),
-          memo: { type: 'string', description: 'Для себя, на сайт не попадает' },
+          privateNote: { type: 'string', description: 'Для себя, на сайт не попадает' },
           materials: html('Материалы штуки — строки HTML. На сайте — материалы последней штуки в наличии'),
           out: {
             type: 'object',
@@ -185,7 +185,7 @@ export function productSchema() {
               type: choice(OUT_TYPES, 'sold — продана, gift — подарена, lost — брак или потеря, kept — оставили себе'),
               date: date('Когда ушла'),
               paid: { description: 'Сколько реально получено, в донгах, число без кавычек (0 — не продажа)', anyOf: [{ type: 'integer', minimum: 0 }, empty] },
-              memo: { type: 'string', description: 'Для себя, на сайт не попадает' },
+              privateNote: { type: 'string', description: 'Для себя, на сайт не попадает' },
             },
             additionalProperties: false,
           },
@@ -212,7 +212,7 @@ export function familySchema(slugs) {
           type: 'object',
           properties: {
             product: choice(slugs, 'slug изделия'),
-            note: text('Чем отличается от остальных, выводится под плашкой'),
+            publicNote: text('Чем отличается от остальных, выводится под плашкой'),
           },
           additionalProperties: false,
         },

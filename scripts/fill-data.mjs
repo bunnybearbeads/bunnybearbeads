@@ -23,7 +23,7 @@ const LOCATIONS = LOCATION_ORDER;
 const text = () => ({ en: '', ru: '', vi: '' });
 /** Фото — список путей через запятую; пустой — просто [] */
 const images = () => [];
-const comment = () => ({ note: text(), noteImages: images() });
+const comment = () => ({ publicNote: text(), publicNoteImages: images() });
 
 /** Порядок и пустые значения полей. Функция — чтобы у каждого файла были свои объекты */
 const PRODUCT = () => ({
@@ -43,7 +43,7 @@ const PRODUCT = () => ({
   /** Кто сделал: craft — кто сплёл (пока всегда bunnybearbeads), design — автор схемы, photo — автор фото, по желанию; можно добавить другие роли */
   credits: { craft: 'bunnybearbeads', design: '', photo: '' },
   locationNotes: {},
-  remake: { price: '', note: text(), noteImages: images(), memo: '' },
+  remake: { price: '', publicNote: text(), publicNoteImages: images(), privateNote: '' },
   items: [],
 });
 
@@ -57,14 +57,14 @@ const ITEM = () => ({
   /** Только у брелков (category: charm) — там обязательно: keys, phone, mirror, bag */
   attachTo: '',
   maker: '',
-  memo: '',
+  privateNote: '',
   /** Материалы штуки — строки HTML (одна строка массива — одна строка текста) */
   materials: [],
-  out: { type: '', date: '', paid: '', memo: '' },
+  out: { type: '', date: '', paid: '', privateNote: '' },
 });
 
 const FAMILY = () => ({ $schema: FAMILY_SCHEMA_REF, title: text(), members: [] });
-const MEMBER = () => ({ product: '', note: text() });
+const MEMBER = () => ({ product: '', publicNote: text() });
 
 const isPlainObject = (v) => typeof v === 'object' && v !== null && !Array.isArray(v);
 
@@ -93,7 +93,7 @@ function compactImages(value) {
   if (!isPlainObject(value)) return value;
   return Object.fromEntries(
     Object.entries(value).map(([key, v]) =>
-      [key, (key === 'gallery' || key === 'noteImages') && Array.isArray(v) && v.every((x) => x === '') ? [] : compactImages(v)],
+      [key, (key === 'gallery' || key === 'publicNoteImages') && Array.isArray(v) && v.every((x) => x === '') ? [] : compactImages(v)],
     ),
   );
 }
