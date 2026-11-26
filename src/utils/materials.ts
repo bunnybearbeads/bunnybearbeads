@@ -98,6 +98,14 @@ function singleBead(bead: Bead, t: T): string {
   return `<b>${escapeHtml(beadTitle(bead))}</b> – ${beadsNote([bead], t)}${colors}`;
 }
 
+const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+
+/** «Цвета {name}:»; не первая в строке — со строчной («· цвета Aiko:»). Если подпись начинается с имени — как есть */
+function colorsOf(t: T, notFirst: boolean): string {
+  const label = t('materials.colors_of');
+  return notFirst && !label.startsWith('{') ? label.charAt(0).toLowerCase() + label.slice(1) : label;
+}
+
 /**
  * Пара. У обоих не больше одного цвета — коды в названиях, строки цветов нет. Хотя бы у одного
  * несколько — названия короткие (pairName), а цвета всех — строкой «Delica colors: 2113 · Aiko colors: 41, 42»
@@ -110,12 +118,11 @@ function beadPair(pair: Bead[], t: T): string {
   if (!colorsLine) return `${titles} – ${beadsNote(pair, t)}`;
   const colors = pair
     .filter((bead) => bead.colors.length > 0)
-    .map((bead) => `${t('materials.colors_of').replace('{name}', escapeHtml(bead.short))} ${escapeHtml(bead.colors.join(', '))}`)
+    .map((bead, i) => `${colorsOf(t, i > 0).replace('{name}', escapeHtml(bead.short))} ${escapeHtml(bead.colors.join(', '))}`)
     .join(COLORS_SEP);
   return `${titles} – ${beadsNote(pair, t)}${colors ? `<br>${colors}` : ''}`;
 }
 
-const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
 /**
  * Название бусин: цвет, если он один, встроен в название («unbranded black bicones»), иначе убран.

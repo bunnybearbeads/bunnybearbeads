@@ -283,9 +283,9 @@ export const translations = {
     vi: 'Giá',
   },
   'catalog.materials_label': {
-    en: 'Materials & Specs',
-    ru: 'Характеристики и материалы',
-    vi: 'Chất liệu & Thông số',
+    en: 'Materials',
+    ru: 'Материалы',
+    vi: 'Chất liệu',
   },
   // Размер и вес изделия (src/utils/size.ts). {value} — число с единицей («1,2 см»).
   // Обхват запястья у браслета сайт считает сам: длина / 1.1
