@@ -41,7 +41,7 @@ import ffmpegPath from 'ffmpeg-static';
 import { generateMissingPosters } from './generate-posters.mjs';
 import { photoFiles, photoWidths, readPhotoSize, syncPhotos } from './photos.mjs';
 import {
-  ATTACH_TO, CATEGORIES, DATE_FORMATS, DEMO_DIR, FAMILIES_DIR, ITEM_ID_RE, LOCATION_ORDER, MAKERS, OUT_TYPES, PARTIAL_DATE_RE, SLUG_RE,
+  ADDITIONAL_BEAD_COLORS, ADDITIONAL_BEAD_TYPES, ATTACH_TO, BEAD_TYPES, BRACELET_PARTS, braceletOptions, CATEGORIES, CHARM_FINDINGS, COLORS_PUBLIC, DATE_FORMATS, DEMO_DIR, FAMILIES_DIR, ITEM_ID_RE, LOCATION_ORDER, MAKERS, MATERIAL_FIELDS, OUT_TYPES, THREAD_TYPES, PARTIAL_DATE_RE, SLUG_RE,
   THUMB_EXTENSIONS, THUMBS_DIR, schemaFiles, thumbKey,
 } from './data-rules.mjs';
 
@@ -433,15 +433,8 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
       }
     }
 
-    let materials;
-    if ('materials' in item) {
-      if (Array.isArray(item.materials) && item.materials.every((line) => typeof line === 'string')) {
-        materials = item.materials.join('\n');
-        lastMaterials = materials;
-      } else {
-        errors.push(`${at}: "materials" — список строк HTML`);
-      }
-    }
+    const materials = 'materials' in item ? toMaterials(item.materials, at, errors, data.category) : undefined;
+    if (materials) lastMaterials = materials;
 
     if (!LOCATION_ORDER.includes(item.location)) {
       errors.push(`${at}: неизвестная точка «${item.location}» — одна из ${LOCATION_ORDER.join(', ')}`);
@@ -528,6 +521,165 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
   };
 }
 
+/** Путь к цветам бисера и бусин в withoutEmpty: items[0].materials.beads.Toho Aiko */
+const BEAD_COLORS_FIELD_RE = /(^|\.)materials\.(beads|additionalBeads|threads)\.[^[\]]+$/;
+
+/**
+ * Фурнитура — по категории: у брелка — одно из CHARM_FINDINGS, у серёг — строка, у браслета — детали из
+ * BRACELET_PARTS («Tarin Thomas 18K gold-plated brass»), у колец и обмоток для ручек её нет
+ */
+function toFindings(findings, at, errors, category) {
+  if (findings === undefined) return undefined;
+  const field = `${at}, materials.findings`;
+  if (category === 'charm') {
+    if (!(findings in CHARM_FINDINGS)) {
+      errors.push(`${field}: у брелка — одно из: ${Object.keys(CHARM_FINDINGS).join(', ')}, а сейчас ${JSON.stringify(findings)}`);
+      return undefined;
+    }
+    return { charm: CHARM_FINDINGS[findings] };
+  }
+  if (category === 'earrings') {
+    if (typeof findings !== 'string') {
+      errors.push(`${field}: у серёг — строка текста, «Hypoallergenic stainless steel ear hooks»`);
+      return undefined;
+    }
+    return { text: findings };
+  }
+  if (category === 'bracelet') {
+    if (typeof findings !== 'object' || findings === null || Array.isArray(findings)) {
+      errors.push(`${field}: у браслета — объект деталей: { "slideTubes": "Tarin Thomas 18K gold-plated brass", "chain": "Basic stainless steel", … }`);
+      return undefined;
+    }
+    const bracelet = [];
+    for (const [part, value] of Object.entries(findings)) {
+      if (!(part in BRACELET_PARTS)) {
+        errors.push(`${field}: неизвестная деталь «${part}» — одна из: ${Object.keys(BRACELET_PARTS).join(', ')}`);
+        continue;
+      }
+      const option = braceletOptions(part)[value];
+      if (!option) {
+        errors.push(`${field}.${part}: одно из: ${Object.keys(braceletOptions(part)).join(', ')}, а сейчас ${JSON.stringify(value)}`);
+        continue;
+      }
+      bracelet.push({ part, ...option });
+    }
+    // Порядок деталей на сайте — как в BRACELET_PARTS, а не как в JSON
+    const order = Object.keys(BRACELET_PARTS);
+    bracelet.sort((a, b) => order.indexOf(a.part) - order.indexOf(b.part));
+    return bracelet.length ? { bracelet } : undefined;
+  }
+  errors.push(`${field}: у «${category}» фурнитуры нет — уберите поле`);
+  return undefined;
+}
+
+/** Коды цветов бисера и ниток — как на упаковке: числа и строки ("402B", "#426", "Smoke"), без повторов */
+function toColorCodes(rawColors, field, errors) {
+  const colors = [];
+  for (const color of rawColors) {
+    const code = Number.isInteger(color) && color >= 0 ? String(color) : typeof color === 'string' ? color.trim() : '';
+    if (!code) errors.push(`${field}: код цвета — строка или число, а сейчас ${JSON.stringify(color)}`);
+    else if (colors.includes(code)) errors.push(`${field}: цвет ${code} записан дважды`);
+    else colors.push(code);
+  }
+  return colors;
+}
+
+/**
+ * materials штуки → для сайта: { beads: [{ name, pairName, short, premium, colors }],
+ *   additionalBeads: [{ id, branded, rank, colors }], threads: [{ name, id, colors }],
+ *   findings: { charm } | { text } | { bracelet: [{ part, brand, metal }] } }.
+ * HTML собирает сайт (src/utils/materials.ts) — с переводом приписок. Пусто — undefined
+ */
+function toMaterials(materials, at, errors, category) {
+  if (typeof materials !== 'object' || materials === null || Array.isArray(materials)) {
+    errors.push(`${at}: "materials" теперь объект: { "beads": { "Toho Aiko": ["41", "PF557"] }, "threads": { "FireLine": ["Smoke"] }, "findings": … }`);
+    return undefined;
+  }
+  const extra = Object.keys(materials).filter((key) => !MATERIAL_FIELDS.includes(key));
+  if (extra.includes('other')) errors.push(`${at}: "materials.other" больше нет — нитки в "threads", фурнитура в "findings"`);
+  const unknown = extra.filter((key) => key !== 'other');
+  if (unknown.length) errors.push(`${at}: лишние поля в "materials": ${unknown.join(', ')} — можно ${MATERIAL_FIELDS.join(', ')}`);
+
+  const beads = [];
+  const rawBeads = materials.beads ?? {};
+  if (typeof rawBeads !== 'object' || rawBeads === null || Array.isArray(rawBeads)) {
+    errors.push(`${at}: "materials.beads" — объект: тип бисера → коды цветов, { "Toho Aiko": ["41", "PF557"] }`);
+  } else {
+    for (const [name, rawColors] of Object.entries(rawBeads)) {
+      const field = `${at}, materials.beads «${name}»`;
+      const type = BEAD_TYPES[name];
+      if (!type) {
+        errors.push(`${field}: неизвестный бисер — одно из: ${Object.keys(BEAD_TYPES).join(', ')}. Новый тип — в BEAD_TYPES (scripts/data-rules.mjs)`);
+        continue;
+      }
+      if (!Array.isArray(rawColors)) {
+        errors.push(`${field}: коды цветов списком — ["201", "402B", "#426"], неизвестны — []`);
+        continue;
+      }
+      const colors = toColorCodes(rawColors, field, errors);
+      beads.push({ name, pairName: type.pairName ?? name, short: type.short, premium: Boolean(type.premium), colors });
+    }
+  }
+
+  const additionalBeads = [];
+  const rawAdditionalBeads = materials.additionalBeads ?? {};
+  if (typeof rawAdditionalBeads !== 'object' || rawAdditionalBeads === null || Array.isArray(rawAdditionalBeads)) {
+    errors.push(`${at}: "materials.additionalBeads" — объект: тип бусин → цвета, { "Unbranded bicones": ["black"] }`);
+  } else {
+    for (const [name, rawColors] of Object.entries(rawAdditionalBeads)) {
+      const field = `${at}, materials.additionalBeads «${name}»`;
+      const type = ADDITIONAL_BEAD_TYPES[name];
+      if (!type) {
+        errors.push(`${field}: неизвестные бусины — одно из: ${Object.keys(ADDITIONAL_BEAD_TYPES).join(', ')}. Новый тип — в ADDITIONAL_BEAD_TYPES (scripts/data-rules.mjs)`);
+        continue;
+      }
+      if (!Array.isArray(rawColors)) {
+        errors.push(`${field}: цвета списком — ["black"], неизвестны — []`);
+        continue;
+      }
+      const colors = [];
+      for (const color of rawColors) {
+        if (!ADDITIONAL_BEAD_COLORS.includes(color)) errors.push(`${field}: цвет ${JSON.stringify(color)} — одно из: ${ADDITIONAL_BEAD_COLORS.join(', ')}. Новый — в ADDITIONAL_BEAD_COLORS (scripts/data-rules.mjs) и перевод в ui.ts`);
+        else if (colors.includes(color)) errors.push(`${field}: цвет ${color} записан дважды`);
+        else colors.push(color);
+      }
+      additionalBeads.push({ id: type.id, branded: Boolean(type.branded), rank: type.rank ?? 0, colors });
+    }
+  }
+
+  const threads = [];
+  const rawThreads = materials.threads ?? {};
+  if (typeof rawThreads !== 'object' || rawThreads === null || Array.isArray(rawThreads)) {
+    errors.push(`${at}: "materials.threads" — объект: нитка → цвета, { "FireLine": ["Smoke"] }`);
+  } else {
+    for (const [name, rawColors] of Object.entries(rawThreads)) {
+      const field = `${at}, materials.threads «${name}»`;
+      const type = THREAD_TYPES[name];
+      if (!type) {
+        errors.push(`${field}: неизвестная нитка — одно из: ${Object.keys(THREAD_TYPES).join(', ')}. Новый тип — в THREAD_TYPES (scripts/data-rules.mjs)`);
+        continue;
+      }
+      if (!Array.isArray(rawColors)) {
+        errors.push(`${field}: цвета списком — ["Smoke"], ["#10"], неизвестны — []`);
+        continue;
+      }
+      threads.push({ name, id: type.id, colors: toColorCodes(rawColors, field, errors) });
+    }
+  }
+
+  // Цвета бисера — секрет автора купленной схемы: остаются в базе, на сайт не уходят даже в данных
+  if ('secretColors' in materials) errors.push(`${at}: "secretColors" теперь "colorsPublic": "yes", "no" или "replaced"`);
+  const colorsPublic = materials.colorsPublic ?? 'yes';
+  if (!COLORS_PUBLIC.includes(colorsPublic)) {
+    errors.push(`${at}: "materials.colorsPublic" — одно из ${COLORS_PUBLIC.join(', ')}, а сейчас ${JSON.stringify(colorsPublic)}`);
+  }
+  if (colorsPublic === 'no') for (const bead of beads) bead.colors = [];
+  const findings = toFindings(materials.findings, at, errors, category);
+  return beads.length || additionalBeads.length || threads.length || findings
+    ? { beads, ...(colorsPublic !== 'yes' ? { colorsPublic } : {}), additionalBeads, threads, ...(findings ? { findings } : {}) }
+    : undefined;
+}
+
 /**
  * Убирает пустые значения: "", пустые массивы и объекты, массивы из пустых строк,
  * переводы { en: "", ru: "", vi: "" }. Наполовину заполненный перевод — ошибка: забыли язык.
@@ -557,6 +709,8 @@ function withoutEmpty(value, where, errors, field = '') {
   if (value === '' || value === null) return undefined;
   if (Array.isArray(value)) {
     const list = value.map((v, i) => withoutEmpty(v, where, errors, `${field}[${i}]`)).filter((v) => v !== undefined);
+    // Бисер с неизвестными цветами — "Toho Aiko": [] — значимая запись, а не пустое поле
+    if (BEAD_COLORS_FIELD_RE.test(field)) return list;
     return list.length ? list : undefined;
   }
   if (typeof value === 'object') {

@@ -14,7 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { DEMO_DIR, FAMILIES_DIR, FAMILY_SCHEMA_REF, LOCATION_ORDER, PRODUCT_SCHEMA_REF, schemaFiles } from './data-rules.mjs';
+import { BRACELET_PARTS, DEMO_DIR, FAMILIES_DIR, FAMILY_SCHEMA_REF, LOCATION_ORDER, PRODUCT_SCHEMA_REF, schemaFiles } from './data-rules.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = path.join(ROOT, 'data');
@@ -58,10 +58,24 @@ const ITEM = () => ({
   attachTo: '',
   maker: '',
   privateNote: '',
-  /** Материалы штуки — строки HTML (одна строка массива — одна строка текста) */
-  materials: [],
+  /** Материалы штуки: бисер, бусины, нитки — тип → цвета; findings — фурнитура, своя у каждой категории (типы — data-rules.mjs) */
+  materials: { beads: {}, colorsPublic: 'yes', additionalBeads: {}, threads: {}, findings: '' },
   out: { type: '', date: '', paid: '', privateNote: '' },
 });
+
+/**
+ * Фурнитура по категории: у брелка и серёг — строка, у браслета — все детали пустыми (видно, что можно вписать),
+ * у колец и обмоток для ручек поля нет. Заполненное не трогаем — если оно не того вида, подскажет сборка
+ */
+function fillFindings(materials, category) {
+  const { findings, ...rest } = materials;
+  if (category === 'bracelet') {
+    const empty = Object.fromEntries(Object.keys(BRACELET_PARTS).map((part) => [part, '']));
+    return { ...rest, findings: isPlainObject(findings) || findings === '' ? fill(empty, findings === '' ? {} : findings) : findings };
+  }
+  if (category === 'charm' || category === 'earrings') return { ...rest, findings };
+  return isBlank(findings) ? rest : { ...rest, findings };
+}
 
 const FAMILY = () => ({ $schema: FAMILY_SCHEMA_REF, title: text(), members: [] });
 const MEMBER = () => ({ product: '', publicNote: text() });
@@ -135,6 +149,7 @@ function fillBase(dataDir) {
       const filled = fill(ITEM(), item);
       if (filled.location === LOCATIONS[0] && filled.consignedAt === '') delete filled.consignedAt;
       if (result.category !== 'charm' && filled.attachTo === '') delete filled.attachTo;
+      filled.materials = fillFindings(filled.materials, result.category);
       return filled;
     });
     if (write(file, result)) changed += 1;

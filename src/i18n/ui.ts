@@ -287,6 +287,281 @@ export const translations = {
     ru: 'Характеристики и материалы',
     vi: 'Chất liệu & Thông số',
   },
+  // Материалы (src/utils/materials.ts): названия бисера не переводятся, переводятся приписки
+  'materials.beads_note': {
+    en: 'high-quality Japanese seed beads',
+    ru: 'качественный японский бисер',
+    vi: 'hạt cườm Nhật Bản chất lượng cao',
+  },
+  // Toho Aiko и пара с ним
+  'materials.beads_note_premium': {
+    en: 'the world’s best seed beads',
+    ru: 'лучший в мире бисер',
+    vi: 'loại hạt cườm tốt nhất thế giới',
+  },
+  'materials.colors': {
+    en: 'Colors:',
+    ru: 'Цвета:',
+    vi: 'Màu:',
+  },
+  // Бусины (materials.additionalBeads): {color} — цвет, если он один (иначе убирается). Первое слово строки сайт
+  // делает заглавным, поэтому названия без бренда — со строчной: в паре они идут второй частью строки
+  'materials.additional_bead.unbranded_bicones': {
+    en: 'unbranded {color} bicones',
+    ru: '{color} биконусы без бренда',
+    vi: 'hạt bicone {color} không thương hiệu',
+  },
+  'materials.additional_bead.preciosa_bicones': {
+    en: 'Preciosa {color} bicones',
+    ru: '{color} биконусы Preciosa',
+    vi: 'hạt bicone Preciosa {color}',
+  },
+  'materials.additional_bead.swarovski_bicones': {
+    en: 'Swarovski {color} bicones',
+    ru: '{color} биконусы Swarovski',
+    vi: 'hạt bicone Swarovski {color}',
+  },
+  'materials.additional_bead.basic_beads': {
+    en: 'basic {color} beads',
+    ru: 'простые {color} бусины',
+    vi: 'hạt cơ bản {color}',
+  },
+  // Приписки у брендовых бусин
+  'materials.additional_bead_note.preciosa_bicones': {
+    en: 'fine Czech crystal',
+    ru: 'качественный чешский хрусталь',
+    vi: 'pha lê Séc chất lượng cao',
+  },
+  'materials.additional_bead_note.swarovski_bicones': {
+    en: 'Austrian crystal with exceptional sparkle',
+    ru: 'австрийский хрусталь с исключительным блеском',
+    vi: 'pha lê Áo lấp lánh vượt trội',
+  },
+  // Две разные бусины — одной строкой: «Basic pale beads and unbranded crystal bicones»
+  'materials.and': {
+    en: 'and',
+    ru: 'и',
+    vi: 'và',
+  },
+  // Цвета бусин (ADDITIONAL_BEAD_COLORS в scripts/data-rules.mjs). ru — во множественном числе, как в «чёрные биконусы»
+  'materials.color.crystal': {
+    en: 'crystal',
+    ru: 'прозрачные',
+    vi: 'trong suốt',
+  },
+  'materials.color.pale': {
+    en: 'pale',
+    ru: 'бледные',
+    vi: 'màu nhạt',
+  },
+  'materials.color.white': {
+    en: 'white',
+    ru: 'белые',
+    vi: 'màu trắng',
+  },
+  'materials.color.black': {
+    en: 'black',
+    ru: 'чёрные',
+    vi: 'màu đen',
+  },
+  'materials.color.red': {
+    en: 'red',
+    ru: 'красные',
+    vi: 'màu đỏ',
+  },
+  'materials.color.pink': {
+    en: 'pink',
+    ru: 'розовые',
+    vi: 'màu hồng',
+  },
+  'materials.color.orange': {
+    en: 'orange',
+    ru: 'оранжевые',
+    vi: 'màu cam',
+  },
+  'materials.color.yellow': {
+    en: 'yellow',
+    ru: 'жёлтые',
+    vi: 'màu vàng',
+  },
+  'materials.color.green': {
+    en: 'green',
+    ru: 'зелёные',
+    vi: 'màu xanh lá',
+  },
+  'materials.color.light-blue': {
+    en: 'light blue',
+    ru: 'голубые',
+    vi: 'màu xanh nhạt',
+  },
+  'materials.color.blue': {
+    en: 'blue',
+    ru: 'синие',
+    vi: 'màu xanh dương',
+  },
+  'materials.color.purple': {
+    en: 'purple',
+    ru: 'фиолетовые',
+    vi: 'màu tím',
+  },
+  'materials.color.brown': {
+    en: 'brown',
+    ru: 'коричневые',
+    vi: 'màu nâu',
+  },
+  'materials.color.gold': {
+    en: 'gold',
+    ru: 'золотистые',
+    vi: 'màu vàng kim',
+  },
+  'materials.color.silver': {
+    en: 'silver',
+    ru: 'серебристые',
+    vi: 'màu bạc',
+  },
+  // Приписки к ниткам (materials.threads): названия не переводятся
+  'materials.thread_note.fireline': {
+    en: 'ultra-strong American polyethylene thread',
+    ru: 'сверхпрочная американская полиэтиленовая нить',
+    vi: 'chỉ polyethylene siêu bền của Mỹ',
+  },
+  'materials.thread_note.miyuki_dura_line': {
+    en: 'ultra-strong Japanese polyethylene thread',
+    ru: 'сверхпрочная японская полиэтиленовая нить',
+    vi: 'chỉ polyethylene siêu bền của Nhật Bản',
+  },
+  'materials.thread_note.wildfire': {
+    en: 'US-made polyethylene beading thread',
+    ru: 'американская полиэтиленовая нить для бисероплетения',
+    vi: 'chỉ polyethylene xâu hạt sản xuất tại Mỹ',
+  },
+  'materials.thread_note.toho_one_g': {
+    en: 'premium Japanese nylon beading thread',
+    ru: 'премиальная японская нейлоновая нить для бисероплетения',
+    vi: 'chỉ nylon xâu hạt cao cấp của Nhật Bản',
+  },
+  'materials.thread_note.miyuki': {
+    en: 'durable Japanese nylon beading thread',
+    ru: 'прочная японская нейлоновая нить для бисероплетения',
+    vi: 'chỉ nylon xâu hạt bền chắc của Nhật Bản',
+  },
+  'materials.thread_note.fgb': {
+    en: 'durable Chinese nylon beading thread',
+    ru: 'прочная китайская нейлоновая нить для бисероплетения',
+    vi: 'chỉ nylon xâu hạt bền chắc của Trung Quốc',
+  },
+  // Фурнитура брелка (CHARM_FINDINGS в scripts/data-rules.mjs)
+  'materials.charm_finding.keyring': {
+    en: 'Basic keyring',
+    ru: 'Простое кольцо с цепочкой для ключей',
+    vi: 'Móc khóa cơ bản',
+  },
+  'materials.charm_finding.charm_strap': {
+    en: 'Basic charm strap',
+    ru: 'Простая петелька для телефона',
+    vi: 'Dây đeo điện thoại cơ bản',
+  },
+  'materials.charm_finding.large_lobster_clasp': {
+    en: 'Large lobster clasp',
+    ru: 'Большой карабин для сумки',
+    vi: 'Móc càng cua cỡ lớn',
+  },
+  'materials.charm_finding.hanging_strap': {
+    en: 'Basic hanging strap',
+    ru: 'Простой шнурок для подвеса',
+    vi: 'Dây treo cơ bản',
+  },
+  // Фурнитура браслета — одним предложением: группы «бренд + металл» через «; ». {brand} — бренд жирным,
+  // {parts} — детали через запятую, {metal} — металл (без бренда — нержавеющая сталь, жирным). ru — металл в
+  // родительном падеже («из латуни…»). Первое слово сайт делает заглавным
+  'materials.findings_branded': {
+    en: '{metal} {parts} from {brand}',
+    ru: '{parts} из {metal} от {brand}',
+    vi: '{parts} {metal} của {brand}',
+  },
+  'materials.findings_basic': {
+    en: 'basic {metal} {parts}',
+    ru: '{parts} из {metal}',
+    vi: '{parts} bằng {metal}',
+  },
+  'materials.part.slideTubes': {
+    en: 'slide tubes',
+    ru: 'концевики-трубочки',
+    vi: 'kẹp đầu dạng ống',
+  },
+  'materials.part.beadEndings': {
+    en: 'bead endings',
+    ru: 'концевики',
+    vi: 'đầu chặn hạt',
+  },
+  'materials.part.chain': {
+    en: 'chain',
+    ru: 'цепочка',
+    vi: 'dây xích',
+  },
+  'materials.part.adjustableChain': {
+    en: 'adjustable chain',
+    ru: 'цепочка с бегунком',
+    vi: 'dây xích điều chỉnh',
+  },
+  'materials.part.lobsterClasp': {
+    en: 'lobster clasp',
+    ru: 'замок-карабин',
+    vi: 'khóa càng cua',
+  },
+  'materials.part.magneticClasp': {
+    en: 'magnetic clasp',
+    ru: 'магнитный замок',
+    vi: 'khóa nam châm',
+  },
+  'materials.part.connectorRings': {
+    en: 'connector rings',
+    ru: 'соединительные колечки',
+    vi: 'khoen nối',
+  },
+  'materials.metal.rhodium': {
+    en: 'rhodium-plated brass',
+    ru: 'латуни с родиевым покрытием',
+    vi: 'đồng thau mạ rhodium',
+  },
+  'materials.metal.gold18': {
+    en: '18K gold-plated brass',
+    ru: 'латуни с покрытием золотом 18K',
+    vi: 'đồng thau mạ vàng 18K',
+  },
+  'materials.metal.gold24': {
+    en: '24K gold-plated brass',
+    ru: 'латуни с покрытием золотом 24K',
+    vi: 'đồng thau mạ vàng 24K',
+  },
+  'materials.metal.stainless': {
+    en: 'stainless steel',
+    ru: 'нержавеющей стали',
+    vi: 'thép không gỉ',
+  },
+  'materials.metal.zamac': {
+    en: 'zamac',
+    ru: 'замака',
+    vi: 'hợp kim zamac',
+  },
+  // Вместо цветов бисера, если они секрет автора схемы (colorsPublic: no)
+  'materials.colors_secret': {
+    en: 'The color palette is the pattern designer’s secret, so it isn’t shown here. You’ll find it on the printed card that comes with your piece.',
+    ru: 'Подбор цветов — секрет автора схемы, поэтому здесь его нет. Он указан на печатной карточке, которая приходит вместе с изделием.',
+    vi: 'Bảng màu là bí mật của tác giả mẫu nên không được công khai ở đây. Bạn sẽ tìm thấy nó trên tấm thiệp in đi kèm sản phẩm.',
+  },
+  // Под цветами бисера, если оригинальный подбор — часть платной схемы, а бисер заменён своим (colorsPublic: replaced)
+  'materials.colors_replaced': {
+    en: 'The original bead palette for this pattern isn’t disclosed — it’s part of a paid design. But this piece uses my own color mix, so the list above is mine.',
+    ru: 'Изначальный подбор бисера для этой схемы не разглашается — это часть платного дизайна, но в этом изделии использован мой собственный микс, так что список цветов выше — мой.',
+    vi: 'Bảng màu hạt gốc của mẫu này không được tiết lộ — đó là một phần của thiết kế trả phí. Nhưng sản phẩm này dùng bảng màu của riêng mình, nên danh sách màu ở trên là của mình.',
+  },
+  // Когда бисера два: {name} — короткое название, «Delica»
+  'materials.colors_of': {
+    en: '{name} colors:',
+    ru: 'Цвета {name}:',
+    vi: 'Màu {name}:',
+  },
   'catalog.breadcrumb': {
     en: 'Catalog',
     ru: 'Каталог',

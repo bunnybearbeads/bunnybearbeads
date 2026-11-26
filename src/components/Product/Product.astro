@@ -13,6 +13,7 @@ import { type SupportedLanguage } from '../../i18n/ui';
 import { getLocalizedUrl, useTranslations, localize } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
 import { type ProductEntry, getFamilyOf, getLocationQty } from '../../utils/products';
+import { materialsHtml } from '../../utils/materials';
 
 interface Props {
   entry: ProductEntry;
@@ -26,6 +27,7 @@ const product = localize(raw, currentLang);
 const family = await getFamilyOf(entry.id);
 const studioQty = getLocationQty(raw.stock, 'atelier');
 const canRemake = studioQty === 0;
+const materials = raw.materials ? materialsHtml(raw.materials, t) : '';
 
 /**
  * «Полезно знать» под галереей: 2–4 ссылки. С html — модалка с этим текстом (заголовок = подпись ссылки),
@@ -75,12 +77,12 @@ const showCredits = creditRows.some(({ name }) => name !== BRAND);
           <ProductGuides class="product-specs-section" heading={t('catalog.good_to_know')} guides={guides} note={t('catalog.age_limit')} />
 
           <!-- Materials Section -->
-          {raw.materials && (
+          {materials && (
             <div class="product-specs-section">
               <strong class="specs-heading">
                 {t('catalog.materials_label')}
               </strong>
-              <div class="materials-html-content" set:html={raw.materials} />
+              <div class="materials-html-content" set:html={materials} />
             </div>
           )}
 

@@ -39,6 +39,16 @@
   border: 1px solid rgb(0 0 0 / 5%);
 }
 
+/* Пояснение под цветами бисера (секрет автора схемы, свой микс) — src/utils/materials.ts */
+.materials-html-content__note {
+  display: block;
+  margin-bottom: 7px;
+  font-style: italic;
+  font-size: var(--body-font-size-micro);
+  line-height: var(--body-line-height-micro);
+  color: var(--text-muted);
+}
+
 .materials-html-content .mat-beads {
   font-weight: 600;
   color: var(--color-brand-dark);
@@ -119,6 +129,10 @@
 
   .materials-html-content .mat-colors {
     font-size: 15px;
+  }
+
+  .materials-html-content__note {
+    margin-bottom: 5px;
   }
 
   .credit-row {

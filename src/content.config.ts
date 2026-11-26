@@ -68,8 +68,40 @@ const products = defineCollection({
     thumb: photoSchema.optional(),
     /** Размер — произвольный текст с HTML */
     size: z.string().optional(),
-    /** Материалы — HTML последней штуки в наличии, иначе последней штуки в списке. В базе — у штук */
-    materials: z.string().optional(),
+    /**
+     * Материалы последней штуки в наличии, иначе последней штуки в списке. В базе — у штук.
+     * HTML собирает src/utils/materials.ts
+     */
+    materials: z
+      .object({
+        beads: z.array(z.object({
+          name: z.string(),
+          pairName: z.string(),
+          short: z.string(),
+          premium: z.boolean(),
+          colors: z.array(z.string()),
+        })).default([]),
+        /** Цвета бисера: no — секрет автора схемы (сборка их уже вырезала), replaced — свой микс вместо секретного */
+        colorsPublic: z.enum(['yes', 'no', 'replaced']).default('yes'),
+        additionalBeads: z.array(z.object({
+          id: z.string(),
+          branded: z.boolean(),
+          rank: z.number(),
+          colors: z.array(z.string()),
+        })).default([]),
+        threads: z.array(z.object({
+          name: z.string(),
+          id: z.string(),
+          colors: z.array(z.string()),
+        })).default([]),
+        /** Фурнитура: у брелка — id из CHARM_FINDINGS, у серёг — текст, у браслета — детали */
+        findings: z.object({
+          charm: z.string().optional(),
+          text: z.string().optional(),
+          bracelet: z.array(z.object({ part: z.string(), brand: z.string(), metal: z.string() })).optional(),
+        }).optional(),
+      })
+      .optional(),
     /** Кто сделал: автор схемы и кто сплёл обязательны, остальные роли — любые (photo…). Просто имена, без HTML */
     credits: z.object({
       craft: z.string(),
