@@ -27,8 +27,6 @@
                 box-shadow var(--transition-hover);
 }
 
-
-
 .button:hover {
     background-color: var(--accent-teal-hover);
     box-shadow: 0 6px 18px rgb(44 36 32 / 24%), 0 2px 4px rgb(0 0 0 / 8%);
@@ -51,7 +49,6 @@
 }
 
 
-/* Secondary variant */
 .button--secondary {
     box-shadow: none;
     background-color: #FFFFFF;
@@ -69,25 +66,6 @@
 }
 
 
-/* Size modifiers */
-.button--smaller {
-    padding: 9px 18px;
-    font-size: 12px;
-    line-height: 18px;
-    gap: 7px;
-}
-
-.button--larger {
-    padding: 14px 32px;
-    font-size: 16px;
-    line-height: 24px;
-    gap: 10px;
-}
-
-
-
-
-/* Icon support */
 .button .icon,
 .button .alt-icon {
     vertical-align: middle;
@@ -101,19 +79,52 @@
     justify-content: center;
 }
 
-.button--smaller .icon,
-.button--smaller .alt-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
+
+.button--square {
+    width: 44px;
+    height: 44px;
+    min-width: 0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
-.button--larger .icon,
-.button--larger .alt-icon {
-    font-size: 22px;
-    width: 22px;
-    height: 22px;
+
+.button--smaller {
+    padding: 9px 18px;
+    font-size: 12px;
+    line-height: 18px;
+    gap: 7px;
 }
+
+.button--smaller.button--square {
+    width: 38px;
+    height: 38px;
+}
+    .button--smaller .icon,
+    .button--smaller .alt-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+    }
+
+
+.button--larger {
+    padding: 14px 32px;
+    font-size: 16px;
+    line-height: 24px;
+    gap: 10px;
+}
+
+.button--larger.button--square {
+    width: 54px;
+    height: 54px;
+}
+    .button--larger .icon,
+    .button--larger .alt-icon {
+        font-size: 22px;
+        width: 22px;
+        height: 22px;
+    }
 
 
 
@@ -130,12 +141,37 @@
         gap: 10px;
     }
 
+    .button--square {
+        min-width: 0;
+        width: 54px;
+        height: 54px;
+    }
+        .button .icon,
+        .button .alt-icon {
+            font-size: 22px;
+            width: 24px;
+            height: 24px;
+        }
+
+
     .button--smaller {
         padding: 11px 22px;
         font-size: 14px;
         line-height: 20px;
         gap: 8px;
     }
+
+    .button--smaller.button--square {
+        width: 44px;
+        height: 44px;
+    }
+        .button--smaller .icon,
+        .button--smaller .alt-icon {
+            font-size: 18px;
+            width: 20px;
+            height: 20px;
+        }
+
 
     .button--larger {
         padding: 17px 38px;
@@ -144,65 +180,14 @@
         gap: 12px;
     }
 
-    .button .icon,
-    .button .alt-icon {
-        font-size: 22px;
-        width: 22px;
-        height: 22px;
-    }
-
-    .button--smaller .icon,
-    .button--smaller .alt-icon {
-        font-size: 18px;
-        width: 18px;
-        height: 18px;
-    }
-
-    .button--larger .icon,
-    .button--larger .alt-icon {
-        font-size: 24px;
-        width: 24px;
-        height: 24px;
-    }
-}
-
-
-
-/* Square modifier */
-.button--square {
-    width: 44px;
-    height: 44px;
-    min-width: 0;
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.button--square.button--smaller {
-    width: 38px;
-    height: 38px;
-}
-
-.button--square.button--larger {
-    width: 54px;
-    height: 54px;
-}
-
-
-@media (1600px <= width) {
-
-    .button--square {
-        width: 54px;
-        height: 54px;
-    }
-
-    .button--square.button--smaller {
-        width: 44px;
-        height: 44px;
-    }
-
-    .button--square.button--larger {
+    .button--larger.button--square {
         width: 62px;
         height: 62px;
     }
-
+        .button--larger .icon,
+        .button--larger .alt-icon {
+            font-size: 24px;
+            width: 26px;
+            height: 26px;
+        }
 }
