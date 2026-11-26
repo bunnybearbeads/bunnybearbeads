@@ -38,5 +38,5 @@ channels:
 ---
 
 <p>
-  We retired slow website email forms in favor of direct conversation. Telegram is our main hub where you can ask questions, order pieces, or discuss ideas in real time.
+  I retired slow website email forms in favor of direct conversation. Telegram is my main hub where you can ask questions, order pieces, or discuss ideas in real time.
 </p>

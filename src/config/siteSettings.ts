@@ -40,6 +40,8 @@ export interface SiteSettings {
   partnerShops: PartnerShopsConfig;
   /** Default fulfillment timeframes */
   fulfillment: FulfillmentConfig;
+  /** С какого возраста изделия (мелкие детали): подставляется в тексты вместо {age} */
+  ageLimit: number;
   /** Primary contact links */
   contacts: {
     telegramUrl: string;
@@ -69,6 +71,9 @@ export const siteSettings: SiteSettings = {
     remakeDays: '2‑4',
     vietnamShippingDays: '1‑3',
   },
+
+  // Мелкие детали: для детей от этого возраста (раздел «Прочность, уход и предостережения», {age} в ui.ts)
+  ageLimit: 8,
 
   // Contact points
   contacts: {

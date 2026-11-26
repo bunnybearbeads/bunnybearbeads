@@ -12,24 +12,77 @@
   gap: 12px;
 }
 
+/* Раздел аккордеона: боковые отступы — здесь, снизу — только у раскрытого; разделы — через линию */
 .product-specs-section {
+  padding: 0 20px;
+}
 
+.product-specs-section[open] {
+  padding-bottom: 16px;
 }
 
 .product-specs-section + .product-specs-section {
-  margin-top: 22px;
+  border-top: 1px solid rgb(0 0 0 / 6%);
 }
 
+/* Заголовок раздела — <summary> аккордеона */
 .specs-heading {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* Отступы раздела — внутри заголовка: кликабельна и подсвечивается вся строка */
+  margin: 0 -24px;
+  padding: 12px 24px;
+  font-weight: bold;
   font-size: 12px;
+  line-height: 16px;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   color: var(--text-muted);
-  margin-bottom: 9px;
+  list-style: none;
+  cursor: pointer;
+  transition: background-color var(--transition-hover);
+}
+
+.product-specs-section:first-child .specs-heading {
+  padding-top: 14px;
+}
+.product-specs-section:last-child .specs-heading {
+  padding-bottom: 14px;
+}
+
+.specs-heading:hover {
+  background-color: rgb(158 125 88 / 8%);
+}
+
+.specs-heading::-webkit-details-marker {
+  display: none;
+}
+
+/* Шеврон справа: вниз — свёрнуто, вверх — открыто */
+.specs-heading::after {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  margin-top: -4px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--transition-hover);
+}
+
+.product-specs-section[open] > .specs-heading::after {
+  margin-top: 4px;
+  transform: rotate(-135deg);
 }
 
 .size-box {
+  color: var(--color-brand-dark);
+}
+
+/* Текстовые разделы у брелков: крепление, прочность и уход */
+.specs-text {
   color: var(--color-brand-dark);
 }
 
@@ -69,13 +122,36 @@
     gap: 16px;
   }
 
-  .product-specs-section + .product-specs-section {
-    margin-top: 26px;
+  .product-specs-section {
+    padding: 0 26px;
+  }
+
+  .product-specs-section[open] {
+    padding-bottom: 20px;
   }
 
   .specs-heading {
-    font-size: 14.5px;
-    margin-bottom: 11px;
+    margin: 0 -26px;
+    padding: 14px 26px;
+    gap: 14px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .specs-heading::after {
+    width: 7px;
+    height: 7px;
+    margin-top: -5px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+  }
+
+
+  .product-specs-section:first-child .specs-heading {
+    padding-top: 16px;
+  }
+  .product-specs-section:last-child .specs-heading {
+    padding-bottom: 16px;
   }
 
   .materials-html-content__note {

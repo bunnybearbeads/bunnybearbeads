@@ -1,0 +1,148 @@
+.bracelet-clasps {
+
+}
+    /* Вступление: фото невидимки слева, текст справа — как пункты списка */
+    /* Совет с трюком невидимки — карточка на тёплой подложке: фото слева, текст справа */
+    .bracelet-clasps__intro {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px;
+        border-radius: var(--radius-sm);
+        background: rgb(158 125 88 / 12%);
+    }
+
+        .bracelet-clasps__intro-body {
+            min-width: 0;
+        }
+
+    .bracelet-clasps__intro-text {
+        margin: 0;
+        font-size: 14px;
+        line-height: 20px;
+        color: var(--color-brand-dark);
+    }
+
+    /* Про замену застёжки — после вступления (или первым, если вступления нет) */
+    .bracelet-clasps__swap {
+        margin: 0;
+        font-size: 14px;
+        line-height: 20px;
+        color: var(--color-brand-dark);
+    }
+
+    .bracelet-clasps__intro + .bracelet-clasps__swap {
+        margin-top: 14px;
+    }
+
+    .bracelet-clasps__list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin: 16px 0 0;
+        padding: 0;
+        list-style: none;
+    }
+    .bracelet-clasps__item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+        .bracelet-clasps__link {
+            display: block;
+            flex-shrink: 0;
+            border-radius: var(--radius-sm);
+        }
+            .bracelet-clasps__photo {
+                display: block;
+                width: 72px;
+                height: 72px;
+                border-radius: var(--radius-sm);
+                object-fit: cover;
+            }
+
+            /* Фото в совете — крупнее фото застёжек; квадрат, как и исходник, — ничего не обрезается */
+            .bracelet-clasps__photo--main {
+                width: 104px;
+                height: 104px;
+            }
+
+        .bracelet-clasps__body {
+            min-width: 0;
+        }
+            .bracelet-clasps__title {
+                font-size: 14px;
+                line-height: 20px;
+                color: var(--color-brand-dark);
+            }
+
+            /* «На этом браслете» — после названия */
+            .bracelet-clasps__badge {
+                margin-left: 8px;
+                font-size: var(--body-font-size-micro);
+                line-height: var(--body-line-height-micro);
+                color: var(--text-muted);
+            }
+
+            .bracelet-clasps__text {
+                margin: 2px 0 0;
+                font-size: 14px;
+                line-height: 20px;
+                color: var(--color-brand-dark);
+            }
+
+
+@media (1600px <= width) {
+    .bracelet-clasps__intro {
+        gap: 18px;
+        padding: 16px;
+    }
+
+    .bracelet-clasps__intro-text {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .bracelet-clasps__swap {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .bracelet-clasps__intro + .bracelet-clasps__swap {
+        margin-top: 18px;
+    }
+
+    .bracelet-clasps__list {
+        gap: 18px;
+        margin-top: 20px;
+    }
+
+    .bracelet-clasps__item {
+        gap: 18px;
+    }
+
+    .bracelet-clasps__photo {
+        width: 88px;
+        height: 88px;
+    }
+
+    .bracelet-clasps__photo--main {
+        width: 128px;
+        height: 128px;
+    }
+
+    .bracelet-clasps__title {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .bracelet-clasps__badge {
+        margin-left: 10px;
+    }
+
+    .bracelet-clasps__text {
+        margin-top: 3px;
+        font-size: 16px;
+        line-height: 22px;
+    }
+}

@@ -38,5 +38,5 @@ channels:
 ---
 
 <p>
-  Chúng mình không dùng biểu mẫu email chậm trễ mà ưu tiên trò chuyện trực tiếp. Telegram là nơi thuận tiện nhất để bạn đặt hàng và nhận tư vấn nhanh chóng.
+  Mình không dùng biểu mẫu email chậm trễ mà ưu tiên trò chuyện trực tiếp. Telegram là nơi thuận tiện nhất để bạn đặt hàng và nhận tư vấn nhanh chóng.
 </p>

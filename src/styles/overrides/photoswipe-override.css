@@ -17,3 +17,34 @@
     cursor: pointer;
     outline: none;
 }
+
+/* Подпись под фото (src/utils/photoswipe.ts, addCaption): название жирным и текст */
+.pswp__custom-caption {
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    width: calc(100% - 32px);
+    max-width: 560px;
+    padding: 10px 14px;
+    transform: translateX(-50%);
+    border-radius: var(--radius-sm);
+    background: rgb(0 0 0 / 60%);
+    color: #fff;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.pswp__custom-caption-title {
+    display: block;
+    margin-bottom: 2px;
+}
+
+@media (1600px <= width) {
+    .pswp__custom-caption {
+        bottom: 24px;
+        max-width: 640px;
+        padding: 12px 18px;
+        font-size: 16px;
+        line-height: 22px;
+    }
+}

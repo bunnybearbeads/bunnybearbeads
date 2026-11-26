@@ -531,7 +531,7 @@ export const translations = {
   },
   'materials.charm_finding.charm_strap': {
     en: 'Basic charm strap',
-    ru: 'Простая петелька для телефона',
+    ru: 'Базовая петелька для телефона',
     vi: 'Dây đeo điện thoại cơ bản',
   },
   'materials.charm_finding.large_lobster_clasp': {
@@ -651,19 +651,13 @@ export const translations = {
     ru: 'Доставка',
     vi: 'Giao hàng',
   },
-  // Секция «Полезно знать» под галереей товара — ссылки на модалки и FAQ (ProductGuides)
+  /** Заголовок над аккордеоном на странице товара (размер, материалы, застёжка, уход, авторы) */
   'catalog.good_to_know': {
     en: 'Good to know',
     ru: 'Полезно знать',
     vi: 'Điều bạn nên biết',
   },
-  // Модалка на странице каждого брелка (category: charm) — о сменном креплении (GuideModal)
-  /** Строка под списком «Полезно знать» — текстом, не ссылкой. Ограничение одно на все изделия */
-  'catalog.age_limit': {
-    en: 'Contains small parts: for ages 6 and up',
-    ru: 'Есть мелкие детали: для детей от&nbsp;6&nbsp;лет',
-    vi: 'Có chi tiết nhỏ: dành cho trẻ từ 6 tuổi trở lên',
-  },
+  // Разделы аккордеона на странице брелка (category: charm): сменное крепление, прочность и уход
   'catalog.charm_attachment.title': {
     en: 'Phone, keys or bag',
     ru: 'Крепление можно поменять',
@@ -683,13 +677,81 @@ export const translations = {
       <p>Chỉ cần lưu ý kích thước sản phẩm: charm nhỏ dễ bị lọt thỏm trên túi lớn, còn charm to có thể vướng víu khi treo điện thoại hay chùm chìa khóa. Trong ảnh có đặt kèm một chiếc nắp chai để bạn dễ hình dung.</p>
     `,
   },
-  // Модалка у брелков: как изнашиваются и чего ждать. По карточке, которая вкладывается в заказ
-  'catalog.charm_durability.title': {
+  // Раздел аккордеона на странице браслета: какие бывают застёжки (src/components/BraceletClasps). Фото — public/images/clasps
+  'catalog.clasps.title': {
+    en: 'Clasp options',
+    ru: 'Застёжку можно поменять',
+    vi: 'Có thể đổi khóa',
+  },
+  // Вступление: у браслета с цепочкой (chain) — абзац про трюк с невидимкой (фото bobby-pin, подпись в лайтбоксе — bobby_pin);
+  // у всех — swap, как запасные крепления у брелков (catalog.charm_attachment.text)
+  'catalog.clasps.chain': {
+    en: '<strong>A chain with a lobster clasp</strong> is the standard for bracelets, but it’s quite tricky to fasten with just one free hand. Remember this bobby pin trick (I’ll put a pin in the box). Even so, it takes some practice, so if the length works out, the clasp can be swapped.',
+    ru: '<strong>Цепочка с&nbsp;карабином</strong>&nbsp;— стандарт для браслетов, но&nbsp;застегнуть её одной свободной рукой довольно сложно. Запомните этот трюк с&nbsp;невидимкой (я&nbsp;вложу её в&nbsp;коробку). Но&nbsp;даже с&nbsp;ним нужна сноровка, так что, если длина подходит, застёжку можно поменять.',
+    vi: '<strong>Xích kèm khóa tôm</strong> là kiểu khóa tiêu chuẩn của vòng tay, nhưng tự cài bằng một tay khá khó. Hãy nhớ mẹo dùng kẹp tăm này nhé (mình sẽ để sẵn một chiếc trong hộp). Dù vậy, vẫn cần chút khéo tay, nên nếu độ dài phù hợp, bạn có thể đổi khóa.',
+  },
+  'catalog.clasps.swap': {
+    en: 'Along with my bracelets, I leave spare clasps in partner shops. If the clasp in the photos doesn’t work for you, just tell the staff and they’ll swap it on the spot — the design usually allows it. When ordering online, mention in the chat which clasp you’d like. Here are the options:',
+    ru: 'Вместе с браслетами я оставляю в партнёрских магазинах запасные застёжки. Если застёжка на фото вам не подходит, скажите об этом в магазине, и её поменяют на месте: обычно дизайн позволяет это сделать. При заказе онлайн просто напишите в чате, какую застёжку хотите. Вот какие они бывают:',
+    vi: 'Cùng với vòng tay, mình để lại ở cửa hàng đối tác vài kiểu khóa dự phòng. Nếu khóa trong ảnh chưa hợp với bạn, cứ nói với nhân viên, họ sẽ đổi ngay tại chỗ — thường thì thiết kế của vòng cho phép làm vậy. Khi đặt hàng online, hãy nhắn trong chat kiểu khóa bạn muốn. Dưới đây là các lựa chọn:',
+  },
+  'catalog.clasps.bobby_pin': {
+    en: 'Anchor the chain with a bobby pin to help clasp it solo (see photo).',
+    ru: 'Чтобы застегнуть цепочку самостоятельно, закрепите её конец невидимкой (см. фото).',
+    vi: 'Kẹp đầu xích bằng một chiếc kẹp tăm để dễ tự cài hơn (xem ảnh).',
+  },
+  'catalog.clasps.current': {
+    en: 'On this bracelet',
+    ru: 'На этом браслете',
+    vi: 'Trên chiếc vòng này',
+  },
+  'catalog.clasps.lobster.title': {
+    en: 'Lobster clasp with extender chain',
+    ru: 'Карабин с цепочкой-удлинителем',
+    vi: 'Khóa tôm và xích nối dài',
+  },
+  'catalog.clasps.lobster.text': {
+    en: 'Adjustable to most wrists and stays secure once fastened. It can be tricky to close single-handed, though.',
+    ru: 'Подходит для большинства запястий и надёжно держится, когда застёгнут. Правда, застегнуть его одной рукой бывает непросто.',
+    vi: 'Điều chỉnh vừa hầu hết cổ tay và giữ chắc khi đã cài. Có điều hơi khó tự cài bằng một tay.',
+  },
+  'catalog.clasps.sliding.title': {
+    en: 'Sliding adjustable chain',
+    ru: 'Цепочка с бегунком',
+    vi: 'Xích có hạt trượt',
+  },
+  'catalog.clasps.sliding.text': {
+    en: 'Size-adjustable as well. Easy to put on solo. However, it requires periodic tightening, and the dangling parts can get in the way.',
+    ru: 'Тоже регулируется по размеру, и её легко надеть самостоятельно. Но время от времени её нужно подтягивать, а свисающие кончики могут мешать.',
+    vi: 'Cũng điều chỉnh được kích cỡ và dễ tự đeo. Tuy vậy, thỉnh thoảng cần kéo chặt lại, và phần dây lủng lẳng có thể hơi vướng.',
+  },
+  'catalog.clasps.magnetic.title': {
+    en: 'Magnetic clasp',
+    ru: 'Магнитный замок',
+    vi: 'Khóa nam châm',
+  },
+  'catalog.clasps.magnetic.text': {
+    en: 'Minimalist, easy magnetic snap-on. No periodic tightening needed. Fixed size, though — it must fit your wrist as-is, with no room for adjustments.',
+    ru: 'Минималистичный, легко защёлкивается магнитом, подтягивать не нужно. Но размер фиксированный — браслет должен сразу подойти к запястью, подогнать его не получится.',
+    vi: 'Tối giản, cài bằng nam châm rất dễ, không cần kéo chặt lại. Có điều kích cỡ cố định — vòng phải vừa sẵn với cổ tay, không chỉnh được.',
+  },
+  'catalog.clasps.beaded.title': {
+    en: 'Beaded toggle, metal-free',
+    ru: 'Бисерная застёжка без металла',
+    vi: 'Khóa đan bằng hạt, không kim loại',
+  },
+  'catalog.clasps.beaded.text': {
+    en: 'Ideal for metal allergies. Seamless all-bead look. It does, though, require a custom pattern rework. May not work with certain designs. Fixed size.',
+    ru: 'Идеально при аллергии на металл, и выглядит цельно — только бисер. Но под неё нужно переделать схему, и подходит она не ко всем дизайнам. Размер фиксированный.',
+    vi: 'Lý tưởng cho người dị ứng kim loại, trông liền mạch, toàn bằng hạt. Có điều cần chỉnh lại mẫu đan riêng và có thể không hợp với một số thiết kế. Kích cỡ cố định.',
+  },
+  // Прочность и уход — раздел аккордеона на странице товара, свой текст у каждой категории: catalog.care.<category>
+  'catalog.care.title': {
     en: 'Durability & care',
     ru: 'Прочность и уход',
     vi: 'Độ bền và bảo quản',
   },
-  'catalog.charm_durability.text': {
+  'catalog.care.charm': {
     en: `
       <p>I use seed beads of exceptional quality, but they are still glass, often with decorative finishes. Here’s what to expect:</p>
       <ul>
@@ -698,7 +760,6 @@ export const translations = {
         <li><strong>As a bag or backpack charm:</strong> long exposure to direct sunlight may make some colors fade.</li>
       </ul>
       <p>Despite all this, don’t be afraid to enjoy your charm! It was made to live an everyday life and wear its little scars. Some wear is inevitable — it’s part of its journey as your daily companion, and no reason not to use it with pleasure.</p>
-      <p>Every piece is handmade, so small irregularities are to be expected.</p>
     `,
     ru: `
       <p>Я&nbsp;использую бисер исключительного качества, но&nbsp;это всё равно стекло, часто с&nbsp;декоративным покрытием. Вот чего стоит ожидать:</p>
@@ -708,7 +769,6 @@ export const translations = {
         <li><strong>На&nbsp;сумке или рюкзаке:</strong> от&nbsp;долгого прямого солнца некоторые цвета могут выгореть.</li>
       </ul>
       <p>Несмотря на&nbsp;всё это, не&nbsp;бойтесь носить брелок! Он&nbsp;сделан, чтобы жить обычной жизнью и&nbsp;собирать следы ежедневного использования. Небольшой износ неизбежен&nbsp;— это часть его пути как вашего спутника на&nbsp;каждый день и&nbsp;не&nbsp;повод отказываться от&nbsp;удовольствия его носить.</p>
-      <p>Каждое изделие сделано вручную, так что небольшие неровности возможны.</p>
     `,
     vi: `
       <p>Mình dùng hạt cườm chất lượng rất cao, nhưng đó vẫn là thủy tinh, thường có lớp phủ trang trí. Đây là những điều bạn nên biết:</p>
@@ -718,19 +778,231 @@ export const translations = {
         <li><strong>Treo túi xách hoặc ba lô:</strong> phơi nắng trực tiếp lâu ngày có thể làm một số màu bị phai.</li>
       </ul>
       <p>Dù vậy, bạn đừng ngại dùng charm nhé! Nó được làm ra để theo bạn mỗi ngày và mang những dấu vết của cuộc sống thường ngày. Hao mòn một chút là điều khó tránh — đó cũng là một phần hành trình của người bạn đồng hành này, và không phải lý do để bạn bớt vui khi dùng nó.</p>
-      <p>Mỗi sản phẩm đều làm thủ công nên có thể có vài điểm chưa đều.</p>
     `,
   },
-  /** Ссылка в «Полезно знать» — на FAQ целиком: гарантия, доставка, оплата и остальное */
-  'catalog.faq_link': {
-    en: 'Warranty, shipping and more',
-    ru: 'Гарантия, доставка и другие вопросы',
-    vi: 'Bảo hành, giao hàng và các câu hỏi khác',
+  'catalog.care.bracelet': {
+    en: `
+      <ul>
+        <li><strong>Avoid chemicals:</strong> Minimize contact with perfumes, hairsprays, and lotions to preserve the finish and shine.</li>
+        <li><strong>Keep it dry:</strong> Slide the bracelet up while washing hands. Take it off before workouts or chores to avoid sweat and cleaning products.</li>
+        <li><strong>Storage:</strong> For long-term storage, seal it airtight with the provided anti-tarnish strip to protect metal parts and metallic beads from oxidation. In humid climates, also add the included silica gel.</li>
+        <li><strong>Handle with care:</strong> Although I use seed beads of exceptional quality, they are made of glass. Do not place heavy objects on top. Avoid tossing it loose with keys, coins, and other hard items.</li>
+      </ul>
+    `,
+    ru: `
+      <ul>
+        <li><strong>Без химии:</strong> старайтесь, чтобы на&nbsp;браслет поменьше попадали духи, лак для волос и&nbsp;лосьоны,&nbsp;— так покрытие и&nbsp;блеск сохранятся дольше.</li>
+        <li><strong>Держите сухим:</strong> когда моете руки, сдвигайте браслет повыше. Снимайте его перед тренировкой или уборкой, чтобы на&nbsp;него не&nbsp;попадали пот и&nbsp;чистящие средства.</li>
+        <li><strong>Хранение:</strong> если убираете изделие надолго, положите его в&nbsp;герметичный пакет вместе с&nbsp;полоской от&nbsp;потускнения из&nbsp;комплекта&nbsp;— она защитит металлические детали и&nbsp;металлизированный бисер от&nbsp;окисления. Во&nbsp;влажном климате добавьте и&nbsp;силикагель из&nbsp;комплекта.</li>
+        <li><strong>Бережно:</strong> я&nbsp;использую бисер исключительного качества, но&nbsp;это стекло. Не&nbsp;кладите на&nbsp;браслет тяжёлое и&nbsp;не бросайте его вперемешку с&nbsp;ключами, монетами и&nbsp;другими твёрдыми предметами.</li>
+      </ul>
+    `,
+    vi: `
+      <ul>
+        <li><strong>Tránh hóa chất:</strong> hạn chế để vòng tiếp xúc với nước hoa, keo xịt tóc và kem dưỡng để giữ lớp phủ và độ bóng.</li>
+        <li><strong>Giữ khô ráo:</strong> kéo vòng lên cao khi rửa tay. Tháo vòng ra trước khi tập thể dục hoặc làm việc nhà để tránh mồ hôi và chất tẩy rửa.</li>
+        <li><strong>Cất giữ:</strong> khi cất lâu ngày, hãy cho sản phẩm vào túi kín cùng miếng chống xỉn màu đi kèm để bảo vệ các chi tiết kim loại và hạt ánh kim khỏi bị oxy hóa. Ở nơi khí hậu ẩm, cho thêm gói hút ẩm đi kèm.</li>
+        <li><strong>Nhẹ tay:</strong> dù mình dùng hạt cườm chất lượng rất cao, chúng vẫn là thủy tinh. Đừng đặt vật nặng lên vòng, cũng đừng để vòng lẫn lộn với chìa khóa, tiền xu và các vật cứng khác.</li>
+      </ul>
+    `,
+  },
+  'catalog.care.ring': {
+    en: `
+      <ul>
+        <li><strong>Keep it dry:</strong> Remove before washing hands, showering, or swimming to preserve color vibrancy.</li>
+        <li><strong>Avoid chemicals:</strong> Minimize contact with hand soaps, sanitizers, and lotions to preserve the finish and shine, and keep residue from building up between beads.</li>
+        <li><strong>Handle with care:</strong> Take it off before workouts, chores, or handling hard items and heavy bags to prevent crushing the glass beads.</li>
+        <li><strong>Roll, don't pull:</strong> Gently roll the ring over your knuckle when putting it on or taking it off to protect thread tension.</li>
+      </ul>
+      <p>Despite the warnings, don’t be afraid to live in your ring! Constant friction means some natural wear is expected, but that’s part of its story—just like getting it wet or messy with food once in a while. Wear it with joy!</p>
+    `,
+    ru: `
+      <ul>
+        <li><strong>Держите сухим:</strong> снимайте кольцо, когда моете руки, принимаете душ или плаваете,&nbsp;— так цвета дольше останутся яркими.</li>
+        <li><strong>Без химии:</strong> старайтесь, чтобы на&nbsp;кольцо поменьше попадали мыло, антисептики и&nbsp;лосьоны,&nbsp;— так сохранятся покрытие и&nbsp;блеск, а&nbsp;между бисеринами не&nbsp;будет скапливаться налёт.</li>
+        <li><strong>Бережно:</strong> снимайте кольцо перед тренировкой, уборкой, а&nbsp;также когда берёте в&nbsp;руки твёрдые предметы и&nbsp;тяжёлые сумки,&nbsp;— иначе стеклянный бисер может треснуть.</li>
+        <li><strong>Скатывайте, а&nbsp;не тяните:</strong> надевая и&nbsp;снимая кольцо, аккуратно прокатывайте его через сустав&nbsp;— так нить не&nbsp;растянется.</li>
+      </ul>
+      <p>Несмотря на&nbsp;все предупреждения, не&nbsp;бойтесь носить кольцо каждый день! От&nbsp;постоянного трения небольшой износ неизбежен, но&nbsp;это часть его истории&nbsp;— как и&nbsp;то, что иногда оно намокнет или испачкается едой. Носите с&nbsp;радостью!</p>
+    `,
+    vi: `
+      <ul>
+        <li><strong>Giữ khô ráo:</strong> tháo nhẫn ra khi rửa tay, tắm hoặc đi bơi để màu sắc luôn tươi.</li>
+        <li><strong>Tránh hóa chất:</strong> hạn chế để nhẫn tiếp xúc với xà phòng, nước rửa tay khô và kem dưỡng để giữ lớp phủ và độ bóng, đồng thời tránh cặn bám giữa các hạt.</li>
+        <li><strong>Nhẹ tay:</strong> tháo nhẫn ra trước khi tập thể dục, làm việc nhà, cầm vật cứng hay xách túi nặng để hạt thủy tinh không bị vỡ.</li>
+        <li><strong>Lăn, đừng kéo:</strong> khi đeo hoặc tháo, hãy nhẹ nhàng lăn nhẫn qua khớp ngón tay để giữ độ căng của chỉ.</li>
+      </ul>
+      <p>Dù có những lưu ý trên, bạn cứ thoải mái đeo nhẫn mỗi ngày nhé! Ma sát liên tục sẽ khiến nhẫn mòn đi đôi chút, nhưng đó là một phần câu chuyện của nó — cũng như thỉnh thoảng bị ướt hay dính chút đồ ăn. Hãy đeo thật vui!</p>
+    `,
+  },
+  'catalog.care.pen-wrap': {
+    en: `
+      <ul>
+        <li><strong>Cosmetic residues:</strong> Direct contact with freshly moisturized hands can wear down bead coatings over time. Allow lotions, creams, and sanitizers to dry before use to preserve the finish and shine.</li>
+        <li><strong>Storage:</strong> For long-term storage, seal it airtight with the provided anti-tarnish strip to protect metallic beads from oxidation. In humid climates, also add the included silica gel.</li>
+        <li><strong>Pencil case and carry:</strong> Tumbling loosely in a bag or pencil case alongside heavy or sharp objects like coins, keys, and metal sharpeners can chip or break a few beads.</li>
+      </ul>
+      <p>Despite the warnings, don’t be afraid to put your pen to work! Some natural wear is expected and simply part of its story. Plus, pens live a far gentler life than, say, keychains or phone charms. Write with joy!</p>
+    `,
+    ru: `
+      <ul>
+        <li><strong>Косметика:</strong> от&nbsp;прямого контакта со&nbsp;свежими кремами покрытие бисера со&nbsp;временем стирается. Дайте лосьону, крему или антисептику впитаться, прежде чем брать ручку,&nbsp;— так покрытие и&nbsp;блеск сохранятся дольше.</li>
+        <li><strong>Хранение:</strong> если убираете изделие надолго, положите его в&nbsp;герметичный пакет вместе с&nbsp;полоской от&nbsp;потускнения из&nbsp;комплекта&nbsp;— она защитит металлизированный бисер от&nbsp;окисления. Во&nbsp;влажном климате добавьте и&nbsp;силикагель из&nbsp;комплекта.</li>
+        <li><strong>Пенал и&nbsp;сумка:</strong> если ручка болтается в&nbsp;сумке или пенале рядом с&nbsp;тяжёлыми или острыми предметами&nbsp;— монетами, ключами, металлическими точилками,&nbsp;— несколько бисерин могут отколоться или треснуть.</li>
+      </ul>
+      <p>Несмотря на&nbsp;все предупреждения, не&nbsp;бойтесь пользоваться ручкой! Небольшой износ неизбежен, и&nbsp;это просто часть её&nbsp;истории. К&nbsp;тому же&nbsp;у ручки жизнь куда спокойнее, чем, скажем, у&nbsp;брелка на&nbsp;ключах или телефоне. Пишите с&nbsp;радостью!</p>
+    `,
+    vi: `
+      <ul>
+        <li><strong>Mỹ phẩm:</strong> tiếp xúc trực tiếp với tay vừa thoa kem có thể làm mòn lớp phủ của hạt theo thời gian. Hãy đợi kem dưỡng, kem bôi hay nước rửa tay khô khô hẳn rồi mới dùng bút để giữ lớp phủ và độ bóng.</li>
+        <li><strong>Cất giữ:</strong> khi cất lâu ngày, hãy cho sản phẩm vào túi kín cùng miếng chống xỉn màu đi kèm để bảo vệ hạt ánh kim khỏi bị oxy hóa. Ở nơi khí hậu ẩm, cho thêm gói hút ẩm đi kèm.</li>
+        <li><strong>Hộp bút và túi xách:</strong> để bút lăn lóc trong túi hay hộp bút cùng vật nặng hoặc sắc như tiền xu, chìa khóa, gọt bút chì kim loại có thể làm mẻ hoặc vỡ vài hạt.</li>
+      </ul>
+      <p>Dù có những lưu ý trên, bạn cứ thoải mái dùng bút nhé! Mòn đi đôi chút là chuyện tự nhiên và cũng là một phần câu chuyện của nó. Hơn nữa, bút sống nhẹ nhàng hơn nhiều so với charm treo chìa khóa hay điện thoại. Hãy viết thật vui!</p>
+    `,
+  },
+  'catalog.care.earrings': {
+    en: `
+      <ul>
+        <li><strong>Avoid chemicals:</strong> Minimize contact with perfumes, hairsprays, and lotions to preserve the finish and shine.</li>
+        <li><strong>Keep them dry:</strong> Remove before showering, workouts, or saunas to avoid sweat, steam, and soap.</li>
+        <li><strong>Storage:</strong> For long-term storage, seal them airtight with the provided anti-tarnish strip to protect metallic beads from oxidation. In humid climates, also add the included silica gel.</li>
+        <li><strong>Sleep & clothes:</strong> Remove before sleeping, and take care when dressing, undressing, or wearing scarves. Earrings can catch on loose knits, risking ear irritation and bent findings.</li>
+      </ul>
+    `,
+    ru: `
+      <ul>
+        <li><strong>Без химии:</strong> старайтесь, чтобы на&nbsp;серьги поменьше попадали духи, лак для волос и&nbsp;лосьоны,&nbsp;— так покрытие и&nbsp;блеск сохранятся дольше.</li>
+        <li><strong>Держите сухими:</strong> снимайте серьги перед душем, тренировкой или сауной, чтобы на&nbsp;них не&nbsp;попадали пот, пар и&nbsp;мыло.</li>
+        <li><strong>Хранение:</strong> если убираете изделие надолго, положите его в&nbsp;герметичный пакет вместе с&nbsp;полоской от&nbsp;потускнения из&nbsp;комплекта&nbsp;— она защитит металлизированный бисер от&nbsp;окисления. Во&nbsp;влажном климате добавьте и&nbsp;силикагель из&nbsp;комплекта.</li>
+        <li><strong>Сон и&nbsp;одежда:</strong> снимайте серьги перед сном и&nbsp;будьте аккуратнее, когда одеваетесь, раздеваетесь или носите шарф: серьги могут зацепиться за&nbsp;крупную вязку&nbsp;— так можно поранить ухо и&nbsp;погнуть фурнитуру.</li>
+      </ul>
+    `,
+    vi: `
+      <ul>
+        <li><strong>Tránh hóa chất:</strong> hạn chế để bông tai tiếp xúc với nước hoa, keo xịt tóc và kem dưỡng để giữ lớp phủ và độ bóng.</li>
+        <li><strong>Giữ khô ráo:</strong> tháo bông tai ra trước khi tắm, tập thể dục hoặc xông hơi để tránh mồ hôi, hơi nước và xà phòng.</li>
+        <li><strong>Cất giữ:</strong> khi cất lâu ngày, hãy cho sản phẩm vào túi kín cùng miếng chống xỉn màu đi kèm để bảo vệ hạt ánh kim khỏi bị oxy hóa. Ở nơi khí hậu ẩm, cho thêm gói hút ẩm đi kèm.</li>
+        <li><strong>Khi ngủ và thay đồ:</strong> tháo bông tai trước khi ngủ, và cẩn thận khi mặc, cởi đồ hay quàng khăn. Bông tai có thể vướng vào vải đan thưa, dễ làm tai bị kích ứng và móc bị cong.</li>
+      </ul>
+    `,
+  },
+  // Предостережения — отдельный раздел аккордеона после «Прочность и уход»: catalog.warnings.<category>, {age} — siteSettings.ageLimit
+  'catalog.warnings.title': {
+    en: 'Safety notes',
+    ru: 'Предостережения',
+    vi: 'Lưu ý an toàn',
+  },
+  'catalog.warnings.charm': {
+    en: `
+      <ul>
+        <li>Every piece is handmade, so small irregularities are to be expected.</li>
+        <li>Choking hazard due to small parts. Suitable for ages {age} and up. Adult supervision recommended.</li>
+      </ul>
+    `,
+    ru: `
+      <ul>
+        <li>Каждое изделие сделано вручную, так что небольшие неровности возможны.</li>
+        <li>Есть мелкие детали&nbsp;— опасно при проглатывании. Для детей от&nbsp;{age}&nbsp;лет, под присмотром взрослых.</li>
+      </ul>
+    `,
+    vi: `
+      <ul>
+        <li>Mỗi sản phẩm đều làm thủ công nên có thể có vài điểm chưa đều.</li>
+        <li>Có chi tiết nhỏ, nguy cơ hóc nghẹt. Phù hợp cho trẻ từ {age} tuổi trở lên, nên có người lớn giám sát.</li>
+      </ul>
+    `,
+  },
+  'catalog.warnings.bracelet': {
+    en: `
+      <ul>
+        <li>Please note this is a handmade item — some irregularities are to be expected.</li>
+        <li>Metal parts may cause skin reactions for some. Contact me; I may be able to redesign the piece to be metal-free.</li>
+        <li>Choking hazard due to small parts. Suitable for ages {age} and up. Adult supervision recommended.</li>
+      </ul>
+    `,
+    ru: `
+      <ul>
+        <li>Это изделие ручной работы, так что небольшие неровности возможны.</li>
+        <li>У&nbsp;некоторых людей металлические детали вызывают раздражение кожи. Напишите мне&nbsp;— возможно, браслет получится переделать без металла.</li>
+        <li>Есть мелкие детали&nbsp;— опасно при проглатывании. Для детей от&nbsp;{age}&nbsp;лет, под присмотром взрослых.</li>
+      </ul>
+    `,
+    vi: `
+      <ul>
+        <li>Đây là sản phẩm làm thủ công nên có thể có vài điểm chưa đều.</li>
+        <li>Chi tiết kim loại có thể gây kích ứng da ở một số người. Hãy liên hệ với mình — có thể mình sẽ làm lại vòng mà không dùng kim loại.</li>
+        <li>Có chi tiết nhỏ, nguy cơ hóc nghẹt. Phù hợp cho trẻ từ {age} tuổi trở lên, nên có người lớn giám sát.</li>
+      </ul>
+    `,
+  },
+  'catalog.warnings.ring': {
+    en: `
+      <ul>
+        <li>Please note this is a handmade item — some irregularities are to be expected.</li>
+        <li>Choking hazard due to small parts. Suitable for ages {age} and up. Adult supervision recommended.</li>
+      </ul>
+    `,
+    ru: `
+      <ul>
+        <li>Это изделие ручной работы, так что небольшие неровности возможны.</li>
+        <li>Есть мелкие детали&nbsp;— опасно при проглатывании. Для детей от&nbsp;{age}&nbsp;лет, под присмотром взрослых.</li>
+      </ul>
+    `,
+    vi: `
+      <ul>
+        <li>Đây là sản phẩm làm thủ công nên có thể có vài điểm chưa đều.</li>
+        <li>Có chi tiết nhỏ, nguy cơ hóc nghẹt. Phù hợp cho trẻ từ {age} tuổi trở lên, nên có người lớn giám sát.</li>
+      </ul>
+    `,
+  },
+  'catalog.warnings.pen-wrap': {
+    en: `
+      <ul>
+        <li>Please note this is a handmade item — some irregularities are to be expected.</li>
+        <li>Choking hazard due to small parts. Suitable for ages {age} and up. Adult supervision recommended.</li>
+      </ul>
+    `,
+    ru: `
+      <ul>
+        <li>Это изделие ручной работы, так что небольшие неровности возможны.</li>
+        <li>Есть мелкие детали&nbsp;— опасно при проглатывании. Для детей от&nbsp;{age}&nbsp;лет, под присмотром взрослых.</li>
+      </ul>
+    `,
+    vi: `
+      <ul>
+        <li>Đây là sản phẩm làm thủ công nên có thể có vài điểm chưa đều.</li>
+        <li>Có chi tiết nhỏ, nguy cơ hóc nghẹt. Phù hợp cho trẻ từ {age} tuổi trở lên, nên có người lớn giám sát.</li>
+      </ul>
+    `,
+  },
+  'catalog.warnings.earrings': {
+    en: `
+      <ul>
+        <li>Please note this is a handmade item — some irregularities are to be expected.</li>
+        <li>Metal ear wires may cause skin reactions for some. Contact me; I may be able to swap findings with alternative options.</li>
+        <li>Choking hazard due to small parts. Suitable for ages {age} and up. Adult supervision recommended.</li>
+      </ul>
+    `,
+    ru: `
+      <ul>
+        <li>Это изделие ручной работы, так что небольшие неровности возможны.</li>
+        <li>У&nbsp;некоторых людей металлические швензы вызывают раздражение кожи. Напишите мне&nbsp;— возможно, получится заменить их&nbsp;другой фурнитурой.</li>
+        <li>Есть мелкие детали&nbsp;— опасно при проглатывании. Для детей от&nbsp;{age}&nbsp;лет, под присмотром взрослых.</li>
+      </ul>
+    `,
+    vi: `
+      <ul>
+        <li>Đây là sản phẩm làm thủ công nên có thể có vài điểm chưa đều.</li>
+        <li>Móc tai bằng kim loại có thể gây kích ứng da ở một số người. Hãy liên hệ với mình — có thể mình sẽ đổi sang loại móc khác.</li>
+        <li>Có chi tiết nhỏ, nguy cơ hóc nghẹt. Phù hợp cho trẻ từ {age} tuổi trở lên, nên có người lớn giám sát.</li>
+      </ul>
+    `,
   },
   'catalog.credits': {
     en: 'Credits',
-    ru: 'Credits',
-    vi: 'Credits',
+    ru: 'Авторы',
+    vi: 'Tác giả',
   },
   'catalog.crafted_by': {
     en: 'Crafted by',
@@ -1139,16 +1411,16 @@ export const translations = {
   },
   'catalog.modal.nm_content': {
     en: `
-      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span> is an authentic handmade shop in <span class="nobr">Da&nbsp;Nang</span> with actual shelves you can explore in person. Among indie perfumes, minerals, ceramics, and woodwork, you’ll find my corner as well. We sync up once a week to check what’s left in stock, and that's when I update the website. And this is what the “last checked” date refers to.</p>
+      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span> is an authentic handmade shop in <span class="nobr">Da&nbsp;Nang</span> with actual shelves you can explore in person. Among indie perfumes, minerals, ceramics, and woodwork, you’ll find my corner as well. Once a week I check with the shop what’s left in stock, and that's when I update the website. And this is what the “last checked” date refers to.</p>
       <p>Beadwork moves at a rather calm pace, so for the first couple of days after an update, <strong>{item}</strong> is almost certainly waiting for you on the shelf. No\u00A0100% guarantee, of course, but <span class="nobr">NGÀY&nbsp;MAI</span> itself is well worth stopping by regardless!</p>
     `,
     ru: `
-      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span>&nbsp;— это магазин аутентичного хендмейда с&nbsp;живой витриной в&nbsp;Дананге. Среди авторских духов, минералов, керамики и&nbsp;дерева расположился и&nbsp;мой уголок. Раз в&nbsp;неделю мы сверяем наличие на&nbsp;стенде, и&nbsp;я&nbsp;обновляю сайт&nbsp;— это и&nbsp;есть дата проверки.</p>
+      <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span>&nbsp;— это магазин аутентичного хендмейда с&nbsp;живой витриной в&nbsp;Дананге. Среди авторских духов, минералов, керамики и&nbsp;дерева расположился и&nbsp;мой уголок. Раз в&nbsp;неделю я&nbsp;сверяю с&nbsp;магазином наличие на&nbsp;стенде и&nbsp;обновляю сайт&nbsp;— это и&nbsp;есть дата проверки.</p>
       <p>Хендмейд продаётся неторопливо, так что в&nbsp;первые дни после проверки <strong>{item}</strong> практически гарантированно на&nbsp;месте и&nbsp;ждёт вас. Без стопроцентной гарантии, конечно, но&nbsp;в&nbsp;любом случае <span class="nobr">NGÀY&nbsp;MAI</span>&nbsp;— это само по&nbsp;себе прекрасное место, куда обязательно стоит заглянуть!</p>
     `,
     vi: `
       <p><span class="nobr"><strong>NGÀY&nbsp;MAI</strong></span> là một tiệm đồ thủ công rất xinh yêu ở <span class="nobr">Đà&nbsp;Nẵng</span>, nơi bạn có thể ghé tận nơi để sờ tận tay, ngắm tận mắt từng món trên kệ. Bên cạnh nước hoa indie, đá thiên nhiên, đồ gốm và đồ gỗ, bạn cũng sẽ thấy một góc nhỏ của tụi mình ở&nbsp;đó.</p>
-      <p>Tụi mình kiểm lại đồ trên kệ mỗi tuần một lần rồi mình mới cập nhật lên web&nbsp;— số lượng và ngày “kiểm tra” bạn thấy chính là từ lần đếm gần nhất&nbsp;đó.</p>
+      <p>Mỗi tuần một lần mình cùng tiệm kiểm lại đồ trên kệ rồi mới cập nhật lên web&nbsp;— số lượng và ngày “kiểm tra” bạn thấy chính là từ lần đếm gần nhất&nbsp;đó.</p>
       <p>Đồ cườm bán ra cũng túc tắc thôi, nên tầm vài ngày đầu sau khi cập nhật thì <strong>{item}</strong> gần như chắc chắn vẫn còn trên kệ đợi bạn. Dù không dám hứa\u00A0100%, nhưng ghé <span class="nobr">NGÀY&nbsp;MAI</span> dạo chơi một vòng cũng rất thú vị&nbsp;nha!</p>
     `,
   },
@@ -1236,9 +1508,9 @@ export const translations = {
     vi: 'Đặt làm',
   },
   'catalog.modal.remake_note': {
-    en: 'Kindly note: this isn’t a custom order, but a remake along a path I’ve already walked. We can, of course, swap out the clasp or adjust the length, but changing the color palette or reworking the design would be a more involved project.',
-    ru: 'Обратите внимание: это не&nbsp;индивидуальный заказ, а&nbsp;повтор по&nbsp;уже протоптанной тропинке. Мы, конечно, можем заменить замочек или скорректировать длину, но&nbsp;смена палитры или доработка дизайна&nbsp;— это, пожалуй, отдельная услуга.',
-    vi: 'Bạn lưu ý một chút nha: đây là mẫu được làm, chứ không phải đơn đặt làm riêng (custom). Tụi mình hoàn toàn có thể đổi loại móc khóa hoặc chỉnh lại độ dài, nhưng nếu muốn đổi bảng màu hay biến tấu lại thiết kế thì sẽ tốn nhiều công sức hơn hẳn và tính như một đơn đặt riêng nhé.',
+    en: 'Kindly note: this isn’t a custom order, but a remake along a path I’ve already walked. I can, of course, swap out the clasp or adjust the length, but changing the color palette or reworking the design would be a more involved project.',
+    ru: 'Обратите внимание: это не&nbsp;индивидуальный заказ, а&nbsp;повтор по&nbsp;уже протоптанной тропинке. Я, конечно, могу заменить замочек или скорректировать длину, но&nbsp;смена палитры или доработка дизайна&nbsp;— это, пожалуй, отдельная услуга.',
+    vi: 'Bạn lưu ý một chút nha: đây là mẫu được làm, chứ không phải đơn đặt làm riêng (custom). Mình hoàn toàn có thể đổi loại móc khóa hoặc chỉnh lại độ dài, nhưng nếu muốn đổi bảng màu hay biến tấu lại thiết kế thì sẽ tốn nhiều công sức hơn hẳn và tính như một đơn đặt riêng nhé.',
   },
 
   // Blog UI

@@ -76,6 +76,34 @@ export function largePhoto(el: HTMLElement): { src: string; width: number; heigh
   return { src: pswpSrc, width: Number(pswpWidth), height: Number(pswpHeight) };
 }
 
+const escapeHtml = (value: string) =>
+  value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+/**
+ * Подпись под фото: из data-pswp-caption-title (жирным) и data-pswp-caption у ссылки.
+ * У PhotoSwipe своей подписи нет — добавляем элемент интерфейса и обновляем его при смене слайда
+ */
+function addCaption(pswp: PhotoSwipe): void {
+  pswp.on('uiRegister', () => {
+    pswp.ui?.registerElement({
+      name: 'custom-caption',
+      order: 9,
+      isButton: false,
+      appendTo: 'root',
+      onInit: (el) => {
+        pswp.on('change', () => {
+          const { captionTitle, caption } = (pswp.currSlide?.data ?? {}) as { captionTitle?: string; caption?: string };
+          el.innerHTML = [
+            captionTitle ? `<strong class="pswp__custom-caption-title">${escapeHtml(captionTitle)}</strong>` : '',
+            caption ? escapeHtml(caption) : '',
+          ].filter(Boolean).join(' ');
+          el.hidden = !captionTitle && !caption;
+        });
+      },
+    });
+  });
+}
+
 export interface OpenSimpleLightboxOptions {
   items: HTMLAnchorElement[];
   initialIndex?: number;
@@ -102,6 +130,7 @@ export function openSimpleLightbox({
       (img && window.getComputedStyle(img).objectFit === 'cover')
     );
     const large = largePhoto(item);
+    const { pswpCaptionTitle, pswpCaption } = item.dataset;
     return {
       src: large?.src || item.href || img?.currentSrc || img?.src || '',
       width: large?.width || (naturalW > 0 ? naturalW : 1200),
@@ -110,6 +139,8 @@ export function openSimpleLightbox({
       msrc: img?.src || item.href || '',
       element: img || item,
       thumbCropped,
+      captionTitle: pswpCaptionTitle,
+      caption: pswpCaption,
     };
   });
 
@@ -118,6 +149,7 @@ export function openSimpleLightbox({
     index: initialIndex >= 0 ? initialIndex : 0,
     trapModalKeys,
   });
+  if (dataSource.some((item) => item.caption || item.captionTitle)) addCaption(pswp);
 
   // Resolve real dimensions asynchronously for any image that wasn't decoded yet
   items.forEach((item, idx) => {

@@ -5,7 +5,7 @@ order: 1
 ---
 
 <p>
-  Yes, absolutely! I'm always happy to take custom orders. We can adjust the color scheme, sizing, or take a design you discovered on Etsy.
+  Yes, absolutely! I'm always happy to take custom orders. I can adjust the color scheme, sizing, or take a design you discovered on Etsy.
 </p>
 <p>
   I also keep a personal wishlist of designs I'm dreaming of weaving — if you pick one of those, I’ll craft it with double enthusiasm (and a sweet discount!).

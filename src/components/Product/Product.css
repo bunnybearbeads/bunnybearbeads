@@ -22,15 +22,19 @@
                     min-width: 0;
                 }
 
-                /* Одна подложка на все разделы (Полезно знать, Размер, Материалы, Credits) — разделы разделены линией */
+                /* «Полезно знать»: заголовок (DottedTitle) и подложка с разделами аккордеона */
                 .product__specs {
                     margin-top: 24px;
                     min-width: 0;
-                    padding: 16px 20px;
-                    background: rgb(255 255 255 / 60%);
-                    border: 1px solid rgb(0 0 0 / 5%);
-                    border-radius: var(--radius-sm);
                 }
+                    /* Одна подложка на все разделы — как у .product__details; отступы — у разделов и заголовков
+                       (ProductDetail.css). overflow — чтобы фон заголовка при наведении не вылезал за скругление */
+                    .product__specs-box {
+                        overflow: hidden;
+                        background: var(--card-bg);
+                        border: 1px solid var(--glass-border);
+                        border-radius: var(--radius-lg);
+                    }
 
             .product__details {
                 min-width: 0;
@@ -69,7 +73,6 @@
 
                     .product__specs {
                         margin-top: 32px;
-                        padding: 20px 26px;
                     }
 
                 .product__details {

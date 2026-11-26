@@ -3,15 +3,15 @@ import './Product.css';
 import '../Wysiwyg/Wysiwyg.css';
 import Gallery from '../Gallery/Gallery.astro';
 import Family from '../Family/Family.astro';
-import GuideModal from '../GuideModal/GuideModal.astro';
-import ProductGuides from '../ProductGuides/ProductGuides.astro';
 import ProductHeader from '../ProductHeader/ProductHeader.astro';
 import ProductAvailability from '../_legacy_ProductDetail/ProductAvailability.astro';
 import PartnerModals from '../_legacy_ProductDetail/PartnerModals.astro';
 import RemakeModal from '../RemakeModal/RemakeModal.astro';
 import InquiryModals from '../Inquiry/InquiryModals.astro';
-import { type SupportedLanguage } from '../../i18n/ui';
-import { getLocalizedUrl, useTranslations, localize } from '../../i18n/utils';
+import BraceletClasps from '../BraceletClasps/BraceletClasps.astro';
+import DottedTitle from '../DottedTitle/DottedTitle.astro';
+import { type SupportedLanguage, type TranslationKey } from '../../i18n/ui';
+import { useTranslations, localize } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
 import { type ProductEntry, getFamilyOf, getLocationQty } from '../../utils/products';
 import { materialsHtml } from '../../utils/materials';
@@ -32,18 +32,12 @@ const canRemake = studioQty === 0;
 const size = sizeSection(raw.size, t, currentLang);
 const materials = raw.materials ? materialsHtml(raw.materials, t, raw.credits.design) : '';
 
-/**
- * «Полезно знать» под галереей: 2–4 ссылки. С html — модалка с этим текстом (заголовок = подпись ссылки),
- * с href — ссылка на страницу (например, FAQ)
- */
-interface Guide { label: string; modal?: string; html?: string; href?: string }
+/** Текстовые разделы аккордеона: у брелков — сменное крепление; у всех — прочность и уход, предостережения (свой текст у категории) */
 const isCharm = raw.category === 'charm';
-const guides: Guide[] = [
-  ...(isCharm ? [
-    { modal: 'modal-charm-attachment', label: t('catalog.charm_attachment.title'), html: t('catalog.charm_attachment.text') },
-    { modal: 'modal-charm-durability', label: t('catalog.charm_durability.title'), html: t('catalog.charm_durability.text') },
-  ] : []),
-  { label: t('catalog.faq_link'), href: getLocalizedUrl('/faq', currentLang) },
+const textSections = [
+  ...(isCharm ? [{ heading: t('catalog.charm_attachment.title'), html: t('catalog.charm_attachment.text') }] : []),
+  { heading: t('catalog.care.title'), html: t(`catalog.care.${raw.category}` as TranslationKey) },
+  { heading: t('catalog.warnings.title'), html: t(`catalog.warnings.${raw.category}` as TranslationKey).replaceAll('{age}', String(siteSettings.ageLimit)) },
 ];
 
 const BRAND = 'bunnybearbeads';
@@ -77,42 +71,63 @@ const showCredits = creditRows.some(({ name }) => name !== BRAND);
         )}
 
         <div class="product__specs">
-          <ProductGuides class="product-specs-section" heading={t('catalog.good_to_know')} guides={guides} note={t('catalog.age_limit')} />
+          <DottedTitle>{t('catalog.good_to_know')}</DottedTitle>
 
-          {size.html && (
-            <div class="product-specs-section">
-              <strong class="specs-heading">
-                {size.heading}
-              </strong>
-              <div class="size-box wysiwyg wysiwyg--smaller wysiwyg--smaller-list-items-margin" set:html={size.html} />
-            </div>
-          )}
+          <div class="product__specs-box">
+            <!-- Разделы — аккордеон на details, по умолчанию все свёрнуты. Первым — застёжка браслета -->
+            {raw.category === 'bracelet' && (
+              <details class="product-specs-section">
+                <summary class="specs-heading">
+                  {t('catalog.clasps.title')}
+                </summary>
+                <BraceletClasps currentLang={currentLang} parts={raw.materials?.findings?.bracelet?.map(({ part }) => part)} />
+              </details>
+            )}
 
-          <!-- Materials Section -->
-          {materials && (
-            <div class="product-specs-section">
-              <strong class="specs-heading">
-                {t('catalog.materials_label')}
-              </strong>
-              <div class="materials-html-content wysiwyg wysiwyg--smaller wysiwyg--smaller-list-items-margin" set:html={materials} />
-            </div>
-          )}
+            {size.html && (
+              <details class="product-specs-section">
+                <summary class="specs-heading">
+                  {size.heading}
+                </summary>
+                <div class="size-box wysiwyg wysiwyg--smaller wysiwyg--smaller-list-items-margin" set:html={size.html} />
+              </details>
+            )}
 
-          <!-- Credits Section: всё своё (все имена — bunnybearbeads) — секции нет -->
-          {showCredits && (
-            <div class="product-specs-section credits-section">
-              <strong class="specs-heading">
-                {t('catalog.credits')}
-              </strong>
-              <div class="credits-box wysiwyg wysiwyg--smaller wysiwyg--smaller-list-items-margin">
-                <ul>
-                  {creditRows.map(({ label, name }) => (
-                    <li>{label}: <strong>{name}</strong></li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          )}
+            <!-- Materials Section -->
+            {materials && (
+              <details class="product-specs-section">
+                <summary class="specs-heading">
+                  {t('catalog.materials_label')}
+                </summary>
+                <div class="materials-html-content wysiwyg wysiwyg--smaller wysiwyg--smaller-list-items-margin" set:html={materials} />
+              </details>
+            )}
+
+            {textSections.map(({ heading, html }) => (
+              <details class="product-specs-section">
+                <summary class="specs-heading">
+                  {heading}
+                </summary>
+                <div class="specs-text wysiwyg wysiwyg--smaller wysiwyg--smaller-list-items-margin" set:html={html} />
+              </details>
+            ))}
+
+            <!-- Credits Section: всё своё (все имена — bunnybearbeads) — секции нет -->
+            {showCredits && (
+              <details class="product-specs-section credits-section">
+                <summary class="specs-heading">
+                  {t('catalog.credits')}
+                </summary>
+                <div class="credits-box wysiwyg wysiwyg--smaller wysiwyg--smaller-list-items-margin">
+                  <ul>
+                    {creditRows.map(({ label, name }) => (
+                      <li>{label}: <strong>{name}</strong></li>
+                    ))}
+                  </ul>
+                </div>
+              </details>
+            )}
+          </div>
         </div>
       </div>
 
@@ -142,10 +157,6 @@ const showCredits = creditRows.some(({ name }) => name !== BRAND);
 
 <InquiryModals currentLang={currentLang} />
 <PartnerModals product={product} currentLang={currentLang} />
-
-{guides.map((guide) => guide.modal && guide.html && (
-  <GuideModal id={guide.modal} title={guide.label} contentHtml={guide.html} />
-))}
 
 {canRemake && (
   <RemakeModal

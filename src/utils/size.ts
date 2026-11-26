@@ -3,7 +3,7 @@
  * поля по категории (SIZE_FIELDS в scripts/data-rules.mjs): длины в сантиметрах, вес в граммах.
  * Подписи и единицы — из ui.ts, числа — по правилам языка (1,2 см / 1.2 cm).
  *
- * Браслет: ширина, длина, обхват запястья (считается из длины: браслет на WRIST_EASE длиннее запястья).
+ * Браслет: ширина, длина, под длиной вложенным пунктом — обхват запястья (считается из длины: браслет на WRIST_EASE длиннее запястья).
  * Брелок: «2,5 × 3 см без учёта крепления». Кольцо: ширина в бисеринах, обхват пальца, размер.
  * Серьги, обмотки: ширина, длина. У всех — вес последней строкой. Чего нет в базе — не выводится
  */
@@ -56,10 +56,12 @@ export function sizeSection(size: Size | undefined, t: T, lang: SupportedLanguag
   } else {
     // Браслет, серьги, обмотки: ширина и длина; у браслета — ещё обхват запястья (до 0,5 см)
     const wrist = kind === 'bracelet' && length !== undefined ? Math.round((length / WRIST_EASE) * 2) / 2 : undefined;
+    // Обхват запястья — вложенным списком под длиной
+    const lengthLine = line('size.length', length === undefined ? undefined : cm(length));
+    const wristLine = line('size.wrist_from', wrist === undefined ? undefined : cm(wrist));
     items = [
       line('size.width', width === undefined ? undefined : cm(width)),
-      line('size.length', length === undefined ? undefined : cm(length)),
-      line('size.wrist_from', wrist === undefined ? undefined : cm(wrist)),
+      lengthLine && wristLine ? `${lengthLine}<ul><li>${wristLine}</li></ul>` : lengthLine,
     ];
   }
   const dimensions = items.filter(Boolean) as string[];

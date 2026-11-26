@@ -1,0 +1,85 @@
+---
+/**
+ * Раздел «Застёжку можно поменять» на странице браслета: четыре вида застёжек — фото, название, плюсы и минусы.
+ * Порядок всегда один: карабин с цепочкой, цепочка с бегунком, магнит, бисерная. Застёжка этого браслета
+ * (по фурнитуре из materials) помечена «На этом браслете».
+ * Вступление: у браслета с цепочкой (chain — карабин с цепочкой, вариант по умолчанию) — трюк с невидимкой, карточкой-советом с фото.
+ * Дальше у всех — что запасные застёжки есть в магазинах-партнёрах, как запасные крепления у брелков.
+ * Фото — public/images/clasps/<id>.jpg, 240×240 с запасом под Retina (на странице — 72 и 88 px).
+ * По клику — PhotoSwipe на все четыре (<id>-large.jpg, 1400×1400), с названием и текстом в подписи
+ */
+import './BraceletClasps.css';
+import type { SupportedLanguage, TranslationKey } from '../../i18n/ui';
+import { useTranslations } from '../../i18n/utils';
+
+const CLASPS = ['lobster', 'sliding', 'magnetic', 'beaded'] as const;
+
+interface Props {
+  currentLang: SupportedLanguage;
+  /** Детали фурнитуры браслета (materials.findings.bracelet[].part) — по ним видно, какая застёжка у этого */
+  parts?: string[];
+}
+
+const { currentLang, parts = [] } = Astro.props;
+// Цепочка (chain, не adjustableChain) — это карабин с цепочкой. Бисерную застёжку по фурнитуре не узнать
+// (металла нет) — тогда метки нет
+const hasChain = parts.includes('chain');
+const current = parts.includes('magneticClasp') ? 'magnetic'
+  : parts.includes('adjustableChain') ? 'sliding'
+  : parts.includes('lobsterClasp') || hasChain ? 'lobster'
+  : undefined;
+const t = useTranslations(currentLang);
+const tKey = (key: string) => t(key as TranslationKey);
+---
+
+<div class="bracelet-clasps" data-clasp-photos>
+  {hasChain && (
+    <div class="bracelet-clasps__intro">
+      <a
+        class="bracelet-clasps__link"
+        href="/images/clasps/bobby-pin-large.jpg"
+        data-clasp-photo
+        data-pswp-src="/images/clasps/bobby-pin-large.jpg"
+        data-pswp-width="1400"
+        data-pswp-height="1400"
+        data-pswp-caption={t('catalog.clasps.bobby_pin')}
+      >
+        <img class="bracelet-clasps__photo bracelet-clasps__photo--main" src="/images/clasps/bobby-pin.jpg" width="320" height="320" alt={t('catalog.clasps.bobby_pin')} loading="lazy" decoding="async" />
+      </a>
+      <div class="bracelet-clasps__intro-body">
+        <p class="bracelet-clasps__intro-text" set:html={t('catalog.clasps.chain')} />
+      </div>
+    </div>
+  )}
+  <p class="bracelet-clasps__swap">{t('catalog.clasps.swap')}</p>
+
+  <ul class="bracelet-clasps__list">
+  {CLASPS.map((id) => (
+    <li class="bracelet-clasps__item">
+      <a
+        class="bracelet-clasps__link"
+        href={`/images/clasps/${id}-large.jpg`}
+        data-clasp-photo
+        data-pswp-src={`/images/clasps/${id}-large.jpg`}
+        data-pswp-width="1400"
+        data-pswp-height="1400"
+        data-pswp-caption-title={tKey(`catalog.clasps.${id}.title`)}
+        data-pswp-caption={tKey(`catalog.clasps.${id}.text`)}
+      >
+        <img class="bracelet-clasps__photo" src={`/images/clasps/${id}.jpg`} width="240" height="240" alt={tKey(`catalog.clasps.${id}.title`)} loading="lazy" decoding="async" />
+      </a>
+      <div class="bracelet-clasps__body">
+        <strong class="bracelet-clasps__title">{tKey(`catalog.clasps.${id}.title`)}</strong>
+        {id === current && <span class="bracelet-clasps__badge">{t('catalog.clasps.current')}</span>}
+        <p class="bracelet-clasps__text">{tKey(`catalog.clasps.${id}.text`)}</p>
+      </div>
+    </li>
+  ))}
+  </ul>
+</div>
+
+<script>
+  import { initSimpleLightbox } from '../../utils';
+
+  initSimpleLightbox('[data-clasp-photos]', '[data-clasp-photo]');
+</script>
