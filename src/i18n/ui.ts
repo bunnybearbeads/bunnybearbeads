@@ -576,9 +576,9 @@ export const translations = {
   // {parts} — детали через запятую, {metal} — металл (без бренда — нержавеющая сталь, жирным). ru — металл в
   // родительном падеже («из латуни…»). Первое слово сайт делает заглавным
   'materials.findings_branded': {
-    en: '{metal} {parts} from {brand}',
-    ru: '{parts} из {metal} от {brand}',
-    vi: '{parts} {metal} của {brand}',
+    en: '{metal} {parts} from {brand}',
+    ru: '{parts} из {metal} от {brand}',
+    vi: '{parts} {metal} của {brand}',
   },
   'materials.findings_basic': {
     en: 'basic {metal} {parts}',
@@ -640,23 +640,28 @@ export const translations = {
     ru: 'нержавеющей стали',
     vi: 'thép không gỉ',
   },
-  'materials.metal.zamac': {
-    en: 'zamac',
-    ru: 'замака',
-    vi: 'hợp kim zamac',
+  'materials.metal.zamacAntiqueSilver': {
+    en: 'antique silver-plated zamac',
+    ru: 'замака с покрытием под состаренное серебро',
+    vi: 'hợp kim zamac mạ bạc cổ',
+  },
+  'materials.metal.zamacGold24': {
+    en: '24K gold-plated zamac',
+    ru: 'замака с покрытием золотом 24K',
+    vi: 'hợp kim zamac mạ vàng 24K',
   },
   // Вместо цветов бисера, если они секрет автора схемы (colorsPublic: no). {designer} — автор схемы из credits.designer
   'materials.colors_secret': {
-    en: 'The bead palette for this pattern isn’t disclosed — it’s part of a paid design by {designer}. Only the buyer will find it on the enclosed card.',
-    ru: 'Подбор бисера для этой схемы не разглашается — это часть платного дизайна от {designer}. Его увидит только покупатель на вложенной карточке.',
-    vi: 'Bảng màu hạt của mẫu này không được tiết lộ — đó là một phần của thiết kế trả phí của {designer}. Chỉ người mua mới thấy được trên tấm thiệp đi kèm.',
+    en: 'The bead palette for this pattern isn’t disclosed — it’s part of a paid design by {designer}. Only the buyer will find it on the enclosed card.',
+    ru: 'Подбор бисера для этой схемы не разглашается — это часть платного дизайна от {designer}. Его увидит только покупатель на вложенной карточке.',
+    vi: 'Bảng màu hạt của mẫu này không được tiết lộ — đó là một phần của thiết kế trả phí của {designer}. Chỉ người mua mới thấy được trên tấm thiệp đi kèm.',
   },
   // Под цветами бисера, если оригинальный подбор — часть платной схемы, а бисер заменён своим (colorsPublic: replaced).
   // {designer} — автор схемы из credits.designer
   'materials.colors_replaced': {
-    en: 'The original bead palette for this pattern isn’t disclosed — it’s part of a paid design by {designer}, but this is my own color mix.',
-    ru: 'Изначальный подбор бисера для этой схемы не разглашается — это часть платного дизайна от {designer}, но здесь мой собственный микс.',
-    vi: 'Bảng màu hạt gốc của mẫu này không được tiết lộ — đó là một phần của thiết kế trả phí của {designer}, nhưng đây là bảng màu của riêng mình.',
+    en: 'The original bead palette for this pattern isn’t disclosed — it’s part of a paid design by {designer}, but this is my own color mix.',
+    ru: 'Изначальный подбор бисера для этой схемы не разглашается — это часть платного дизайна от {designer}, но здесь мой собственный микс.',
+    vi: 'Bảng màu hạt gốc của mẫu này không được tiết lộ — đó là một phần của thiết kế trả phí của {designer}, nhưng đây là bảng màu của riêng mình.',
   },
   // Когда бисера два: {name} — короткое название, «Delica»
   'materials.colors_of': {

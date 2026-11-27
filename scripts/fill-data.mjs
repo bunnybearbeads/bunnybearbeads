@@ -14,7 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BRACELET_PARTS, SIZE_FIELDS, DEMO_DIR, FAMILIES_DIR, FAMILY_SCHEMA_REF, LOCATION_ORDER, PRODUCT_SCHEMA_REF, schemaFiles } from './data-rules.mjs';
+import { BRACELET_PARTS, braceletOptions, LEGACY_BRACELET_KEYS, FINDINGS_FIELDS, THREAD_TYPES, LEGACY_KEYS, toKey, SIZE_FIELDS, DEMO_DIR, FAMILIES_DIR, FAMILY_SCHEMA_REF, LOCATION_ORDER, PRODUCT_SCHEMA_REF, schemaFiles } from './data-rules.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = path.join(ROOT, 'data');
@@ -42,6 +42,8 @@ const PRODUCT = () => ({
   credits: { crafter: 'bunnybearbeads', designer: '', photographer: '' },
   locationNotes: {},
   remakeNote: { price: '', publicNote: text(), publicNoteImages: images(), privateNote: '' },
+  /** Для себя, на сайт не попадает */
+  privateNote: '',
   items: [],
 });
 
@@ -52,15 +54,18 @@ const ITEM = () => ({
   craftedAt: '',
   /** Только у штук у партнёров — там обязательно; у штук в мастерской поля нет */
   consignedAt: '',
+  out: { type: '', date: '', paid: '', privateNote: '' },
   /** Только у брелков (category: charm) — там обязательно: keys, phone, mirror, bag */
   attachTo: '',
   maker: '',
   privateNote: '',
   /** Размер и вес штуки — по категории: числа, длины в см, вес в г (поля — SIZE_FIELDS в data-rules.mjs) */
   size: '',
-  out: { type: '', date: '', paid: '', privateNote: '' },
-  /** Материалы штуки: бисер, бусины, нитки — тип → цвета; findings — фурнитура, своя у каждой категории (типы — data-rules.mjs) */
-  materials: { beads: {}, colorsPublic: 'yes', additionalBeads: {}, threads: {}, findings: '' },
+  /**
+   * Материалы штуки: бисер, бусины, нитки — тип → цвета. Фурнитура — последним полем, своё у категории (FINDINGS_FIELDS):
+   * findings у браслета, fastener у брелка, earWires у серёг (дописывает fillFindings)
+   */
+  materials: { colorsPublic: 'yes', beads: {}, additionalBeads: {}, threads: {} },
 });
 
 /** Размер и вес по категории: все поля, пустыми (видно, что вписать); заполненное не трогаем */
@@ -76,12 +81,43 @@ function fillSize(size, category) {
  * у колец и обмоток для ручек поля нет. Заполненное не трогаем — если оно не того вида, подскажет сборка
  */
 function fillFindings(materials, category) {
-  const { findings, ...rest } = materials;
+  // Старые нитки названиями «FireLine»: ["Black Satin"] → ключами fireline: ["black-satin"]
+  if (isPlainObject(materials.threads)) {
+    materials.threads = Object.fromEntries(Object.entries(materials.threads).map(([name, colors]) =>
+      THREAD_TYPES[name] ? [toKey(name), Array.isArray(colors) ? colors.map((c) => (typeof c === 'string' ? toKey(c) : c)) : colors] : [name, colors]));
+  }
+  // Старые названия бисера, бусин и креплений брелка → ключи: «Toho Aiko» → toho-aiko
+  for (const field of ['beads', 'additionalBeads']) {
+    if (isPlainObject(materials[field])) {
+      materials[field] = Object.fromEntries(Object.entries(materials[field]).map(([name, colors]) => [LEGACY_KEYS[name] ?? name, colors]));
+    }
+  }
+  // Фурнитура была в findings у всех категорий — теперь своё поле: fastener у брелка, earWires у серёг
+  const own = FINDINGS_FIELDS[category];
+  if (own && own !== 'findings' && 'findings' in materials && !(own in materials)) {
+    materials[own] = materials.findings;
+    delete materials.findings;
+  }
+  // attachment у брелка — прежнее имя fastener
+  if (own === 'fastener' && 'attachment' in materials && !('fastener' in materials)) {
+    materials.fastener = materials.attachment;
+    delete materials.attachment;
+  }
+  if (own === 'fastener' && LEGACY_KEYS[materials.fastener]) materials.fastener = LEGACY_KEYS[materials.fastener];
+  const { [own ?? 'findings']: findings, ...rest } = materials;
   if (category === 'bracelet') {
     const empty = Object.fromEntries(Object.keys(BRACELET_PARTS).map((part) => [part, '']));
+    // Старые полные названия «Finrusiac rhodium-plated brass» → короткие ключи «finrusiac-rhodium»
+    if (isPlainObject(findings)) {
+      for (const [part, value] of Object.entries(findings)) {
+        if (!BRACELET_PARTS[part]) continue;
+        const key = Object.entries(braceletOptions(part)).find(([, { label }]) => label === value)?.[0] ?? (braceletOptions(part)[value] ? undefined : LEGACY_BRACELET_KEYS[value]);
+        if (key) findings[part] = key;
+      }
+    }
     return { ...rest, findings: isPlainObject(findings) || findings === '' ? fill(empty, findings === '' ? {} : findings) : findings };
   }
-  if (category === 'charm' || category === 'earrings') return { ...rest, findings };
+  if (own) return { ...rest, [own]: findings ?? '' };
   return isBlank(findings) ? rest : { ...rest, findings };
 }
 
@@ -120,25 +156,48 @@ function compactImages(value) {
   );
 }
 
-/**
- * Комментарии к точкам: заполненные остаются, пустые убираются. Если заполненных нет —
- * одна пустышка (atelier), чтобы было что скопировать: ключ меняется на нужную точку
- */
+/** Комментарии к точкам: заполненные остаются, пустые убираются; заполненных нет — undefined, поля не будет */
 function fillLocationNotes(notes = {}) {
   const filled = Object.entries(notes).filter(([, note]) => !isBlank(note));
-  if (filled.length === 0) return { [LOCATIONS[0]]: comment() };
+  if (filled.length === 0) return undefined;
   return Object.fromEntries(filled.map(([id, note]) => [id, fill(comment(), note)]));
 }
 
 /** Пустой перевод — одной строкой: так короче, а после ввода текста его можно разложить */
 const EMPTY_TEXT_RE = /\{\n\s*"en": "",\n\s*"ru": "",\n\s*"vi": ""\n\s*\}/g;
 
+/** Цвета в материалах штук (бисер, бусины, нитки) — одной строкой: ["10", "201", "306"], а не столбиком */
+const COLOR_FIELDS = ['beads', 'additionalBeads', 'threads'];
+function inlineColors(data) {
+  const inline = [];
+  const items = (data.items ?? []).map((item) => {
+    if (!isPlainObject(item?.materials)) return item;
+    const materials = { ...item.materials };
+    for (const field of COLOR_FIELDS) {
+      if (!isPlainObject(materials[field])) continue;
+      materials[field] = Object.fromEntries(Object.entries(materials[field]).map(([key, colors]) => {
+        if (!Array.isArray(colors) || colors.length === 0 || colors.some((c) => typeof c === 'object' && c !== null)) return [key, colors];
+        inline.push(colors);
+        return [key, `@@inline-colors-${inline.length - 1}@@`];
+      }));
+    }
+    return { ...item, materials };
+  });
+  return { data: Array.isArray(data.items) ? { ...data, items } : data, inline };
+}
+
 function write(file, data) {
-  const content = `${JSON.stringify(compactImages(data), null, 2).replace(EMPTY_TEXT_RE, '{ "en": "", "ru": "", "vi": "" }')}\n`;
+  const { data: prepared, inline } = inlineColors(compactImages(data));
+  const content = `${JSON.stringify(prepared, null, 2)
+    .replace(EMPTY_TEXT_RE, '{ "en": "", "ru": "", "vi": "" }')
+    .replace(/"@@inline-colors-(\d+)@@"/g, (_, i) => `[${inline[i].map((c) => JSON.stringify(c)).join(', ')}]`)}\n`;
   if (fs.readFileSync(file, 'utf8') === content) return false;
   fs.writeFileSync(file, content);
   return true;
 }
+
+/** Поля изделия, которые нужны редко: пустыми не вписываются (locationNotes — тоже, см. fillLocationNotes). privateNote — всегда, чтобы не забыть заполнить */
+const SKIP_IF_BLANK = ['locationNotes', 'remakeNote'];
 
 let changed = 0;
 
@@ -165,11 +224,15 @@ function fillBase(dataDir) {
     // Размер был у изделия — теперь у штук: копируем в штуки, где его ещё нет
     const productSize = data.size;
     delete result.size;
+    // Редкие поля — только заполненные, пустые шаблоны не вписываем (остальные поля шаблона — всегда, чтобы не забыть про них)
     result.locationNotes = fillLocationNotes(data.locationNotes);
+    for (const key of SKIP_IF_BLANK) if (isBlank(result[key])) delete result[key];
     result.items = (data.items ?? []).map((item) => {
       const filled = fill(ITEM(), isPlainObject(productSize) && !isPlainObject(item.size) ? { ...item, size: productSize } : item);
       filled.size = fillSize(filled.size, result.category);
       if (filled.location === LOCATIONS[0] && filled.consignedAt === '') delete filled.consignedAt;
+      // Нет out — штука в наличии: пустой шаблон не вписываем
+      if (isBlank(filled.out)) delete filled.out;
       if (result.category !== 'charm' && filled.attachTo === '') delete filled.attachTo;
       filled.materials = fillFindings(filled.materials, result.category);
       return filled;

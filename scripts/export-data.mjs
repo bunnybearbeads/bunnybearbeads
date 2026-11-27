@@ -41,7 +41,7 @@ import ffmpegPath from 'ffmpeg-static';
 import { generateMissingPosters } from './generate-posters.mjs';
 import { photoFiles, photoWidths, readPhotoSize, syncPhotos } from './photos.mjs';
 import {
-  ADDITIONAL_BEAD_COLORS, ADDITIONAL_BEAD_TYPES, ATTACH_TO, BEAD_TYPES, BRACELET_PARTS, braceletOptions, CATEGORIES, CHARM_FINDINGS, COLORS_PUBLIC, CREDIT_CRAFTERS, PHOTOGRAPHERS, SIZE_FIELDS, DATE_FORMATS, DEMO_DIR, FAMILIES_DIR, ITEM_ID_RE, LOCATION_ORDER, MAKERS, MATERIAL_FIELDS, OUT_TYPES, THREAD_TYPES, PARTIAL_DATE_RE, SLUG_RE,
+  ADDITIONAL_BEAD_COLORS, ADDITIONAL_BEADS, ATTACH_TO, BEADS, BRACELET_PARTS, braceletOptions, CATEGORIES, CHARM_FINDING_KEYS, FINDINGS_FIELDS, LEGACY_KEYS, COLORS_PUBLIC, CREDIT_CRAFTERS, PHOTOGRAPHERS, SIZE_FIELDS, DATE_FORMATS, DEMO_DIR, FAMILIES_DIR, ITEM_ID_RE, LOCATION_ORDER, MAKERS, MATERIAL_FIELDS, OUT_TYPES, THREADS, PARTIAL_DATE_RE, SLUG_RE,
   THUMB_EXTENSIONS, THUMBS_DIR, schemaFiles, thumbKey,
 } from './data-rules.mjs';
 
@@ -69,7 +69,7 @@ const isRatio = (width, height, ratio) => width * ratio.height === height * rati
 /** Конфликтные копии Dropbox: «file (Tony's conflicted copy 2026-11-23).json», в русском интерфейсе — «конфликтующая копия» */
 const CONFLICT_RE = /conflicted copy|конфликтующая копия/i;
 /** Служебные поля, которые на сайт не попадают никогда */
-const PRIVATE_FIELDS = ['$schema', 'slug', 'site', 'items', 'locationNotes', 'remakeNote'];
+const PRIVATE_FIELDS = ['$schema', 'slug', 'site', 'items', 'locationNotes', 'remakeNote', 'privateNote'];
 const OUT_FIELDS = ['type', 'date', 'paid', 'privateNote'];
 /** Обязательно у изделий с "site": true (credits — отдельно, в checkCredits) */
 const SITE_REQUIRED = [
@@ -209,6 +209,7 @@ async function collect(dataDir, errors, logger) {
     }
     if (typeof data.site !== 'boolean') errors.push(`${where}: "site" — true или false`);
 
+    if (data.privateNote !== undefined && typeof data.privateNote !== 'string') errors.push(`${where}: "privateNote" — строка текста`);
     if (data.description !== undefined && typeof data.description !== 'string') {
       errors.push(`${where}: "description" — пока одна строка по-английски, как "title", без переводов`);
     }
@@ -587,18 +588,30 @@ function toSize(size, where, errors, category) {
 }
 
 /**
- * Фурнитура — по категории: у брелка — одно из CHARM_FINDINGS, у серёг — строка, у браслета — детали из
- * BRACELET_PARTS («Tarin Thomas 18K gold-plated brass»), у колец и обмоток для ручек её нет
+ * Фурнитура — по категории: у брелка — ключ из CHARM_FINDING_KEYS («basic-keyring»), у серёг — строка, у браслета —
+ * детали из BRACELET_PARTS («tarin-thomas-18k»), у колец и обмоток для ручек её нет
  */
-function toFindings(findings, at, errors, category) {
+/** Старое название вместо ключа: « — теперь ключом "toho-aiko"» */
+const legacyHint = (name) => (typeof name === 'string' && LEGACY_KEYS[name] ? ` — теперь ключом "${LEGACY_KEYS[name]}"` : '');
+
+function toFindings(materials, at, errors, category) {
+  // Поле фурнитуры своё у категории: чужое — ошибка («findings» у брелка → «fastener»)
+  const own = FINDINGS_FIELDS[category];
+  for (const name of Object.values(FINDINGS_FIELDS)) {
+    if (name !== own && name in materials) {
+      errors.push(`${at}, materials.${name}: у «${category}» ${own ? `фурнитура в "${own}"` : 'фурнитуры нет — уберите поле'}`);
+    }
+  }
+  if (!own) return undefined;
+  const findings = materials[own];
   if (findings === undefined) return undefined;
-  const field = `${at}, materials.findings`;
+  const field = `${at}, materials.${own}`;
   if (category === 'charm') {
-    if (!(findings in CHARM_FINDINGS)) {
-      errors.push(`${field}: у брелка — одно из: ${Object.keys(CHARM_FINDINGS).join(', ')}, а сейчас ${JSON.stringify(findings)}`);
+    if (!(findings in CHARM_FINDING_KEYS)) {
+      errors.push(`${field}: у брелка — одно из: ${Object.keys(CHARM_FINDING_KEYS).join(', ')}, а сейчас ${JSON.stringify(findings)}${legacyHint(findings)}`);
       return undefined;
     }
-    return { charm: CHARM_FINDINGS[findings] };
+    return { charm: CHARM_FINDING_KEYS[findings].id };
   }
   if (category === 'earrings') {
     if (typeof findings !== 'string') {
@@ -609,7 +622,7 @@ function toFindings(findings, at, errors, category) {
   }
   if (category === 'bracelet') {
     if (typeof findings !== 'object' || findings === null || Array.isArray(findings)) {
-      errors.push(`${field}: у браслета — объект деталей: { "slideTubes": "Tarin Thomas 18K gold-plated brass", "chain": "Basic stainless steel", … }`);
+      errors.push(`${field}: у браслета — объект деталей: { "slideTubes": "tarin-thomas-18k", "chain": "basic", … }`);
       return undefined;
     }
     const bracelet = [];
@@ -623,14 +636,13 @@ function toFindings(findings, at, errors, category) {
         errors.push(`${field}.${part}: одно из: ${Object.keys(braceletOptions(part)).join(', ')}, а сейчас ${JSON.stringify(value)}`);
         continue;
       }
-      bracelet.push({ part, ...option });
+      bracelet.push({ part, brand: option.brand, metal: option.metal });
     }
     // Порядок деталей на сайте — как в BRACELET_PARTS, а не как в JSON
     const order = Object.keys(BRACELET_PARTS);
     bracelet.sort((a, b) => order.indexOf(a.part) - order.indexOf(b.part));
     return bracelet.length ? { bracelet } : undefined;
   }
-  errors.push(`${field}: у «${category}» фурнитуры нет — уберите поле`);
   return undefined;
 }
 
@@ -654,7 +666,7 @@ function toColorCodes(rawColors, field, errors) {
  */
 function toMaterials(materials, at, errors, category) {
   if (typeof materials !== 'object' || materials === null || Array.isArray(materials)) {
-    errors.push(`${at}: "materials" теперь объект: { "beads": { "Toho Aiko": ["41", "PF557"] }, "threads": { "FireLine": ["Smoke"] }, "findings": … }`);
+    errors.push(`${at}: "materials" теперь объект: { "beads": { "toho-aiko": ["41", "PF557"] }, "threads": { "fireline": ["smoke"] }, "findings": … }`);
     return undefined;
   }
   const extra = Object.keys(materials).filter((key) => !MATERIAL_FIELDS.includes(key));
@@ -665,13 +677,13 @@ function toMaterials(materials, at, errors, category) {
   const beads = [];
   const rawBeads = materials.beads ?? {};
   if (typeof rawBeads !== 'object' || rawBeads === null || Array.isArray(rawBeads)) {
-    errors.push(`${at}: "materials.beads" — объект: тип бисера → коды цветов, { "Toho Aiko": ["41", "PF557"] }`);
+    errors.push(`${at}: "materials.beads" — объект: тип бисера → коды цветов, { "toho-aiko": ["41", "PF557"] }`);
   } else {
-    for (const [name, rawColors] of Object.entries(rawBeads)) {
-      const field = `${at}, materials.beads «${name}»`;
-      const type = BEAD_TYPES[name];
+    for (const [key, rawColors] of Object.entries(rawBeads)) {
+      const field = `${at}, materials.beads «${key}»`;
+      const type = BEADS[key];
       if (!type) {
-        errors.push(`${field}: неизвестный бисер — одно из: ${Object.keys(BEAD_TYPES).join(', ')}. Новый тип — в BEAD_TYPES (scripts/data-rules.mjs)`);
+        errors.push(`${field}: неизвестный бисер${legacyHint(key) || ` — одно из: ${Object.keys(BEADS).join(', ')}. Новый тип — в BEAD_TYPES (scripts/data-rules.mjs)`}`);
         continue;
       }
       if (!Array.isArray(rawColors)) {
@@ -679,20 +691,20 @@ function toMaterials(materials, at, errors, category) {
         continue;
       }
       const colors = toColorCodes(rawColors, field, errors);
-      beads.push({ name, pairName: type.pairName ?? name, short: type.short, premium: Boolean(type.premium), colors });
+      beads.push({ name: type.name, pairName: type.pairName ?? type.name, short: type.short, premium: Boolean(type.premium), colors });
     }
   }
 
   const additionalBeads = [];
   const rawAdditionalBeads = materials.additionalBeads ?? {};
   if (typeof rawAdditionalBeads !== 'object' || rawAdditionalBeads === null || Array.isArray(rawAdditionalBeads)) {
-    errors.push(`${at}: "materials.additionalBeads" — объект: тип бусин → цвета, { "Unbranded bicones": ["black"] }`);
+    errors.push(`${at}: "materials.additionalBeads" — объект: тип бусин → цвета, { "unbranded-bicones": ["black"] }`);
   } else {
-    for (const [name, rawColors] of Object.entries(rawAdditionalBeads)) {
-      const field = `${at}, materials.additionalBeads «${name}»`;
-      const type = ADDITIONAL_BEAD_TYPES[name];
+    for (const [key, rawColors] of Object.entries(rawAdditionalBeads)) {
+      const field = `${at}, materials.additionalBeads «${key}»`;
+      const type = ADDITIONAL_BEADS[key];
       if (!type) {
-        errors.push(`${field}: неизвестные бусины — одно из: ${Object.keys(ADDITIONAL_BEAD_TYPES).join(', ')}. Новый тип — в ADDITIONAL_BEAD_TYPES (scripts/data-rules.mjs)`);
+        errors.push(`${field}: неизвестные бусины${legacyHint(key) || ` — одно из: ${Object.keys(ADDITIONAL_BEADS).join(', ')}. Новый тип — в ADDITIONAL_BEAD_TYPES (scripts/data-rules.mjs)`}`);
         continue;
       }
       if (!Array.isArray(rawColors)) {
@@ -712,23 +724,23 @@ function toMaterials(materials, at, errors, category) {
   const threads = [];
   const rawThreads = materials.threads ?? {};
   if (typeof rawThreads !== 'object' || rawThreads === null || Array.isArray(rawThreads)) {
-    errors.push(`${at}: "materials.threads" — объект: нитка → цвета, { "FireLine": ["Smoke"] }`);
+    errors.push(`${at}: "materials.threads" — объект: нитка → цвета, { "fireline": ["smoke"] }`);
   } else {
-    for (const [name, rawColors] of Object.entries(rawThreads)) {
-      const field = `${at}, materials.threads «${name}»`;
-      const type = THREAD_TYPES[name];
+    for (const [key, rawColors] of Object.entries(rawThreads)) {
+      const field = `${at}, materials.threads «${key}»`;
+      const type = THREADS[key];
       if (!type) {
-        errors.push(`${field}: неизвестная нитка — одно из: ${Object.keys(THREAD_TYPES).join(', ')}. Новый тип — в THREAD_TYPES (scripts/data-rules.mjs)`);
+        errors.push(`${field}: неизвестная нитка${legacyHint(key) || ` — одно из: ${Object.keys(THREADS).join(', ')}. Новый тип — в THREAD_TYPES (scripts/data-rules.mjs)`}`);
         continue;
       }
       if (!Array.isArray(rawColors)) {
-        errors.push(`${field}: цвета списком — ["Smoke"], ["#10"], неизвестны — []`);
+        errors.push(`${field}: цвета списком ключей — ["smoke"], ["#10"], неизвестны — []`);
         continue;
       }
-      // У ниток со списком цветов (colors в THREAD_TYPES) — только из него
-      const unknown = type.colors ? rawColors.filter((color) => !type.colors.includes(color)) : [];
-      if (unknown.length) errors.push(`${field}: цвета ${unknown.map((c) => JSON.stringify(c)).join(', ')} нет в списке — ${type.colors.join(', ')}`);
-      threads.push({ name, id: type.id, colors: toColorCodes(rawColors, field, errors) });
+      // Цвета — ключи из списка нитки: "black-satin", "#02"; на сайт — названия как на катушке
+      const unknown = rawColors.filter((color) => !(color in type.colors));
+      if (unknown.length) errors.push(`${field}: цвета ${unknown.map((c) => JSON.stringify(c)).join(', ')} нет в списке — ${Object.keys(type.colors).join(', ')}`);
+      threads.push({ name: type.name, id: type.id, colors: toColorCodes(rawColors, field, errors).map((color) => type.colors[color] ?? color) });
     }
   }
 
@@ -739,7 +751,7 @@ function toMaterials(materials, at, errors, category) {
     errors.push(`${at}: "materials.colorsPublic" — одно из ${COLORS_PUBLIC.join(', ')}, а сейчас ${JSON.stringify(colorsPublic)}`);
   }
   if (colorsPublic === 'no') for (const bead of beads) bead.colors = [];
-  const findings = toFindings(materials.findings, at, errors, category);
+  const findings = toFindings(materials, at, errors, category);
   return beads.length || additionalBeads.length || threads.length || findings
     ? { beads, ...(colorsPublic !== 'yes' ? { colorsPublic } : {}), additionalBeads, threads, ...(findings ? { findings } : {}) }
     : undefined;

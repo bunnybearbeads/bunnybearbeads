@@ -109,30 +109,32 @@ data/
 
 ```json
 "materials": {
+  "colorsPublic": "yes",
   "beads": {
-    "Miyuki Delica 11/0": [877, 1494, "PF557"],
-    "Toho Aiko": []
+    "miyuki-delica-11/0": [877, 1494, "PF557"],
+    "toho-aiko": []
   },
   "additionalBeads": {
-    "Basic beads": ["pale"],
-    "Unbranded bicones": ["crystal"]
+    "basic-beads": ["pale"],
+    "unbranded-bicones": ["crystal"]
   },
   "threads": {
-    "FireLine": ["Smoke"]
+    "fireline": ["smoke"]
   },
-  "findings": "Basic keyring"
+  "fastener": "basic-keyring"
 }
 ```
 
+- Справочники в данных пишутся ключами — строчными, пробелы → дефис: бисер `miyuki-delica-11/0`, бусины `unbranded-bicones`, нитки `fireline` и их цвета `black-satin`, крепления брелка `basic-keyring`, детали браслета `finrusiac-rhodium`. В коде (`scripts/data-rules.mjs`) — названия как на сайте, ключи из них получаются сами; полное название видно в подсказке редактора. Старое название вместо ключа роняет сборку с подсказкой, `npm run fill-data` переводит их сам.
 - `beads` — тип бисера → коды цветов как на упаковке: числа или строки (`"402B"`, `"DBS-10"`, `"#426"`). Цвета неизвестны — `[]`. Типы — только из списка `BEAD_TYPES` в `scripts/data-rules.mjs` (редактор подсказывает по Ctrl+Пробел); Delica 11/0 и 10/0 — разные типы. Новый бисер — дописать туда и `npm run fill-data`.
 - На сайте: один цвет — код в названии (`Miyuki Rocailles 11/0 #426`), несколько — строка «Colors: …». Ровно два бисера — одной строкой: у обоих по одному цвету — коды в названиях («6mm Miyuki Bugles #401 & Miyuki Rocailles 11/0 #194»), хотя бы у одного несколько — короткие названия и цвета всех строкой ниже («Miyuki Delica & Toho Aiko», «Delica colors: 2113 · Aiko colors: 41, 42»), три и больше — по пункту на каждый. Приписка «high-quality Japanese seed beads», с Toho Aiko — «the world’s best seed beads»; приписки переводятся (`src/i18n/ui.ts`), названия — нет. HTML собирает `src/utils/materials.ts`.
 - `colorsPublic` — можно ли публиковать цвета бисера: `"yes"` — да (по умолчанию); `"no"` — нет, подбор цветов — секрет автора купленной схемы (Etsy и т. п.): цвета остаются в базе — для истории и печатной карточки покупателю, — а сборка вырезает их ещё до сайта, на странице только тип бисера и пояснение, что цвета — на карточке; `"replaced"` — да, оригинальный подбор — часть платной схемы, но бисер заменён своим: цвета выводятся и пояснение, что микс свой. Тип бисера не секрет.
 - `additionalBeads` — бусины после бисера: тип → цвета из списка (`black`, `crystal`, `pale`…). Типы — `ADDITIONAL_BEAD_TYPES`, цвета — `ADDITIONAL_BEAD_COLORS` в `scripts/data-rules.mjs`, переводы — `materials.additional_bead.*` и `materials.color.*` в `src/i18n/ui.ts`. На сайте цвет встроен в название: «Unbranded black bicones», «Basic pale beads»; брендовые (Preciosa, Swarovski) — жирным и с припиской: «**Preciosa crystal bicones** – fine Czech crystal». Ровно две — одной строкой: «Basic pale beads and unbranded crystal bicones». Названия и цвета переводятся.
-- `threads` — нитки: тип → цвета как на катушке (`"Smoke"`, `"Crystal"`, `"#10"`), неизвестны — `[]`. Типы — `THREAD_TYPES` в `scripts/data-rules.mjs`, приписки — `materials.thread_note.*` в `src/i18n/ui.ts`. На сайте каждая нитка — отдельным пунктом; один цвет — в названии: «**FireLine Smoke** – ultra-strong American polyethylene thread», несколько — строкой «Colors: …».
-- `findings` — фурнитура, своя у каждой категории (`npm run fill-data` вписывает нужный вид, редактор подсказывает по `category`):
-  - брелок — одно из `CHARM_FINDINGS`: `Basic keyring` (keys), `Basic charm strap` (phone), `Large lobster clasp` (bag), `Basic hanging strap` (mirror). Подпись переводится;
-  - серьги — строка текста как есть: `"Hypoallergenic stainless steel ear hooks"`;
-  - браслет — детали `slideTubes` (или `beadEndings` — литые концевики Cymbal), `chain`, `adjustableChain`, `lobsterClasp`, `magneticClasp`, `connectorRings`; у каждой — бренд и металл из списка: `"Finrusiac rhodium-plated brass"`, `"Miyuki 24K gold-plated brass"`, `"Cymbal zamac"`, `"Basic stainless steel"`. Нет детали — пусто; фурнитуры нет совсем — всё пусто. На сайте — одно предложение, группы «бренд + металл» через «;»: «Zamac bead endings from **Cymbal**; rhodium-plated brass magnetic clasp from **Finrusiac**», «Basic **stainless steel** slide tubes, chain and connector rings». Бренд — жирным, без бренда жирным — металл. Соединительные колечки дописываются к деталям того же бренда и металла, а если таких нет — не выводятся. Варианты — `BRACELET_PARTS` и `METALS` в `scripts/data-rules.mjs`;
+- `threads` — нитки: тип → цвета, всё ключами — строчными, пробелы → дефис: `"fireline": ["black-satin"]`, `"toho-one-g": []`, `"fgb": ["#02"]`; неизвестны — `[]`. На сайте — названия как на катушке («FireLine Black Satin»). Типы — `THREAD_TYPES` в `scripts/data-rules.mjs`, приписки — `materials.thread_note.*` в `src/i18n/ui.ts`. На сайте все нитки — одним пунктом через «&», у каждой своя приписка; один цвет — в названии: «**FireLine Crystal** – ultra-strong American polyethylene thread & **FGB #02** – durable Chinese nylon beading thread», несколько — строкой ниже.
+- Фурнитура — последним полем, и у каждой категории своё поле, чтобы не путать (`npm run fill-data` вписывает нужное по `category`; чужое поле роняет сборку):
+  - брелок — `fastener`, крепёж, одно из `CHARM_FINDINGS`: `basic-keyring` (keys), `basic-charm-strap` (phone), `swivel-clasp` (bag; большой карабин — не путать с ювелирным `lobsterClasp` у браслетов), `basic-hanging-strap` (mirror). Подпись переводится;
+  - серьги — `earWires`, швензы, строка текста как есть: `"Hypoallergenic stainless steel ear hooks"`;
+  - браслет — `findings`, детали `slideTubes` (или `beadEndings` — литые концевики Cymbal), `chain`, `adjustableChain`, `lobsterClasp`, `magneticClasp`, `connectorRings`; у каждой — бренд и металл из списка, коротким ключом: `"finrusiac-rhodium"`, `"tarin-thomas-18k"`, `"miyuki-24k"` (у Finrusiac, Tarin Thomas и Miyuki всегда латунь с покрытием — в ключе только покрытие: `rhodium`, `18k`, `24k`), `"cymbal-antique-silver"`, `"cymbal-24k"` (замак с покрытием), `"basic"` (нержавеющая сталь). Полное название видно в подсказке редактора; на сайте и в переводах — как раньше. Нет детали — пусто; фурнитуры нет совсем — всё пусто. На сайте — одно предложение, группы «бренд + металл» через «;»: «Zamac bead endings from **Cymbal**; rhodium-plated brass magnetic clasp from **Finrusiac**», «Basic **stainless steel** slide tubes, chain and connector rings». Бренд — жирным, без бренда жирным — металл. Соединительные колечки дописываются к деталям того же бренда и металла, а если таких нет — не выводятся. Варианты — `BRACELET_PARTS` и `METALS` в `scripts/data-rules.mjs`;
   - кольца и обмотки для ручек — поля нет, сборка упадёт, если оно есть.
 
 Исход — один объект:

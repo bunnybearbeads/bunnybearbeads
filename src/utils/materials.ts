@@ -10,12 +10,15 @@
  *   с Toho Aiko приписка у пары премиальная;
  * - три и больше — каждый отдельным пунктом.
  * Названия бисера не переводятся, приписки — из ui.ts.
+ * Жирное — <b class="nobr"> (название не переносится), вокруг тире приписки — неразрывные пробелы (DASH), после «&» — тоже; между «from»/«от»/«của» и брендом — тоже (ui.ts).
  *
  * Бусины (после бисера): цвет встроен в название — «Unbranded black bicones»; брендовые — жирным и с припиской
  * («<b>Preciosa crystal bicones</b> – fine Czech crystal»); ровно две — одной строкой через «and».
  * Названия и цвета переводятся.
  *
- * Нитки: каждая отдельным пунктом, жирным и с припиской; один цвет — в названии: «<b>FGB #10</b> – …».
+ * Нитки: все одним пунктом, каждая жирным и со своей припиской, через «&»: «<b>FireLine Crystal</b> – … &
+ *   <b>FGB #02</b> – …». Один цвет — в названии; несколько — строкой ниже: у одной нитки «Colors: Crystal, Smoke»,
+ *   у нескольких «FireLine colors: Crystal, Smoke · FGB colors: #02».
  *
  * Фурнитура: у брелка — крепление, у серёг — строка как есть, у браслета — строка на бренд и металл (braceletItems)
  */
@@ -86,6 +89,11 @@ const escapeHtml = (value: string) =>
   value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 const COLORS_SEP = ' &nbsp;·&nbsp; ';
+/**
+ * Тире приписки с неразрывными пробелами. После тире ещё и word joiner (&#8288;): по правилам переноса
+ * строку можно разорвать после тире даже перед &nbsp;, а word joiner это запрещает
+ */
+const DASH = '&nbsp;–&#8288;&nbsp;';
 
 /** Название с кодом, если цвет один */
 const beadTitle = (bead: Bead) => (bead.colors.length === 1 ? `${bead.name} ${bead.colors[0]}` : bead.name);
@@ -95,7 +103,7 @@ const beadsNote = (beads: Bead[], t: T) =>
 
 function singleBead(bead: Bead, t: T): string {
   const colors = bead.colors.length > 1 ? `<br>${t('materials.colors')} ${escapeHtml(bead.colors.join(', '))}` : '';
-  return `<b>${escapeHtml(beadTitle(bead))}</b> – ${beadsNote([bead], t)}${colors}`;
+  return `<b class="nobr">${escapeHtml(beadTitle(bead))}</b>${DASH}${beadsNote([bead], t)}${colors}`;
 }
 
 const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
@@ -113,14 +121,14 @@ function colorsOf(t: T, notFirst: boolean): string {
 function beadPair(pair: Bead[], t: T): string {
   const colorsLine = pair.some((bead) => bead.colors.length > 1);
   const titles = pair
-    .map((bead) => `<b>${escapeHtml(colorsLine ? bead.pairName : beadTitle(bead))}</b>`)
-    .join(' &amp; ');
-  if (!colorsLine) return `${titles} – ${beadsNote(pair, t)}`;
+    .map((bead) => `<b class="nobr">${escapeHtml(colorsLine ? bead.pairName : beadTitle(bead))}</b>`)
+    .join(' &amp;&nbsp;');
+  if (!colorsLine) return `${titles}${DASH}${beadsNote(pair, t)}`;
   const colors = pair
     .filter((bead) => bead.colors.length > 0)
     .map((bead, i) => `${colorsOf(t, i > 0).replace('{name}', escapeHtml(bead.short))} ${escapeHtml(bead.colors.join(', '))}`)
     .join(COLORS_SEP);
-  return `${titles} – ${beadsNote(pair, t)}${colors ? `<br>${colors}` : ''}`;
+  return `${titles}${DASH}${beadsNote(pair, t)}${colors ? `<br>${colors}` : ''}`;
 }
 
 
@@ -132,13 +140,13 @@ function additionalBeadTitle(bead: AdditionalBead, t: T, first: boolean): string
   const color = bead.colors.length === 1 ? tKey(t, `materials.color.${bead.colors[0]}`) : '';
   const title = tKey(t, `materials.additional_bead.${bead.id}`).replace('{color}', color).replace(/\s+/g, ' ').trim();
   const text = first ? capitalize(title) : title;
-  return bead.branded ? `<b>${text}</b>` : text;
+  return bead.branded ? `<b class="nobr">${text}</b>` : text;
 }
 
 /** Приписка — у брендовых; у пары — от главного бренда (Swarovski важнее Preciosa) */
 function additionalBeadsNote(additionalBeads: AdditionalBead[], t: T): string {
   const main = additionalBeads.filter((bead) => bead.branded).sort((a, b) => b.rank - a.rank)[0];
-  return main ? ` – ${tKey(t, `materials.additional_bead_note.${main.id}`)}` : '';
+  return main ? `${DASH}${tKey(t, `materials.additional_bead_note.${main.id}`)}` : '';
 }
 
 function additionalBeadColors(bead: AdditionalBead, t: T): string {
@@ -158,14 +166,22 @@ function additionalBeadItems(additionalBeads: AdditionalBead[], t: T): string[] 
   return additionalBeads.map((bead) => `${additionalBeadTitle(bead, t, true)}${additionalBeadsNote([bead], t)}${additionalBeadColors(bead, t)}`);
 }
 
+/** Название нитки с цветом, если он один: «FireLine Smoke» */
+const threadTitle = (thread: Thread) => (thread.colors.length === 1 ? `${thread.name} ${thread.colors[0]}` : thread.name);
+
 /**
- * Нитка — каждая отдельным пунктом. Один цвет — в названии: «<b>FireLine Smoke</b> – …», несколько — строкой
- * «Colors: Crystal, Smoke», неизвестен — только название
+ * Нитки — одним пунктом: «<b>FireLine Crystal</b> – … & <b>FGB #02</b> – …». Несколько цветов у нитки — строкой ниже:
+ * у одной нитки «Colors: …», у нескольких — с именами «FireLine colors: … · FGB colors: …»
  */
-function threadItem(thread: Thread, t: T): string {
-  const title = thread.colors.length === 1 ? `${thread.name} ${thread.colors[0]}` : thread.name;
-  const colors = thread.colors.length > 1 ? `<br>${t('materials.colors')} ${escapeHtml(thread.colors.join(', '))}` : '';
-  return `<b>${escapeHtml(title)}</b> – ${tKey(t, `materials.thread_note.${thread.id}`)}${colors}`;
+function threadsItem(threads: Thread[], t: T): string {
+  const line = threads
+    .map((thread) => `<b class="nobr">${escapeHtml(threadTitle(thread))}</b>${DASH}${tKey(t, `materials.thread_note.${thread.id}`)}`)
+    .join(' &amp;&nbsp;');
+  const multi = threads.filter((thread) => thread.colors.length > 1);
+  const colors = threads.length === 1
+    ? multi.map((thread) => `${t('materials.colors')} ${escapeHtml(thread.colors.join(', '))}`)
+    : multi.map((thread, i) => `${colorsOf(t, i > 0).replace('{name}', escapeHtml(thread.name))} ${escapeHtml(thread.colors.join(', '))}`);
+  return `${line}${colors.length ? `<br>${colors.join(COLORS_SEP)}` : ''}`;
 }
 
 /** «a, b and c» */
@@ -196,9 +212,9 @@ function braceletItems(parts: BraceletPart[], t: T): string[] {
     const names = joinList(group.map((part) => tKey(t, `materials.part.${part.part}`)), t);
     const metalText = tKey(t, `materials.metal.${metal}`);
     return brand === 'Basic'
-      ? t('materials.findings_basic').replace('{parts}', names).replace('{metal}', `<b>${metalText}</b>`)
+      ? t('materials.findings_basic').replace('{parts}', names).replace('{metal}', `<b class="nobr">${metalText}</b>`)
       : t('materials.findings_branded')
-        .replace('{brand}', `<b>${escapeHtml(brand)}</b>`)
+        .replace('{brand}', `<b class="nobr">${escapeHtml(brand)}</b>`)
         .replace('{parts}', names)
         .replace('{metal}', metalText);
   });
@@ -222,7 +238,7 @@ export function materialsHtml(materials: Materials, t: T, designer = ''): string
   const items = [
     ...beadItems,
     ...additionalBeadItems(additionalBeads, t),
-    ...threads.map((thread) => threadItem(thread, t)),
+    ...(threads.length ? [threadsItem(threads, t)] : []),
     ...findingsItems(findings, t),
   ];
   return items.length ? `<ul>${items.map((item) => `<li>${item}</li>`).join('')}</ul>` : '';
