@@ -52,17 +52,20 @@
 
 .channel-meta strong {
   font-size: 13.5px;
+  line-height: 22px;
   color: var(--color-brand-dark);
   margin-bottom: 2px;
 }
 
 .channel-meta span {
   font-size: 12px;
+  line-height: 20px;
   color: var(--text-muted);
 }
 
 .channel-badge {
   font-size: 10px;
+  line-height: 17px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -101,6 +104,7 @@
   color: var(--accent-teal);
   font-weight: 700;
   font-size: 11px;
+  line-height: 18px;
   padding: 5px 13px;
   border-radius: 18px;
   margin-bottom: 14px;
@@ -108,6 +112,7 @@
 
 .telegram-card-header h2 {
   font-size: 25px;
+  line-height: 41px;
   margin-bottom: 11px;
   color: var(--color-brand-dark);
 }
@@ -134,12 +139,14 @@
 
 .tg-perk-icon {
   font-size: 16px;
+  line-height: 26px;
   padding-top: 2px;
 }
 
 .tg-perk-item strong {
   display: block;
   font-size: 13px;
+  line-height: 21px;
   color: var(--color-brand-dark);
 }
 
@@ -160,6 +167,7 @@
   background: var(--accent-teal);
   color: #fff;
   font-size: 14.5px;
+  line-height: 24px;
   font-weight: 600;
   border-radius: 28px;
   text-decoration: none;
@@ -177,6 +185,7 @@
   display: block;
   text-align: center;
   font-size: 11px;
+  line-height: 18px;
   color: var(--text-muted);
   margin-top: 11px;
 }
@@ -202,18 +211,22 @@
 
   .channel-icon {
     font-size: 29px;
+    line-height: 29px;
   }
 
   .channel-meta strong {
     font-size: 16.5px;
+    line-height: 27px;
   }
 
   .channel-meta span {
     font-size: 15px;
+    line-height: 25px;
   }
 
   .channel-badge {
     font-size: 12px;
+    line-height: 20px;
     padding: 5px 11px;
   }
 
@@ -223,17 +236,20 @@
 
   .tg-badge {
     font-size: 13px;
+    line-height: 21px;
     padding: 7px 15px;
     margin-bottom: 18px;
   }
 
   .telegram-card-header h2 {
     font-size: 31px;
+    line-height: 51px;
     margin-bottom: 13px;
   }
 
   .telegram-card-header p {
     font-size: 16.5px;
+    line-height: 26px;
     margin-bottom: 31px;
   }
 
@@ -244,24 +260,29 @@
 
   .tg-perk-icon {
     font-size: 20px;
+    line-height: 33px;
   }
 
   .tg-perk-item strong {
     font-size: 16px;
+    line-height: 26px;
   }
 
   .tg-perk-item p {
     font-size: 15px;
+    line-height: 22px;
   }
 
   .btn-telegram-large {
     padding: 18px 26px;
     font-size: 17.5px;
+    line-height: 29px;
     border-radius: 34px;
   }
 
   .tg-subtext {
     font-size: 13px;
+    line-height: 21px;
     margin-top: 13px;
   }
 }

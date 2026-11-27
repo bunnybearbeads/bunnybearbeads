@@ -367,6 +367,12 @@ export const translations = {
     ru: '{width} × {height} без учёта крепления',
     vi: '{width} × {height}, không tính móc',
   },
+  // Размер кольца в шапке товара, рядом с ценой (sizeFit в utils/size.ts)
+  'size.ring_fit': {
+    en: 'Ring size {value}',
+    ru: 'Размер кольца {value}',
+    vi: 'Cỡ nhẫn {value}',
+  },
   'size.ring_beads': {
     en: 'Width: {value} beads',
     ru: 'Ширина в бисеринах: {value}',
@@ -639,14 +645,14 @@ export const translations = {
     ru: 'замака',
     vi: 'hợp kim zamac',
   },
-  // Вместо цветов бисера, если они секрет автора схемы (colorsPublic: no). {designer} — автор схемы из credits.design
+  // Вместо цветов бисера, если они секрет автора схемы (colorsPublic: no). {designer} — автор схемы из credits.designer
   'materials.colors_secret': {
     en: 'The bead palette for this pattern isn’t disclosed — it’s part of a paid design by {designer}. Only the buyer will find it on the enclosed card.',
     ru: 'Подбор бисера для этой схемы не разглашается — это часть платного дизайна от {designer}. Его увидит только покупатель на вложенной карточке.',
     vi: 'Bảng màu hạt của mẫu này không được tiết lộ — đó là một phần của thiết kế trả phí của {designer}. Chỉ người mua mới thấy được trên tấm thiệp đi kèm.',
   },
   // Под цветами бисера, если оригинальный подбор — часть платной схемы, а бисер заменён своим (colorsPublic: replaced).
-  // {designer} — автор схемы из credits.design
+  // {designer} — автор схемы из credits.designer
   'materials.colors_replaced': {
     en: 'The original bead palette for this pattern isn’t disclosed — it’s part of a paid design by {designer}, but this is my own color mix.',
     ru: 'Изначальный подбор бисера для этой схемы не разглашается — это часть платного дизайна от {designer}, но здесь мой собственный микс.',
@@ -925,7 +931,7 @@ export const translations = {
     ru: `
       <ul>
         <li>Каждое изделие сделано вручную, так что небольшие неровности возможны.</li>
-        <li>Есть мелкие детали&nbsp;— опасно при проглатывании. Для детей от&nbsp;{age}&nbsp;лет, под присмотром взрослых.</li>
+        <li>Есть мелкие детали, которые можно случайно проглотить, поэтому детям&nbsp;— только с&nbsp;{age}&nbsp;лет и&nbsp;под присмотром взрослых.</li>
       </ul>
     `,
     vi: `
@@ -947,7 +953,7 @@ export const translations = {
       <ul>
         <li>Это изделие ручной работы, так что небольшие неровности возможны.</li>
         <li>У&nbsp;некоторых людей металлические детали вызывают раздражение кожи. <a class="link" href="/ru/contacts" data-hystmodal="#modal-contact" data-modal-always>Напишите мне</a>&nbsp;— возможно, браслет получится переделать без металла.</li>
-        <li>Есть мелкие детали&nbsp;— опасно при проглатывании. Для детей от&nbsp;{age}&nbsp;лет, под присмотром взрослых.</li>
+        <li>Есть мелкие детали, которые можно случайно проглотить, поэтому детям&nbsp;— только с&nbsp;{age}&nbsp;лет и&nbsp;под присмотром взрослых.</li>
       </ul>
     `,
     vi: `
@@ -968,7 +974,7 @@ export const translations = {
     ru: `
       <ul>
         <li>Это изделие ручной работы, так что небольшие неровности возможны.</li>
-        <li>Есть мелкие детали&nbsp;— опасно при проглатывании. Для детей от&nbsp;{age}&nbsp;лет, под присмотром взрослых.</li>
+        <li>Есть мелкие детали, которые можно случайно проглотить, поэтому детям&nbsp;— только с&nbsp;{age}&nbsp;лет и&nbsp;под присмотром взрослых.</li>
       </ul>
     `,
     vi: `
@@ -988,7 +994,7 @@ export const translations = {
     ru: `
       <ul>
         <li>Это изделие ручной работы, так что небольшие неровности возможны.</li>
-        <li>Есть мелкие детали&nbsp;— опасно при проглатывании. Для детей от&nbsp;{age}&nbsp;лет, под присмотром взрослых.</li>
+        <li>Есть мелкие детали, которые можно случайно проглотить, поэтому детям&nbsp;— только с&nbsp;{age}&nbsp;лет и&nbsp;под присмотром взрослых.</li>
       </ul>
     `,
     vi: `
@@ -1010,7 +1016,7 @@ export const translations = {
       <ul>
         <li>Это изделие ручной работы, так что небольшие неровности возможны.</li>
         <li>У&nbsp;некоторых людей металлические швензы вызывают раздражение кожи. <a class="link" href="/ru/contacts" data-hystmodal="#modal-contact" data-modal-always>Напишите мне</a>&nbsp;— возможно, получится заменить их&nbsp;другой фурнитурой.</li>
-        <li>Есть мелкие детали&nbsp;— опасно при проглатывании. Для детей от&nbsp;{age}&nbsp;лет, под присмотром взрослых.</li>
+        <li>Есть мелкие детали, которые можно случайно проглотить, поэтому детям&nbsp;— только с&nbsp;{age}&nbsp;лет и&nbsp;под присмотром взрослых.</li>
       </ul>
     `,
     vi: `
@@ -1028,18 +1034,18 @@ export const translations = {
   },
   'catalog.crafted_by': {
     en: 'Crafted by',
-    ru: 'Crafted by',
-    vi: 'Crafted by',
+    ru: 'Плетение',
+    vi: 'Thực hiện',
   },
   'catalog.designed_by': {
     en: 'Designed by',
-    ru: 'Designed by',
-    vi: 'Designed by',
+    ru: 'Дизайн',
+    vi: 'Thiết kế',
   },
   'catalog.photo_by': {
     en: 'Photo by',
-    ru: 'Photo by',
-    vi: 'Photo by',
+    ru: 'Фото',
+    vi: 'Ảnh',
   },
   'catalog.pcs': {
     en: 'pcs',

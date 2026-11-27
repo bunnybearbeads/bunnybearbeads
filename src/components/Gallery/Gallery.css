@@ -70,6 +70,7 @@
                         align-items: center;
                         justify-content: center;
                         font-size: 14px;
+                        line-height: 14px;
                         pointer-events: none;
                         backdrop-filter: blur(2px);
                     }
@@ -146,6 +147,7 @@
                             align-items: center;
                             justify-content: center;
                             font-size: 18px;
+                            line-height: 18px;
                             cursor: pointer;
                             user-select: none;
                             box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
@@ -206,6 +208,7 @@
                         width: 28px;
                         height: 28px;
                         font-size: 16px;
+                        line-height: 16px;
                         bottom: calc(var(--gallery-border) + 10px);
                         right: calc(var(--gallery-border) + 10px);
                     }
@@ -233,6 +236,7 @@
                             width: 50px;
                             height: 50px;
                             font-size: 20px;
+                            line-height: 20px;
                             top: 26px;
                             right: 26px;
                         }
@@ -319,6 +323,7 @@
                                 width: 40px;
                                 height: 40px;
                                 font-size: 16px;
+                                line-height: 16px;
                             }
 
     @media (440px <= width) {

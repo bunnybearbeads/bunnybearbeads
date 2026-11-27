@@ -4,6 +4,7 @@
 
 .blog-article-meta {
   font-size: 12px;
+  line-height: 20px;
   color: var(--text-muted);
   margin-bottom: 14px;
 }
@@ -69,11 +70,13 @@
 
   .blog-article-meta {
     font-size: 14.5px;
+    line-height: 24px;
     margin-bottom: 18px;
   }
 
   .blog-article-title {
     font-size: 46px;
+    line-height: 55px;
     margin-bottom: 26px;
   }
 
@@ -83,11 +86,13 @@
 
   .blog-article-lead {
     font-size: 21px;
+    line-height: 37px;
     margin-bottom: 26px;
   }
 
   .blog-body {
     font-size: 18px;
+    line-height: 33px;
   }
 
   .blog-body p {
@@ -114,5 +119,6 @@
 
   .blog-article-title {
     font-size: 30px;
+    line-height: 36px;
   }
 }

@@ -29,6 +29,27 @@ type T = ReturnType<typeof useTranslations>;
 /** Браслет длиннее запястья на 10%: обхват запястья = длина / 1.1 */
 const WRIST_EASE = 1.1;
 
+/** Обхват запястья для браслета — до 0,5 см */
+const wristFrom = (length: number) => Math.round((length / WRIST_EASE) * 2) / 2;
+
+/**
+ * Самое важное о размере — строкой в шапке товара, рядом с ценой: у браслета «На запястье от 91 см»,
+ * у кольца «Размер кольца 16–17». У остальных — пусто
+ */
+export function sizeFit(size: Size | undefined, t: T, lang: SupportedLanguage): string {
+  if (!size) return '';
+  const num = (value: number) => new Intl.NumberFormat(lang, { maximumFractionDigits: 1 }).format(value);
+  if (size.kind === 'bracelet' && size.length !== undefined) {
+    return t('size.wrist_from').replace('{value}', t('size.cm').replace('{value}', num(wristFrom(size.length))));
+  }
+  if (size.kind === 'ring' && (size.sizeFrom !== undefined || size.sizeTo !== undefined)) {
+    const from = size.sizeFrom ?? size.sizeTo!;
+    const to = size.sizeTo ?? from;
+    return t('size.ring_fit').replace('{value}', from === to ? num(from) : `${num(from)}–${num(to)}`);
+  }
+  return '';
+}
+
 export function sizeSection(size: Size | undefined, t: T, lang: SupportedLanguage): { heading: string; html: string } {
   if (!size) return { heading: '', html: '' };
   const num = (value: number) => new Intl.NumberFormat(lang, { maximumFractionDigits: 1 }).format(value);
@@ -55,7 +76,7 @@ export function sizeSection(size: Size | undefined, t: T, lang: SupportedLanguag
     ];
   } else {
     // Браслет, серьги, обмотки: ширина и длина; у браслета — ещё обхват запястья (до 0,5 см)
-    const wrist = kind === 'bracelet' && length !== undefined ? Math.round((length / WRIST_EASE) * 2) / 2 : undefined;
+    const wrist = kind === 'bracelet' && length !== undefined ? wristFrom(length) : undefined;
     // Обхват запястья — вложенным списком под длиной
     const lengthLine = line('size.length', length === undefined ? undefined : cm(length));
     const wristLine = line('size.wrist_from', wrist === undefined ? undefined : cm(wrist));

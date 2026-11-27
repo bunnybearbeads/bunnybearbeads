@@ -9,6 +9,7 @@
     }
         .product-header__breadcrumb {
             font-size: 11px;
+            line-height: 18px;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -33,30 +34,51 @@
         }
 
     .product-header__title {
-        margin-top: 10px;
+        margin-top: 14px;
         margin-bottom: 0;
         font-family: var(--font-serif);
         font-size: 34px;
+        line-height: 42px;
         color: var(--heading-color);
     }
 
     .product-header__description {
-        margin-top: 22px;
-        font-size: var(--body-font-size);
-        line-height: var(--body-line-height);
+        margin-top: 14px;
+        padding-right: 30px; /* чуть уменьшаем область для текста, чтобы выравнивание и переносы строк совпали с карточками в фигме */
+        font-size: var(--body-font-size-larger);
+        line-height: var(--body-line-height-larger);
         color: var(--text-dark);
     }
 
+    /* Главное о размере — браслет, кольцо: размер для них критичен */
+    .product-header__fit {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 16px;
+        margin-bottom: 0;
+        font-size: var(--body-font-size);
+        line-height: var(--body-line-height);
+        font-weight: 700;
+        color: var(--color-brand-dark);
+    }
+        .product-header__fit .icon {
+            font-size: 22px;
+            line-height: 22px;
+            color: var(--text-muted);
+        }
+
     .product-header__price {
-        margin-top: 22px;
+        margin-top: 18px;
         font-family: var(--font-serif);
         font-size: 32px;
+        line-height: 40px;
         font-weight: 700;
         color: var(--color-brand-dark);
     }
 
     .product-header__actions {
-        margin-top: 28px;
+        margin-top: 30px;
     }
 
 
@@ -67,24 +89,37 @@
 
     .product-header__breadcrumb {
         font-size: 13px;
+        line-height: 21px;
     }
 
     .product-header__title {
-        margin-top: 12px;
+        margin-top: 22px;
         font-size: 42px;
+        line-height: 52px;
     }
 
     .product-header__description {
-        margin-top: 26px;
+        margin-top: 22px;
+        padding-right: 46px; /* чуть уменьшаем область для текста, чтобы выравнивание и переносы строк совпали с карточками в фигме */
     }
+
+    .product-header__fit {
+        gap: 10px;
+        margin-top: 20px;
+    }
+        .product-header__fit .icon {
+            font-size: 24px;
+            line-height: 24px;
+        }
 
     .product-header__price {
         margin-top: 26px;
         font-size: 40px;
+        line-height: 46px;
     }
 
     .product-header__actions {
-        margin-top: 35px;
+        margin-top: 38px;
     }
 }
 
@@ -92,5 +127,10 @@
 @media (width < 740px) {
     .product-header__title {
         font-size: 28px;
+        line-height: 46px;
+    }
+
+    .product-header__description {
+        padding-right: 0;
     }
 }

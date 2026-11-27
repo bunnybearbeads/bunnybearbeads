@@ -195,6 +195,7 @@
     /* Адрес с ?direct длиннее остальных */
     .qr-modal--telegram .qr-modal__username {
         font-size: 17px;
+        line-height: 28px;
     }
 
     .qr-modal__username:hover {
@@ -298,6 +299,7 @@
 
         .qr-modal--telegram .qr-modal__username {
             font-size: 19px;
+            line-height: 31px;
         }
             .qr-modal__link-text {
                 text-decoration-thickness: 1.7px;

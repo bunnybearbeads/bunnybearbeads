@@ -19,6 +19,7 @@
   border-radius: 50px;
   color: var(--link-color);
   font-size: 13px;
+  line-height: 21px;
   font-weight: 600;
   margin-bottom: 22px;
 }
@@ -57,6 +58,7 @@
   margin-bottom: 14px;
   color: var(--text-dark);
   font-size: 15px;
+  line-height: 25px;
 }
 
 .welcome-text p:last-child {
@@ -94,12 +96,14 @@
 
 .author-info h4 {
   font-size: 16px;
+  line-height: 26px;
   font-weight: 700;
   color: var(--text-dark);
 }
 
 .author-info p {
   font-size: 12px;
+  line-height: 20px;
   color: var(--text-muted);
 }
 
@@ -149,16 +153,19 @@
 
 .floating-badge-icon {
   font-size: 25px;
+  line-height: 41px;
 }
 
 .floating-badge-text h5 {
   font-size: 13.5px;
+  line-height: 22px;
   font-weight: 700;
   color: var(--text-dark);
 }
 
 .floating-badge-text p {
   font-size: 11px;
+  line-height: 18px;
   color: var(--text-muted);
 }
 
@@ -177,11 +184,13 @@
   .welcome-badge {
     padding: 9px 20px;
     font-size: 15.5px;
+    line-height: 26px;
     margin-bottom: 26px;
   }
 
   .hero-title {
     font-size: 58px;
+    line-height: 67px;
     margin-bottom: 26px;
   }
 
@@ -192,11 +201,13 @@
 
   .welcome-card::before {
     font-size: 176px;
+    line-height: 176px;
   }
 
   .welcome-text p {
     margin-bottom: 18px;
     font-size: 18px;
+    line-height: 30px;
   }
 
   .author-signature {
@@ -212,10 +223,12 @@
 
   .author-info h4 {
     font-size: 20px;
+    line-height: 33px;
   }
 
   .author-info p {
     font-size: 14.5px;
+    line-height: 24px;
   }
 
   .floating-badge {
@@ -227,14 +240,17 @@
 
   .floating-badge-icon {
     font-size: 31px;
+    line-height: 51px;
   }
 
   .floating-badge-text h5 {
     font-size: 16.5px;
+    line-height: 27px;
   }
 
   .floating-badge-text p {
     font-size: 13px;
+    line-height: 21px;
   }
 }
 
@@ -249,6 +265,7 @@
 
   .hero-title {
     font-size: 36px;
+    line-height: 41px;
   }
 
   .welcome-card {

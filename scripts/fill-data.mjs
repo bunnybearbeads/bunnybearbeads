@@ -38,10 +38,8 @@ const PRODUCT = () => ({
   /** По-английски, как title: переводов пока нет */
   description: '',
   gallery: images(),
-  /** Размер и вес — по категории: числа, длины в см, вес в г (поля — SIZE_FIELDS в data-rules.mjs) */
-  size: '',
-  /** Кто сделал: craft — кто сплёл (пока всегда bunnybearbeads), design — автор схемы, photo — автор фото, по желанию; можно добавить другие роли */
-  credits: { craft: 'bunnybearbeads', design: '', photo: '' },
+  /** Кто сделал: crafter — кто сплёл (пока всегда bunnybearbeads), designer — автор схемы, photographer — автор фото, по желанию; можно добавить другие роли */
+  credits: { crafter: 'bunnybearbeads', designer: '', photographer: '' },
   locationNotes: {},
   remake: { price: '', publicNote: text(), publicNoteImages: images(), privateNote: '' },
   items: [],
@@ -58,9 +56,11 @@ const ITEM = () => ({
   attachTo: '',
   maker: '',
   privateNote: '',
+  /** Размер и вес штуки — по категории: числа, длины в см, вес в г (поля — SIZE_FIELDS в data-rules.mjs) */
+  size: '',
+  out: { type: '', date: '', paid: '', privateNote: '' },
   /** Материалы штуки: бисер, бусины, нитки — тип → цвета; findings — фурнитура, своя у каждой категории (типы — data-rules.mjs) */
   materials: { beads: {}, colorsPublic: 'yes', additionalBeads: {}, threads: {}, findings: '' },
-  out: { type: '', date: '', paid: '', privateNote: '' },
 });
 
 /** Размер и вес по категории: все поля, пустыми (видно, что вписать); заполненное не трогаем */
@@ -148,14 +148,22 @@ function fillBase(dataDir) {
     const file = path.join(dataDir, folder, `${folder}.json`);
     if (folder.startsWith('_') || folder.startsWith('.') || !fs.existsSync(file)) continue;
     const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+    // credits: craft и maker → crafter, design → designer, photo → photographer (порядок ролей сохраняется)
+    if (isPlainObject(data.credits)) {
+      const RENAMED = { craft: 'crafter', maker: 'crafter', design: 'designer', photo: 'photographer' };
+      data.credits = Object.fromEntries(Object.entries(data.credits).map(([role, name]) => [RENAMED[role] ?? role, name]));
+    }
     const result = fill(PRODUCT(), data);
     result.$schema = PRODUCT_SCHEMA_REF;
     // thumb больше не поле: берётся из _thumbs по имени папки. Заполненное оставляем — сборка подскажет
     if (isBlank(result.thumb)) delete result.thumb;
-    result.size = fillSize(result.size, result.category);
+    // Размер был у изделия — теперь у штук: копируем в штуки, где его ещё нет
+    const productSize = data.size;
+    delete result.size;
     result.locationNotes = fillLocationNotes(data.locationNotes);
     result.items = (data.items ?? []).map((item) => {
-      const filled = fill(ITEM(), item);
+      const filled = fill(ITEM(), isPlainObject(productSize) && !isPlainObject(item.size) ? { ...item, size: productSize } : item);
+      filled.size = fillSize(filled.size, result.category);
       if (filled.location === LOCATIONS[0] && filled.consignedAt === '') delete filled.consignedAt;
       if (result.category !== 'charm' && filled.attachTo === '') delete filled.attachTo;
       filled.materials = fillFindings(filled.materials, result.category);

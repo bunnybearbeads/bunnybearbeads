@@ -14,7 +14,7 @@ import { useTranslations, localize } from '../../i18n/utils';
 import { siteSettings } from '../../config/siteSettings';
 import { type ProductEntry, getFamilyOf, getLocationQty } from '../../utils/products';
 import { materialsHtml } from '../../utils/materials';
-import { sizeSection } from '../../utils/size';
+import { sizeSection, sizeFit } from '../../utils/size';
 
 interface Props {
   entry: ProductEntry;
@@ -29,12 +29,11 @@ const family = await getFamilyOf(entry.id);
 const studioQty = getLocationQty(raw.stock, 'atelier');
 const canRemake = studioQty === 0;
 const size = sizeSection(raw.size, t, currentLang);
-const materials = raw.materials ? materialsHtml(raw.materials, t, raw.credits.design) : '';
+const materials = raw.materials ? materialsHtml(raw.materials, t, raw.credits.designer) : '';
 
-/** Текстовые разделы аккордеона: у брелков — сменное крепление; у всех — прочность и уход, предостережения (свой текст у категории) */
+/** Текстовые разделы аккордеона: прочность и уход, предостережения (свой текст у категории). Крепление брелка — первым разделом, см. разметку */
 const isCharm = raw.category === 'charm';
 const textSections = [
-  ...(isCharm ? [{ heading: t('catalog.charm_attachment.title'), html: t('catalog.charm_attachment.text') }] : []),
   { heading: t('catalog.care.title'), html: t(`catalog.care.${raw.category}` as TranslationKey) },
   { heading: t('catalog.warnings.title'), html: t(`catalog.warnings.${raw.category}` as TranslationKey).replaceAll('{age}', String(siteSettings.ageLimit)) },
 ];
@@ -42,13 +41,13 @@ const textSections = [
 const BRAND = 'bunnybearbeads';
 /** Подписи известных ролей переведены; любая другая роль выводится как записана в базе, с заглавной */
 const CREDIT_LABELS: Record<string, Parameters<typeof t>[0]> = {
-  design: 'catalog.designed_by',
-  craft: 'catalog.crafted_by',
-  photo: 'catalog.photo_by',
+  designer: 'catalog.designed_by',
+  crafter: 'catalog.crafted_by',
+  photographer: 'catalog.photo_by',
 };
 // Сначала кто сплёл, потом автор схемы, остальные роли — как в базе
-const { craft, design, ...otherCredits } = raw.credits;
-const creditRows = Object.entries({ craft, design, ...otherCredits }).map(([role, name]) => ({
+const { crafter, designer, ...otherCredits } = raw.credits;
+const creditRows = Object.entries({ crafter, designer, ...otherCredits }).map(([role, name]) => ({
   label: CREDIT_LABELS[role] ? t(CREDIT_LABELS[role]) : role.charAt(0).toUpperCase() + role.slice(1),
   name,
 }));
@@ -73,7 +72,16 @@ const showCredits = creditRows.some(({ name }) => name !== BRAND);
           <DottedTitle>{t('catalog.good_to_know')}</DottedTitle>
 
           <div class="product__specs-box">
-            <!-- Разделы — аккордеон на details, по умолчанию все свёрнуты. Первым — застёжка браслета -->
+            <!-- Разделы — аккордеон на details, по умолчанию все свёрнуты. Первым — крепление: у браслета застёжка, у брелка сменное крепление -->
+            {isCharm && (
+              <details class="product-specs-section">
+                <summary class="specs-heading">
+                  {t('catalog.charm_attachment.title')}
+                </summary>
+                <div class="specs-text wysiwyg wysiwyg--smaller wysiwyg--smaller-list-items-margin" set:html={t('catalog.charm_attachment.text')} />
+              </details>
+            )}
+
             {raw.category === 'bracelet' && (
               <details class="product-specs-section">
                 <summary class="specs-heading">
@@ -134,6 +142,7 @@ const showCredits = creditRows.some(({ name }) => name !== BRAND);
         <ProductHeader
           product={product}
           category={raw.category}
+          fit={sizeFit(raw.size, t, currentLang)}
           currentLang={currentLang}
         />
 

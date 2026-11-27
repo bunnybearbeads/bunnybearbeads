@@ -256,6 +256,7 @@
                 .option__main-emoji {
                     top: 1px;
                     font-size: 22px;
+                    line-height: 22px;
                 }
 
                 .option__title {
@@ -297,6 +298,7 @@
 
                     .option__help-icon {
                         font-size: 16px;
+                        line-height: 16px;
                     }
 
             .option__details {
@@ -331,6 +333,7 @@
                     }
                         .option__fulfillment-emoji {
                             font-size: 19px;
+                            line-height: 19px;
                         }
 
                         .option__channel {

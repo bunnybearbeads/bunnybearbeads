@@ -41,7 +41,7 @@ import ffmpegPath from 'ffmpeg-static';
 import { generateMissingPosters } from './generate-posters.mjs';
 import { photoFiles, photoWidths, readPhotoSize, syncPhotos } from './photos.mjs';
 import {
-  ADDITIONAL_BEAD_COLORS, ADDITIONAL_BEAD_TYPES, ATTACH_TO, BEAD_TYPES, BRACELET_PARTS, braceletOptions, CATEGORIES, CHARM_FINDINGS, COLORS_PUBLIC, SIZE_FIELDS, DATE_FORMATS, DEMO_DIR, FAMILIES_DIR, ITEM_ID_RE, LOCATION_ORDER, MAKERS, MATERIAL_FIELDS, OUT_TYPES, THREAD_TYPES, PARTIAL_DATE_RE, SLUG_RE,
+  ADDITIONAL_BEAD_COLORS, ADDITIONAL_BEAD_TYPES, ATTACH_TO, BEAD_TYPES, BRACELET_PARTS, braceletOptions, CATEGORIES, CHARM_FINDINGS, COLORS_PUBLIC, CREDIT_CRAFTERS, PHOTOGRAPHERS, SIZE_FIELDS, DATE_FORMATS, DEMO_DIR, FAMILIES_DIR, ITEM_ID_RE, LOCATION_ORDER, MAKERS, MATERIAL_FIELDS, OUT_TYPES, THREAD_TYPES, PARTIAL_DATE_RE, SLUG_RE,
   THUMB_EXTENSIONS, THUMBS_DIR, schemaFiles, thumbKey,
 } from './data-rules.mjs';
 
@@ -75,7 +75,6 @@ const OUT_FIELDS = ['type', 'date', 'paid', 'privateNote'];
 const SITE_REQUIRED = [
   ['description', 'описание'],
   ['gallery', 'хотя бы одно фото'],
-  ['size', 'размер и вес'],
 ];
 const REMAKE_FIELDS = ['price', 'publicNote', 'publicNoteImages', 'privateNote'];
 /** Старые имена комментариев: в базе теперь видно, что попадает на сайт (public), а что нет (private) */
@@ -204,8 +203,9 @@ async function collect(dataDir, errors, logger) {
     if ('thumb' in data) errors.push(`${where}: уберите поле "thumb" — thumb берётся из ${THUMBS_DIR}/${folder}.png`);
     if ('materialsHtml' in data) errors.push(`${where}: поля "materialsHtml" больше нет — HTML в "materials" каждой штуки`);
     if ('materials' in data) errors.push(`${where}: "materials" теперь у штук (items), у каждой свои — уберите из изделия`);
+    if ('size' in data) errors.push(`${where}: "size" теперь у штук (items), у каждой свой — перенесите в штуки (npm run fill-data перенесёт сам)`);
     if ('designedBy' in data || 'designer' in data) {
-      errors.push(`${where}: автор схемы теперь в "credits": { "design": "…", "craft": "bunnybearbeads", "photo": "" }`);
+      errors.push(`${where}: автор схемы теперь в "credits": { "crafter": "bunnybearbeads", "designer": "…", "photographer": "" }`);
     }
     if (typeof data.site !== 'boolean') errors.push(`${where}: "site" — true или false`);
 
@@ -229,7 +229,7 @@ async function collect(dataDir, errors, logger) {
       errors.push(`${where}: "category" — одно из ${CATEGORIES.join(', ')}, а сейчас ${JSON.stringify(data.category)}`);
     }
 
-    const { stock, price, remake, materials } = toSales(data, where, itemOwners, slug, errors, logger);
+    const { stock, price, remake, materials, size } = toSales(data, where, itemOwners, slug, errors, logger);
     if (data.site !== true) {
       hiddenSlugs.add(slug);
       continue;
@@ -239,6 +239,9 @@ async function collect(dataDir, errors, logger) {
     for (const [field, what] of SITE_REQUIRED) {
       if (data[field] === undefined) errors.push(`${where}: изделию на сайте нужен "${field}" — ${what} (или "site": false)`);
     }
+    // Размер и вес — у штуки, чьи размер и материалы на сайте (см. toSales)
+    if (!size) errors.push(`${where}: изделию на сайте нужен размер — "size" у штук (или "site": false)`);
+    else if (size.weight === undefined) errors.push(`${where}: изделию на сайте нужен вес — "size.weight" у штук, в граммах`);
 
     // Пути к файлам в JSON изделия — относительно папки изделия
     const checkPath = (rel, field) => {
@@ -294,11 +297,8 @@ async function collect(dataDir, errors, logger) {
 
     const publicData = Object.fromEntries(Object.entries(data).filter(([key]) => !PRIVATE_FIELDS.includes(key)));
     if (materials) publicData.materials = materials;
-    const size = toSize(data.size, where, errors, data.category);
     if (size) publicData.size = size;
-    else delete publicData.size;
-    if ('weight' in data) errors.push(`${where}: "weight" теперь внутри "size": { …, "weight": 4.5 }`);
-    if (data.size !== undefined && size && size.weight === undefined) errors.push(`${where}: изделию на сайте нужен вес — "size.weight" в граммах`);
+    if ('weight' in data) errors.push(`${where}: "weight" теперь внутри "size" у штук: { …, "weight": 4.5 }`);
     publicData.gallery = (data.gallery ?? []).map((item, i) => mapMedia(item, `gallery[${i}]`, { ratio: PHOTO_RATIO }));
     // thumb — из _thumbs по имени папки. На сайте копия называется по slug: имя файла может быть служебным
     const thumbFile = thumbs.get(thumbKey(folder));
@@ -405,6 +405,11 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
   // Материалы — у каждой штуки свои (HTML; в JSON массивом строк, склеиваются в одну строку)
   let lastMaterials;
   let lastAvailableMaterials;
+  // Размер — так же: у каждой штуки свой, на сайте — один (той же штуки, что и материалы)
+  let lastSize;
+  let lastAvailable; // { size, id }
+  const availableSizes = []; // { size, id, location } — штуки в наличии
+
   items.forEach((item, index) => {
     const at = `${where}, items[${index}]`;
     if (!item.id) {
@@ -448,6 +453,8 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
 
     const materials = 'materials' in item ? toMaterials(item.materials, at, errors, data.category) : undefined;
     if (materials) lastMaterials = materials;
+    const size = toSize(item.size, at, errors, data.category);
+    if (size) lastSize = size;
 
     if (!LOCATION_ORDER.includes(item.location)) {
       errors.push(`${at}: неизвестная точка «${item.location}» — одна из ${LOCATION_ORDER.join(', ')}`);
@@ -461,6 +468,10 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
     }
     if (out !== undefined) return;
     if (materials) lastAvailableMaterials = materials;
+    if (size) {
+      lastAvailable = { size, id: item.id };
+      availableSizes.push({ size, id: item.id, location: item.location });
+    }
     if (!available.has(item.location)) available.set(item.location, []);
     available.get(item.location).push(item.price);
   });
@@ -518,10 +529,25 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
   // последней штуки в списке, у которой они заполнены: ремейк делается как она. Как показывать разные — TODO.md
   const materials = lastAvailableMaterials ?? lastMaterials;
 
+  // Размер на сайте — как материалы: последней штуки в наличии, иначе последней с размером (по ней ремейк).
+  // Размер для браслетов и колец критичен: если штука в наличии другого размера (вес не в счёт — у ручной
+  // работы он всегда чуть разный), у её точки обязателен комментарий для посетителей (locationNotes)
+  const size = lastAvailable?.size ?? lastSize;
+  if (lastAvailable) {
+    const key = ({ weight, ...rest }) => JSON.stringify(rest);
+    for (const other of availableSizes) {
+      if (key(other.size) === key(lastAvailable.size)) continue;
+      if (!data.locationNotes?.[other.location]?.publicNote) {
+        errors.push(`${where}: размер штуки ${other.id} (${other.location}) не такой, как на сайте (у ${lastAvailable.id}) — опишите отличие в "locationNotes.${other.location}.publicNote"`);
+      }
+    }
+  }
+
   return {
     stock,
     price,
     materials,
+    size,
     ...(!inAtelier
       ? {
           remake: {
@@ -698,6 +724,9 @@ function toMaterials(materials, at, errors, category) {
         errors.push(`${field}: цвета списком — ["Smoke"], ["#10"], неизвестны — []`);
         continue;
       }
+      // У ниток со списком цветов (colors в THREAD_TYPES) — только из него
+      const unknown = type.colors ? rawColors.filter((color) => !type.colors.includes(color)) : [];
+      if (unknown.length) errors.push(`${field}: цвета ${unknown.map((c) => JSON.stringify(c)).join(', ')} нет в списке — ${type.colors.join(', ')}`);
       threads.push({ name, id: type.id, colors: toColorCodes(rawColors, field, errors) });
     }
   }
@@ -720,17 +749,22 @@ function toMaterials(materials, at, errors, category) {
  * переводы { en: "", ru: "", vi: "" }. Наполовину заполненный перевод — ошибка: забыли язык.
  */
 /**
- * credits — кто сделал: design (автор схемы) и craft (кто сплёл) обязательны, остальное — по желанию и любое
- * (photo — автор фото, можно добавить автора видео, соавтора…). Сайт выводит все пары по порядку.
+ * credits — кто сделал: crafter (кто сплёл) и designer (автор схемы) обязательны, остальное — по желанию и любое
+ * (photographer — автор фото, можно добавить автора видео, соавтора…). Сайт выводит все пары по порядку.
  * Только имена текстом, без HTML. Если все имена — bunnybearbeads, сайт секцию не выводит
  */
-const CREDIT_REQUIRED = ['craft', 'design'];
+const CREDIT_REQUIRED = ['crafter', 'designer'];
+/** Старые имена ролей → новые (npm run fill-data переименует сам) */
+const RENAMED_CREDITS = { craft: 'crafter', maker: 'crafter', design: 'designer', photo: 'photographer' };
 
-/** required — у изделий на сайте: credits, craft и design обязательны; у скрытых — только формат того, что вписано */
+/** required — у изделий на сайте: credits, crafter и designer обязательны; у скрытых — только формат того, что вписано */
 function checkCredits(credits, where, errors, required = true) {
   if (typeof credits !== 'object' || credits === null || Array.isArray(credits)) {
-    errors.push(`${where}: нет "credits" — нужны "craft" (кто сплёл) и "design" (автор схемы), остальное — по желанию`);
+    errors.push(`${where}: нет "credits" — нужны "crafter" (кто сплёл) и "designer" (автор схемы), остальное — по желанию`);
     return;
+  }
+  for (const [old, name] of Object.entries(RENAMED_CREDITS)) {
+    if (old in credits) errors.push(`${where}, credits.${old}: теперь называется "${name}" (npm run fill-data переименует)`);
   }
   for (const key of required ? CREDIT_REQUIRED : []) {
     if (credits[key] === undefined) errors.push(`${where}, credits.${key}: обязательно`);
@@ -738,6 +772,13 @@ function checkCredits(credits, where, errors, required = true) {
   for (const [key, value] of Object.entries(credits)) {
     if (typeof value !== 'string') errors.push(`${where}, credits.${key}: имя строкой`);
     else if (/<[a-z/!]/i.test(value)) errors.push(`${where}, credits.${key}: просто имя, без HTML`);
+  }
+  // Плетение и фото — только известные имена: опечатка в нике не уйдёт на сайт
+  if (credits.crafter !== undefined && !CREDIT_CRAFTERS.includes(credits.crafter)) {
+    errors.push(`${where}, credits.crafter: одно из ${CREDIT_CRAFTERS.join(', ')}, а сейчас ${JSON.stringify(credits.crafter)}. Новое имя — в CREDIT_CRAFTERS (scripts/data-rules.mjs)`);
+  }
+  if (credits.photographer !== undefined && !PHOTOGRAPHERS.includes(credits.photographer)) {
+    errors.push(`${where}, credits.photographer: одно из ${PHOTOGRAPHERS.join(', ')}, а сейчас ${JSON.stringify(credits.photographer)}. Новый — в PHOTOGRAPHERS (scripts/data-rules.mjs)`);
   }
 }
 

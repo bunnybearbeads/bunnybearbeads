@@ -37,6 +37,7 @@
 
 .blog-placeholder-icon {
   font-size: 43px;
+  line-height: 71px;
   filter: drop-shadow(0 4px 6px rgb(0 0 0 / 10%));
 }
 
@@ -49,6 +50,7 @@
 
 .blog-meta {
   font-size: 12px;
+  line-height: 20px;
   color: var(--text-muted);
   margin-bottom: 9px;
 }
@@ -98,6 +100,7 @@
 
   .blog-placeholder-icon {
     font-size: 53px;
+    line-height: 87px;
   }
 
   .blog-details {
@@ -106,16 +109,19 @@
 
   .blog-meta {
     font-size: 14.5px;
+    line-height: 24px;
     margin-bottom: 11px;
   }
 
   .blog-title {
     font-size: 26.5px;
+    line-height: 34px;
     margin-bottom: 13px;
   }
 
   .blog-excerpt {
     font-size: 16.5px;
+    line-height: 26px;
     margin-bottom: 22px;
   }
 }

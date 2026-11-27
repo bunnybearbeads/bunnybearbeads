@@ -29,6 +29,9 @@
   --font-serif: 'Cormorant Garamond Variable', Georgia, serif;
   --font-sans: 'Mulish Variable', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
+  --body-font-size-larger: 16px;
+  --body-line-height-larger: 24px;
+
   --body-font-size: 15px;
   --body-line-height: 22px;
 
@@ -88,6 +91,8 @@
 @media (1600px <= width) {
 
   :root {
+    --body-font-size-larger: 18px;
+    --body-line-height-larger: 26px;
     --body-font-size: 17px;
     --body-line-height: 25px;
     --body-font-size-smaller: 15px;
@@ -161,6 +166,7 @@ main {
   color: var(--color-nav-link);
   text-decoration: none;
   font-size: 14.5px;
+  line-height: 24px;
   font-weight: 600;
   transition: color var(--transition-hover);
 }
@@ -172,6 +178,7 @@ main {
 /* Тысячи в цене (320.000 ₫): нули есть, но не спорят с значимой частью — см. formatPrice() */
 .price-thousands {
   font-size: 65%;
+  line-height: 1;
   opacity: 70%;
 }
 
@@ -188,6 +195,7 @@ main {
 
 .content-card h2 {
   font-size: 25px;
+  line-height: 41px;
   color: var(--color-brand-dark);
   margin-bottom: 14px;
 }
@@ -212,6 +220,7 @@ main {
   padding: 12px 26px;
   border-radius: 100px;
   font-size: 14px;
+  line-height: 23px;
   font-weight: 600;
   text-decoration: none;
   transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
@@ -222,11 +231,13 @@ main {
 .btn-sm {
   padding: 9px 18px;
   font-size: 12px;
+  line-height: 20px;
 }
 
 .btn-lg {
   padding: 14px 32px;
   font-size: 14.5px;
+  line-height: 24px;
 }
 
 .btn-primary {
@@ -268,6 +279,7 @@ main {
   padding: 4px 11px;
   border-radius: 20px;
   font-size: 12px;
+  line-height: 20px;
   font-weight: 600;
 }
 
@@ -317,6 +329,7 @@ main {
 
   .back-link {
     font-size: 17px;
+    line-height: 28px;
   }
 
   .content-card {
@@ -326,11 +339,13 @@ main {
 
   .content-card h2 {
     font-size: 31px;
+    line-height: 51px;
     margin-bottom: 18px;
   }
 
   .content-card p {
     font-size: 17.5px;
+    line-height: 30px;
     margin-bottom: 22px;
   }
 
@@ -341,17 +356,20 @@ main {
   .btn {
     padding: 15px 33px;
     font-size: 16.5px;
+    line-height: 27px;
     gap: 11px;
   }
 
   .btn-sm {
     padding: 11px 22px;
     font-size: 14.5px;
+    line-height: 24px;
   }
 
   .btn-lg {
     padding: 18px 40px;
     font-size: 17.5px;
+    line-height: 29px;
   }
 
   .materials-tags {
@@ -362,6 +380,7 @@ main {
   .material-tag {
     padding: 5px 13px;
     font-size: 14.5px;
+    line-height: 24px;
   }
 }
 

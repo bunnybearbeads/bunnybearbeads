@@ -212,7 +212,7 @@ function findingsItems(findings: Findings | undefined, t: T): string[] {
   return braceletItems(findings.bracelet ?? [], t);
 }
 
-/** designer — автор схемы (credits.design): называется в пояснении про платный дизайн */
+/** designer — автор схемы (credits.designer): называется в пояснении про платный дизайн */
 export function materialsHtml(materials: Materials, t: T, designer = ''): string {
   const { beads, colorsPublic, additionalBeads, threads, findings } = materials;
   const beadItems = beads.length === 2 ? [beadPair(beads, t)] : beads.map((bead) => singleBead(bead, t));

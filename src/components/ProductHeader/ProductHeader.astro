@@ -1,6 +1,6 @@
 ---
 /**
- * Шапка товара: хлебные крошки, название, описание, цена, кнопки заказа.
+ * Шапка товара: хлебные крошки, название, описание, главное о размере (браслет, кольцо), цена, кнопки заказа.
  */
 import './ProductHeader.css';
 import '../Icon/Icon.css';
@@ -9,14 +9,17 @@ import { getLocalizedUrl, useTranslations } from '../../i18n/utils';
 import { formatPrice } from '../../utils/products';
 import { CATEGORY_SECTION, categoryKey, type Category } from '../../config/categories';
 import Inquiry from '../Inquiry/Inquiry.astro';
+import Icon from '../Icon/Icon.astro';
 
 interface Props {
   product: { title: string; description?: string; price: number };
   category: Category;
+  /** «На запястье от 91 см», «Размер кольца 17» — sizeFit из utils/size.ts; пусто — не выводится */
+  fit?: string;
   currentLang: SupportedLanguage;
 }
 
-const { product, category, currentLang } = Astro.props;
+const { product, category, fit, currentLang } = Astro.props;
 const t = useTranslations(currentLang);
 const catalogUrl = getLocalizedUrl('/catalog', currentLang);
 ---
@@ -40,6 +43,13 @@ const catalogUrl = getLocalizedUrl('/catalog', currentLang);
 
   {product.description && (
     <p class="product-header__description" set:html={product.description} />
+  )}
+
+  {fit && (
+    <p class="product-header__fit">
+      <Icon name="straighten" />
+      {fit}
+    </p>
   )}
 
   <div class="product-header__price" set:html={formatPrice(product.price)} />

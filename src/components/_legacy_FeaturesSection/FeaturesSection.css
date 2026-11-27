@@ -5,6 +5,7 @@
 .section-title {
   text-align: center;
   font-size: 36px;
+  line-height: 59px;
   margin-bottom: 10px;
   color: var(--color-brand-dark);
 }
@@ -13,6 +14,7 @@
   text-align: center;
   color: var(--text-muted);
   font-size: 15.5px;
+  line-height: 26px;
   margin-bottom: 42px;
   max-width: 540px;
   margin-left: auto;
@@ -49,11 +51,13 @@
   align-items: center;
   justify-content: center;
   font-size: 25px;
+  line-height: 41px;
   margin: 0 auto 18px;
 }
 
 .feature-card h3 {
   font-size: 20px;
+  line-height: 33px;
   margin-bottom: 10px;
   color: var(--text-dark);
 }
@@ -74,11 +78,13 @@
 
   .section-title {
     font-size: 44px;
+    line-height: 73px;
     margin-bottom: 14px;
   }
 
   .section-subtitle {
     font-size: 19px;
+    line-height: 31px;
     margin-bottom: 54px;
     max-width: 660px;
   }
@@ -96,16 +102,19 @@
     width: 70px;
     height: 70px;
     font-size: 31px;
+    line-height: 51px;
     margin: 0 auto 22px;
   }
 
   .feature-card h3 {
     font-size: 24px;
+    line-height: 40px;
     margin-bottom: 14px;
   }
 
   .feature-card p {
     font-size: 16px;
+    line-height: 26px;
   }
 }
 
@@ -119,6 +128,7 @@
 
   .section-title {
     font-size: 30px;
+    line-height: 50px;
   }
 
   .features-grid {

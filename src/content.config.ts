@@ -115,8 +115,8 @@ const products = defineCollection({
       .optional(),
     /** Кто сделал: автор схемы и кто сплёл обязательны, остальные роли — любые (photo…). Просто имена, без HTML */
     credits: z.object({
-      craft: z.string(),
-      design: z.string(),
+      crafter: z.string(),
+      designer: z.string(),
     }).catchall(z.string()),
     stock: z.array(stockSchema).default([]),
   }),

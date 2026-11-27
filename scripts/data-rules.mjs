@@ -18,6 +18,9 @@ import path from 'node:path';
 /** atelier — своя мастерская (сейчас в Далате): id не привязан к городу на случай переезда */
 export const LOCATION_ORDER = ['atelier', 'ngay-mai', 'cat-food'];
 export const MAKERS = ['bunny', 'bear'];
+/** credits.crafter — под каким именем плетение подписано на сайте; credits.photographer — авторы фото. Новое имя — сюда */
+export const CREDIT_CRAFTERS = ['bunnybearbeads', 'tonybrickstitch'];
+export const PHOTOGRAPHERS = ['tolaxoaii_04'];
 /** Категории изделий, в единственном числе. Должны совпадать с src/config/categories.ts */
 export const CATEGORIES = ['charm', 'bracelet', 'ring', 'earrings', 'pen-wrap'];
 /** На что носится брелок: у каждой штуки-брелка обязательно, у остальных категорий поля нет */
@@ -69,12 +72,18 @@ export const ADDITIONAL_BEAD_COLORS = [
  * `materials.thread_note.<id>` в src/i18n/ui.ts. Цвета — как на катушке: "Smoke", "Crystal", "#10"
  */
 export const THREAD_TYPES = {
-  FireLine: { id: 'fireline' },
-  'Miyuki Dura-Line': { id: 'miyuki_dura_line' },
-  WildFire: { id: 'wildfire' },
-  'Toho One-G': { id: 'toho_one_g' },
-  Miyuki: { id: 'miyuki' },
-  FGB: { id: 'fgb' },
+  FireLine: { id: 'fireline', colors: ['Black Satin', 'Smoke', 'Crystal'] },
+  'Miyuki Dura-Line': { id: 'miyuki_dura_line', colors: ['Smoke', 'Crystal'] },
+  // Цвета WildFire — по магазинам (официального списка у Beadalon нет): ищу по названию на катушке
+  WildFire: { id: 'wildfire', colors: ['Black', 'White', 'Frost', 'Grey', 'Beige', 'Blue', 'Green', 'Pink', 'Red'] },
+  // Toho One-G — 22 цвета, названия как в магазинах. На катушках ни номера, ни названия нет — не знаю цвет, оставляю []
+  'Toho One-G': {
+    id: 'toho_one_g',
+    colors: ['White', 'Cream', 'Beige', 'Sand Ash', 'Lt Khaki', 'Lt Yellow', 'Orange', 'Pink', 'Red', 'Burgundy', 'Mauve', 'Lt Lavender', 'Purple', 'Blue', 'Navy', 'Mint Green', 'Green', 'Deep Green', 'Brown', 'Lt Gray', 'Gray', 'Black'],
+  },
+  // Цвета ниток Miyuki — #1…#24, FGB — #02…#23 (так на катушках: у FGB с нулём впереди и без #01)
+  Miyuki: { id: 'miyuki', colors: Array.from({ length: 24 }, (_, i) => `#${i + 1}`) },
+  FGB: { id: 'fgb', colors: Array.from({ length: 22 }, (_, i) => `#${String(i + 2).padStart(2, '0')}`) },
 };
 /**
  * Фурнитура (`items[].materials.findings`) зависит от category изделия:
@@ -140,6 +149,8 @@ export const ITEM_ID_RE = /^[A-Z]{3,4}\d{2}$/;
  */
 export const PARTIAL_DATE_RE = /^(\d{4})(?:-(?:(0[1-9]|1[0-2])(?:-(\d{2}))?|Q[1-4]|H[12]))?$/;
 export const DATE_FORMATS = '2026-11-01, 2026-11, 2026-Q3, 2026-H1 или 2026';
+/** Подсказка к датам в редакторе — подробнее, чем DATE_FORMATS в ошибках сборки */
+const DATE_HINT = 'Формат ГГГГ-ММ-ДД: 2026-11-01. День и месяц можно опустить, если точно не помню: 2026-11 или просто 2026. Можно квартал — 2026-Q3 (Q1…Q4) или полугодие — 2026-H1 (H1, H2)';
 
 /**
  * Служебная папка базы — всё, что не изделия: семейства, схемы, демо-база, заметки.
@@ -185,6 +196,15 @@ export function productSlugs(dataDir) {
 const empty = { const: '' };
 const pattern = (re) => ({ type: 'string', pattern: `^$|${re.source}` });
 const choice = (values, description) => ({ description, enum: ['', ...values] });
+/**
+ * Выбор из списка с пояснением к каждому значению: { yes: 'да', no: 'нет' }. Пояснения видны прямо в списке
+ * подсказок: x-intellij-enum-metadata — WebStorm (справа от значения), enumDescriptions — VS Code
+ */
+const choiceWithHints = (hints, description) => ({
+  ...choice(Object.keys(hints), description),
+  'x-intellij-enum-metadata': Object.fromEntries(Object.entries(hints).map(([value, hint]) => [value, { description: hint }])),
+  enumDescriptions: ['', ...Object.values(hints)],
+});
 const text = (description) => ({
   description,
   type: 'object',
@@ -193,13 +213,39 @@ const text = (description) => ({
   additionalProperties: false,
 });
 const price = (description) => ({ description, anyOf: [{ type: 'integer', minimum: 1 }, empty] });
-const date = (description) => ({ description: `${description}. Формат: ${DATE_FORMATS}`, ...pattern(PARTIAL_DATE_RE) });
+/**
+ * Дата: подсказки по Ctrl+Пробел — сегодняшняя дата во всех форматах, с пояснением справа. Это не ограничение:
+ * подходит любая дата по PARTIAL_DATE_RE (anyOf), список — только образцы. Пересчитывается при каждом npm run fill-data
+ */
+function dateExamples(now = new Date()) {
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  // Массив пар, не объект: ключ «2026» объект поставил бы первым (числовые ключи сортируются)
+  return [
+    [`${year}-${month}-${day}`, 'точная дата: год-месяц-день'],
+    [`${year}-${month}`, 'только месяц — день не помню'],
+    [`${year}-Q${Math.floor(now.getMonth() / 3) + 1}`, 'квартал: Q1…Q4'],
+    [`${year}-H${now.getMonth() < 6 ? 1 : 2}`, 'полугодие: H1, H2'],
+    [String(year), 'только год'],
+  ];
+}
+const date = (description) => {
+  const examples = dateExamples();
+  return {
+    description: `${description}. ${DATE_HINT}`,
+    anyOf: [
+      { enum: examples.map(([value]) => value), 'x-intellij-enum-metadata': Object.fromEntries(examples.map(([value, hint]) => [value, { description: hint }])) },
+      pattern(PARTIAL_DATE_RE),
+    ],
+  };
+};
 const html = (description) => ({ description, type: 'array', items: { type: 'string' } });
-/** Цвета бусин — из списка ADDITIONAL_BEAD_COLORS */
-const additionalBeadColors = () => ({ description: 'Цвета из списка: black, crystal, pale… Неизвестны — []', type: 'array', items: { enum: ADDITIONAL_BEAD_COLORS } });
-/** Коды цветов бисера или нити — как на упаковке: 201, "402B", "PF557", "DBS-10", "#426" */
+/** Цвета бусин — из списка ADDITIONAL_BEAD_COLORS. Без описания: оно одно на все типы — сказано у additionalBeads */
+const additionalBeadColors = () => ({ type: 'array', items: { enum: ADDITIONAL_BEAD_COLORS } });
+/** Коды цветов бисера или нити — как на упаковке: 201, "402B", "PF557", "DBS-10", "#426". Без описания: оно одно на все типы
+ * и только мешает в списке подсказок — как вписывать цвета, сказано у beads и threads */
 const colors = {
-  description: 'Коды цветов как на упаковке: 201, "402B", "PF557", "#426". Неизвестны — []',
   type: 'array',
   items: { anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer', minimum: 0 }] },
 };
@@ -281,6 +327,22 @@ function findingsSchema(category) {
   }
   return { not: {}, description: 'У этой категории фурнитуры нет — уберите поле' };
 }
+/**
+ * Схема изделия. Штука для каждой категории — полная копия definitions.item со своими size и findings:
+ * WebStorm не склеивает общую схему штуки с куском из if/then — берёт кусок, и подсказки у штук пропадают
+ * (location, out, бисер). Поэтому в then — ссылка на целую схему штуки, а не добавка к ней
+ */
+export function productSchema() {
+  const schema = baseProductSchema();
+  for (const category of CATEGORIES) {
+    const item = structuredClone(schema.definitions.item);
+    item.properties.size = sizeSchema(category);
+    item.properties.materials.properties.findings = findingsSchema(category);
+    schema.definitions[`item-${category}`] = item;
+  }
+  return schema;
+}
+
 const BRACELET_PART_HINTS = {
   slideTubes: 'Концевики-трубочки',
   beadEndings: 'Литые концевики (Cymbal) — например, у браслетов из тилы',
@@ -291,7 +353,7 @@ const BRACELET_PART_HINTS = {
   connectorRings: 'Соединительные колечки — на сайте дописываются к деталям того же бренда и металла, иначе не выводятся',
 };
 
-export function productSchema() {
+function baseProductSchema() {
   return {
     $schema: 'http://json-schema.org/draft-07/schema#',
     title: 'Изделие bunnybearbeads',
@@ -306,14 +368,13 @@ export function productSchema() {
       category: choice(CATEGORIES, 'Категория, в единственном числе (earrings — пара)'),
       description: { type: 'string', description: 'Описание по-английски, один абзац без <p> и <div>' },
       gallery: media('Фото и видео изделия, первое — обложка в каталоге. Фото строго 3:4, вертикальные'),
-      size: { description: 'Размер и вес — поля зависят от category: длины в см, вес в г' },
       credits: {
         type: 'object',
-        description: 'Кто сделал — просто имена, без HTML. craft и design обязательны, остальное — любые пары, на сайте выводятся все по порядку. Если все — bunnybearbeads, секции нет',
+        description: 'Кто сделал — просто имена, без HTML. crafter и designer обязательны, остальное — любые пары, на сайте выводятся все по порядку. Если все — bunnybearbeads, секции нет',
         properties: {
-          craft: { type: 'string', description: 'Кто сплёл, обязательно. Пока всегда bunnybearbeads' },
-          design: { type: 'string', description: 'Автор схемы, обязательно' },
-          photo: { type: 'string', description: 'Автор фото, по желанию' },
+          crafter: choice(CREDIT_CRAFTERS, 'Кто сплёл — имя на сайте, обязательно (не путать с maker у штуки). Новое — в CREDIT_CRAFTERS (scripts/data-rules.mjs)'),
+          designer: { type: 'string', description: 'Автор схемы, обязательно' },
+          photographer: choice(PHOTOGRAPHERS, 'Автор фото, по желанию. Новый — в PHOTOGRAPHERS (scripts/data-rules.mjs)'),
         },
         additionalProperties: { type: 'string', description: 'Ещё кто-то: ключ — роль (выводится подписью), значение — имя' },
       },
@@ -337,15 +398,10 @@ export function productSchema() {
       items: { type: 'array', description: 'Физические штуки, ушедшие не удаляются, а получают out', items: { $ref: '#/definitions/item' } },
     },
     additionalProperties: false,
-    // Фурнитура у штук — своя для каждой категории
+    // Штука своя для каждой категории (размер, фурнитура) — definitions["item-<category>"], см. productSchema
     allOf: CATEGORIES.map((category) => ({
       if: { properties: { category: { const: category } }, required: ['category'] },
-      then: {
-        properties: {
-          size: sizeSchema(category),
-          items: { items: { properties: { materials: { properties: { findings: findingsSchema(category) } } } } },
-        },
-      },
+      then: { properties: { items: { items: { $ref: `#/definitions/item-${category}` } } } },
     })),
     definitions: {
       item: {
@@ -359,6 +415,7 @@ export function productSchema() {
           attachTo: choice(ATTACH_TO, 'Только у брелков: на что сделана'),
           maker: choice(MAKERS, 'Кто сплёл'),
           privateNote: { type: 'string', description: 'Для себя, на сайт не попадает' },
+          size: { description: 'Размер и вес штуки — поля зависят от category: длины в см, вес в г. На сайте — размер той же штуки, что и материалы; другой размер у штуки в наличии — нужен комментарий к её точке (locationNotes)' },
           materials: {
             type: 'object',
             description: 'Материалы штуки. На сайте — материалы последней штуки в наличии',
@@ -369,7 +426,11 @@ export function productSchema() {
                 properties: Object.fromEntries(Object.keys(BEAD_TYPES).map((name) => [name, colors])),
                 additionalProperties: false,
               },
-              colorsPublic: choice(COLORS_PUBLIC, 'Можно ли публиковать цвета бисера: yes — да; no — нет, секрет автора купленной схемы (на сайте пояснение вместо цветов); replaced — да, оригинальный подбор — часть платной схемы, но бисер заменён своим'),
+              colorsPublic: choiceWithHints({
+                yes: 'можно публиковать',
+                no: 'нельзя: секрет автора купленной схемы — на сайте пояснение вместо цветов',
+                replaced: 'можно: подбор автора платный, но бисер заменён своим',
+              }, 'Можно ли публиковать цвета бисера'),
               additionalBeads: {
                 type: 'object',
                 description: 'Бусины: тип → цвета из списка. Цвета неизвестны — []. Типы — ADDITIONAL_BEAD_TYPES, цвета — ADDITIONAL_BEAD_COLORS (scripts/data-rules.mjs)',
@@ -379,7 +440,8 @@ export function productSchema() {
               threads: {
                 type: 'object',
                 description: 'Нитки: тип → цвета как на катушке ("Smoke", "#10"). Неизвестны — []. Новый тип — в THREAD_TYPES (scripts/data-rules.mjs)',
-                properties: Object.fromEntries(Object.keys(THREAD_TYPES).map((name) => [name, colors])),
+                // У ниток со списком цветов (colors в THREAD_TYPES) — выбор из него, у остальных — любые коды
+                properties: Object.fromEntries(Object.entries(THREAD_TYPES).map(([name, { colors: list }]) => [name, list ? { type: 'array', items: { enum: list } } : colors])),
                 additionalProperties: false,
               },
               findings: { description: 'Фурнитура — зависит от category: у брелка — одно из списка, у серёг — строка, у браслета — детали; у колец и обмоток для ручек поля нет' },
