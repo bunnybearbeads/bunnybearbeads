@@ -117,8 +117,8 @@ export const CHARM_FINDINGS = {
   'Large lobster clasp': 'large_lobster_clasp',
   'Basic hanging strap': 'hanging_strap',
 };
-/** Ключ в данных короче названия: «Large lobster clasp» → lobster */
-const CHARM_FINDING_SHORT_KEYS = { 'Large lobster clasp': 'swivel-clasp' };
+/** Ключ в данных короче названия: «Large lobster clasp» → swivel-clasp, «Basic hanging strap» → hanging-strap */
+const CHARM_FINDING_SHORT_KEYS = { 'Large lobster clasp': 'swivel-clasp', 'Basic hanging strap': 'hanging-strap' };
 const charmFindingKey = (name) => CHARM_FINDING_SHORT_KEYS[name] ?? toKey(name);
 /** Крепления брелка по ключу данных: { 'basic-keyring': { name: 'Basic keyring', id: 'keyring' }, lobster: … } */
 export const CHARM_FINDING_KEYS = Object.fromEntries(Object.entries(CHARM_FINDINGS).map(([name, id]) => [charmFindingKey(name), { name, id }]));

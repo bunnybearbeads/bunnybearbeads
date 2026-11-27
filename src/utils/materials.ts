@@ -95,6 +95,13 @@ const COLORS_SEP = ' &nbsp;·&nbsp; ';
  */
 const DASH = '&nbsp;–&#8288;&nbsp;';
 
+/**
+ * Список цветов через запятую; каждый цвет — в .nobr: переносится между цветами, но не внутри
+ * («DBM-726», «Black Satin»). escape: false — для готовых переводов
+ */
+const colorList = (colors: string[], escape = true) =>
+  colors.map((color) => `<span class="nobr">${escape ? escapeHtml(color) : color}</span>`).join(', ');
+
 /** Название с кодом, если цвет один */
 const beadTitle = (bead: Bead) => (bead.colors.length === 1 ? `${bead.name} ${bead.colors[0]}` : bead.name);
 
@@ -102,7 +109,7 @@ const beadsNote = (beads: Bead[], t: T) =>
   t(beads.some((bead) => bead.premium) ? 'materials.beads_note_premium' : 'materials.beads_note');
 
 function singleBead(bead: Bead, t: T): string {
-  const colors = bead.colors.length > 1 ? `<br>${t('materials.colors')} ${escapeHtml(bead.colors.join(', '))}` : '';
+  const colors = bead.colors.length > 1 ? `<br>${t('materials.colors')} ${colorList(bead.colors)}` : '';
   return `<b class="nobr">${escapeHtml(beadTitle(bead))}</b>${DASH}${beadsNote([bead], t)}${colors}`;
 }
 
@@ -126,7 +133,7 @@ function beadPair(pair: Bead[], t: T): string {
   if (!colorsLine) return `${titles}${DASH}${beadsNote(pair, t)}`;
   const colors = pair
     .filter((bead) => bead.colors.length > 0)
-    .map((bead, i) => `${colorsOf(t, i > 0).replace('{name}', escapeHtml(bead.short))} ${escapeHtml(bead.colors.join(', '))}`)
+    .map((bead, i) => `${colorsOf(t, i > 0).replace('{name}', escapeHtml(bead.short))} ${colorList(bead.colors)}`)
     .join(COLORS_SEP);
   return `${titles}${DASH}${beadsNote(pair, t)}${colors ? `<br>${colors}` : ''}`;
 }
@@ -151,7 +158,7 @@ function additionalBeadsNote(additionalBeads: AdditionalBead[], t: T): string {
 
 function additionalBeadColors(bead: AdditionalBead, t: T): string {
   if (bead.colors.length < 2) return '';
-  return `<br>${t('materials.colors')} ${bead.colors.map((color) => tKey(t, `materials.color.${color}`)).join(', ')}`;
+  return `<br>${t('materials.colors')} ${colorList(bead.colors.map((color) => tKey(t, `materials.color.${color}`)), false)}`;
 }
 
 /**
@@ -179,8 +186,8 @@ function threadsItem(threads: Thread[], t: T): string {
     .join(' &amp;&nbsp;');
   const multi = threads.filter((thread) => thread.colors.length > 1);
   const colors = threads.length === 1
-    ? multi.map((thread) => `${t('materials.colors')} ${escapeHtml(thread.colors.join(', '))}`)
-    : multi.map((thread, i) => `${colorsOf(t, i > 0).replace('{name}', escapeHtml(thread.name))} ${escapeHtml(thread.colors.join(', '))}`);
+    ? multi.map((thread) => `${t('materials.colors')} ${colorList(thread.colors)}`)
+    : multi.map((thread, i) => `${colorsOf(t, i > 0).replace('{name}', escapeHtml(thread.name))} ${colorList(thread.colors)}`);
   return `${line}${colors.length ? `<br>${colors.join(COLORS_SEP)}` : ''}`;
 }
 

@@ -104,6 +104,8 @@ function fillFindings(materials, category) {
     delete materials.attachment;
   }
   if (own === 'fastener' && LEGACY_KEYS[materials.fastener]) materials.fastener = LEGACY_KEYS[materials.fastener];
+  // Бусины бывают почти только у браслетов: у остальных пустое additionalBeads не вписываем (заполненное — оставляем)
+  if (category !== 'bracelet' && isBlank(materials.additionalBeads)) delete materials.additionalBeads;
   const { [own ?? 'findings']: findings, ...rest } = materials;
   if (category === 'bracelet') {
     const empty = Object.fromEntries(Object.keys(BRACELET_PARTS).map((part) => [part, '']));
