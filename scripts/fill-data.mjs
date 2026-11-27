@@ -41,7 +41,7 @@ const PRODUCT = () => ({
   /** Кто сделал: crafter — кто сплёл (пока всегда bunnybearbeads), designer — автор схемы, photographer — автор фото, по желанию; можно добавить другие роли */
   credits: { crafter: 'bunnybearbeads', designer: '', photographer: '' },
   locationNotes: {},
-  remake: { price: '', publicNote: text(), publicNoteImages: images(), privateNote: '' },
+  remakeNote: { price: '', publicNote: text(), publicNoteImages: images(), privateNote: '' },
   items: [],
 });
 
@@ -152,6 +152,11 @@ function fillBase(dataDir) {
     if (isPlainObject(data.credits)) {
       const RENAMED = { craft: 'crafter', maker: 'crafter', design: 'designer', photo: 'photographer' };
       data.credits = Object.fromEntries(Object.entries(data.credits).map(([role, name]) => [RENAMED[role] ?? role, name]));
+    }
+    // remake → remakeNote
+    if ('remake' in data && !('remakeNote' in data)) {
+      data.remakeNote = data.remake;
+      delete data.remake;
     }
     const result = fill(PRODUCT(), data);
     result.$schema = PRODUCT_SCHEMA_REF;

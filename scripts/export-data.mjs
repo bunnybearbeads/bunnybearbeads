@@ -69,7 +69,7 @@ const isRatio = (width, height, ratio) => width * ratio.height === height * rati
 /** Конфликтные копии Dropbox: «file (Tony's conflicted copy 2026-11-23).json», в русском интерфейсе — «конфликтующая копия» */
 const CONFLICT_RE = /conflicted copy|конфликтующая копия/i;
 /** Служебные поля, которые на сайт не попадают никогда */
-const PRIVATE_FIELDS = ['$schema', 'slug', 'site', 'items', 'locationNotes', 'remake'];
+const PRIVATE_FIELDS = ['$schema', 'slug', 'site', 'items', 'locationNotes', 'remakeNote'];
 const OUT_FIELDS = ['type', 'date', 'paid', 'privateNote'];
 /** Обязательно у изделий с "site": true (credits — отдельно, в checkCredits) */
 const SITE_REQUIRED = [
@@ -215,7 +215,7 @@ async function collect(dataDir, errors, logger) {
     // Описание и комментарии — один абзац: обёртку (<p class="product-header__description"> и т. п.) даёт сайт
     const texts = [
       ['description', data.description],
-      ['remake.publicNote', data.remake?.publicNote],
+      ['remakeNote.publicNote', data.remakeNote?.publicNote],
       ...Object.entries(data.locationNotes ?? {}).map(([loc, n]) => [`locationNotes.${loc}.publicNote`, n?.publicNote]),
     ];
     // credits обязательны у изделий на сайте; у скрытых — по желанию, но если есть, проверяются
@@ -316,7 +316,7 @@ async function collect(dataDir, errors, logger) {
     for (const entry of stock) {
       entry.noteImages = (entry.noteImages ?? []).map((item, i) => mapMedia(item, `locationNotes.${entry.locationId}.publicNoteImages[${i}]`));
     }
-    if (remake) remake.noteImages = remake.noteImages.map((item, i) => mapMedia(item, `remake.publicNoteImages[${i}]`));
+    if (remake) remake.noteImages = remake.noteImages.map((item, i) => mapMedia(item, `remakeNote.publicNoteImages[${i}]`));
 
     // С ошибками на сайт не берём, но файлы всё равно проверены — в отчёт попадает всё сразу
     if (errors.length === before) products.set(slug, { $comment: GENERATED_NOTE, ...publicData, price, ...(remake ? { remake } : {}), stock });
@@ -387,7 +387,7 @@ async function readPhoto({ photo, where, field, rel, source, ratio }) {
 }
 
 /**
- * Штуки изделия и `remake` → то, что видит сайт: наличие по точкам с ценами, цена в шапке, ремейк.
+ * Штуки изделия и `remakeNote` → то, что видит сайт: наличие по точкам с ценами, цена в шапке, ремейк.
  * Ушедшие штуки (с `out`: продана, подарена, брак, себе) и служебные поля отбрасываются.
  * К точке добавляется её комментарий из `locationNotes`, если там есть штуки в наличии.
  * Проверяется для всех изделий, включая не попадающие на сайт: id штук уникальны по всей базе.
@@ -397,7 +397,7 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
   for (const field of ['craftedAt', 'createdAt', 'maker']) {
     if (field in data) errors.push(`${where}: "${field}" — поле штуки (items), уберите из изделия`);
   }
-  if ('price' in data) errors.push(`${where}: "price" — поле штуки (items); цена ремейка — "remake.price"`);
+  if ('price' in data) errors.push(`${where}: "price" — поле штуки (items); цена ремейка — "remakeNote.price"`);
   const items = Array.isArray(data.items) ? data.items : [];
   if (items.length === 0) errors.push(`${where}: в "items" нужна хотя бы одна штука (ушедшие не удаляются, у них out)`);
 
@@ -478,16 +478,17 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
 
   // Ремейк — когда в Далате штук нет: все заказы и доставка — из Далата, партнёры ничего не отправляют,
   // поэтому ремейк есть всегда, даже если штуки лежат у партнёров. Материалы считаем всегда доступными;
-  // если что-то не так — пишем в remake.publicNote, остальное решается в мессенджере.
-  // Поле remake необязательно (своя цена, комментарий), но пока штука в Далате есть, его быть не должно
+  // если что-то не так — пишем в remakeNote.publicNote, остальное решается в мессенджере.
+  // Поле remakeNote необязательно (своя цена, комментарий), но пока штука в Далате есть, его быть не должно
   const inAtelier = available.has('atelier');
-  if (inAtelier && 'remake' in data) {
-    errors.push(`${where}: "remake" — только когда в мастерской нет штук; пока штука там есть, очистите`);
+  if ('remake' in data) errors.push(`${where}: "remake" теперь называется "remakeNote"`);
+  if (inAtelier && 'remakeNote' in data) {
+    errors.push(`${where}: "remakeNote" — только когда в мастерской нет штук; пока штука там есть, очистите`);
   }
-  const remake = data.remake ?? {};
+  const remake = data.remakeNote ?? {};
   const extra = Object.keys(remake).filter((key) => !REMAKE_FIELDS.includes(key));
-  if (extra.length) errors.push(`${where}: лишние поля в "remake": ${extra.join(', ')}`);
-  if ('price' in remake && !isPrice(remake.price)) errors.push(`${where}: "remake.price" — цена в донгах числом без кавычек`);
+  if (extra.length) errors.push(`${where}: лишние поля в "remakeNote": ${extra.join(', ')}`);
+  if ('price' in remake && !isPrice(remake.price)) errors.push(`${where}: "remakeNote.price" — цена в донгах числом без кавычек`);
 
   // Цена. Все штуки в наличии — по одной цене, где бы ни лежали: иначе сборка падает
   const availablePrices = [...new Set([...available.values()].flat())];
@@ -498,12 +499,12 @@ function toSales(data, where, itemOwners, slug, errors, logger) {
   // Политика магазина: цена везде и для всех одна. Есть штуки в наличии — ремейк стоит столько же;
   // поднять цену ремейка = поднять её и у штук в наличии
   if (availablePrices.length && 'price' in remake && remake.price !== availablePrices[0]) {
-    errors.push(`${where}: "remake.price" ${remake.price} не совпадает с ценой штук в наличии (${availablePrices.join(', ')}) — цена везде одна`);
+    errors.push(`${where}: "remakeNote.price" ${remake.price} не совпадает с ценой штук в наличии (${availablePrices.join(', ')}) — цена везде одна`);
   }
-  // Цена ремейка: штуки в наличии, а если в наличии ничего нет — remake.price, тогда она обязательна.
+  // Цена ремейка: штуки в наличии, а если в наличии ничего нет — remakeNote.price, тогда она обязательна.
   // Цены ушедших штук на цену сайта не влияют: это история (для накладных и отчётов)
   if (!availablePrices.length && !('price' in remake)) {
-    errors.push(`${where}: в наличии ничего нет — укажите "remake.price"`);
+    errors.push(`${where}: в наличии ничего нет — укажите "remakeNote.price"`);
   }
   const remakePrice = availablePrices[0] ?? remake.price;
 

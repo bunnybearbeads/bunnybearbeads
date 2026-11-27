@@ -384,7 +384,7 @@ function baseProductSchema() {
         propertyNames: { enum: LOCATION_ORDER },
         additionalProperties: comment('Комментарий к точке'),
       },
-      remake: {
+      remakeNote: {
         type: 'object',
         description: 'Ремейк — только когда в мастерской нет ни одной штуки',
         properties: {
