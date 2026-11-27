@@ -14,7 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BRACELET_PARTS, braceletOptions, LEGACY_BRACELET_KEYS, FINDINGS_FIELDS, THREAD_TYPES, LEGACY_KEYS, toKey, SIZE_FIELDS, DEMO_DIR, FAMILIES_DIR, FAMILY_SCHEMA_REF, LOCATION_ORDER, PRODUCT_SCHEMA_REF, schemaFiles } from './data-rules.mjs';
+import { TAGS, BRACELET_PARTS, braceletOptions, LEGACY_BRACELET_KEYS, FINDINGS_FIELDS, THREAD_TYPES, LEGACY_KEYS, toKey, SIZE_FIELDS, DEMO_DIR, FAMILIES_DIR, FAMILY_SCHEMA_REF, LOCATION_ORDER, PRODUCT_SCHEMA_REF, schemaFiles } from './data-rules.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = path.join(ROOT, 'data');
@@ -40,6 +40,8 @@ const PRODUCT = () => ({
   gallery: images(),
   /** Кто сделал: crafter — кто сплёл (пока всегда bunnybearbeads), designer — автор схемы, photographer — автор фото, по желанию; можно добавить другие роли */
   credits: { crafter: 'bunnybearbeads', designer: '', photographer: '' },
+  /** Метки для каталога: группа → метки из TAGS (data-rules.mjs) */
+  tags: Object.fromEntries(Object.keys(TAGS).map((group) => [group, []])),
   locationNotes: {},
   remakeNote: { price: '', publicNote: text(), publicNoteImages: images(), privateNote: '' },
   /** Для себя, на сайт не попадает */
@@ -185,7 +187,18 @@ function inlineColors(data) {
     }
     return { ...item, materials };
   });
-  return { data: Array.isArray(data.items) ? { ...data, items } : data, inline };
+  // Метки — тоже одной строкой: "animals": ["cats", "birds"]
+  let { tags } = data;
+  if (isPlainObject(tags)) {
+    tags = Object.fromEntries(Object.entries(tags).map(([group, list]) => {
+      if (!Array.isArray(list) || list.length === 0 || list.some((x) => typeof x === 'object' && x !== null)) return [group, list];
+      inline.push(list);
+      return [group, `@@inline-colors-${inline.length - 1}@@`];
+    }));
+  }
+  const prepared = Array.isArray(data.items) ? { ...data, items } : { ...data };
+  if (tags !== undefined) prepared.tags = tags;
+  return { data: prepared, inline };
 }
 
 function write(file, data) {

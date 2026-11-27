@@ -35,6 +35,75 @@ export const toKey = (name) => name.toLowerCase().replace(/\s+/g, '-');
 const keyed = (types) => Object.fromEntries(Object.entries(types).map(([name, props]) => [toKey(name), { name, ...props }]));
 /** Старое название → ключ: «Toho Aiko» → toho-aiko (для миграции в fill-data и подсказки в сборке) */
 export const LEGACY_KEYS = {};
+/**
+ * Метки изделия для выборок в каталоге (`tags`): группа → метка → пояснение в подсказке редактора. В каталоге группа —
+ * фильтр: внутри группы «или», между группами «и». Животные, природа, еда — отдельными группами, чтобы Ctrl+Пробел
+ * сначала давал группу, а внутри — короткий список. Общей «другое» нет: новое животное — новая метка
+ * (otters), даже если оно одно. В каталоге на сайт выводим только метки, у которых 2+ изделия, — так вторая выдра
+ * сама «включит» метку, и не надо помнить про первую.
+ * Новая метка — дописать сюда и `npm run fill-data`; переводы — когда дойдём до каталога. На сайт пока не выводятся
+ */
+export const TAGS = {
+  // Основные, обобщённые: стиль, настроение, большие темы
+  theme: {
+    graceful: 'изящное, элегантное, по-взрослому красивое, не милое',
+    cute: 'милое',
+    gothic: 'готика, мрачное',
+    classic: 'сдержанное, для солидных женщин',
+    minimal: 'минимализм',
+    boho: 'бохо',
+    lol: 'смешное, с юмором',
+    geometry: 'геометрия, геометрический узор',
+    aztec: 'ацтекский орнамент',
+    tech: 'техника, технологии',
+    lgbt: 'ЛГБТ, прайд, радужное',
+    metallic: 'под металл: просто золотое или серебряное',
+  },
+  season: {
+    winter: 'зима',
+    spring: 'весна',
+    summer: 'лето',
+    autumn: 'осень',
+  },
+  occasion: {
+    christmas: 'Рождество',
+    'new-year': 'Новый год',
+    halloween: 'Хэллоуин',
+    valentines: 'День святого Валентина',
+    easter: 'Пасха',
+    birthday: 'день рождения',
+  },
+  audience: {
+    kids: 'детям',
+    'grown-ups': 'взрослым',
+    'men-friendly': 'generally acceptable by men',
+  },
+  // Не путать с location штуки (где лежит): это откуда мотив — лотос → asia
+  region: {
+    asia: 'Азия: лотос…',
+  },
+  animals: {
+    cats: 'кошки',
+    dogs: 'собаки',
+    birds: 'птицы',
+    butterflies: 'бабочки',
+    penguins: 'пингвины',
+    seals: 'тюлени',
+  },
+  nature: {
+    flowers: 'цветы',
+    sea: 'море',
+    mountains: 'горы',
+  },
+  food: {
+    fruits: 'фрукты, ягоды',
+    sweets: 'сладости',
+  },
+};
+/** Группа меток → подпись в подсказке редактора */
+export const TAG_GROUP_NAMES = {
+  theme: 'Основные', season: 'Сезон', occasion: 'Праздник', audience: 'Для кого', region: 'Регион, страна', animals: 'Животные', nature: 'Природа', food: 'Еда',
+};
 /** Исход штуки (`out.type`): продана, подарена, брак или потеря, оставили себе */
 export const OUT_TYPES = ['sold', 'gift', 'lost', 'kept'];
 /**
@@ -431,6 +500,21 @@ function baseProductSchema() {
       category: choice(CATEGORIES, 'Категория, в единственном числе (earrings — пара)'),
       description: { type: 'string', description: 'Описание по-английски, один абзац без <p> и <div>' },
       gallery: media('Фото и видео изделия, первое — обложка в каталоге. Фото строго 3:4, вертикальные'),
+      tags: {
+        type: 'object',
+        description: 'Метки для выборок в каталоге: группа → метки из списка (TAGS в scripts/data-rules.mjs). Можно несколько, можно ни одной',
+        properties: Object.fromEntries(Object.entries(TAGS).map(([group, hints]) => [group, {
+          type: 'array',
+          description: TAG_GROUP_NAMES[group] ?? group,
+          uniqueItems: true,
+          items: {
+            enum: Object.keys(hints),
+            'x-intellij-enum-metadata': Object.fromEntries(Object.entries(hints).map(([tag, hint]) => [tag, { description: hint }])),
+            enumDescriptions: Object.values(hints),
+          },
+        }])),
+        additionalProperties: false,
+      },
       credits: {
         type: 'object',
         description: 'Кто сделал — просто имена, без HTML. crafter и designer обязательны, остальное — любые пары, на сайте выводятся все по порядку. Если все — bunnybearbeads, секции нет',

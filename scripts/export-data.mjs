@@ -41,7 +41,7 @@ import ffmpegPath from 'ffmpeg-static';
 import { generateMissingPosters } from './generate-posters.mjs';
 import { photoFiles, photoWidths, readPhotoSize, syncPhotos } from './photos.mjs';
 import {
-  ADDITIONAL_BEAD_COLORS, ADDITIONAL_BEADS, ATTACH_TO, BEADS, BRACELET_PARTS, braceletOptions, CATEGORIES, CHARM_FINDING_KEYS, FINDINGS_FIELDS, LEGACY_KEYS, COLORS_PUBLIC, CREDIT_CRAFTERS, PHOTOGRAPHERS, SIZE_FIELDS, DATE_FORMATS, DEMO_DIR, FAMILIES_DIR, ITEM_ID_RE, LOCATION_ORDER, MAKERS, MATERIAL_FIELDS, OUT_TYPES, THREADS, PARTIAL_DATE_RE, SLUG_RE,
+  ADDITIONAL_BEAD_COLORS, ADDITIONAL_BEADS, ATTACH_TO, BEADS, BRACELET_PARTS, braceletOptions, CATEGORIES, CHARM_FINDING_KEYS, FINDINGS_FIELDS, LEGACY_KEYS, TAGS, COLORS_PUBLIC, CREDIT_CRAFTERS, PHOTOGRAPHERS, SIZE_FIELDS, DATE_FORMATS, DEMO_DIR, FAMILIES_DIR, ITEM_ID_RE, LOCATION_ORDER, MAKERS, MATERIAL_FIELDS, OUT_TYPES, THREADS, PARTIAL_DATE_RE, SLUG_RE,
   THUMB_EXTENSIONS, THUMBS_DIR, schemaFiles, thumbKey,
 } from './data-rules.mjs';
 
@@ -69,7 +69,8 @@ const isRatio = (width, height, ratio) => width * ratio.height === height * rati
 /** Конфликтные копии Dropbox: «file (Tony's conflicted copy 2026-11-23).json», в русском интерфейсе — «конфликтующая копия» */
 const CONFLICT_RE = /conflicted copy|конфликтующая копия/i;
 /** Служебные поля, которые на сайт не попадают никогда */
-const PRIVATE_FIELDS = ['$schema', 'slug', 'site', 'items', 'locationNotes', 'remakeNote', 'privateNote'];
+// tags — пока не на сайт: выводить начнём вместе с каталогом (тогда — в content.config.ts и переводы)
+const PRIVATE_FIELDS = ['$schema', 'slug', 'site', 'items', 'locationNotes', 'remakeNote', 'privateNote', 'tags'];
 const OUT_FIELDS = ['type', 'date', 'paid', 'privateNote'];
 /** Обязательно у изделий с "site": true (credits — отдельно, в checkCredits) */
 const SITE_REQUIRED = [
@@ -221,6 +222,10 @@ async function collect(dataDir, errors, logger) {
     ];
     // credits обязательны у изделий на сайте; у скрытых — по желанию, но если есть, проверяются
     if (data.site === true || data.credits !== undefined) checkCredits(data.credits, where, errors, data.site === true);
+    if (data.tags !== undefined) checkTags(data.tags, where, errors);
+    // У изделия на сайте — хотя бы одна метка (группы по отдельности необязательны): чтобы не забыть проставить
+    const tagCount = Object.values(data.tags ?? {}).reduce((sum, list) => sum + (Array.isArray(list) ? list.length : 0), 0);
+    if (data.site === true && tagCount === 0) errors.push(`${where}: нет ни одной метки — проставьте в "tags" хотя бы одну (${Object.keys(TAGS).join(', ')})`);
     for (const [field, value] of texts) {
       if (value && BLOCK_TAG_RE.test(JSON.stringify(value))) errors.push(`${where}, ${field}: без <p>, <div> и других блочных тегов — один абзац, обёртку даёт сайт`);
     }
@@ -591,6 +596,29 @@ function toSize(size, where, errors, category) {
  * Фурнитура — по категории: у брелка — ключ из CHARM_FINDING_KEYS («basic-keyring»), у серёг — строка, у браслета —
  * детали из BRACELET_PARTS («tarin-thomas-18k»), у колец и обмоток для ручек её нет
  */
+/** Метки: { группа: [метки из TAGS] } — без чужих групп, неизвестных меток и повторов */
+function checkTags(tags, where, errors) {
+  if (typeof tags !== 'object' || tags === null || Array.isArray(tags)) {
+    errors.push(`${where}: "tags" — объект: { "theme": ["cute"], "animals": ["cats"] }`);
+    return;
+  }
+  for (const [group, list] of Object.entries(tags)) {
+    const known = TAGS[group];
+    if (!known) {
+      errors.push(`${where}: tags «${group}» — неизвестная группа, одна из: ${Object.keys(TAGS).join(', ')}`);
+      continue;
+    }
+    if (!Array.isArray(list)) {
+      errors.push(`${where}: tags.${group} — список: ["${Object.keys(known)[0]}"], нет меток — []`);
+      continue;
+    }
+    list.forEach((tag, i) => {
+      if (!(tag in known)) errors.push(`${where}: tags.${group}: ${JSON.stringify(tag)} — одна из: ${Object.keys(known).join(', ')}. Новая — в TAGS (scripts/data-rules.mjs)`);
+      else if (list.indexOf(tag) !== i) errors.push(`${where}: tags.${group}: «${tag}» записана дважды`);
+    });
+  }
+}
+
 /** Старое название вместо ключа: « — теперь ключом "toho-aiko"» */
 const legacyHint = (name) => (typeof name === 'string' && LEGACY_KEYS[name] ? ` — теперь ключом "${LEGACY_KEYS[name]}"` : '');
 
